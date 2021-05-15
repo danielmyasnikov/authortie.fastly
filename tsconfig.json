@@ -5,7 +5,7 @@
     "allowJs": true,
     "sourceMap": true,
     "moduleResolution": "node",
-    "module": "es2015",
+    "module": "ESNext",
     "skipLibCheck": true,
     "esModuleInterop": true,
     "strict": true,
@@ -17,7 +17,9 @@
     "jsx": "react-jsx",
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "target": "es5"
+    "target": "es5",
+    "baseUrl": "src"
   },
-  "include": ["src"]
+  "exclude": ["node_modules"],
+  "include": ["src", "src/defines.d.ts", "defines.d.ts"]
 }

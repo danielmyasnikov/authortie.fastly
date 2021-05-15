@@ -1,11 +1,17 @@
 import React from 'react';
-import { Main } from './components/main';
+import { Menu } from 'components/menu';
+import { Main } from 'components/main';
+import {Footer} from 'components/footer'
 import styles from './app.module.css';
+import './styles/colors.module.css'
 
 const App: React.FC = () => {
+  console.log(PRODUCTION)
   return (
     <div className={styles.wrapper}>
+      <Menu />
       <Main />
+      <Footer />
     </div>
   );
 };

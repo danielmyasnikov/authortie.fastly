@@ -2,6 +2,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
+require('dotenv').config();
+
+
 
 module.exports = {
   mode: 'development',
@@ -16,14 +20,27 @@ module.exports = {
     open: true,
     compress: true,
     hot: true,
-    port: 8080,
+    port: 8585,
   },
 
   resolve: {
+    modules: [
+      path.resolve(__dirname, 'assets'),
+      path.resolve(__dirname, 'src'),
+      path.resolve(__dirname, 'node_modules'),
+      path.resolve(__dirname, 'src/components'),
+    ],
     extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
+    alias: {
+      assets: path.resolve(__dirname, 'assets'),
+      components: path.resolve(__dirname, 'src/components'),
+    },
   },
 
   plugins: [
+    new webpack.DefinePlugin({
+      PRODUCTION: JSON.stringify(process.env.DB_HOST),
+    }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
@@ -31,6 +48,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
   ],
+
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
@@ -40,7 +58,7 @@ module.exports = {
       {
         test: /\.(css|less)$/i,
         use: [
-          'style-loader',
+          MiniCssExtractPlugin.loader,
           {
             loader: 'css-loader',
             options: {
@@ -52,32 +70,43 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        test: /\.(png|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
       {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
+
+      {
+        test: /\.(svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: [
+          {
+            loader: 'babel-loader',
+          },
+          {
+            loader: 'react-svg-loader',
+            options: {
+              jsx: true,
+            },
+          },
+        ],
+      },
+
       //TODO: много дублированного кода (((
       {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env'],
-          },
         },
       },
+
       {
         test: /\.ts$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env', '@babel/preset-typescript'],
-          },
         },
       },
       {
