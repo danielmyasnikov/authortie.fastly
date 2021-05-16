@@ -1,6 +1,8 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import Camera from 'assets/camera.svg';
 import { Tag } from './tag';
+import { Button } from 'components/common/button';
 import styles from './styles.module.less';
 
 export const Card: React.FC = () => {
@@ -9,7 +11,7 @@ export const Card: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={styles.tagWrapper}>
         <Tag>Повысить цитируемость своих работ</Tag>
-        <Tag>Повысить цитируемость своих работ</Tag>
+        <Tag>Engineering/Material</Tag>
       </div>
 
       <span className={styles.subTitle}>{t('workName')}</span>
@@ -34,6 +36,19 @@ export const Card: React.FC = () => {
         <Tag>Деньги</Tag>
         <span> 100$</span>
       </div>
+
+      <div className={styles.personBlock}>
+        <div className={styles.avatar}>
+          <Camera className={styles.defaultPhoto} />
+        </div>
+        <div className={styles.personInfo}>
+          <span className={styles.subTitle}>Артём Белоусов</span>
+          <span className={styles.coment}>учёный (кандидат наук)</span>
+          <span className={styles.coment}>Санкт-Петербургский горный университет</span>
+        </div>
+      </div>
+      
+      <Button>{t('offerCooperation')}</Button>
     </div>
   );
 };

@@ -14,12 +14,13 @@ export const ru = {
     analitics: 'Аналитика',
     community: 'Сообщество',
     forBusiness: 'Для организаций',
-  }, 
+  },
 
-  card:{
+  card: {
     workName: 'Название работы',
     keyWord: 'Ключевые слова',
     coment: 'Комментарий',
     reward: 'Вознаграждение',
+    offerCooperation: 'Предложить сотрудничество'
   }
 };

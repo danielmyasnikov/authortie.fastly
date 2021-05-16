@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 700px;
   height: 618px;
-  padding: 15px 25px;
+  padding: 20px 24px;
   background: var(--color-white);
   border-radius: 5px;
   box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
@@ -31,7 +31,7 @@
   color: var(--color-black-alt);
 }
 
-.tagWrapper{
+.tagWrapper {
   display: flex;
   flex-flow: row wrap;
   align-items: center;
@@ -40,7 +40,7 @@
 
 .tag {
   width: max-content;
-  margin-right: 20px;
+  margin-right: 10px;
   padding: 7px 20px;
   font-weight: bold;
   font-size: 12px;
@@ -49,4 +49,42 @@
   background: #f2f7ff;
   border-radius: 75px;
   cursor: pointer;
+}
+
+.personBlock {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 16px 0;
+  padding: 16px 0;
+  border-top: 1px solid #cadcf8;
+  border-bottom: 1px solid #cadcf8;
+}
+
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: cente;
+  width: 73px;
+  height: 73px;
+  border-radius: 50%;
+  background: #f2f7ff;
+}
+
+.defaultPhoto {
+  width: 50%;
+}
+
+.personInfo {
+  display: flex;
+  flex-direction: column;
+  margin-left: 11px;
+  .subTitle,
+  .coment {
+    margin-bottom: 4px;
+  }
+}
+
+.btnWrapper{
+  
 }

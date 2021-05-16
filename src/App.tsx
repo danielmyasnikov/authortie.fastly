@@ -6,7 +6,6 @@ import styles from './app.module.css';
 import './styles/colors.module.css'
 
 const App: React.FC = () => {
-  console.log(PRODUCTION)
   return (
     <div className={styles.wrapper}>
       <Menu />

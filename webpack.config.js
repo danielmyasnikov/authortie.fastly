@@ -39,7 +39,7 @@ module.exports = {
 
   plugins: [
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(process.env.DB_HOST),
+      PRODUCTION: JSON.stringify(process.env.HOST),
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
