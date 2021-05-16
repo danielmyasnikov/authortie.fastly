@@ -9,7 +9,8 @@
     "start": "webpack serve",
     "watch": "webpack --watch",
     "lint": "eslint ./src",
-    "lint:fix": "eslint ./src --fix"
+    "lint:fix": "eslint ./src --fix",
+    "heroku-prebuild": "npm install --dev"
   },
   "repository": {
     "type": "git",
