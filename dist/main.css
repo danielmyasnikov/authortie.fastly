@@ -1,0 +1,280 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+._3jZrA_i9bSpjmfmZOvdyW2 {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-areas: '. cont  cont cont cont cont cont cont cont cont cont.';
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: min-content;
+  width: 100%;
+  height: 100px;
+  padding: 20px;
+  background: var(--color-white-blue);
+}
+._2I97wSAbzNlgoLh81B8znE {
+  grid-area: cont;
+}
+._11Vh_RXdoXB2EUCrYKRtH- {
+  width: 156px;
+  height: 60px;
+}
+
+._2IW0F4OPnN3Rw63piqhk_l {
+  width: max-content;
+  padding: 15px 45px;
+  border: none;
+  background: var(--color-blue);
+  border-radius: 30px;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 21px;
+  color: var(--color-white);
+  outline: none;
+  cursor: pointer;
+}
+._2IW0F4OPnN3Rw63piqhk_l:hover {
+  background: var(--color-blue-dark);
+}
+
+._1y3agQeOUy-8cMzOahvCMJ {
+  display: flex;
+  flex-direction: column;
+  width: 700px;
+  height: 618px;
+  padding: 20px 24px;
+  background: var(--color-white);
+  border-radius: 5px;
+  box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+}
+.ruWDmst_6xrMGEyUS37jJ {
+  margin-bottom: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-black);
+}
+._31Z_ogC_InspqjKqUrhW0f {
+  margin-bottom: 12px;
+  font-size: 20px;
+  line-height: 23px;
+  color: var(--color-black-alt);
+}
+._1cHPdrC8R_qprT7mv8C176 {
+  margin-bottom: 12px;
+  font-size: 14px;
+  line-height: 16px;
+  color: var(--color-black-alt);
+}
+.TEBXy3M9D8iQ6zySwPiUk {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  margin-bottom: 16px;
+}
+._32oBdQSPYOz2XtDCMZ0qCY {
+  width: max-content;
+  margin-right: 10px;
+  padding: 7px 20px;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 14px;
+  color: #007bc4;
+  background: #f2f7ff;
+  border-radius: 75px;
+  cursor: pointer;
+}
+._3DTAyCvG5A2fTNiJZseyHk {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 16px 0;
+  padding: 16px 0;
+  border-top: 1px solid #cadcf8;
+  border-bottom: 1px solid #cadcf8;
+}
+._2xw7XiLE0stbhjS0PN9CvZ {
+  display: flex;
+  justify-content: center;
+  align-items: cente;
+  width: 73px;
+  height: 73px;
+  border-radius: 50%;
+  background: #f2f7ff;
+}
+.mKWD92ZoDUHOCnVZkv7l5 {
+  width: 50%;
+}
+._1K8NusOMYQIELP82srftcA {
+  display: flex;
+  flex-direction: column;
+  margin-left: 11px;
+}
+._1K8NusOMYQIELP82srftcA .ruWDmst_6xrMGEyUS37jJ,
+._1K8NusOMYQIELP82srftcA ._1cHPdrC8R_qprT7mv8C176 {
+  margin-bottom: 4px;
+}
+
+._20fsQ_02N9K90Opi1V237 {
+  width: 100%;
+}
+.yju3KzAbV3TJRfenxTlN2 {
+  position: relative;
+  grid-area: cont;
+}
+._3XiTb25gMCXhdsA6EtU_Tf {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-areas: '. cont cont cont cont cont cont cont cont  cont cont .';
+  grid-template-columns: repeat(12, 1fr);
+  position: relative;
+  width: 100%;
+  height: 781px;
+  background: linear-gradient(45deg, #f5faff, #cce6ff);
+}
+._3wlVGebHSv1hsRoRnOzmvM {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 781px;
+  background: url(4364795404a14a6b9598.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+._26OorNjGkd-t2YVIuWUNqg {
+  margin-top: 120px;
+  font-weight: bold;
+  font-size: 56px;
+  line-height: 66px;
+  color: var(--color-black);
+  white-space: pre-wrap;
+}
+._2jgv6Q9mpkrvUiUVVPsf6n {
+  margin-top: 25px;
+  margin-bottom: 41px;
+  font-size: 20px;
+  line-height: 23px;
+  color: var(--color-black);
+  white-space: pre-wrap;
+}
+._2nSWUJZFt472Tvnlnc6c9e {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-areas: '. cont  cont cont cont cont cont cont cont cont cont.';
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: min-content;
+}
+.KwNn3YBG8K0QX9UyaAdct {
+  margin-top: 36px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 56px;
+  line-height: 66px;
+  color: var(--color-black);
+}
+._13g4eSFB-twzHG-IsFUAR8 {
+  font-size: 20px;
+  line-height: 23px;
+  color: var(--color-black-alt);
+}
+.gpEBKJCWOdVQhQ_rpvG57 {
+  margin: 36px 0;
+}
+
+._1Ciwd8F45tvue6LorEb9rL {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-template-areas: '. cont  cont cont cont cont cont cont cont cont cont.';
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: min-content;
+  width: 100%;
+  height: 112px;
+  background: var(--color-black);
+}
+.OWz4sgSFn3NJGTAxJm7d_ {
+  margin-top: 43px;
+  grid-area: cont;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+._1HXHpODorU9lYvXxSdPqpF {
+  display: flex;
+  flex-direction: column;
+  margin-right: 100px;
+}
+._10ez_yQFytaVyFxqeiMaRU {
+  margin-right: 85px;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-white);
+}
+.dUhETXaCbDz2nY1M63wHS {
+  margin-right: 85px;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-white);
+  cursor: pointer;
+}
+.dUhETXaCbDz2nY1M63wHS:hover {
+  color: var(--color-gray);
+}
+._2JpFBN-Q9tv_B85G5n9ztr {
+  margin-top: 5px;
+  font-size: 16px;
+  line-height: 19px;
+  color: var(--color-gray);
+}
+._AqflwmspHMD3bDplHbyS {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+._16bgyGp97C_eXbRchlucNj {
+  height: 28px;
+}
+._3VVJdmJNb5TJpYPXjFsJdZ {
+  width: 28px;
+  height: 28px;
+  margin-left: 35px;
+  cursor: pointer;
+  fill: var(--color-white);
+}
+._3VVJdmJNb5TJpYPXjFsJdZ:hover {
+  fill: var(--color-gray);
+}
+
+._2_HbkokfpJpce0_S-4k00s {
+  min-width: 1280px;
+  width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-white-blue);
+}
+
+:root {
+  --color-black: #262628;
+  --color-black-alt: #464646;
+  --color-white: #fff;
+  --color-white-blue: #f9fbff;
+  --color-blue: #2c80ff;
+  --color-blue-dark: #2165ca;
+  --color-gray: #888888;
+}
+
+
+/*# sourceMappingURL=main.css.map*/
