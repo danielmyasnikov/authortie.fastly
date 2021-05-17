@@ -50,9 +50,9 @@ module.exports = {
   ],
 
   output: {
-    filename: 'bundle.js',
-    publicPath: '/',
-    path: __dirname
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js',
+    publicPath: '/'
   },
   module: {
     rules: [
