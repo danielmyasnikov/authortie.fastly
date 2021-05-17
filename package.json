@@ -6,11 +6,12 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
-    "start": "webpack ",
+    "start": "npm start ",
     "watch": "webpack --watch",
     "lint": "eslint ./src",
     "lint:fix": "eslint ./src --fix",
-    "heroku-prebuild": "npm install --dev"
+    "heroku-prebuild": "npm install --dev",
+    "heroku-postbuild": "webpack"
   },
   "repository": {
     "type": "git",
