@@ -12,9 +12,39 @@
 
 .content {
   grid-area: cont;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .logo {
   width: 156px;
   height: 60px;
+}
+
+.itemsWrapper {
+  flex: 1;
+  margin-left: 60px;
+}
+
+.item {
+  margin-right: 60px;
+  font-size: 18px;
+  line-height: 21px;
+  color: var(--color-black);
+  cursor: pointer;
+  &:hover {
+    color: var(--color-gray);
+  }
+}
+
+.icon {
+  margin-left: 24px;
+  cursor: pointer;
+}
+
+.userName{
+  margin-left: 12px;
+  font-size: 18px;
+  line-height: 21px;
 }

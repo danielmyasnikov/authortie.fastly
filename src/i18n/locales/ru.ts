@@ -18,6 +18,15 @@ export const ru = {
     logup: 'Зарегистрироватся'
   },
 
+
+  menu: {
+    analitics: 'Аналитика',
+    community: 'Сообщество',
+    forBusiness: 'Для организаций',
+    createRequest: 'Создать заявку'
+  },
+
+
   footer: {
     authortie: 'Authortie',
     rights: '© Все права защищены',
