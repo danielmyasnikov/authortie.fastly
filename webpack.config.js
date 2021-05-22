@@ -5,8 +5,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 require('dotenv').config();
 
-
-
 module.exports = {
   mode: 'development',
   entry: {
@@ -34,12 +32,13 @@ module.exports = {
     alias: {
       assets: path.resolve(__dirname, 'assets'),
       components: path.resolve(__dirname, 'src/components'),
+      store: path.resolve(__dirname, 'src/store'),
     },
   },
 
   plugins: [
     new webpack.DefinePlugin({
-      PRODUCTION: JSON.stringify(process.env.HOST),
+      API: JSON.stringify(process.env.API),
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
@@ -52,7 +51,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
-    publicPath: '/'
+    publicPath: '/',
   },
   module: {
     rules: [

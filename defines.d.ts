@@ -1,2 +1,2 @@
-declare const PRODUCTION: string;
+declare const API: string;
 

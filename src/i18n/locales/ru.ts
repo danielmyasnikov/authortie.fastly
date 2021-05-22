@@ -7,6 +7,17 @@ export const ru = {
     community: 'Сообщество',
     aboutCommunity: 'Тысячи учёных уже предлагают свою помощь'
   },
+
+  auth: {
+    authorization: 'Авторизация',
+    registration: 'Регистрация',
+    email: 'Email',
+    password: 'Пароль',
+    repeatPassword: 'Повторить пароль',
+    login: 'Войти',
+    logup: 'Зарегистрироватся'
+  },
+
   footer: {
     authortie: 'Authortie',
     rights: '© Все права защищены',
