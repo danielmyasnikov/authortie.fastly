@@ -15,7 +15,9 @@ export const ru = {
     password: 'Пароль',
     repeatPassword: 'Повторить пароль',
     login: 'Войти',
-    logup: 'Зарегистрироватся'
+    logup: 'Зарегистрироватся',
+    good: 'Успешно',
+    toAuthorization: 'Перейти к авторизации'
   },
 
 

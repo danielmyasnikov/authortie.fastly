@@ -3,3 +3,4 @@ export interface Auth {
     password: string,
     passwordConfirmation?: string
 }
+
