@@ -6,16 +6,18 @@ const webpack = require('webpack');
 require('dotenv').config();
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
+
   entry: {
-    main: ['@babel/polyfill', './src/index.tsx'],
+    main: './src/index.tsx',
   },
 
   devtool: 'source-map',
+
   devServer: {
     historyApiFallback: true,
     contentBase: path.resolve(__dirname, './dist'),
-    open: true,
+    open: false,
     compress: true,
     hot: true,
     port: 8585,
@@ -36,6 +38,12 @@ module.exports = {
     },
   },
 
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+
   plugins: [
     new webpack.DefinePlugin({
       API: JSON.stringify(process.env.API),
@@ -44,15 +52,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       filename: 'index.html',
+      // favicon: 'pubplic/favicon.ico',
     }),
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
   ],
 
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
-    publicPath: '/',
+    filename: '[name].[contenthash].js',
   },
+
   module: {
     rules: [
       {
@@ -62,11 +71,15 @@ module.exports = {
           {
             loader: 'css-loader',
             options: {
+              sourceMap: true,
+              modules: {
+                localIdentName: '[local]___[hash:base64:5]',
+              },
               importLoaders: 1,
-              modules: true,
             },
           },
           'less-loader',
+          'postcss-loader',
         ],
       },
       {
@@ -92,8 +105,6 @@ module.exports = {
           },
         ],
       },
-
-      //TODO: много дублированного кода (((
       {
         test: /\.js$/,
         exclude: /node_modules/,

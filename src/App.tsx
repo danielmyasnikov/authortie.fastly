@@ -16,9 +16,9 @@ const App: React.FC = () => {
     <div className={styles.wrapper}>
       <Menu />
       <Switch location={background || location}>
-        <Route exact path="/" children={<Main />} />
+        <Route exact path="/" component={Main} />
       </Switch>
-      {background && <Route path="/authorization" children={<Registration />} />}
+      {background && <Route path="/authorization" component={Registration} />}
       <Footer />
     </div>
   );
