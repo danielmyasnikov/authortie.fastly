@@ -1,13 +1,17 @@
 .wrapper {
+  position: fixed;
+  top: 0;
   display: grid;
   grid-column-gap: 20px;
   grid-template-areas: '. cont  cont cont cont cont cont cont cont cont cont.';
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: min-content;
   width: 100%;
-  height: 100px;
-  padding: 20px;
+  height: 90px;
+  padding: 12px;
   background: var(--color-white-blue);
+  z-index: 2;
+  box-shadow: 0px 5px 14px -4px rgba(34, 60, 80, 0.6);
 }
 
 .content {
@@ -43,8 +47,10 @@
   cursor: pointer;
 }
 
-.userName{
+.userName {
   margin-left: 12px;
   font-size: 18px;
   line-height: 21px;
+  text-decoration: none;
+  color: var(--color-black);
 }

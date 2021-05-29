@@ -5,6 +5,7 @@ import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'components/common/button';
 import Exit from 'assets/exit.svg';
+import Checkmark from 'assets/checkmark.svg';
 
 import { getRegistration, getSignIn } from 'store/auth/actions';
 
@@ -82,12 +83,16 @@ export const Registration: React.FC = () => {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.overlay} onClick={onClose} />
       <div className={styles.contaier}>
         <Exit className={styles.exit} onClick={onClose} />
         {isConfirm ? (
           <div className={styles.confirmWrapper}>
-            <span className={styles.confirmTitle}>{t('good')}</span>
-            <Button onClick={toAuthor}>{t('toAuthorization')}</Button>
+            <Checkmark className={styles.confirmTitle} />
+            <div className={styles.btnWrapper}>
+              <Button onClick={onClose}>{t('toMain')}</Button>
+              <Button>{t('toProfile')}</Button>
+            </div>
           </div>
         ) : (
           <>

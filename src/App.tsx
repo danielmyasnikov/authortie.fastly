@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route, useLocation } from 'react-router-dom';
+import { Container } from 'components/container';
 import { Menu } from 'components/menu';
 import { Main } from 'components/main';
 import { Footer } from 'components/footer';
@@ -16,9 +17,12 @@ const App: React.FC = () => {
     <div className={styles.wrapper}>
       <Menu />
       <Switch location={background || location}>
-        <Route exact path="/" component={Main} />
+        <Route exact path="/">
+          <Container Component={Main} />
+        </Route>
       </Switch>
       {background && <Route path="/authorization" component={Registration} />}
+
       <Footer />
     </div>
   );
