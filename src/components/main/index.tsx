@@ -17,7 +17,7 @@ export const Main: React.FC = () => {
       <div className={styles.header}>
         <div className={styles.container}>
           <h1 className={styles.title}>{t('title')}</h1>
-          <p className={styles.text}> {t('description')}</p>
+          <p className={styles.text}>{t('description')}</p>
           {!isAuth && (
             <Link
               to={{

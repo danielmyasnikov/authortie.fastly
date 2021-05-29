@@ -7,7 +7,7 @@
   background-color: var(--color-white-blue);
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1280px) {
   .wrapper{
     min-width: 320px;
   }

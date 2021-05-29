@@ -48,7 +48,7 @@ export const Card: React.FC = () => {
         </div>
       </div>
       
-      <Button>{t('offerCooperation')}</Button>
+      <Button className={styles.btn}>{t('offerCooperation')}</Button>
     </div>
   );
 };
