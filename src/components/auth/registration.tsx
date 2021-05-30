@@ -90,8 +90,10 @@ export const Registration: React.FC = () => {
           <div className={styles.confirmWrapper}>
             <Checkmark className={styles.confirmTitle} />
             <div className={styles.btnWrapper}>
-              <Button onClick={onClose}>{t('toMain')}</Button>
-              <Button>{t('toProfile')}</Button>
+              <Button className={styles.btn} onClick={onClose}>
+                {t('toMain')}
+              </Button>
+              <Button className={styles.btn}>{t('toProfile')}</Button>
             </div>
           </div>
         ) : (

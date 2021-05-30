@@ -12,6 +12,48 @@ export const Main: React.FC = () => {
   const location = useLocation();
   const isAuth = !!localStorage.getItem('uid');
 
+  const renderHowItsWork = () => (
+    <div className={styles.howWorkWrapper}>
+      <div>
+        <div className={styles.howWorkBlock}>
+          <Example />
+        </div>
+        <p className={styles.howWorkText}> {t('text text')}</p>
+      </div>
+      <Arrow className={styles.arrowIcon} />
+
+      <div>
+        <div className={styles.howWorkBlock}>
+          <Example />
+        </div>
+        <p className={styles.howWorkText}> {t('text text')}</p>
+      </div>
+      <Arrow className={styles.arrowIcon} />
+
+      <div>
+        <div className={styles.howWorkBlock}>
+          <Example />
+        </div>
+        <p className={styles.howWorkText}> {t('text text')}</p>
+      </div>
+      <Arrow className={styles.arrowIcon} />
+
+      <div>
+        <div className={styles.howWorkBlock}>
+          <Example />
+        </div>
+        <p className={styles.howWorkText}> {t('text text')}</p>
+      </div>
+
+      {/* <div />
+      <p className={styles.howWorkText}> {t('text text')}</p>
+      <div />
+      <p className={styles.howWorkText}> {t('text text')}</p>
+      <div />
+      <p className={styles.howWorkText}> {t('text text')}</p> */}
+    </div>
+  );
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
@@ -28,38 +70,13 @@ export const Main: React.FC = () => {
               <Button>{t('join')}</Button>
             </Link>
           )}
-
-   
         </div>
         <div className={styles.bgImg} />
       </div>
 
       <div className={styles.landingWrapper}>
         <div className={styles.container}>
-          <div className={styles.howWorkWrapper}>
-            <div className={styles.howWorkBlock}>
-              <Example />
-            </div>
-            <Arrow className={styles.arrowIcon} />
-            <div className={styles.howWorkBlock}>
-              <Example />
-            </div>
-            <Arrow className={styles.arrowIcon} />
-            <div className={styles.howWorkBlock}>
-              <Example />
-            </div>
-            <Arrow className={styles.arrowIcon} />
-            <div className={styles.howWorkBlock}>
-              <Example />
-            </div>
-            <p className={styles.howWorkText}> {t('text text')}</p>
-            <div />
-            <p className={styles.howWorkText}> {t('text text')}</p>
-            <div />
-            <p className={styles.howWorkText}> {t('text text')}</p>
-            <div />
-            <p className={styles.howWorkText}> {t('text text')}</p>
-          </div>
+          {renderHowItsWork()}
           <h2 className={styles.communityTitle}>{t('community')}</h2>
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 

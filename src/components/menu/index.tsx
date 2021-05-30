@@ -42,10 +42,10 @@ export const Menu: React.FC = () => {
         </div>
 
         <Button className={styles.btn}>{t('createRequest')}</Button>
-        <Bell className={styles.icon} />
 
         {isAuth ? (
           <>
+            <Bell className={styles.icon} />
             <User className={styles.icon} />
             <span className={styles.userName}>User</span>
           </>

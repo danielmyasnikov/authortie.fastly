@@ -50,9 +50,11 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      filename: 'index.html',
-      // favicon: 'pubplic/favicon.ico',
+      filename: `index.html`,
+      template: `public/index.html`,
+      favicon: 'public/favicon.ico',
+      name: 'index',
+      inject: true,
     }),
     new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
   ],
@@ -83,7 +85,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/i,
+        test: /\.(png|jpg|jpeg|gif|ico)$/i,
         type: 'asset/resource',
       },
       {
