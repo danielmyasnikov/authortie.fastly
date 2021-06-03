@@ -5,6 +5,10 @@ import { Button } from 'components/common/button';
 import { Card } from 'components/common/card';
 import Arrow from 'assets/arrow.svg';
 import Example from 'assets/example.svg';
+import Assessment from 'assets/assessment.svg';
+import Group from 'assets/group.svg';
+import Improve from 'assets/improve.svg';
+import Enhance from 'assets/enhance.svg';
 import styles from './styles.module.less';
 
 export const Main: React.FC = () => {
@@ -16,48 +20,41 @@ export const Main: React.FC = () => {
     <div className={styles.howWorkWrapper}>
       <div>
         <div className={styles.howWorkBlock}>
-          <Example />
+          <Assessment className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}> {t('text text')}</p>
+        <p className={styles.howWorkText}> {t('point_1')}</p>
       </div>
       <Arrow className={styles.arrowIcon} />
 
       <div>
         <div className={styles.howWorkBlock}>
-          <Example />
+          <Group className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}> {t('text text')}</p>
+        <p className={styles.howWorkText}> {t('point_2')}</p>
       </div>
       <Arrow className={styles.arrowIcon} />
 
       <div>
         <div className={styles.howWorkBlock}>
-          <Example />
+          <Enhance className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}> {t('text text')}</p>
+        <p className={styles.howWorkText}> {t('point_3')}</p>
       </div>
       <Arrow className={styles.arrowIcon} />
 
       <div>
         <div className={styles.howWorkBlock}>
-          <Example />
+          <Improve className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}> {t('text text')}</p>
+        <p className={styles.howWorkText}> {t('point_4')}</p>
       </div>
-
-      {/* <div />
-      <p className={styles.howWorkText}> {t('text text')}</p>
-      <div />
-      <p className={styles.howWorkText}> {t('text text')}</p>
-      <div />
-      <p className={styles.howWorkText}> {t('text text')}</p> */}
     </div>
   );
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.header}>
-        <div className={styles.container}>
+        <div className={styles.containerHeader}>
           <h1 className={styles.title}>{t('title')}</h1>
           <p className={styles.text}>{t('description')}</p>
           {!isAuth && (
@@ -67,7 +64,7 @@ export const Main: React.FC = () => {
                 state: { background: location },
               }}
             >
-              <Button>{t('join')}</Button>
+              <Button className={styles.headerBtn}>{t('join')}</Button>
             </Link>
           )}
         </div>
@@ -76,7 +73,9 @@ export const Main: React.FC = () => {
 
       <div className={styles.landingWrapper}>
         <div className={styles.container}>
+          <h2 className={styles.howItsWorkTitle}>{t('howItsWork')}</h2>
           {renderHowItsWork()}
+
           <h2 className={styles.communityTitle}>{t('community')}</h2>
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 

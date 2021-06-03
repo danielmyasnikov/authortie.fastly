@@ -1,6 +1,6 @@
 .btn {
   width: max-content;
-  padding: 15px 45px;
+  padding: 12px 24px;
   border: none;
   background: var(--color-blue);
   border-radius: 30px;
@@ -12,5 +12,13 @@
   cursor: pointer;
   &:hover {
     background: var(--color-blue-dark);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .btn {
+    padding: 8px 15px;
+    font-size: 14px;
+    line-height: 17px;
   }
 }

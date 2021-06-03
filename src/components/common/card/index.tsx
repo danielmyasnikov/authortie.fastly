@@ -14,26 +14,23 @@ export const Card: React.FC = () => {
         <Tag>Engineering/Material</Tag>
       </div>
 
-      <span className={styles.subTitle}>{t('workName')}</span>
-      <span className={styles.text}>
+      <span className={styles.subTitle}>
         Вопросы проектирования трансатлантического межнационального продуктопровода в условиях
         нарастающей коронавирусной пандемии на примере использования методов дистанционного
         строительства при помощи 3D-принтера связующей основы
       </span>
 
-      <span className={styles.subTitle}>{t('keyWord')}</span>
       <div className={styles.tagWrapper}>
         <Tag>Перове слово</Tag>
         <Tag>Второе слово</Tag>
       </div>
 
-      <span className={styles.subTitle}>{t('coment')}</span>
+      <span className={styles.text}>{t('coment')}</span>
       <span className={styles.coment}>
         Могу ещё помочь со статистической обработкой больших массивов
       </span>
-      <span className={styles.subTitle}>{t('reward')}</span>
+      <span className={styles.text}>{t('reward')}</span>
       <div className={styles.tagWrapper}>
-        <Tag>Деньги</Tag>
         <span> 100$</span>
       </div>
 
@@ -42,12 +39,12 @@ export const Card: React.FC = () => {
           <Camera className={styles.defaultPhoto} />
         </div>
         <div className={styles.personInfo}>
-          <span className={styles.subTitle}>Артём Белоусов</span>
+          <span className={styles.text}>Артём Белоусов</span>
           <span className={styles.coment}>учёный (кандидат наук)</span>
           <span className={styles.coment}>Санкт-Петербургский горный университет</span>
         </div>
       </div>
-      
+
       <Button className={styles.btn}>{t('offerCooperation')}</Button>
     </div>
   );

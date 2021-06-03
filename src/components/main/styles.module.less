@@ -8,6 +8,13 @@
   grid-area: cont;
 }
 
+.containerHeader {
+  composes: container;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .header {
   display: grid;
   grid-column-gap: 20px;
@@ -35,7 +42,7 @@
 }
 
 .title {
-  margin-top: 48px;
+  margin: 0;
   font-weight: bold;
   font-size: 50px;
   line-height: 59px;
@@ -44,11 +51,16 @@
 }
 
 .text {
-  margin: 25px 0;
+  margin-top: 24px;
+  margin-bottom: 0;
   font-size: 20px;
   line-height: 23px;
   color: var(--color-black);
   white-space: pre-wrap;
+}
+
+.headerBtn {
+  margin-top: 24px;
 }
 
 .landingWrapper {
@@ -90,52 +102,149 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
-  align-items: center;
 }
 
 .howWorkBlock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 200px;
   height: 200px;
+  align-self: flex-start;
   box-shadow: 0px 5px 24px -2px rgba(32, 88, 131, 0.41);
   border-radius: 12px;
   padding: 24px;
 }
 
 .arrowIcon {
+  align-self: center;
   width: 50px;
-  margin-bottom: 50px;
+  margin-bottom: 70px;
   fill: #a5cef5;
 }
 
 .howWorkText {
   composes: text;
+  font-size: 16px;
+  line-height: 20px;
   width: 200px;
   text-align: center;
 }
 
+.howItsWorkTitle {
+  composes: communityTitle;
+  margin-top: 0;
+  margin-bottom: 42px;
+}
+
+.howWorkIcon {
+  width: 150px;
+  height: 150px;
+  fill: var(--color-black-alt);
+}
+
 @media screen and (max-width: 1280px) {
+  .howWorkBlock {
+    width: 150px;
+    height: 150px;
+  }
+
+  .howWorkText {
+    width: 150px;
+  }
+  .arrowIcon {
+    width: 40px;
+    margin-bottom: 100px;
+  }
+
+  .howWorkIcon {
+    width: 100px;
+    height: 100px;
+    fill: var(--color-black-alt);
+  }
+
+  .bgImg {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .howWorkWrapper {
+    height: auto;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+  }
+
+  .howWorkBlock {
+    width: 200px;
+    height: 200px;
+  }
+
+  .howWorkText {
+    margin: 16px 0;
+    width: 200px;
+  }
+
+  .howWorkIcon {
+    width: 150px;
+    height: 150px;
+    fill: var(--color-black-alt);
+  }
+
+  .arrowIcon {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 968px) {
+  .wrapper {
+    margin-top: -20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .header {
     height: auto;
     padding: 24px 0;
   }
   .title {
     margin-top: 0;
-    font-size: 32px;
-    line-height: 36px;
+    font-size: 27px;
+    line-height: 32px;
   }
   .text {
     margin: 16px 0;
-    font-size: 15px;
+    font-size: 14px;
     line-height: 22px;
   }
-  .bgImg,
-  .arrowIcon {
-    display: none;
+
+  .communityTitle {
+    font-size: 28px;
+    line-height: 32px;
   }
 
   .howWorkWrapper {
     height: auto;
     flex-direction: column;
+    align-items: center;
+    margin-right: 0;
+  }
+
+  .howWorkBlock {
+    width: 150px;
+    height: 150px;
+  }
+
+  .howWorkText {
+    margin: 16px 0;
+    width: 150px;
+  }
+
+  .howWorkIcon {
+    width: 100px;
+    height: 100px;
+    fill: var(--color-black-alt);
   }
 
   .cards {
