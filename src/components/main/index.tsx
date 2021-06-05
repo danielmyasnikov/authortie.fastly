@@ -4,12 +4,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from 'components/common/button';
 import { Card } from 'components/common/card';
 import Arrow from 'assets/arrow.svg';
-import Example from 'assets/example.svg';
 import Assessment from 'assets/assessment.svg';
 import Group from 'assets/group.svg';
 import Improve from 'assets/improve.svg';
 import Enhance from 'assets/enhance.svg';
 import styles from './styles.module.less';
+
+import { cards } from './mock';
 
 export const Main: React.FC = () => {
   const { t } = useTranslation('main');
@@ -59,6 +60,7 @@ export const Main: React.FC = () => {
           <p className={styles.text}>{t('description')}</p>
           {!isAuth && (
             <Link
+              className={styles.btnLink}
               to={{
                 pathname: 'authorization',
                 state: { background: location },
@@ -80,10 +82,36 @@ export const Main: React.FC = () => {
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 
           <div className={styles.cards}>
-            <Card />
-            <Card />
-            <Card />
-            <Card />
+            {cards.map(
+              ({
+                privateAccaunt,
+                keyWords,
+                coment,
+                authorStatus,
+                institution,
+                author,
+                title,
+                target,
+                fieldOfActivity,
+                id,
+              }) => (
+                <Card
+                  privateAccaunt={privateAccaunt}
+                  keyWords={keyWords}
+                  coment={coment}
+                  authorStatus={authorStatus}
+                  institution={institution}
+                  author={author}
+                  title={title}
+                  target={target}
+                  fieldOfActivity={fieldOfActivity}
+                  id={id}
+                />
+              ),
+            )}
+          </div>
+          <div className={styles.goToCommunityWrapper}>
+            <Button className={styles.btnCommunity}>{t('shawAll')}</Button>
           </div>
         </div>
       </div>
