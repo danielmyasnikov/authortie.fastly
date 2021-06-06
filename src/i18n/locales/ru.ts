@@ -47,5 +47,6 @@ export const ru = {
     coment: 'Комментарий',
     reward: 'Вознаграждение',
     offerCooperation: 'Предложить сотрудничество',
+    private: 'Данные скрыты',
   },
 };

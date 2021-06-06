@@ -88,7 +88,7 @@ export const Card: React.FC<Props> = ({
           <Camera className={styles.defaultPhoto} />
         </div>
         <div className={styles.personInfo}>
-          {!privateAccaunt && <span className={styles.text}>{author}</span>}
+          <span className={styles.text}>{privateAccaunt ? t('private') : author}</span>
           <span className={styles.coment}>{authorStatus}</span>
           <span className={styles.coment}>{institution}</span>
         </div>
