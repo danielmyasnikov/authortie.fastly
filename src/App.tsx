@@ -3,6 +3,7 @@ import { Switch, Route, useLocation } from 'react-router-dom';
 import { Container } from 'components/container';
 import { Menu } from 'components/menu';
 import { Main } from 'components/main';
+import { ApplicationForm } from 'components/applicationForm';
 import { Footer } from 'components/footer';
 import { Registration } from 'components/auth/registration';
 import styles from './app.module.css';
@@ -19,6 +20,9 @@ const App: React.FC = () => {
       <Switch location={background || location}>
         <Route exact path="/">
           <Container Component={Main} />
+        </Route>
+        <Route  path="/application">
+          <Container Component={ApplicationForm} />
         </Route>
       </Switch>
       {background && <Route path="/authorization" component={Registration} />}

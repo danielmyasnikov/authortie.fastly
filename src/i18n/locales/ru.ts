@@ -49,4 +49,16 @@ export const ru = {
     offerCooperation: 'Предложить сотрудничество',
     private: 'Данные скрыты',
   },
+
+  application: {
+    title: 'Создать заявку',
+    category: 'Категория',
+    knowledgeArea: 'Область знания',
+    workName: 'Название работы',
+    keyWords: 'Ключевые слова',
+    sum: 'Сумма',
+    coment: 'Комментарий',
+    public: 'Публичная заявка',
+    choose: 'Выбрать',
+  },
 };

@@ -41,7 +41,9 @@ export const Menu: React.FC = () => {
           <span className={styles.item}>{t('forBusiness')}</span>
         </div>
 
-        <Button className={styles.btn}>{t('createRequest')}</Button>
+        <Link to="/application">
+          <Button className={styles.btn}>{t('createRequest')}</Button>
+        </Link>
 
         {isAuth ? (
           <>
