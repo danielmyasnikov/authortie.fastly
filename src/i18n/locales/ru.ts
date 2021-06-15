@@ -14,7 +14,7 @@ export const ru = {
   },
 
   auth: {
-    authorization: 'Авторизация',
+    authorization: 'Вход',
     registration: 'Регистрация',
     email: 'Email',
     password: 'Пароль',
@@ -24,6 +24,8 @@ export const ru = {
     good: 'Успешно',
     toMain: 'На главную',
     toProfile: 'Заполнить профиль',
+    forgotYourPassword: 'Забыли пароль?',
+    loginWith: 'Войти с помощью',
   },
 
   menu: {

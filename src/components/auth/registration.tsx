@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import cn from 'classnames';
 import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'components/common/button';
-import Exit from 'assets/exit.svg';
+import Close from 'assets/close.svg';
+import Eye from 'assets/eye.svg';
+import CloseEye from 'assets/closeEye.svg';
+import FacebookColor from 'assets/facebookColor.svg';
+import IDColor from 'assets/IDColor.svg';
+import GoogleColor from 'assets/googleColor.svg';
+
 import Checkmark from 'assets/checkmark.svg';
 
 import { getRegistration, getSignIn } from 'store/auth/actions';
@@ -17,6 +24,7 @@ export const Registration: React.FC = () => {
   const history = useHistory();
   const [isRegistration, setIsRegistration] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
@@ -80,81 +88,115 @@ export const Registration: React.FC = () => {
       setIsConfirm(true);
     }
   }
+  {
+    /* {isConfirm ? (
+    <div className={styles.confirmWrapper}>
+      <Checkmark className={styles.confirmTitle} />
+      <div className={styles.btnWrapper}>
+        <Button className={styles.btn} onClick={onClose}>
+          {t('toMain')}
+        </Button>
+        <Button className={styles.btn}>{t('toProfile')}</Button>
+      </div>
+    </div>
+  ) : ( */
+  }
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.overlay} onClick={onClose} />
       <div className={styles.contaier}>
-        <Exit className={styles.exit} onClick={onClose} />
-        {isConfirm ? (
-          <div className={styles.confirmWrapper}>
-            <Checkmark className={styles.confirmTitle} />
-            <div className={styles.btnWrapper}>
-              <Button className={styles.btn} onClick={onClose}>
-                {t('toMain')}
-              </Button>
-              <Button className={styles.btn}>{t('toProfile')}</Button>
-            </div>
+        <Close className={styles.exit} onClick={onClose} />
+
+        <div className={styles.titleWrapper}>
+          <button
+            onClick={() => setIsRegistration(!isRegistration)}
+            className={cn(styles.title, { [styles.titleFocus]: !isRegistration })}
+          >
+            {t('authorization')}
+          </button>
+          <button
+            onClick={() => setIsRegistration(!isRegistration)}
+            className={cn(styles.title, { [styles.titleFocus]: isRegistration })}
+          >
+            {t('registration')}
+          </button>
+        </div>
+
+        <div className={cn(styles.inputWrapper, { [styles.inputWrapperError]: !!emailError })}>
+          <input
+            placeholder={t('email')}
+            value={email}
+            name="email"
+            id="email"
+            className={styles.input}
+            type="text"
+            onChange={handleChange}
+          />
+        </div>
+        <div className={styles.error}>{emailError}</div>
+
+        <div className={cn(styles.inputWrapper, { [styles.inputWrapperError]: !!passwordError })}>
+          <input
+            placeholder={t('password')}
+            value={password}
+            name="password"
+            id="password"
+            className={styles.input}
+            type={isShowPassword ? 'text' : 'password'}
+            onChange={handleChange}
+          />
+          <div onClick={() => setIsShowPassword(!isShowPassword)} className={styles.showPassword}>
+            {isShowPassword ? <Eye /> : <CloseEye />}
           </div>
-        ) : (
+        </div>
+        <div className={styles.error}>{passwordError}</div>
+
+        {isRegistration && (
           <>
-            <span className={styles.title}>
-              {isRegistration ? t('registration') : t('authorization')}
-            </span>
-
-            <span onClick={() => setIsRegistration(!isRegistration)} className={styles.link}>
-              {isRegistration ? t('authorization') : t('registration')}
-            </span>
-
-            <div className={styles.inputWrapper}>
-              <label className={styles.label} htmlFor="email">
-                {t('email')}
-              </label>
+            <div
+              className={cn(styles.inputWrapper, {
+                [styles.inputWrapperError]: !!passwordConfirmationError,
+              })}
+            >
               <input
-                value={email}
-                name="email"
-                id="email"
+                placeholder={t('repeatPassword')}
+                value={passwordConfirmation}
+                name="repeatPassword"
+                id="repeatPassword"
                 className={styles.input}
-                type="text"
+                type={isShowPassword ? 'text' : 'password'}
                 onChange={handleChange}
               />
-              <div className={styles.error}>{emailError}</div>
-            </div>
-
-            <div className={styles.inputWrapper}>
-              <label className={styles.label} htmlFor="password">
-                {t('password')}
-              </label>
-              <input
-                value={password}
-                name="password"
-                id="password"
-                className={styles.input}
-                type="password"
-                onChange={handleChange}
-              />
-              <div className={styles.error}>{passwordError}</div>
-            </div>
-
-            {isRegistration && (
-              <div className={styles.inputWrapper}>
-                <label className={styles.label} htmlFor="repeatPassword">
-                  {t('repeatPassword')}
-                </label>
-                <input
-                  value={passwordConfirmation}
-                  name="repeatPassword"
-                  id="repeatPassword"
-                  className={styles.input}
-                  type="password"
-                  onChange={handleChange}
-                />
-                <div className={styles.error}>{passwordConfirmationError}</div>
+              <div
+                onClick={() => setIsShowPassword(!isShowPassword)}
+                className={styles.showPassword}
+              >
+                {isShowPassword ? <Eye /> : <CloseEye />}
               </div>
-            )}
-            <Button onClick={onSubmit}>{isRegistration ? t('logup') : t('login')}</Button>
+            </div>
+            <div className={styles.error}>{passwordConfirmationError}</div>
           </>
         )}
+        {!isRegistration && (
+          <span className={styles.forgotYourPassword}>{t('forgotYourPassword')}</span>
+        )}
+        <Button className={styles.btn} onClick={onSubmit}>
+          {isRegistration ? t('logup') : t('login')}
+        </Button>
+
+        <span className={styles.loginWithTitle}>{t('loginWith')}</span>
+        <div className={styles.iconsWrapper}>
+          <div className={styles.icon}>
+            <FacebookColor />
+          </div>
+          <div className={styles.icon}>
+            <IDColor />
+          </div>
+          <div className={styles.icon}>
+            <GoogleColor />
+          </div>
+        </div>
       </div>
     </div>
   );
