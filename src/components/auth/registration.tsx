@@ -181,21 +181,44 @@ export const Registration: React.FC = () => {
         {!isRegistration && (
           <span className={styles.forgotYourPassword}>{t('forgotYourPassword')}</span>
         )}
+
+        {isRegistration && (
+          <div className={styles.checkWrapper}>
+            <label className={styles.checkbox} htmlFor="element">
+              <input type="checkbox" id="element" />
+              <span>
+                <div className={styles.check} />
+              </span>
+            </label>
+            <div className={styles.checkText}>
+              <span>{t('text1Check')} </span>
+              <a className={styles.checkLink} href="#">
+                <span>{t('text2Check')} </span>
+              </a>
+              {t('text3Check')}
+              <a className={styles.checkLink} href="#">
+                {t('text4Check')}
+              </a>
+              .
+            </div>
+          </div>
+        )}
+
         <Button className={styles.btn} onClick={onSubmit}>
           {isRegistration ? t('logup') : t('login')}
         </Button>
 
         <span className={styles.loginWithTitle}>{t('loginWith')}</span>
         <div className={styles.iconsWrapper}>
-          <div className={styles.icon}>
-            <FacebookColor />
-          </div>
-          <div className={styles.icon}>
-            <IDColor />
-          </div>
-          <div className={styles.icon}>
-            <GoogleColor />
-          </div>
+          {/* <div className={styles.icon}> */}
+          <FacebookColor />
+          {/* </div>
+          <div className={styles.bigIcon}> */}
+          <IDColor />
+          {/* </div>
+          <div className={styles.icon}> */}
+          <GoogleColor />
+          {/* </div> */}
         </div>
       </div>
     </div>

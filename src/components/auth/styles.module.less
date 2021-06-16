@@ -170,10 +170,89 @@
 }
 
 .icon {
+  width: 36px;
+  height: 36px;
   padding: 5px;
   border-radius: 10px;
   background-color: var(--color-white);
   cursor: pointer;
+  box-shadow: 0px 0px 8px -5px rgb(34 60 80);
+}
+
+.bigIcon {
+  composes: icon;
+  margin: 0 15px;
+}
+
+.checkWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-bottom: 40px;
+}
+
+.checkText {
+  font-size: 10px;
+  line-height: 104.4%;
+  color: #b8b8b8;
+  letter-spacing: -0.015em;
+}
+
+.checkLink {
+  text-decoration: none;
+  color: #a0c6ff;
+}
+
+.checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  margin-right: 11px;
+}
+
+.checkbox::selection {
+  background: transparent;
+}
+
+.checkbox input {
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.checkbox input + span {
+  content: '';
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 13px;
+  height: 13px;
+  padding: 0;
+  vertical-align: middle;
+  background: #ededed;
+  border: none;
+  border-radius: 2px;
+}
+
+.checkbox input + span .check {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-radius: 2px;
+  background-color: #2c80ff;
+  transform: scale(0);
+  transition: transform 0.2s;
+}
+
+.checkbox input:checked + span .check {
+  transform: scale(1);
+}
+
+.label {
+  margin-left: 8px;
 }
 
 @media screen and (max-width: 768px) {
