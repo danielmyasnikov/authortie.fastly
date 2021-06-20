@@ -51,10 +51,7 @@ const App: React.FC = () => {
         <Route exact path="/">
           <Container Component={Main} />
         </Route>
-        <Route exact path="/:id">
-          <Container Component={Main} />
-        </Route>
-        <Route path="/application">
+        <Route exact path="/application">
           <Container Component={ApplicationForm} />
         </Route>
       </Switch>
