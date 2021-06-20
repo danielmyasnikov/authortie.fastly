@@ -21,6 +21,17 @@ const App: React.FC = () => {
   const params = new URLSearchParams(history.location.search);
 
   useEffect(() => {
+    if (location.pathname === '/authorization' && !background) {
+      history.push({
+        pathname: 'authorization',
+        state: { background: '/' },
+      });
+    }
+  }, []);
+
+  console.log(background);
+
+  useEffect(() => {
     const uid = params.get('uid');
     const client = params.get('client');
     const accessToken = params.get('access-token');
