@@ -1,18 +1,31 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { getIsAuth } from 'store/auth/selectors';
 import cn from 'classnames';
 import logo from 'assets/logo.png';
 import Bell from 'assets/bell.svg';
 import User from 'assets/user.svg';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
+import { useEffect } from 'react';
 
 export const Menu: React.FC = () => {
   const { t } = useTranslation('menu');
   const location = useLocation();
-  const isAuth = !!localStorage.getItem('uid');
+  const auth = useSelector(getIsAuth);
   const [isOpenMenu, seIsOpenMenu] = useState(false);
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    setIsAuth(
+      auth ||
+        (!!localStorage.getItem('uid') &&
+          !!localStorage.getItem('access-token') &&
+          !!localStorage.getItem('client')),
+    );
+  }, [auth]);
 
   return (
     <div className={styles.wrapper}>
@@ -31,9 +44,9 @@ export const Menu: React.FC = () => {
           <span className={styles.burgerItem}></span>
         </button>
 
-        <div className={styles.logoWrapper}>
+        <Link to={'/'} className={styles.logoWrapper}>
           <img src={logo} alt="authortie" className={styles.logo} />
-        </div>
+        </Link>
 
         <div className={styles.itemsWrapper}>
           <span className={styles.item}>{t('analitics')}</span>

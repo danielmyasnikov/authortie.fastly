@@ -17,7 +17,9 @@ export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue
         password,
         password_confirmation: passwordConfirmation,
       });
-      localStorage.setItem('uid', res.data.data.uid);
+      localStorage.setItem('uid', res.headers.uid);
+      localStorage.setItem('access-token', res.headers['access-token']);
+      localStorage.setItem('client', res.headers.client);
       return undefined;
     } catch (err) {
       const emailError: string = err.response.data.errors.email;
@@ -36,7 +38,10 @@ export const getSignIn = createAsyncThunk<undefined, T.Auth, { rejectValue: Auth
         email,
         password,
       });
-      localStorage.setItem('uid', res.data.data.uid);
+      console.log(res.headers);
+      localStorage.setItem('uid', res.headers.uid);
+      localStorage.setItem('access-token', res.headers['access-token']);
+      localStorage.setItem('client', res.headers.client);
       return undefined;
     } catch (err) {
       const emailError: string = err.response.data.errors.email;

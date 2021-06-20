@@ -4,10 +4,10 @@ import { Link, useLocation } from 'react-router-dom';
 import { Button } from 'components/common/button';
 import { Card } from 'components/common/card';
 import Arrow from 'assets/arrow.svg';
-import Assessment from 'assets/assessment.svg';
-import Group from 'assets/group.svg';
-import Improve from 'assets/improve.svg';
-import Enhance from 'assets/enhance.svg';
+import Assessment from 'assets/assessment.png';
+import Group from 'assets/group.png';
+import Improve from 'assets/improve.png';
+import Enhance from 'assets/enhance.png';
 import styles from './styles.module.less';
 
 import { cards } from './mock';
@@ -21,7 +21,7 @@ export const Main: React.FC = () => {
     <div className={styles.howWorkWrapper}>
       <div>
         <div className={styles.howWorkBlock}>
-          <Assessment className={styles.howWorkIcon} />
+          <img src={Assessment} alt="" className={styles.howWorkIcon} />
         </div>
         <p className={styles.howWorkText}> {t('point_1')}</p>
       </div>
@@ -29,7 +29,7 @@ export const Main: React.FC = () => {
 
       <div>
         <div className={styles.howWorkBlock}>
-          <Group className={styles.howWorkIcon} />
+          <img src={Group} alt="" className={styles.howWorkIcon} />
         </div>
         <p className={styles.howWorkText}> {t('point_2')}</p>
       </div>
@@ -37,7 +37,7 @@ export const Main: React.FC = () => {
 
       <div>
         <div className={styles.howWorkBlock}>
-          <Enhance className={styles.howWorkIcon} />
+          <img src={Enhance} alt="" className={styles.howWorkIcon} />
         </div>
         <p className={styles.howWorkText}> {t('point_3')}</p>
       </div>
@@ -45,7 +45,7 @@ export const Main: React.FC = () => {
 
       <div>
         <div className={styles.howWorkBlock}>
-          <Improve className={styles.howWorkIcon} />
+          <img src={Improve} alt="" className={styles.howWorkIcon} />
         </div>
         <p className={styles.howWorkText}> {t('point_4')}</p>
       </div>
