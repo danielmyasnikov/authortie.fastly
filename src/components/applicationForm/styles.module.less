@@ -1,24 +1,49 @@
 .wrapper {
   display: grid;
   grid-column-gap: 20px;
-  grid-template-areas: '. cont  cont cont cont cont cont cont cont cont cont.';
+  grid-template-areas:
+    '. cont  cont cont cont cont cont cont cont cont cont.'
+    '. btnCont  btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont .';
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: min-content;
+  grid-template-rows: repeat(2, min-content);
   width: 100%;
   height: 100%;
-  padding: 32px 0;
+  padding: 80px 0;
+}
+
+.titleWrapper {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #cadcf8;
+  margin-bottom: 50px;
 }
 
 .title {
   margin: 0;
   font-weight: bold;
   font-size: 50px;
-  line-height: 105.5%;
+  line-height: 50px;
   color: var(--color-black);
+}
+
+.info {
+  margin: 40px 0 13px 0;
+  font-size: 16px;
+  line-height: 16px;
 }
 
 .container {
   grid-area: cont;
+}
+
+.content {
+  display: grid;
+  grid-column-gap: 75px;
+  grid-row-gap: 75px;
+  grid-template-areas:
+    'category knowledge'
+    'workName keyWords';
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .block {
@@ -28,37 +53,260 @@
   }
 }
 
-.selectWrapper {
+.category {
+  grid-area: category;
+  max-width: 600px;
+  max-height: 718px;
+  background: #f2f7ff;
+  border-radius: 12px;
+}
+
+.radioWrapper {
+  padding: 22px 30px 30px 35px;
+}
+
+.categoryBtnBlock {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  width: 100%;
+  background: #f9fbff;
 }
 
-.label {
-  display: block;
-  margin-top: 40px;
-  margin-bottom: 16px;
-  font-weight: bold;
+.categoryBtn {
+  border: none;
+  font-size: 16px;
+  line-height: 16px;
+  color: #656565;
+  width: 50%;
+  padding: 8px;
+  cursor: pointer;
+  background: #f9fbff;
+}
+
+.iWontFocus {
+  font-weight: 500;
   font-size: 20px;
-  line-height: 23px;
-  color: var(--color-black);
+  line-height: 20px;
+  color: #2f2f2f;
+  background: #f2f7ff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.select {
-  max-width: 650px;
+.radioInputBlock {
+  width: max-content;
+  padding: 8px 15px;
+  border-radius: 76px;
+}
+
+.radioInputChecked {
+  background: #fdffe7;
+}
+
+label {
+  font-size: 16px;
+  line-height: 19px;
+  color: #656565;
+}
+
+.radioInput[type='radio']:checked,
+.radioInput[type='radio']:not(:checked) {
+  display: none;
+}
+
+.radioInput[type='radio']:checked + label,
+.radioInput[type='radio']:not(:checked) + label {
+  display: inline-block;
+  position: relative;
+  padding-left: 28px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.radioInput[type='radio']:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #bc9300;
+}
+
+.radioInput[type='radio']:not(:checked) + label:before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #b0bfdb;
+}
+
+.radioInput[type='radio']:checked + label:before,
+.radioInput[type='radio']:not(:checked) + label:before {
+  border-radius: 100%;
+}
+
+.radioInput[type='radio']:checked + label:after,
+.radioInput[type='radio']:not(:checked) + label:after {
+  content: '';
+  position: absolute;
+  transition: all 0.2s ease;
+}
+
+.radioInput[type='radio']:checked + label:after,
+.radioInput[type='radio']:not(:checked) + label:after {
+  left: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background-color: #bc9300;
+}
+
+.radioInput[type='radio']:not(:checked) + label:after {
+  opacity: 0;
+}
+
+.radioInput[type='radio']:checked + label:after {
+  opacity: 1;
+}
+
+.knowledge {
+  grid-area: knowledge;
+  max-width: 800px;
+  padding: 20px 29px;
+  background: #f2f7ff;
+  border-radius: 12px;
+}
+
+.checkboxWrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.checkboxInputBlock {
+  max-width: 265px;
+  width: 100%;
+  composes: radioInputBlock;
+}
+.checkboxInputBlockCheck {
+  background: #ebfffa;
+}
+
+.checkboxInput[type='checkbox']:checked,
+.checkboxInput[type='checkbox']:not(:checked) {
+  display: none;
+}
+
+.checkboxInput[type='checkbox']:checked + label,
+.checkboxInput[type='checkbox']:not(:checked) + label {
+  display: inline-block;
+  position: relative;
+  padding-left: 28px;
+  line-height: 20px;
+  cursor: pointer;
+}
+
+.checkboxInput[type='checkbox']:checked + label:before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #00a880;
+}
+
+.checkboxInput[type='checkbox']:not(:checked) + label:before {
+  content: '';
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #b0bfdb;
+}
+
+.checkboxInput[type='checkbox']:checked + label:before,
+.checkboxInput[type='checkbox']:not(:checked) + label:before {
+  border-radius: 2px;
+}
+
+.checkboxInput[type='checkbox']:checked + label:after,
+.checkboxInput[type='checkbox']:not(:checked) + label:after {
+  content: '';
+  position: absolute;
+  transition: all 0.2s ease;
+}
+.checkboxInput[type='checkbox']:checked + label:after,
+.checkboxInput[type='checkbox']:not(:checked) + label:after {
+  left: 3px;
+  top: 4px;
+  width: 10px;
+  height: 5px;
+  border-radius: 1px;
+  border-left: 4px solid #00a880;
+  border-bottom: 4px solid #00a880;
+  transform: rotate(-45deg);
+}
+.checkboxInput[type='checkbox']:not(:checked) + label:after {
+  opacity: 0;
+}
+
+.checkboxInput[type='checkbox']:checked + label:after {
+  opacity: 1;
+}
+
+.workName {
+  grid-area: workName;
 }
 
 .textarea {
   width: 100%;
   height: 130px;
-  padding: 8px;
-  border: 1px solid #8ca2c4;
-  border-radius: 4px;
+  padding: 20px 30px;
+  background: #f2f7ff;
+  border: none;
+  border-bottom: 5px solid #e9f1ff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   resize: none;
   font-size: 16px;
   line-height: 20px;
   font-family: inherit;
-  outline:none;
+  outline: none;
 }
 
+.keyWords {
+  grid-area: keyWords;
+}
+
+.reward {
+  display: flex;
+  flex-direction: row;
+}
+
+.rewardBtn {
+  height: 38px;
+  margin-right: 12px;
+  padding: 11px 30px 9px 30px;
+  border-radius: 30px;
+  border: 1px solid #b0bfdb;
+  background: none;
+  font-weight: bold;
+  font-size: 15px;
+  line-height: 18px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btnCont {
+  grid-area: btnCont;
+  margin-top: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
