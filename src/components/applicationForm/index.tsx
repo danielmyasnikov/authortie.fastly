@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import cn from 'classnames';
 import DateFnsUtils from '@date-io/date-fns';
 import { Button } from 'components/common/button';
+import Select from 'react-select';
 
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import styles from './styles.module.less';
@@ -28,26 +29,27 @@ const knowledgeDefault = [
   { value: 'Humanities/Arts', checked: false, id: 10 },
   { value: 'Management/Economics', checked: false, id: 11 },
 ];
+
+const responsiveCheckedDefault = [
+  { value: 'Стать рецензентом', checked: true },
+  { value: 'Процитировать других в своей работе', checked: false },
+  { value: 'Предложить соавторство', checked: false },
+  { value: 'Стать эдвайзером', checked: false },
+];
+
 const materialTheme = createMuiTheme({
   overrides: {
     // @ts-ignore
     MuiPickersDay: {
       day: {
-        color: 'blue',
+        color: '#2c80ff',
       },
       daySelected: {
-        backgroundColor: '#E5E5E5',
+        backgroundColor: '#2c80ff',
       },
-      dayDisabled: {
-        color: 'red',
-      },
+
       current: {
-        color: 'green',
-      },
-    },
-    MuiPickersModal: {
-      dialogAction: {
-        color: 'pink',
+        color: 'grey',
       },
     },
   },
@@ -61,7 +63,7 @@ const inputDateStyle = {
   borderBottom: '5px solid #e9f1ff',
   borderTopLeftRadius: '12px',
   borderTopRightRadius: '12px',
-}
+};
 
 export const ApplicationForm = () => {
   const { t } = useTranslation('application');
@@ -69,6 +71,10 @@ export const ApplicationForm = () => {
   const [iWont, setIWont] = useState(true);
   const [category, setCategory] = useState(CATEGORY_DEFAULT);
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
+  const [responsiveKnowledge, setResponsiveKnowledge] = useState(knowledgeDefault);
+  const [responsiveChecked, setResponsiveChecked] = useState(responsiveCheckedDefault);
+  const [rewardType, setRewardType] = useState('responsiveHelp');
+  const [demandRequest, setDemandRequest] = useState(false);
 
   const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
 
@@ -79,18 +85,147 @@ export const ApplicationForm = () => {
     setCategory(newCategory);
   }
 
-  const  changeKnowledge = (id: number) => {
-    // console.log(id)
+  function changeResponsiveChecked(value: string) {
+    const newResponsiveChecked = responsiveChecked.map((item) =>
+      value === item.value ? { ...item, checked: true } : { ...item, checked: false },
+    );
+    setResponsiveChecked(newResponsiveChecked);
+  }
+
+  const changeKnowledge = (id: number) => {
     const newKnowledge = knowledge.map((item) =>
       id === item.id ? { ...item, checked: !item.checked } : item,
     );
-    console.log(newKnowledge)
     setKnowledge(newKnowledge);
-  }
+  };
+
+  const changeResponsiveKnowledge = (value: string) => {
+    const newResponsiveKnowledge = responsiveKnowledge.map((item) =>
+      value === item.value ? { ...item, checked: !item.checked } : item,
+    );
+    setResponsiveKnowledge(newResponsiveKnowledge);
+  };
 
   const handleDateChange = (date: any) => {
     setSelectedDate(date);
   };
+
+  const renderService = () => (
+    <div className={styles.serviceBlock}>
+      <textarea
+        placeholder="Опишите услугу, которую хотите предложить"
+        className={styles.textarea}
+      />
+    </div>
+  );
+
+  const renderResponsiveHelp = () => (
+    <div className={styles.responsiveHelpBlock}>
+      <div className={styles.responsiveRadioWrapper}>
+        {responsiveChecked.map(({ value, checked }) => (
+          <div
+            className={cn(styles.responsiveRadioInputBlock, {
+              [styles.responsiveRadioInputChecked]: checked,
+            })}
+            key={value}
+          >
+            <input
+              className={styles.responsiveRadioInput}
+              type="radio"
+              name={value}
+              id={value}
+              checked={checked}
+              onChange={() => changeResponsiveChecked(value)}
+            />
+            <label htmlFor={value}>{value}</label>
+          </div>
+        ))}
+      </div>
+      <div className={styles.demandRequestTitle}>Заявка спроса</div>
+      <div
+        className={cn(styles.demandRequest, {
+          [styles.responsiveRadioInputChecked]: demandRequest,
+        })}
+      >
+        <input
+          className={styles.responsiveRadioInput}
+          type="checkbox"
+          name={'value'}
+          id={'demandRequest'}
+          checked={demandRequest}
+          onChange={() => setDemandRequest(!demandRequest)}
+        />
+        <label htmlFor={'demandRequest'}>
+          У меня есть сохраненные работы, могу выбрать из списка
+        </label>
+      </div>
+
+      <div className={styles.select}>
+        <Select />
+      </div>
+
+      <div className={styles.responsiveTitle}>Заявка предложения</div>
+      <div className={styles.responsiveBlock}>
+        <span className={styles.subtitle}>Название работы</span>
+        <textarea placeholder="Введите название" className={styles.textarea} />
+      </div>
+
+      <div className={styles.responsiveKnowledgeWrap}>
+        <span className={styles.subtitle}>Категория</span>
+        <div className={styles.responsiveKnowledge}>
+          <div className={styles.checkboxWrapper}>
+            {responsiveKnowledge.map(({ value, checked, id }) => (
+              <div
+                key={value + id}
+                className={cn(styles.checkboxInputBlock, {
+                  [styles.checkboxInputBlockCheck]: checked,
+                })}
+              >
+                <input
+                  className={styles.checkboxInput}
+                  type="checkbox"
+                  name={value + id}
+                  id={value + id}
+                  checked={checked}
+                  onChange={() => changeResponsiveKnowledge(value)}
+                />
+                <label htmlFor={value + id}>{value}</label>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.responsiveComment}>
+        <span className={styles.subtitle}>Комментарий</span>
+        <textarea placeholder="Введите комментарий" className={styles.textarea} />
+      </div>
+
+      <div className={styles.responsiveDatePicker}>
+        <span className={styles.subtitle}>Желаемая дата</span>
+        <ThemeProvider theme={materialTheme}>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <KeyboardDatePicker
+              disableToolbar
+              variant="inline"
+              format="dd/MM/yyyy"
+              margin="normal"
+              id="date-picker-inline"
+              value={selectedDate}
+              onChange={handleDateChange}
+              KeyboardButtonProps={{
+                'aria-label': 'change date',
+              }}
+              InputProps={{
+                disableUnderline: true,
+              }}
+              style={inputDateStyle}
+            />
+          </MuiPickersUtilsProvider>
+        </ThemeProvider>
+      </div>
+    </div>
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -101,100 +236,149 @@ export const ApplicationForm = () => {
             Обращаем ваше внимание, что для публикации заявки вам необходимо зарегистрироваться.
           </span>
         </div>
+
         <div className={styles.content}>
-          <div className={styles.category}>
-            <div className={styles.categoryBtnBlock}>
-              <button
-                onClick={() => setIWont(!iWont)}
-                className={cn(styles.categoryBtn, { [styles.iWontFocus]: iWont })}
-              >
-                Я хочу
-              </button>
-              <button
-                onClick={() => setIWont(!iWont)}
-                className={cn(styles.categoryBtn, { [styles.iWontFocus]: !iWont })}
-              >
-                Я предлагаю
-              </button>
-            </div>
-            <div className={styles.radioWrapper}>
-              {category.map(({ value, checked }) => (
-                <div
-                  className={cn(styles.radioInputBlock, { [styles.radioInputChecked]: checked })}
-                  key={value}
+          <div className={styles.categoryWrap}>
+            <div className={styles.category}>
+              <span className={styles.subtitle}>Категория</span>
+              <div className={styles.categoryBtnBlock}>
+                <button
+                  onClick={() => setIWont(!iWont)}
+                  className={cn(styles.categoryBtn, { [styles.iWontFocus]: iWont })}
                 >
-                  <input
-                    className={styles.radioInput}
-                    type="radio"
-                    name={value}
-                    id={value}
-                    checked={checked}
-                    onChange={() => changeCategory(value)}
-                  />
-                  <label htmlFor={value}>{value}</label>
-                </div>
-              ))}
+                  Я хочу
+                </button>
+                <button
+                  onClick={() => setIWont(!iWont)}
+                  className={cn(styles.categoryBtn, { [styles.iWontFocus]: !iWont })}
+                >
+                  Я предлагаю
+                </button>
+              </div>
+              <div className={styles.radioWrapper}>
+                {category.map(({ value, checked }) => (
+                  <div
+                    className={cn(styles.radioInputBlock, { [styles.radioInputChecked]: checked })}
+                    key={value}
+                  >
+                    <input
+                      className={styles.radioInput}
+                      type="radio"
+                      name={value}
+                      id={value}
+                      checked={checked}
+                      onChange={() => changeCategory(value)}
+                    />
+                    <label htmlFor={value}>{value}</label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
-          <div className={styles.knowledge}>
-            <div className={styles.checkboxWrapper}>
-              {knowledge.map(({ value, checked, id }) => (
-                <div
-                  key={value}
-                  className={cn(styles.checkboxInputBlock, {
-                    [styles.checkboxInputBlockCheck]: checked,
-                  })}
-                >
-                  <input
-                    className={styles.checkboxInput}
-                    type="checkbox"
-                    name={value}
-                    id={value}
-                    checked={checked}
-                    onChange={() => changeKnowledge(id)}
-                  />
-                  <label htmlFor={value}>{value}</label>
-                </div>
-              ))}
+          <div className={styles.knowledgeWrap}>
+            <span className={styles.subtitle}>Область знания</span>
+            <div className={styles.knowledge}>
+              <div className={styles.checkboxWrapper}>
+                {knowledge.map(({ value, checked, id }) => (
+                  <div
+                    key={value}
+                    className={cn(styles.checkboxInputBlock, {
+                      [styles.checkboxInputBlockCheck]: checked,
+                    })}
+                  >
+                    <input
+                      className={styles.checkboxInput}
+                      type="checkbox"
+                      name={value}
+                      id={value}
+                      checked={checked}
+                      onChange={() => changeKnowledge(id)}
+                    />
+                    <label htmlFor={value}>{value}</label>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
           <div className={styles.workName}>
+            <span className={styles.subtitle}>Название работы</span>
             <textarea placeholder="Введите название" className={styles.textarea} />
           </div>
 
           <div className={styles.keyWords}>
+            <span className={styles.subtitle}>Ключевые слова</span>
             <textarea placeholder="Введите название" className={styles.textarea} />
           </div>
 
-          <div className={styles.reward}>
-            <button className={styles.rewardBtn}>Деньги</button>
-            <button className={styles.rewardBtn}>Услуга</button>
-            <button className={styles.rewardBtn}>Ответная Помощь</button>
-            <button className={styles.rewardBtn}>Ничего</button>
+          <div className={styles.rewardBtnsWrap}>
+            <span className={styles.subtitle}>Вознаграждение</span>
+            <div className={styles.rewardBtns}>
+              <button
+                onClick={() => setRewardType('money')}
+                className={cn(styles.rewardBtn, {
+                  [styles.rewardBtnFocus]: rewardType === 'money',
+                })}
+              >
+                Деньги
+              </button>
+              <button
+                onClick={() => setRewardType('service')}
+                className={cn(styles.rewardBtn, {
+                  [styles.rewardBtnFocus]: rewardType === 'service',
+                })}
+              >
+                Услуга
+              </button>
+              <button
+                onClick={() => setRewardType('responsiveHelp')}
+                className={cn(styles.rewardBtn, {
+                  [styles.rewardBtnFocus]: rewardType === 'responsiveHelp',
+                })}
+              >
+                Ответная Помощь
+              </button>
+              <button
+                onClick={() => setRewardType('nothing')}
+                className={cn(styles.rewardBtn, {
+                  [styles.rewardBtnFocus]: rewardType === 'nothing',
+                })}
+              >
+                Ничего
+              </button>
+            </div>
           </div>
 
-          <ThemeProvider theme={materialTheme}>
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <KeyboardDatePicker
-                disableToolbar
-                variant="inline"
-                format="dd/MM/yyyy"
-                margin="normal"
-                id="date-picker-inline"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{
-                  'aria-label': 'change date',
-                }}
-                InputProps={{
-                  disableUnderline: true,
-                }}
-                style={inputDateStyle}
-              />
-            </MuiPickersUtilsProvider>
-          </ThemeProvider>
+          <div className={styles.datePicker}>
+            <span className={styles.subtitle}>Желаемая дата</span>
+
+            <ThemeProvider theme={materialTheme}>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <KeyboardDatePicker
+                  disableToolbar
+                  variant="inline"
+                  format="dd/MM/yyyy"
+                  margin="normal"
+                  id="date-picker-inline"
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    'aria-label': 'change date',
+                  }}
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                  style={inputDateStyle}
+                />
+              </MuiPickersUtilsProvider>
+            </ThemeProvider>
+          </div>
+
+          <div className={styles.reward}>
+            {rewardType === 'service' && renderService()}
+            {rewardType === 'responsiveHelp' && renderResponsiveHelp()}
+          </div>
         </div>
       </div>
       <div className={styles.btnCont}>
