@@ -20,13 +20,13 @@ export const Profile = () => {
     });
 
   function handleFileInputChanged(event: React.FormEvent<HTMLInputElement>) {
+    // @ts-ignore
     const [file] = event.target.files || [];
 
     // добавить проверу размера файла
     // handleChangeFile(file);
 
     getDataUrlFromFile(file).then((fileUrl) => setAvatarURL(`${fileUrl}`));
-
   }
 
   const handleUploadAvatarBtnClick = () => {
