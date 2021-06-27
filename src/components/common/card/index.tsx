@@ -11,46 +11,50 @@ import styles from './styles.module.less';
 interface Props {
   privateAccaunt: boolean;
   keyWords: string[];
-  coment: string;
+  comment: string;
   authorStatus: string;
   institution: string;
   author: string;
   title: string;
-  target: string;
+  workType: string;
   fieldOfActivity: string;
   id: number;
+  key?: number | string;
+  knowledgeArea: string;
 }
 
 export const Card: React.FC<Props> = ({
   privateAccaunt,
   keyWords,
-  coment,
+  comment,
   author,
   institution,
   authorStatus,
   title,
-  target,
+  workType,
   fieldOfActivity,
   id,
+  key,
+  knowledgeArea,
 }) => {
   const { t } = useTranslation('card');
-
-  const showWords = keyWords.slice(0, 3);
+  const showWords = keyWords || [];
+  // const showWords = keyWords.slice(0, 3);
   const numberAfterShowWords = keyWords.length - 3;
 
   return (
-    <div className={styles.wrapper}>
-      {target.length > 25 && (
+    <div className={styles.wrapper} key={key}>
+      {t(workType).length > 25 && (
         <ReactTooltip
-          id={`${target} + ${id}`}
+          id={`${workType} + ${id}`}
           className={styles.tooltip}
           place="top"
           effect="solid"
         />
       )}
-      {fieldOfActivity.length > 25 && (
+      {t(knowledgeArea).length > 25 && (
         <ReactTooltip
-          id={`${fieldOfActivity} + ${id}`}
+          id={`${knowledgeArea} + ${id}`}
           className={styles.tooltip}
           place="top"
           effect="solid"
@@ -58,39 +62,43 @@ export const Card: React.FC<Props> = ({
       )}
 
       <div className={styles.tagWrapper}>
-        <Tag dataTip={target} dataFor={`${target} + ${id}`}>
-          {target}
+        <Tag className={styles.workType} dataTip={t(workType)} dataFor={`${workType} + ${id}`}>
+          {t(workType)}
         </Tag>
-        <Tag dataTip={fieldOfActivity} dataFor={`${fieldOfActivity} + ${id}`}>
-          {fieldOfActivity}
+        <Tag
+          className={styles.knowledgeArea}
+          dataTip={t(knowledgeArea)}
+          dataFor={`${fieldOfActivity} + ${id}`}
+        >
+          {t(knowledgeArea)}
         </Tag>
       </div>
 
       <span className={styles.subTitle}>{title}</span>
 
-      <div className={styles.tagWrapper}>
-        {showWords.map((word) => (
-          <Tag>{word}</Tag>
-        ))}
+      <span className={styles.text}>{t('comment')}</span>
+      <span className={styles.comment}>{comment}</span>
 
-        {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
-      </div>
-
-      <span className={styles.text}>{t('coment')}</span>
-      <span className={styles.coment}>{coment}</span>
       <span className={styles.text}>{t('reward')}</span>
       <div className={styles.tagWrapper}>
         <span> 100$</span>
       </div>
 
+      <div className={styles.keyWrapper}>
+        {/* {showWords.map((word) => (
+          <Tag>{word}</Tag>
+        ))} */}
+
+        {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
+      </div>
       <div className={styles.personBlock}>
         <div className={cn(styles.avatar, { [styles.blurAvatar]: privateAccaunt })}>
           <Camera className={styles.defaultPhoto} />
         </div>
         <div className={styles.personInfo}>
           <span className={styles.text}>{privateAccaunt ? t('private') : author}</span>
-          <span className={styles.coment}>{authorStatus}</span>
-          <span className={styles.coment}>{institution}</span>
+          <span className={styles.comment}>{authorStatus}</span>
+          <span className={styles.comment}>{institution}</span>
         </div>
       </div>
 

@@ -31,7 +31,7 @@ export const ru = {
     text3Check: ' и даю своё согласие на обработку персональных данных на условиях, определенных ',
     text4Check: 'Политикой конфиденциальности',
     goToMain: 'Вернуться на главную',
-    thankYouForRegistering : 'Спасибо за регистрацию!'
+    thankYouForRegistering: 'Спасибо за регистрацию!',
   },
 
   menu: {
@@ -52,10 +52,27 @@ export const ru = {
   },
 
   card: {
-    coment: 'Комментарий',
+    comment: 'Комментарий',
     reward: 'Вознаграждение',
     offerCooperation: 'Предложить сотрудничество',
     private: 'Данные скрыты',
+    cite_mines: 'Повысить цитируемость своих работ',
+    cite_others: 'Цитировать других',
+    invite_coathor: 'Найти соавторов/соисполнителей',
+    become_coathor: 'Стать соавтором/соисполнителем',
+    find_reviewer: 'Найти рецензента/эксперта/эдвайзора',
+    become_reviewer: 'Стать рецензентом/экспертом/эдвайзором',
+    biology_genetics: 'Biology/Genetics',
+    neuro_psycho: 'Neuro/Psycho',
+    medicine_pharma: 'Medicine/Pharma',
+    chemistry: 'Chemistry',
+    math_computer: 'Math/Computer',
+    physics_astronomy: 'Physics/Astronomy',
+    engineering_material: 'Engineering/Material',
+    earth_environment: 'Earth/Environment',
+    social: 'Social',
+    humanities_arts: 'Humanities/Arts',
+    management_econmics: 'Management/Economics',
   },
 
   application: {
@@ -65,7 +82,7 @@ export const ru = {
     workName: 'Название работы',
     keyWords: 'Ключевые слова',
     sum: 'Сумма',
-    coment: 'Комментарий',
+    comment: 'Комментарий',
     public: 'Публичная заявка',
     choose: 'Выбрать',
   },

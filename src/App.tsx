@@ -4,8 +4,10 @@ import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import { Container } from 'components/container';
 import { Menu } from 'components/menu';
 import { Main } from 'components/main';
+import { Postings } from 'components/postings';
 import { ApplicationForm } from 'components/applicationForm';
 import { Footer } from 'components/footer';
+import { Profile } from 'components/profile';
 import { Registration } from 'components/auth/registration';
 import { authSlice } from 'store/auth/slice';
 import styles from './app.module.css';
@@ -29,8 +31,6 @@ const App: React.FC = () => {
     }
   }, []);
 
-  console.log(background);
-
   useEffect(() => {
     const uid = params.get('uid');
     const client = params.get('client');
@@ -44,20 +44,37 @@ const App: React.FC = () => {
     }
   }, [history.location.search]);
 
+  useEffect(() => {
+    const uid = localStorage.getItem('uid');
+    const client = localStorage.getItem('client');
+    const accessToken = localStorage.getItem('access-token');
+    if (!!uid && !!client && !!accessToken) {
+      dispatch(authSlice.actions.getAuth());
+    }
+  }, []);
+
   return (
     <div className={styles.wrapper}>
       <Menu />
       <Switch location={background || location}>
         <Route exact path="/">
           <Container Component={Main} />
+
         </Route>
         <Route exact path="/application">
           <Container Component={ApplicationForm} />
+
+        </Route>
+        <Route exact path="/community">
+          <Container Component={Postings} />
+
+        </Route>
+        <Route exact path="/profile">
+          <Container Component={Profile} />
+
         </Route>
       </Switch>
       {background && <Route path="/authorization" component={Registration} />}
-
-      <Footer />
     </div>
   );
 };

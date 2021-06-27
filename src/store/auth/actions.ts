@@ -38,7 +38,6 @@ export const getSignIn = createAsyncThunk<undefined, T.Auth, { rejectValue: Auth
         email,
         password,
       });
-      console.log(res.headers);
       localStorage.setItem('uid', res.headers.uid);
       localStorage.setItem('access-token', res.headers['access-token']);
       localStorage.setItem('client', res.headers.client);

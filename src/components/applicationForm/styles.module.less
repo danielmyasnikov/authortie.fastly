@@ -3,12 +3,18 @@
   grid-column-gap: 20px;
   grid-template-areas:
     '. cont  cont cont cont cont cont cont cont cont cont.'
-    '. btnCont  btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont .';
+    '. btnCont  btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont .'
+    'f f f f f f f f f f f f';
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: repeat(2, min-content);
+  grid-template-rows: repeat(3, min-content);
   width: 100%;
   height: 100%;
-  padding: 80px 0;
+  padding-top: 80px;
+  overflow: auto;
+}
+
+.foot {
+  grid-area: f;
 }
 
 .titleWrapper {
@@ -43,6 +49,7 @@
   grid-template-areas:
     'category knowledge'
     'workName keyWords'
+    'comment .'
     'rewardBtns datePicker'
     'reward reward';
   grid-template-columns: repeat(2, 1fr);
@@ -328,6 +335,10 @@ label {
   border-color: #2c80ff;
 }
 
+.comment {
+  grid-area: comment;
+}
+
 .datePicker {
   grid-area: datePicker;
   display: flex;
@@ -350,6 +361,7 @@ label {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 80px;
 }
 
 // responsive
@@ -555,4 +567,87 @@ label {
   grid-area: responsiveDatePicker;
   display: flex;
   flex-direction: column;
+}
+
+.link {
+  color: #2c80ff;
+  text-decoration: none;
+}
+
+.input {
+  max-width: 500px;
+  width: 100%;
+  margin-right: 32px;
+  padding: 10px 30px;
+  background: #f2f7ff;
+  border: none;
+  border-bottom: 5px solid #e9f1ff;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  resize: none;
+  font-size: 16px;
+  line-height: 20px;
+  font-family: inherit;
+  outline: none;
+}
+
+.moneyWrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.selectMoney {
+  width: 100px;
+}
+
+.modalWrapper {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.contaier {
+  position: relative;
+  width: 434px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border-radius: 10px;
+  background: #f9fbff;
+  z-index: 20;
+}
+
+.noteIcon {
+  margin-bottom: 24px;
+}
+
+.modalInfo {
+  width: 271px;
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.btnBorder {
+  background: transparent;
+  border: 1px solid #2c80ff;
+  color: #2c80ff;
+  margin-top: 10px;
 }

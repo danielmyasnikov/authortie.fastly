@@ -28,10 +28,10 @@
   margin-bottom: 12px;
   font-size: 14px;
   line-height: 21px;
-  color: var(--color-black-alt);
+  color: #505050;
 }
 
-.coment {
+.comment {
   margin-bottom: 12px;
   font-size: 14px;
   line-height: 16px;
@@ -118,7 +118,7 @@
   display: flex;
   flex-direction: column;
   .text,
-  .coment {
+  .comment {
     margin-bottom: 4px;
   }
 }
@@ -133,7 +133,7 @@
   width: 19px;
   height: 29px;
   margin-left: 4px;
-  fill: var(--color-white);
+  fill: #007bc4;
 }
 
 .rightBtn {
@@ -143,6 +143,26 @@
   padding: 0;
   width: 45px;
   height: 45px;
+  border:1px solid #007bc4;
+  background-color: var(--color-white);
+  &:hover{
+    border:1px solid #007bc4;
+    background-color: var(--color-white);
+  }
+}
+
+.keyWrapper {
+  composes: tagWrapper;
+  margin-top: auto;
+}
+
+.workType {
+  color: #bc9300;
+  background-color: #fdffe7;
+}
+.knowledgeArea {
+  color: #00a880;
+  background-color: #ebfffa;
 }
 
 @media screen and (max-width: 768px) {
@@ -156,12 +176,12 @@
   .tagWrapper {
     flex-flow: row wrap;
   }
-  
+
   .tag {
     overflow: auto;
     max-width: 100%;
     margin-bottom: 8px;
-    text-overflow:clip;
+    text-overflow: clip;
   }
 
   .personInfo {

@@ -1,9 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { Button } from 'components/common/button';
 import { Card } from 'components/common/card';
+import { getIsAuth } from 'store/auth/selectors';
 import Arrow from 'assets/arrow.svg';
+import { Footer } from 'components/footer';
 import Assessment from 'assets/assessment.png';
 import Group from 'assets/group.png';
 import Improve from 'assets/improve.png';
@@ -15,7 +18,7 @@ import { cards } from './mock';
 export const Main: React.FC = () => {
   const { t } = useTranslation('main');
   const location = useLocation();
-  const isAuth = !!localStorage.getItem('uid');
+  const isAuth = useSelector(getIsAuth);
 
   const renderHowItsWork = () => (
     <div className={styles.howWorkWrapper}>
@@ -82,39 +85,31 @@ export const Main: React.FC = () => {
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 
           <div className={styles.cards}>
-            {cards.map(
-              ({
-                privateAccaunt,
-                keyWords,
-                coment,
-                authorStatus,
-                institution,
-                author,
-                title,
-                target,
-                fieldOfActivity,
-                id,
-              }) => (
-                <Card
-                  privateAccaunt={privateAccaunt}
-                  keyWords={keyWords}
-                  coment={coment}
-                  authorStatus={authorStatus}
-                  institution={institution}
-                  author={author}
-                  title={title}
-                  target={target}
-                  fieldOfActivity={fieldOfActivity}
-                  id={id}
-                />
-              ),
-            )}
+            {cards.map((item: any) => (
+              <Card
+                key={item.id}
+                privateAccaunt={false}
+                id={item.id}
+                keyWords={item.keyword_list}
+                comment={item.comment}
+                author=""
+                institution=""
+                authorStatus=""
+                title={item.title}
+                fieldOfActivity=""
+                workType={item.work_type || ''}
+                knowledgeArea={item.knowledge_area || ''}
+              />
+            ))}
           </div>
           <div className={styles.goToCommunityWrapper}>
-            <Button className={styles.btnCommunity}>{t('shawAll')}</Button>
+            <Link to={'/community'}>
+              <Button className={styles.btnCommunity}>{t('shawAll')}</Button>
+            </Link>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

@@ -50,7 +50,9 @@ export const Menu: React.FC = () => {
 
         <div className={styles.itemsWrapper}>
           <span className={styles.item}>{t('analitics')}</span>
-          <span className={styles.item}>{t('community')}</span>
+          <Link to={'/community'} className={styles.item}>
+            {t('community')}
+          </Link>
           <span className={styles.item}>{t('forBusiness')}</span>
         </div>
 

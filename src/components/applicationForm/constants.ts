@@ -1,25 +1,47 @@
-export const categoryOtions = [
-  { value: 'Повысить цитируемость своих работ', label: 'Повысить цитируемость своих работ' },
-  { value: 'Цитировать других', label: 'Цитировать других' },
-  { value: 'Найти соавторов/соисполнителей', label: 'Найти соавторов/соисполнителей' },
-  { value: 'Стать соавтором/соисполнителем', label: 'Стать соавтором/соисполнителем' },
-  { value: 'Найти рецензента/эксперта/эдвайзора', label: 'Найти рецензента/эксперта/эдвайзора' },
+export const CATEGORY_DEFAULT = [
   {
-    value: 'Стать рецензентом/экспертом/эдвайзором',
-    label: 'Стать рецензентом/экспертом/эдвайзором',
+    value: 'Повысить цитируемость своих работ',
+    checked: true,
+    workType: 'cite_mines',
+    workTypeRevert: 'cite_others',
+  },
+  {
+    value: 'Стать соавтором/соисполнителем',
+    checked: false,
+    workType: 'invite_coathor',
+    workTypeRevert: 'become_coathor',
+  },
+  {
+    value: 'Найти рецензента/эксперта/эдвайзора',
+    checked: false,
+    workType: 'find_reviewer',
+    workTypeRevert: 'become_reviewer',
   },
 ];
 
-export const otions = [
-  { value: 'Biology/Genetics', label: 'Biology/Genetics' },
-  { value: 'Neuro/Psycho', label: 'Neuro/Psycho' },
-  { value: 'Medicine/Pharma', label: 'Medicine/Pharma' },
-  { value: 'Chemistry', label: 'Chemistry' },
-  { value: 'Math/Computer', label: 'Math/Computer' },
-  { value: 'Physics/Astronomy', label: 'Physics/Astronomy' },
-  { value: 'Engineering/Material', label: 'Engineering/Material' },
-  { value: 'Earth/Environment', label: 'Earth/Environment' },
-  { value: 'Social', label: 'Social' },
-  { value: 'Humanities/Arts', label: 'Humanities/Arts' },
-  { value: 'Management/Economics', label: 'Management/Economics' },
+export const knowledgeDefault = [
+  { value: 'Biology/Genetics', checked: false, id: 'biology_genetics' },
+  { value: 'Neuro/Psycho', checked: false, id: 'neuro_psycho' },
+  { value: 'Medicine/Pharma', checked: false, id: 'medicine_pharma' },
+  { value: 'Chemistry', checked: false, id: 'chemistry' },
+  { value: 'Math/Computer', checked: false, id: 'math_computer' },
+  { value: 'Physics/Astronomy', checked: false, id: 'physics_astronomy' },
+  { value: 'Engineering/Material', checked: false, id: 'engineering_material' },
+  { value: 'Earth/Environment', checked: false, id: 'earth_environment' },
+  { value: 'Social', checked: false, id: 'social' },
+  { value: 'Humanities/Arts', checked: false, id: 'humanities_arts' },
+  { value: 'Management/Economics', checked: false, id: 'management_econmics' },
+];
+
+export const responsiveCheckedDefault = [
+  { value: 'Стать рецензентом', checked: true, workType: 'become_reviewer' },
+  { value: 'Процитировать других в своей работе', checked: false, workType: 'cite_others' },
+  { value: 'Предложить соавторство', checked: false, workType: 'become_coathor' },
+];
+
+export const currencyOptions = [
+  { label: 'USD', value: 'USD' },
+  { label: 'RUB', value: 'RUB' },
+  { label: 'EUR', value: 'EUR' },
+  { label: 'CHN', value: 'CHN' },
 ];

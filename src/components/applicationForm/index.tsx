@@ -1,41 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import { createMuiTheme } from '@material-ui/core';
+import { Footer } from 'components/footer';
 import { ThemeProvider } from '@material-ui/styles';
 import cn from 'classnames';
+import { AppDispatch } from 'store/types';
 import DateFnsUtils from '@date-io/date-fns';
+import format from 'date-fns/format';
+import { getIsAuth } from 'store/auth/selectors';
+import { getCreatePost } from 'store/request/selectors';
 import { Button } from 'components/common/button';
 import Select from 'react-select';
-
+import { getLastPostings, createPostings } from 'store/request/actions';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import Note from 'assets/note.svg';
 import styles from './styles.module.less';
-
-const CATEGORY_DEFAULT = [
-  { value: 'Повысить цитируемость своих работ', checked: true },
-  { value: 'Стать соавтором/соисполнителем', checked: false },
-  { value: 'Найти рецензента/эксперта/эдвайзора', checked: false },
-];
-
-const knowledgeDefault = [
-  { value: 'Biology/Genetics', checked: false, id: 1 },
-  { value: 'Neuro/Psycho', checked: false, id: 2 },
-  { value: 'Medicine/Pharma', checked: false, id: 3 },
-  { value: 'Chemistry', checked: false, id: 4 },
-  { value: 'Math/Computer', checked: false, id: 5 },
-  { value: 'Physics/Astronomy', checked: false, id: 6 },
-  { value: 'Engineering/Material', checked: false, id: 7 },
-  { value: 'Earth/Environment', checked: false, id: 8 },
-  { value: 'Social', checked: false, id: 9 },
-  { value: 'Humanities/Arts', checked: false, id: 10 },
-  { value: 'Management/Economics', checked: false, id: 11 },
-];
-
-const responsiveCheckedDefault = [
-  { value: 'Стать рецензентом', checked: true },
-  { value: 'Процитировать других в своей работе', checked: false },
-  { value: 'Предложить соавторство', checked: false },
-  { value: 'Стать эдвайзером', checked: false },
-];
+import {
+  CATEGORY_DEFAULT,
+  knowledgeDefault,
+  responsiveCheckedDefault,
+  currencyOptions,
+} from './constants';
 
 const materialTheme = createMuiTheme({
   overrides: {
@@ -67,16 +54,38 @@ const inputDateStyle = {
 
 export const ApplicationForm = () => {
   const { t } = useTranslation('application');
-
+  const dispatch: AppDispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const isAuth = useSelector(getIsAuth);
+  const { lastPostings } = useSelector(getCreatePost);
+  const [lastPostingsOptions, setLastPostingsOptions] = useState<any>([]);
   const [iWont, setIWont] = useState(true);
   const [category, setCategory] = useState(CATEGORY_DEFAULT);
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
   const [responsiveKnowledge, setResponsiveKnowledge] = useState(knowledgeDefault);
   const [responsiveChecked, setResponsiveChecked] = useState(responsiveCheckedDefault);
-  const [rewardType, setRewardType] = useState('responsiveHelp');
+  const [rewardType, setRewardType] = useState('');
+  const [comment, setcomment] = useState('');
+  const [sum, setSum] = useState('');
+  const [currency, setCurrency] = useState<string | undefined>('');
+  const [title, setTitle] = useState('');
+  const [serviceRewardDescription, setServiceRewardDescription] = useState('');
+  const [rewardComment, setRewardComment] = useState('');
+  const [rewardTitle, setRewardTitle] = useState('');
+  const [keywordList, setKeywordList] = useState('');
   const [demandRequest, setDemandRequest] = useState(false);
+  const [approxDate, setApproxDate] = useState(new Date(Date.now()));
+  const [rewordApproxDate, setRewardApproxDate] = useState(new Date(Date.now()));
+  const [modal, setModal] = useState<boolean>(false);
 
-  const [selectedDate, setSelectedDate] = useState(new Date(Date.now()));
+  useEffect(() => {
+    const newLastOptions = lastPostings.map((item: any) => ({
+      value: String(item.id),
+      label: item.title,
+    }));
+    setLastPostingsOptions(newLastOptions);
+  }, [lastPostings]);
 
   function changeCategory(value: string) {
     const newCategory = category.map((item) =>
@@ -92,7 +101,7 @@ export const ApplicationForm = () => {
     setResponsiveChecked(newResponsiveChecked);
   }
 
-  const changeKnowledge = (id: number) => {
+  const changeKnowledge = (id: string) => {
     const newKnowledge = knowledge.map((item) =>
       id === item.id ? { ...item, checked: !item.checked } : item,
     );
@@ -107,18 +116,135 @@ export const ApplicationForm = () => {
   };
 
   const handleDateChange = (date: any) => {
-    setSelectedDate(date);
+    setApproxDate(date);
   };
+
+  const handleRewardDateChange = (date: any) => {
+    setRewardApproxDate(date);
+  };
+
+  function checkLastPostings(value: boolean) {
+    setDemandRequest(value);
+    if (value) {
+      dispatch(getLastPostings());
+    }
+  }
+
+  function selectWork(option: { label: string; value: string }) {
+    const selectPost = lastPostings.filter((item: any) => String(item.id) === option.value)[0];
+    setRewardComment(selectPost.comment);
+    setRewardTitle(selectPost.title);
+    setRewardApproxDate(selectPost.approx_date);
+    const newResponsiveKnowledge = responsiveKnowledge.map((item) => ({
+      ...item,
+      checked: selectPost.knowledge_area[item.id],
+    }));
+    setResponsiveKnowledge(newResponsiveKnowledge);
+  }
+
+  async function createPost() {
+    const knowledgeArea = knowledge
+      .filter((item) => item.checked)
+      .map((el) => el.id)
+      .join(';');
+
+    const rewardnNowledgeArea = responsiveKnowledge
+      .filter((item) => item.checked)
+      .map((el) => el.id)
+      .join(';');
+
+    const workType = category
+      .filter((item) => item.checked)
+      .map((el) => (iWont ? el.workType : el.workTypeRevert));
+
+    const rewardWorkType = responsiveChecked
+      .filter((item) => item.checked)
+      .map((el) => el.workType);
+    // responsiveChecked
+    const postData = {
+      knowledgeArea,
+      title,
+      approxDate: format(approxDate, 'dd/MM/yyyy'),
+      workType,
+      keywordList,
+      rewardType,
+      serviceRewardDescription,
+      comment,
+      sum,
+      currency,
+      // данные для обратной заяки
+      rewardWorkType,
+      rewardTitle,
+      rewordApproxDate: format(rewordApproxDate, 'dd/MM/yyyy'),
+      rewardComment,
+      rewardnNowledgeArea,
+    };
+
+    if (isAuth) {
+      const resultConf = await dispatch(createPostings(postData));
+      if (createPostings.fulfilled.match(resultConf)) {
+        setModal(true);
+      }
+    } else {
+      history.push({
+        pathname: 'authorization',
+        state: { background: location },
+      });
+    }
+  }
+
+  function changeReward(type: string) {
+    setRewardType(type);
+  }
+
+  const renderModal = () => (
+    <div className={styles.modalWrapper}>
+      <div className={styles.contaier}>
+        <Note className={styles.noteIcon} />
+        <span className={styles.subtitle}>Заявка сформирована!</span>
+        <span className={styles.modalInfo}>
+          Ваша заявка отправлена на модерацию. После проверки вам придет оповещение о её публикации.
+        </span>
+        <Link to={'/community'}>
+          <Button>Перейти к заявкам</Button>
+        </Link>
+        <Link to={'/'}>
+          <Button className={styles.btnBorder}>На главную</Button>
+        </Link>
+      </div>
+      <div className={styles.overlay} />
+    </div>
+  );
+
+  const renderMoney = () => (
+    <div className={styles.moneyWrapper}>
+      <input
+        className={styles.input}
+        type="text"
+        placeholder="Введите сумму"
+        onChange={(e) => setSum(e.target.value)}
+      />
+      <div className={styles.selectMoney}>
+        <Select
+          defaultValue={currencyOptions[0]}
+          options={currencyOptions}
+          onChange={(option) => setCurrency(option?.value)}
+        />
+      </div>
+    </div>
+  );
 
   const renderService = () => (
     <div className={styles.serviceBlock}>
       <textarea
         placeholder="Опишите услугу, которую хотите предложить"
         className={styles.textarea}
+        onChange={(e) => setServiceRewardDescription(e.target.value)}
       />
     </div>
   );
 
+  // рендер обратной заявки
   const renderResponsiveHelp = () => (
     <div className={styles.responsiveHelpBlock}>
       <div className={styles.responsiveRadioWrapper}>
@@ -153,7 +279,7 @@ export const ApplicationForm = () => {
           name={'value'}
           id={'demandRequest'}
           checked={demandRequest}
-          onChange={() => setDemandRequest(!demandRequest)}
+          onChange={() => checkLastPostings(!demandRequest)}
         />
         <label htmlFor={'demandRequest'}>
           У меня есть сохраненные работы, могу выбрать из списка
@@ -161,13 +287,25 @@ export const ApplicationForm = () => {
       </div>
 
       <div className={styles.select}>
-        <Select />
+        {lastPostingsOptions.length > 0 && (
+          <Select
+            defaultValue={lastPostingsOptions[0] && lastPostingsOptions[0].value}
+            options={lastPostingsOptions}
+            placeholder="Выберите работу"
+            onChange={selectWork}
+          />
+        )}
       </div>
 
       <div className={styles.responsiveTitle}>Заявка предложения</div>
       <div className={styles.responsiveBlock}>
         <span className={styles.subtitle}>Название работы</span>
-        <textarea placeholder="Введите название" className={styles.textarea} />
+        <textarea
+          placeholder="Введите название"
+          className={styles.textarea}
+          onChange={(e) => setRewardTitle(e.target.value)}
+          value={rewardTitle}
+        />
       </div>
 
       <div className={styles.responsiveKnowledgeWrap}>
@@ -198,7 +336,12 @@ export const ApplicationForm = () => {
 
       <div className={styles.responsiveComment}>
         <span className={styles.subtitle}>Комментарий</span>
-        <textarea placeholder="Введите комментарий" className={styles.textarea} />
+        <textarea
+          placeholder="Введите комментарий"
+          className={styles.textarea}
+          onChange={(e) => setRewardComment(e.target.value)}
+          value={rewardComment}
+        />
       </div>
 
       <div className={styles.responsiveDatePicker}>
@@ -211,8 +354,8 @@ export const ApplicationForm = () => {
               format="dd/MM/yyyy"
               margin="normal"
               id="date-picker-inline"
-              value={selectedDate}
-              onChange={handleDateChange}
+              value={rewordApproxDate}
+              onChange={handleRewardDateChange}
               KeyboardButtonProps={{
                 'aria-label': 'change date',
               }}
@@ -233,7 +376,17 @@ export const ApplicationForm = () => {
         <div className={styles.titleWrapper}>
           <h1 className={styles.title}>{t('title')}</h1>
           <span className={styles.info}>
-            Обращаем ваше внимание, что для публикации заявки вам необходимо зарегистрироваться.
+            Обращаем ваше внимание, что для публикации заявки вам необходимо
+            <Link
+              className={styles.link}
+              to={{
+                pathname: 'authorization',
+                state: { background: location },
+              }}
+            >
+              {` зарегистрироваться`}
+            </Link>
+            .
           </span>
         </div>
 
@@ -243,13 +396,13 @@ export const ApplicationForm = () => {
               <span className={styles.subtitle}>Категория</span>
               <div className={styles.categoryBtnBlock}>
                 <button
-                  onClick={() => setIWont(!iWont)}
+                  onClick={() => setIWont(true)}
                   className={cn(styles.categoryBtn, { [styles.iWontFocus]: iWont })}
                 >
                   Я хочу
                 </button>
                 <button
-                  onClick={() => setIWont(!iWont)}
+                  onClick={() => setIWont(false)}
                   className={cn(styles.categoryBtn, { [styles.iWontFocus]: !iWont })}
                 >
                   Я предлагаю
@@ -304,19 +457,38 @@ export const ApplicationForm = () => {
 
           <div className={styles.workName}>
             <span className={styles.subtitle}>Название работы</span>
-            <textarea placeholder="Введите название" className={styles.textarea} />
+            <textarea
+              placeholder="Введите название"
+              className={styles.textarea}
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+            />
           </div>
 
           <div className={styles.keyWords}>
             <span className={styles.subtitle}>Ключевые слова</span>
-            <textarea placeholder="Введите название" className={styles.textarea} />
+            <textarea
+              placeholder="Введите ключевые слова через ;"
+              className={styles.textarea}
+              onChange={(e) => setKeywordList(e.target.value)}
+              value={keywordList}
+            />
+          </div>
+          <div className={styles.comment}>
+            <span className={styles.subtitle}>Комментарий</span>
+            <textarea
+              placeholder="Введите комментарий"
+              className={styles.textarea}
+              onChange={(e) => setcomment(e.target.value)}
+              value={comment}
+            />
           </div>
 
           <div className={styles.rewardBtnsWrap}>
             <span className={styles.subtitle}>Вознаграждение</span>
             <div className={styles.rewardBtns}>
               <button
-                onClick={() => setRewardType('money')}
+                onClick={() => changeReward('money')}
                 className={cn(styles.rewardBtn, {
                   [styles.rewardBtnFocus]: rewardType === 'money',
                 })}
@@ -324,7 +496,7 @@ export const ApplicationForm = () => {
                 Деньги
               </button>
               <button
-                onClick={() => setRewardType('service')}
+                onClick={() => changeReward('service')}
                 className={cn(styles.rewardBtn, {
                   [styles.rewardBtnFocus]: rewardType === 'service',
                 })}
@@ -332,15 +504,15 @@ export const ApplicationForm = () => {
                 Услуга
               </button>
               <button
-                onClick={() => setRewardType('responsiveHelp')}
+                onClick={() => changeReward('return_help')}
                 className={cn(styles.rewardBtn, {
-                  [styles.rewardBtnFocus]: rewardType === 'responsiveHelp',
+                  [styles.rewardBtnFocus]: rewardType === 'return_help',
                 })}
               >
                 Ответная Помощь
               </button>
               <button
-                onClick={() => setRewardType('nothing')}
+                onClick={() => changeReward('nothing')}
                 className={cn(styles.rewardBtn, {
                   [styles.rewardBtnFocus]: rewardType === 'nothing',
                 })}
@@ -361,7 +533,7 @@ export const ApplicationForm = () => {
                   format="dd/MM/yyyy"
                   margin="normal"
                   id="date-picker-inline"
-                  value={selectedDate}
+                  value={approxDate}
                   onChange={handleDateChange}
                   KeyboardButtonProps={{
                     'aria-label': 'change date',
@@ -374,15 +546,21 @@ export const ApplicationForm = () => {
               </MuiPickersUtilsProvider>
             </ThemeProvider>
           </div>
-
           <div className={styles.reward}>
             {rewardType === 'service' && renderService()}
-            {rewardType === 'responsiveHelp' && renderResponsiveHelp()}
+            {rewardType === 'return_help' && renderResponsiveHelp()}
+            {rewardType === 'money' && renderMoney()}
           </div>
         </div>
       </div>
       <div className={styles.btnCont}>
-        <Button>Зарегистрироваться и Опубликовать</Button>
+        <Button onClick={createPost}>
+          {isAuth ? 'Опубликовать' : 'Зарегистрироваться и Опубликовать'}
+        </Button>
+      </div>
+      {modal && renderModal()}
+      <div className={styles.foot}>
+        <Footer />
       </div>
     </div>
   );
