@@ -61,6 +61,10 @@ export const Postings = () => {
               fieldOfActivity=""
               workType={item.work_type || ''}
               knowledgeArea={item.knowledge_area || ''}
+              rewardType={item.reward_type}
+              rewardCurrency={item.reward_currency}
+              rewardSum={item.reward_sum}
+              rewardСomment={item.reward_comment}
             />
           ))}
         </div>

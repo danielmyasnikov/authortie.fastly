@@ -21,6 +21,10 @@ interface Props {
   id: number;
   key?: number | string;
   knowledgeArea: string;
+  rewardType: string;
+  rewardCurrency: string;
+  rewardSum: string;
+  rewardСomment: string;
 }
 
 export const Card: React.FC<Props> = ({
@@ -36,6 +40,10 @@ export const Card: React.FC<Props> = ({
   id,
   key,
   knowledgeArea,
+  rewardCurrency,
+  rewardType,
+  rewardSum,
+  rewardСomment,
 }) => {
   const { t } = useTranslation('card');
   const showWords = keyWords || [];
@@ -81,14 +89,16 @@ export const Card: React.FC<Props> = ({
 
       <span className={styles.text}>{t('reward')}</span>
       <div className={styles.tagWrapper}>
-        <span> 100$</span>
+        {rewardType === 'money' && (
+          <span className={styles.comment}>{`${rewardSum} ${rewardCurrency}`}</span>
+        )}
+        {rewardType === 'service' && <span className={styles.comment}>{rewardСomment}</span>}
       </div>
 
       <div className={styles.keyWrapper}>
         {/* {showWords.map((word) => (
           <Tag>{word}</Tag>
         ))} */}
-
         {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
       </div>
       <div className={styles.personBlock}>

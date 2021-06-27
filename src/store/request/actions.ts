@@ -39,6 +39,7 @@ export const createPostings = createAsyncThunk<undefined, any>(
           reward_comment: postData.serviceRewardDescription,
           reward_currency: postData.currency,
           reward_sum: postData.sum,
+          secreted: postData.secreted,
           revert_posting_attributes: {
             approx_date: postData.rewordApproxDate,
             work_type: postData.rewardWorkType,
@@ -48,7 +49,6 @@ export const createPostings = createAsyncThunk<undefined, any>(
           },
         },
       });
-      console.log(res);
       return undefined;
     } catch (err) {
       return;

@@ -73,7 +73,7 @@ export const Registration: React.FC = () => {
       setEmailError(resultConf.payload.emailError[0]);
       setPasswordError(resultConf.payload.passwordError[0]);
     } else {
-      history.goBack;
+      history.goBack();
     }
   }
 

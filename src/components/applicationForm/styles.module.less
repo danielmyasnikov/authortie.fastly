@@ -51,7 +51,8 @@
     'workName keyWords'
     'comment .'
     'rewardBtns datePicker'
-    'reward reward';
+    'reward reward'
+    'public .';
   grid-template-columns: repeat(2, 1fr);
 }
 
@@ -603,6 +604,7 @@ label {
 .modalWrapper {
   position: fixed;
   display: flex;
+  top: 0;
   align-items: center;
   justify-content: center;
   width: 100%;
@@ -650,4 +652,8 @@ label {
   border: 1px solid #2c80ff;
   color: #2c80ff;
   margin-top: 10px;
+}
+
+.public{
+  grid-area: public;
 }

@@ -78,6 +78,7 @@ export const ApplicationForm = () => {
   const [approxDate, setApproxDate] = useState(new Date(Date.now()));
   const [rewordApproxDate, setRewardApproxDate] = useState(new Date(Date.now()));
   const [modal, setModal] = useState<boolean>(false);
+  const [secreted, setSecreted] = useState<boolean>(false);
 
   useEffect(() => {
     const newLastOptions = lastPostings.map((item: any) => ({
@@ -155,7 +156,7 @@ export const ApplicationForm = () => {
 
     const workType = category
       .filter((item) => item.checked)
-      .map((el) => (iWont ? el.workType : el.workTypeRevert));
+      .map((el) => (iWont ? el.workType : el.workTypeRevert))[0];
 
     const rewardWorkType = responsiveChecked
       .filter((item) => item.checked)
@@ -172,6 +173,7 @@ export const ApplicationForm = () => {
       comment,
       sum,
       currency,
+      secreted,
       // данные для обратной заяки
       rewardWorkType,
       rewardTitle,
@@ -550,6 +552,17 @@ export const ApplicationForm = () => {
             {rewardType === 'service' && renderService()}
             {rewardType === 'return_help' && renderResponsiveHelp()}
             {rewardType === 'money' && renderMoney()}
+          </div>
+          <div className={styles.public}>
+            <input
+              className={styles.responsiveRadioInput}
+              type="checkbox"
+              name={'public'}
+              id={'public'}
+              checked={secreted}
+              onChange={() => setSecreted(!secreted)}
+            />
+            <label htmlFor={'public'}>Публичная заявка</label>
           </div>
         </div>
       </div>
