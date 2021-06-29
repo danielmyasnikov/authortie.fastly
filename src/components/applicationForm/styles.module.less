@@ -35,14 +35,17 @@
 .info {
   margin: 40px 0 13px 0;
   font-size: 16px;
-  line-height: 16px;
+  line-height: 22px;
 }
 
 .container {
   grid-area: cont;
+  max-width: 1754px;
+  margin: 0 auto;
 }
 
 .content {
+  max-width: 100vw;
   display: grid;
   grid-column-gap: 75px;
   grid-row-gap: 75px;
@@ -288,22 +291,6 @@ label {
   grid-area: workName;
 }
 
-.textarea {
-  width: 100%;
-  height: 130px;
-  padding: 20px 30px;
-  background: #f2f7ff;
-  border: none;
-  border-bottom: 5px solid #e9f1ff;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  resize: none;
-  font-size: 16px;
-  line-height: 20px;
-  font-family: inherit;
-  outline: none;
-}
-
 .keyWords {
   grid-area: keyWords;
 }
@@ -358,11 +345,11 @@ label {
 .btnCont {
   grid-area: btnCont;
   margin-top: 100px;
+  margin-bottom: 80px;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 80px;
 }
 
 // responsive
@@ -654,6 +641,130 @@ label {
   margin-top: 10px;
 }
 
-.public{
+.public {
+  margin-top: 20px;
   grid-area: public;
+}
+
+@media screen and (max-width: 768px) {
+  .content {
+    width: 100%;
+    display: grid;
+    grid-gap: 0;
+    grid-template-areas:
+      'category'
+      'knowledge'
+      'workName'
+      'keyWords'
+      'comment'
+      'rewardBtns'
+      'datePicker'
+      'reward'
+      'reward'
+      'public';
+    grid-template-columns: 1fr;
+  }
+  .responsiveHelpBlock {
+    display: grid;
+    grid-gap: 0;
+    grid-template-areas:
+      'responsiveRadioWrapper'
+      'responsiveRadioWrapper'
+      'demandRequestTitle'
+      'demandRequestTitle'
+      'demandRequest'
+      'select'
+      'responsiveTitle'
+      'responsiveTitle'
+      'responsiveBlock'
+      'responsiveKnowledge'
+      'responsiveComment'
+      'responsiveDatePicker';
+    grid-template-columns: 1fr;
+  }
+
+  .title {
+    font-size: 28px;
+    line-height: 28px;
+  }
+
+  .titleWrapper {
+    margin-bottom: 0px;
+  }
+
+  .subtitle {
+    margin: 40px 0 20px;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 18px;
+  }
+
+  .subtitle2 {
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 24px;
+  }
+
+  .responsiveTitle {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  .btnCont {
+    grid-area: btnCont;
+    margin-top: 67px;
+    margin-bottom: 40px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+
+  }
+  .category,
+  .knowledge,
+  .workName,
+  .keyWords,
+  .comment,
+  .public,
+  .datePicker,
+  .container {
+    max-width: calc(100% - 20px);
+  }
+
+  .container{
+    margin: 0 15px;
+  }
+
+  .rewardBtns {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .rewardBtn {
+    margin: 10px 0;
+    height: 38px;
+    margin-right: 12px;
+    padding: 9px 30px;
+    border-radius: 30px;
+    border: 2px solid #b0bfdb;
+    background: none;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 18px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  label {
+    font-size: 12px;
+    line-height: 16px;
+    color: #656565;
+  }
 }

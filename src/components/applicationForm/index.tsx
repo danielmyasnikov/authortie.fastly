@@ -2,19 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, Link } from 'react-router-dom';
-import { createMuiTheme } from '@material-ui/core';
 import { Footer } from 'components/footer';
-import { ThemeProvider } from '@material-ui/styles';
 import cn from 'classnames';
+import { DatePicker } from 'components/common/datePicker';
+import { Textarea } from 'components/common/textarea';
 import { AppDispatch } from 'store/types';
-import DateFnsUtils from '@date-io/date-fns';
 import format from 'date-fns/format';
 import { getIsAuth } from 'store/auth/selectors';
 import { getCreatePost } from 'store/request/selectors';
 import { Button } from 'components/common/button';
 import Select from 'react-select';
 import { getLastPostings, createPostings } from 'store/request/actions';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
 import {
@@ -23,34 +21,6 @@ import {
   responsiveCheckedDefault,
   currencyOptions,
 } from './constants';
-
-const materialTheme = createMuiTheme({
-  overrides: {
-    // @ts-ignore
-    MuiPickersDay: {
-      day: {
-        color: '#2c80ff',
-      },
-      daySelected: {
-        backgroundColor: '#2c80ff',
-      },
-
-      current: {
-        color: 'grey',
-      },
-    },
-  },
-});
-
-const inputDateStyle = {
-  width: '300px',
-  background: '#f2f7ff',
-  padding: '11px 30px 9px 30px',
-  margin: 0,
-  borderBottom: '5px solid #e9f1ff',
-  borderTopLeftRadius: '12px',
-  borderTopRightRadius: '12px',
-};
 
 export const ApplicationForm = () => {
   const { t } = useTranslation('application');
@@ -238,10 +208,10 @@ export const ApplicationForm = () => {
 
   const renderService = () => (
     <div className={styles.serviceBlock}>
-      <textarea
+      <Textarea
         placeholder="Опишите услугу, которую хотите предложить"
-        className={styles.textarea}
-        onChange={(e) => setServiceRewardDescription(e.target.value)}
+        onChange={setServiceRewardDescription}
+        value={serviceRewardDescription}
       />
     </div>
   );
@@ -302,10 +272,9 @@ export const ApplicationForm = () => {
       <div className={styles.responsiveTitle}>Заявка предложения</div>
       <div className={styles.responsiveBlock}>
         <span className={styles.subtitle}>Название работы</span>
-        <textarea
+        <Textarea
           placeholder="Введите название"
-          className={styles.textarea}
-          onChange={(e) => setRewardTitle(e.target.value)}
+          onChange={setRewardTitle}
           value={rewardTitle}
         />
       </div>
@@ -338,36 +307,16 @@ export const ApplicationForm = () => {
 
       <div className={styles.responsiveComment}>
         <span className={styles.subtitle}>Комментарий</span>
-        <textarea
+        <Textarea
           placeholder="Введите комментарий"
-          className={styles.textarea}
-          onChange={(e) => setRewardComment(e.target.value)}
+          onChange={setRewardComment}
           value={rewardComment}
         />
       </div>
 
       <div className={styles.responsiveDatePicker}>
         <span className={styles.subtitle}>Желаемая дата</span>
-        <ThemeProvider theme={materialTheme}>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <KeyboardDatePicker
-              disableToolbar
-              variant="inline"
-              format="dd/MM/yyyy"
-              margin="normal"
-              id="date-picker-inline"
-              value={rewordApproxDate}
-              onChange={handleRewardDateChange}
-              KeyboardButtonProps={{
-                'aria-label': 'change date',
-              }}
-              InputProps={{
-                disableUnderline: true,
-              }}
-              style={inputDateStyle}
-            />
-          </MuiPickersUtilsProvider>
-        </ThemeProvider>
+        <DatePicker value={rewordApproxDate} onChange={handleRewardDateChange} />
       </div>
     </div>
   );
@@ -459,31 +408,20 @@ export const ApplicationForm = () => {
 
           <div className={styles.workName}>
             <span className={styles.subtitle}>Название работы</span>
-            <textarea
-              placeholder="Введите название"
-              className={styles.textarea}
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-            />
+            <Textarea placeholder="Введите название" onChange={setTitle} value={title} />
           </div>
 
           <div className={styles.keyWords}>
             <span className={styles.subtitle}>Ключевые слова</span>
-            <textarea
+            <Textarea
               placeholder="Введите ключевые слова через ;"
-              className={styles.textarea}
-              onChange={(e) => setKeywordList(e.target.value)}
+              onChange={setKeywordList}
               value={keywordList}
             />
           </div>
           <div className={styles.comment}>
             <span className={styles.subtitle}>Комментарий</span>
-            <textarea
-              placeholder="Введите комментарий"
-              className={styles.textarea}
-              onChange={(e) => setcomment(e.target.value)}
-              value={comment}
-            />
+            <Textarea placeholder="Введите комментарий" onChange={setcomment} value={comment} />
           </div>
 
           <div className={styles.rewardBtnsWrap}>
@@ -526,27 +464,7 @@ export const ApplicationForm = () => {
 
           <div className={styles.datePicker}>
             <span className={styles.subtitle}>Желаемая дата</span>
-
-            <ThemeProvider theme={materialTheme}>
-              <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                <KeyboardDatePicker
-                  disableToolbar
-                  variant="inline"
-                  format="dd/MM/yyyy"
-                  margin="normal"
-                  id="date-picker-inline"
-                  value={approxDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                  }}
-                  InputProps={{
-                    disableUnderline: true,
-                  }}
-                  style={inputDateStyle}
-                />
-              </MuiPickersUtilsProvider>
-            </ThemeProvider>
+            <DatePicker value={approxDate} onChange={handleDateChange} />
           </div>
           <div className={styles.reward}>
             {rewardType === 'service' && renderService()}
