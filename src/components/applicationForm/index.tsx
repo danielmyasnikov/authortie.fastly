@@ -35,7 +35,7 @@ export const ApplicationForm = () => {
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
   const [responsiveKnowledge, setResponsiveKnowledge] = useState(knowledgeDefault);
   const [responsiveChecked, setResponsiveChecked] = useState(responsiveCheckedDefault);
-  const [rewardType, setRewardType] = useState('');
+  const [rewardType, setRewardType] = useState('return_help');
   const [comment, setcomment] = useState('');
   const [sum, setSum] = useState('');
   const [currency, setCurrency] = useState<string | undefined>('');
@@ -272,11 +272,7 @@ export const ApplicationForm = () => {
       <div className={styles.responsiveTitle}>Заявка предложения</div>
       <div className={styles.responsiveBlock}>
         <span className={styles.subtitle}>Название работы</span>
-        <Textarea
-          placeholder="Введите название"
-          onChange={setRewardTitle}
-          value={rewardTitle}
-        />
+        <Textarea placeholder="Введите название" onChange={setRewardTitle} value={rewardTitle} />
       </div>
 
       <div className={styles.responsiveKnowledgeWrap}>
@@ -466,11 +462,15 @@ export const ApplicationForm = () => {
             <span className={styles.subtitle}>Желаемая дата</span>
             <DatePicker value={approxDate} onChange={handleDateChange} />
           </div>
-          <div className={styles.reward}>
-            {rewardType === 'service' && renderService()}
-            {rewardType === 'return_help' && renderResponsiveHelp()}
-            {rewardType === 'money' && renderMoney()}
-          </div>
+
+          {!!rewardType && (
+            <div className={styles.reward}>
+              {rewardType === 'service' && renderService()}
+              {rewardType === 'return_help' && renderResponsiveHelp()}
+              {rewardType === 'money' && renderMoney()}
+            </div>
+          )}
+
           <div className={styles.public}>
             <input
               className={styles.responsiveRadioInput}

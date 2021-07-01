@@ -64,7 +64,9 @@ export const Menu: React.FC = () => {
           <>
             <Bell className={styles.icon} />
             <User className={styles.icon} />
-            <span className={styles.userName}>User</span>
+            <Link to={'profile'} className={styles.userName}>
+              User
+            </Link>
           </>
         ) : (
           <Link
