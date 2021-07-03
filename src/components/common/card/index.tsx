@@ -129,19 +129,12 @@ export const Card: React.FC<Props> = ({
   );
 };
 
-// keyword_list: ["слово; word; key word;"]
-// knowledge_area_list: "chemistry;engineering_material;humanities_arts"
-// landing_approved: false
-// moderation_approved: false
-// posting_id: null
-// request_type: null
-// reward_comment: ""
-// reward_currency: ""
-// reward_sum: 1000
-// reward_type: "money"
-// secreted: false
-// status: "init"
-// title: "Вопросы проектирования трансатлантического межнационального продуктопровода в условиях нарастающей коронавирусной пандемии на примере использования методов дистанционного строительства при помощи 3D-принтера связующей основы"
-// updated_at: "2021-07-03T12:29:54.359Z"
-// user_id: 55
-// work_type: "cite_mines"
+// user: {id: 55, email: "lvladv@mail.ru", created_at: "2021-06-21T19:44:29.679Z",…}
+// allow_password_change: false
+// avatar_content_type: null
+// avatar_file_name: null
+// avatar_file_size: null
+// avatar_updated_at: null
+// created_at: "2021-06-21T19:44:29.679Z"
+// email: "lvladv@mail.ru"
+// id: 55

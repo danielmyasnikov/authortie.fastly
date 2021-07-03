@@ -33,6 +33,3 @@ export const getPostings = createAsyncThunk<
   return res.data;
 });
 
-// "first_name": "string",
-// "last_name": "string",
-// "middle_name": "string",
