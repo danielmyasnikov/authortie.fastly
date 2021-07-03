@@ -73,6 +73,8 @@ export const ru = {
     social: 'Social',
     humanities_arts: 'Humanities/Arts',
     management_econmics: 'Management/Economics',
+    return_help: 'Ответная помощь',
+    service: 'Услуга'
   },
 
   application: {

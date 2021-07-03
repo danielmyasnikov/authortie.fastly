@@ -10,7 +10,12 @@ const initialState = {
 export const postings = createSlice({
   name: 'postings',
   initialState,
-  reducers: {},
+  reducers: {
+    cleanPostings: (state) => {
+      console.log('hello')
+      state.postings = [];
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(actions.getPostings.fulfilled, (state, { payload }) => {
       state.postings = state.postings.concat(payload);

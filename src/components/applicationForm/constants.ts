@@ -1,7 +1,7 @@
 export const CATEGORY_DEFAULT = [
   {
     value: 'Повысить цитируемость своих работ',
-    checked: true,
+    checked: false,
     workType: 'cite_mines',
     workTypeRevert: 'cite_others',
   },

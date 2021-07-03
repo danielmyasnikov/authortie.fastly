@@ -29,7 +29,7 @@ export const createPostings = createAsyncThunk<undefined, any>(
         url: `https://authortie-app.herokuapp.com/api/v1/postings`,
         headers,
         data: {
-          knowledge_area: postData.knowledgeArea,
+          knowledge_area_list: postData.knowledgeArea,
           title: postData.title,
           comment: postData.comment,
           approx_date: postData.approxDate,
@@ -43,7 +43,7 @@ export const createPostings = createAsyncThunk<undefined, any>(
           revert_posting_attributes: {
             approx_date: postData.rewordApproxDate,
             work_type: postData.rewardWorkType,
-            knowledge_area: postData.rewardnNowledgeArea,
+            knowledge_area_list: postData.rewardnNowledgeArea,
             title: postData.rewardTitle,
             comment: postData.rewardComment,
           },

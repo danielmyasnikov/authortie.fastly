@@ -98,7 +98,7 @@ export const Main: React.FC = () => {
                 title={item.title}
                 fieldOfActivity=""
                 workType={item.work_type || ''}
-                knowledgeArea={item.knowledge_area || ''}
+                knowledgeArea={item.knowledge_area_list || ''}
                 rewardType={item.reward_type}
                 rewardCurrency={item.reward_currency}
                 rewardSum={item.reward_sum}

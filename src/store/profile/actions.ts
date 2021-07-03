@@ -11,6 +11,9 @@ export const setProfile = createAsyncThunk<any, any>(
   'postings/getPostings',
   async (profileData) => {
     const formData = new FormData();
+    formData.append('first_name', profileData.name);
+    formData.append('last_name', profileData.lastName);
+    formData.append('middle_name', profileData.middleName);
     formData.append('affiliation', profileData.affiliation);
     formData.append('about', profileData.about);
     formData.append('country', profileData.country);
@@ -19,7 +22,8 @@ export const setProfile = createAsyncThunk<any, any>(
     formData.append('email_notifications', profileData.notificationsEmail);
     formData.append('push_notifications', profileData.notificationsBrow);
     formData.append('avatar', profileData.avatar);
-
+    formData.append('degree', profileData.status);
+    formData.append('degree_category', profileData.grade);
     const res = await axios({
       method: 'GET',
       url: `https://authortie-app.herokuapp.com/api/v1/profiles/update`,

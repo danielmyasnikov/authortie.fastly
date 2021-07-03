@@ -20,7 +20,7 @@ interface Props {
   fieldOfActivity: string;
   id: number;
   key?: number | string;
-  knowledgeArea: string;
+  knowledgeArea: string[];
   rewardType: string;
   rewardCurrency: string;
   rewardSum: string;
@@ -46,9 +46,10 @@ export const Card: React.FC<Props> = ({
   rewardСomment,
 }) => {
   const { t } = useTranslation('card');
-  const showWords = keyWords || [];
+  const showWords = !!keyWords.length ? keyWords : [];
   // const showWords = keyWords.slice(0, 3);
   const numberAfterShowWords = keyWords.length - 3;
+  const numberAfterShowWordsKnowledgeArea = knowledgeArea.length - 1;
 
   return (
     <div className={styles.wrapper} key={key}>
@@ -60,7 +61,7 @@ export const Card: React.FC<Props> = ({
           effect="solid"
         />
       )}
-      {t(knowledgeArea).length > 25 && (
+      {t(knowledgeArea[0]).length > 25 && (
         <ReactTooltip
           id={`${knowledgeArea} + ${id}`}
           className={styles.tooltip}
@@ -73,13 +74,17 @@ export const Card: React.FC<Props> = ({
         <Tag className={styles.workType} dataTip={t(workType)} dataFor={`${workType} + ${id}`}>
           {t(workType)}
         </Tag>
+
         <Tag
           className={styles.knowledgeArea}
-          dataTip={t(knowledgeArea)}
+          dataTip={t(knowledgeArea[0])}
           dataFor={`${fieldOfActivity} + ${id}`}
         >
-          {t(knowledgeArea)}
+          {t(knowledgeArea[0])}
         </Tag>
+        {!!numberAfterShowWordsKnowledgeArea && (
+          <Tag className={styles.knowledgeArea}>{`+ ${numberAfterShowWordsKnowledgeArea}`}</Tag>
+        )}
       </div>
 
       <span className={styles.subTitle}>{title}</span>
@@ -92,13 +97,13 @@ export const Card: React.FC<Props> = ({
         {rewardType === 'money' && (
           <span className={styles.comment}>{`${rewardSum} ${rewardCurrency}`}</span>
         )}
-        {rewardType === 'service' && <span className={styles.comment}>{rewardСomment}</span>}
+        {rewardType !== 'money' && <span className={styles.comment}>{t(rewardType)}</span>}
       </div>
 
       <div className={styles.keyWrapper}>
-        {/* {showWords.map((word) => (
+        {showWords.map((word) => (
           <Tag>{word}</Tag>
-        ))} */}
+        ))}
         {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
       </div>
       <div className={styles.personBlock}>
@@ -123,3 +128,20 @@ export const Card: React.FC<Props> = ({
     </div>
   );
 };
+
+// keyword_list: ["слово; word; key word;"]
+// knowledge_area_list: "chemistry;engineering_material;humanities_arts"
+// landing_approved: false
+// moderation_approved: false
+// posting_id: null
+// request_type: null
+// reward_comment: ""
+// reward_currency: ""
+// reward_sum: 1000
+// reward_type: "money"
+// secreted: false
+// status: "init"
+// title: "Вопросы проектирования трансатлантического межнационального продуктопровода в условиях нарастающей коронавирусной пандемии на примере использования методов дистанционного строительства при помощи 3D-принтера связующей основы"
+// updated_at: "2021-07-03T12:29:54.359Z"
+// user_id: 55
+// work_type: "cite_mines"

@@ -9,7 +9,7 @@ import Close from 'assets/close.svg';
 import Eye from 'assets/eye.svg';
 import CloseEye from 'assets/closeEye.svg';
 import FacebookColor from 'assets/facebookColor.png';
-import IDColor from 'assets/IDColor.png';
+
 import GoogleColor from 'assets/googleColor.png';
 import Coolicon from 'assets/coolicon.svg';
 
@@ -206,9 +206,6 @@ export const Registration: React.FC = () => {
       <div className={styles.iconsWrapper}>
         <a href={facebookURL} className={styles.icon}>
           <img src={FacebookColor} alt="" />
-        </a>
-        <a href={googleURL} className={styles.bigIcon}>
-          <img src={IDColor} alt="" />
         </a>
         <a href={googleURL} className={styles.icon}>
           <img src={GoogleColor} alt="" />

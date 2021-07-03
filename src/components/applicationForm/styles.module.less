@@ -11,6 +11,91 @@
   height: 100%;
   padding-top: 80px;
   overflow: auto;
+  :global {
+    .CustomSelect__control {
+      max-width: 600px;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      background: #f2f7ff;
+      border: 0;
+      border-radius: 12px 12px 0 0;
+      outline: 0;
+      box-shadow: none;
+    }
+
+    .CustomSelect__single-value {
+      position: static;
+      top: unset;
+      display: block;
+      margin: 0;
+      font-size: 16px;
+      line-height: 18px;
+      transform: unset;
+    }
+
+    .CustomSelect__indicator-separator {
+      display: none;
+    }
+
+    .CustomSelect__indicators {
+      margin-right: 8px;
+      transition: all 0.3s;
+    }
+
+    .CustomSelect__control--menu-is-open .CustomSelect__indicators {
+      transform: rotate(180deg);
+    }
+
+    .CustomSelect__control--is-focused {
+      border: 0 !important;
+    }
+
+    .CustomSelect__menu-list {
+      max-height: 240px;
+      padding: 16px 20px;
+    }
+
+    .CustomSelect__menu {
+      max-width: 600px;
+      z-index: 12;
+      display: block;
+      background: #f2f7ff;
+      margin-top: 4px;
+      margin-bottom: 0;
+      font-size: 14px;
+      line-height: 20px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .CustomSelect__option {
+      padding-right: 0;
+      padding-left: 0;
+      &:first-child {
+        padding-top: 0;
+      }
+      &:last-child {
+        padding-bottom: 0;
+      }
+      &:active {
+        background-color: transparent;
+      }
+    }
+
+    .CustomSelect__option--is-focused {
+      background-color: #e9f1ff;
+      cursor: pointer;
+    }
+
+    .CustomSelect__option--is-active {
+      background-color: transparent;
+    }
+
+    .CustomSelect__option--is-selected {
+      color: var(--color-black);
+      background: 0;
+    }
+  }
 }
 
 .foot {
@@ -25,7 +110,7 @@
 }
 
 .title {
-  margin: 0;
+  margin-bottom: 13px;
   font-weight: bold;
   font-size: 50px;
   line-height: 50px;
@@ -33,7 +118,7 @@
 }
 
 .info {
-  margin: 40px 0 13px 0;
+  margin: 27px 0 13px 0;
   font-size: 16px;
   line-height: 22px;
 }
@@ -53,10 +138,8 @@
     'category knowledge'
     'workName keyWords'
     'comment .'
-    'rewardBtns datePicker'
-    'reward reward'
-    'public .';
-  grid-template-columns: repeat(2, 1fr);
+    'rewardBtns datePicker';
+  grid-template-columns: min-content 1fr;
 }
 
 .block {
@@ -77,6 +160,8 @@
 
 .categoryWrap {
   grid-area: category;
+  display: flex;
+  flex-direction: column;
 }
 
 .category {
@@ -108,10 +193,10 @@
 }
 
 .iWontFocus {
-  font-weight: 500;
+  font-weight: 600;
   font-size: 20px;
   line-height: 20px;
-  color: #2f2f2f;
+  color: #656565;
   background: #f2f7ff;
   border-top-left-radius: 12px;
   border-top-right-radius: 12px;
@@ -215,7 +300,7 @@ label {
 }
 
 .checkboxInputBlock {
-  max-width: 265px;
+  max-width: 230px;
   width: 100%;
   composes: radioInputBlock;
 }
@@ -289,10 +374,14 @@ label {
 
 .workName {
   grid-area: workName;
+  display: flex;
+  flex-direction: column;
 }
 
 .keyWords {
   grid-area: keyWords;
+  display: flex;
+  flex-direction: column;
 }
 
 .rewardBtnsWrap {
@@ -326,6 +415,8 @@ label {
 
 .comment {
   grid-area: comment;
+  display: flex;
+  flex-direction: column;
 }
 
 .datePicker {
@@ -337,7 +428,6 @@ label {
 .reward {
   grid-area: reward;
 }
-
 
 .serviceBlock {
   margin-bottom: 40px;
@@ -465,10 +555,10 @@ label {
 .responsiveRadioInput[type='radio']:not(:checked) + label:after,
 .responsiveRadioInput[type='checkbox']:checked + label:after,
 .responsiveRadioInput[type='checkbox']:not(:checked) + label:after {
-  left: 3px;
-  top: 3px;
-  width: 14px;
-  height: 14px;
+  left: 5px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
   border-radius: 100%;
   background-color: #2c80ff;
 }
@@ -587,7 +677,7 @@ label {
 }
 
 .selectMoney {
-  width: 100px;
+  width: 120px;
 }
 
 .modalWrapper {
@@ -646,7 +736,14 @@ label {
 .public {
   margin-top: 20px;
   grid-area: public;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  & > svg {
+    margin-left: 8px;
+  }
 }
+
 
 @media screen and (max-width: 768px) {
   .content {

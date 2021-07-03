@@ -14,6 +14,8 @@ import { Button } from 'components/common/button';
 import Select from 'react-select';
 import { getLastPostings, createPostings } from 'store/request/actions';
 import Note from 'assets/note.svg';
+import Eye from 'assets/eye.svg';
+import CloseEye from 'assets/closeEye.svg';
 import styles from './styles.module.less';
 import {
   CATEGORY_DEFAULT,
@@ -35,10 +37,10 @@ export const ApplicationForm = () => {
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
   const [responsiveKnowledge, setResponsiveKnowledge] = useState(knowledgeDefault);
   const [responsiveChecked, setResponsiveChecked] = useState(responsiveCheckedDefault);
-  const [rewardType, setRewardType] = useState('return_help');
+  const [rewardType, setRewardType] = useState('');
   const [comment, setcomment] = useState('');
   const [sum, setSum] = useState('');
-  const [currency, setCurrency] = useState<string | undefined>('');
+  const [currency, setCurrency] = useState<string | undefined>('USD');
   const [title, setTitle] = useState('');
   const [serviceRewardDescription, setServiceRewardDescription] = useState('');
   const [rewardComment, setRewardComment] = useState('');
@@ -108,7 +110,7 @@ export const ApplicationForm = () => {
     setRewardApproxDate(selectPost.approx_date);
     const newResponsiveKnowledge = responsiveKnowledge.map((item) => ({
       ...item,
-      checked: selectPost.knowledge_area[item.id],
+      checked: selectPost.knowledge_area_list[item.id],
     }));
     setResponsiveKnowledge(newResponsiveKnowledge);
   }
@@ -130,7 +132,7 @@ export const ApplicationForm = () => {
 
     const rewardWorkType = responsiveChecked
       .filter((item) => item.checked)
-      .map((el) => el.workType);
+      .map((el) => el.workType)[0];
     // responsiveChecked
     const postData = {
       knowledgeArea,
@@ -198,6 +200,7 @@ export const ApplicationForm = () => {
       />
       <div className={styles.selectMoney}>
         <Select
+          classNamePrefix="CustomSelect"
           defaultValue={currencyOptions[0]}
           options={currencyOptions}
           onChange={(option) => setCurrency(option?.value)}
@@ -261,6 +264,7 @@ export const ApplicationForm = () => {
       <div className={styles.select}>
         {lastPostingsOptions.length > 0 && (
           <Select
+            classNamePrefix="CustomSelect"
             defaultValue={lastPostingsOptions[0] && lastPostingsOptions[0].value}
             options={lastPostingsOptions}
             placeholder="Выберите работу"
@@ -322,19 +326,21 @@ export const ApplicationForm = () => {
       <div className={styles.container}>
         <div className={styles.titleWrapper}>
           <h1 className={styles.title}>{t('title')}</h1>
-          <span className={styles.info}>
-            Обращаем ваше внимание, что для публикации заявки вам необходимо
-            <Link
-              className={styles.link}
-              to={{
-                pathname: 'authorization',
-                state: { background: location },
-              }}
-            >
-              {` зарегистрироваться`}
-            </Link>
-            .
-          </span>
+          {!isAuth && (
+            <span className={styles.info}>
+              Обращаем ваше внимание, что для публикации заявки вам необходимо
+              <Link
+                className={styles.link}
+                to={{
+                  pathname: 'authorization',
+                  state: { background: location },
+                }}
+              >
+                {` зарегистрироваться`}
+              </Link>
+              .
+            </span>
+          )}
         </div>
 
         <div className={styles.content}>
@@ -462,26 +468,25 @@ export const ApplicationForm = () => {
             <span className={styles.subtitle}>Желаемая дата</span>
             <DatePicker value={approxDate} onChange={handleDateChange} />
           </div>
-
-          {!!rewardType && (
-            <div className={styles.reward}>
-              {rewardType === 'service' && renderService()}
-              {rewardType === 'return_help' && renderResponsiveHelp()}
-              {rewardType === 'money' && renderMoney()}
-            </div>
-          )}
-
-          <div className={styles.public}>
-            <input
-              className={styles.responsiveRadioInput}
-              type="checkbox"
-              name={'public'}
-              id={'public'}
-              checked={secreted}
-              onChange={() => setSecreted(!secreted)}
-            />
-            <label htmlFor={'public'}>Публичная заявка</label>
+        </div>
+        {!!rewardType && (
+          <div className={styles.reward}>
+            {rewardType === 'service' && renderService()}
+            {rewardType === 'return_help' && renderResponsiveHelp()}
+            {rewardType === 'money' && renderMoney()}
           </div>
+        )}
+        <div className={styles.public}>
+          <input
+            className={styles.responsiveRadioInput}
+            type="checkbox"
+            name={'public'}
+            id={'public'}
+            checked={secreted}
+            onChange={() => setSecreted(!secreted)}
+          />
+          <label htmlFor={'public'}>Приватная заявка</label>
+          {!secreted ? <Eye /> : <CloseEye />}
         </div>
       </div>
       <div className={styles.btnCont}>
@@ -496,3 +501,26 @@ export const ApplicationForm = () => {
     </div>
   );
 };
+// approx_date: "2021-07-07"
+// comment: "Вопросы проектирования трансатлантического межнационального продуктопровода в условиях нарастающей коронавирусной пандемии на примере использования методов дистанцион..."
+// count_views: null
+// created_at: "2021-07-03T16:28:19.002Z"
+// id: 65
+// keyword_list: []
+// knowledge_area: null
+// knowledge_area_list: ["math_computer"]
+// landing_approved: false
+// moderation_approved: false
+// posting_id: 64
+// request_type: null
+// reward_comment: null
+// reward_currency: null
+// reward_sum: null
+// reward_type: null
+// secreted: false
+// status: "init"
+// title: "Вопросы проектирования трансатлантического межнационального продуктопровода в условиях нарастающей коронавирусной пандемии на примере использования методов дистанцион..."
+// updated_at: "2021-07-03T16:28:19.002Z"
+// user: {id: 55, email: "lvladv@mail.ru", created_at: "2021-06-21T19:44:29.679Z",…}
+// user_id: 55
+// work_type: "[\"cite_others\"]"
