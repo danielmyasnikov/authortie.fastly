@@ -501,26 +501,3 @@ export const ApplicationForm = () => {
     </div>
   );
 };
-// approx_date: "2021-07-07"
-// comment: "Вопросы проектирования трансатлантического межнационального продуктопровода в условиях нарастающей коронавирусной пандемии на примере использования методов дистанцион..."
-// count_views: null
-// created_at: "2021-07-03T16:28:19.002Z"
-// id: 65
-// keyword_list: []
-// knowledge_area: null
-// knowledge_area_list: ["math_computer"]
-// landing_approved: false
-// moderation_approved: false
-// posting_id: 64
-// request_type: null
-// reward_comment: null
-// reward_currency: null
-// reward_sum: null
-// reward_type: null
-// secreted: false
-// status: "init"
-// title: "Вопросы проектирования трансатлантического межнационального продуктопровода в условиях нарастающей коронавирусной пандемии на примере использования методов дистанцион..."
-// updated_at: "2021-07-03T16:28:19.002Z"
-// user: {id: 55, email: "lvladv@mail.ru", created_at: "2021-06-21T19:44:29.679Z",…}
-// user_id: 55
-// work_type: "[\"cite_others\"]"

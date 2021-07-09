@@ -25,10 +25,10 @@ export const setProfile = createAsyncThunk<any, any>(
     formData.append('degree', profileData.status);
     formData.append('degree_category', profileData.grade);
     const res = await axios({
-      method: 'GET',
+      method: 'PATCH',
       url: `https://authortie-app.herokuapp.com/api/v1/profiles/update`,
       headers,
-      data: { formData },
+      data:  formData ,
     });
     return res.data;
   },

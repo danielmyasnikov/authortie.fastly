@@ -4,16 +4,21 @@ import { Footer } from 'components/footer';
 import { STATUS_OPTIONS, STUDENT_OPTIONS, GRADE_OPTIONS, COUNTRIES } from './constansts';
 import { Button } from 'components/common/button';
 import { setProfile } from 'store/profile/actions';
+import { AppDispatch } from 'store/types';
 import { Textarea } from 'components/common/textarea';
 import Select from 'react-select';
 import Camera from 'assets/camera.svg';
 import IDColor from 'assets/IDColor.png';
 import Pencil from 'assets/pencil.svg';
+import Close from 'assets/close.svg';
+import Note from 'assets/note.svg';
 import styles from './styles.module.less';
+
+const FILE_MAX_SIZE = 5242880;
 
 export const Profile = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const [avatarURL, setAvatarURL] = useState<string>('');
   const [avatar, setAvatar] = useState();
   const [name, setName] = useState<string>('');
@@ -32,6 +37,10 @@ export const Profile = () => {
   const [privateAff, setPrivateAff] = useState(true);
   const [notificationsEmail, setNotificationsEmail] = useState(true);
   const [notificationsBrow, setNotificationsBrow] = useState(true);
+  const [fileError, setFileError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [lastNameError, setLastNameError] = useState('');
+  const [modal, setModal] = useState<boolean>(false);
 
   const IDURL =
     'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/';
@@ -50,6 +59,9 @@ export const Profile = () => {
   function handleFileInputChanged(event: React.FormEvent<HTMLInputElement>) {
     // @ts-ignore
     const [file] = event.target.files || [];
+    if (file.size > FILE_MAX_SIZE) {
+      setFileError('Файл должен быть меньше 5Мб');
+    } else setFileError('');
 
     setAvatar(file);
 
@@ -70,7 +82,17 @@ export const Profile = () => {
     setLinkArray(newLinkValue);
   }
 
-  function submitProfile() {
+  function handleBlur(event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+    if (name === 'name' && value === '') {
+      setNameError('Введите имя');
+    }
+    if (name === 'last_name' && value === '') {
+      setLastNameError('Введите имя');
+    }
+  }
+
+  async function submitProfile() {
     const data = {
       name,
       lastName,
@@ -86,8 +108,24 @@ export const Profile = () => {
       status,
       grade,
     };
-    dispatch(setProfile(data));
+    const resultConf = await dispatch(setProfile(data));
+    if (setProfile.fulfilled.match(resultConf)) {
+      setModal(true);
+    }
   }
+
+  const isValid = !fileError && !!name && !!lastName;
+
+  const renderModal = () => (
+    <div className={styles.modalWrapper}>
+      <div className={styles.contaier}>
+        <Close className={styles.exit} onClick={() => setModal(false)} />
+        <Note className={styles.noteIcon} />
+        <span className={styles.subtitle}>Заявка сформирована!</span>
+      </div>
+      <div className={styles.overlay} />
+    </div>
+  );
 
   return (
     <div className={styles.wrapper}>
@@ -116,27 +154,35 @@ export const Profile = () => {
             <Pencil />
           </div>
         </div>
-        <a href={IDURL} className={styles.bigIcon}>
-          <img src={IDColor} alt="" />
-        </a>
+        <span className={styles.error}>{fileError}</span>
+        <div className={styles.linkWrap}>
+          <a href={IDURL} className={styles.bigIcon}>
+            <img src={IDColor} alt="" />
+          </a>
+          <span className={styles.subtitle}> Подтвердить orcid</span>
+        </div>
         <span className={styles.subtitle}>Имя</span>
         <input
           value={name}
           name="name"
           id="name"
           className={styles.input}
+          onBlur={handleBlur}
           type="text"
           onChange={(e) => setName(e.target.value)}
         />
+        <span className={styles.error}>{nameError}</span>
         <span className={styles.subtitle}>Фамилия</span>
         <input
           value={lastName}
           name="last_name"
+          onBlur={handleBlur}
           id="last_name"
           className={styles.input}
           type="text"
           onChange={(e) => setLastName(e.target.value)}
         />
+        <span className={styles.error}>{lastNameError}</span>
         <span className={styles.subtitle}>Отчество</span>
         <input
           value={middleName}
@@ -154,6 +200,7 @@ export const Profile = () => {
           defaultValue={STATUS_OPTIONS[0]}
           options={STATUS_OPTIONS}
         />
+
         {(status === 'scientist' || status === 'student') && (
           <Select
             classNamePrefix="CustomSelect"
@@ -172,6 +219,17 @@ export const Profile = () => {
           type="text"
           onChange={(e) => setAffiliation(e.target.value)}
         />
+        <div>
+          <input
+            className={styles.checkboxInput}
+            type="checkbox"
+            name="privateAff"
+            id="privateAff"
+            checked={privateAff}
+            onChange={() => setPrivateAff(!privateAff)}
+          />
+          <label htmlFor="privateAff">Приватная аффилиация</label>
+        </div>
         <span className={styles.subtitle}>О себе</span>
 
         <Textarea value={about} onChange={setAbout} />
@@ -204,7 +262,6 @@ export const Profile = () => {
           Добавить ссылку
         </button>
         <span className={styles.title}>Настройки</span>
-        <span className={styles.subtitle}>Приватность</span>
         <div>
           <input
             className={styles.checkboxInput}
@@ -214,21 +271,8 @@ export const Profile = () => {
             checked={privateAnc}
             onChange={() => setPrivateAnc(!privateAnc)}
           />
-          <label htmlFor="privateAnc">Видимость анкеты в сети</label>
+          <label htmlFor="privateAnc">Приватная анкета</label>
         </div>
-        <div>
-          <input
-            className={styles.checkboxInput}
-            type="checkbox"
-            name="privateAff"
-            id="privateAff"
-            checked={privateAff}
-            onChange={() => setPrivateAff(!privateAff)}
-          />
-          <label htmlFor="privateAff">Показывать аффилиацию</label>
-        </div>
-
-        <span className={styles.subtitle}>Уведомления</span>
         <div>
           <input
             className={styles.checkboxInput}
@@ -252,9 +296,12 @@ export const Profile = () => {
           <label htmlFor="notificationsBrow">Уведомления в браузере</label>
         </div>
         <div className={styles.saveBtn}>
-          <Button onClick={submitProfile}>Сохранить</Button>
+          <Button disabled={!isValid} onClick={submitProfile}>
+            Сохранить
+          </Button>
         </div>
       </div>
+      {modal && renderModal()}
       <div className={styles.footer}>
         <Footer />
       </div>

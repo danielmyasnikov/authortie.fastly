@@ -85,6 +85,12 @@
   }
 }
 
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: row;
+}
+
 .personBlock {
   display: flex;
   flex-direction: row;
@@ -108,10 +114,6 @@
 
 .blurAvatar {
   background: #f2f7ff;
-}
-
-.defaultPhoto {
-  width: 50%;
 }
 
 .personInfo {
@@ -143,10 +145,10 @@
   padding: 0;
   width: 45px;
   height: 45px;
-  border:1px solid #007bc4;
+  border: 1px solid #007bc4;
   background-color: var(--color-white);
-  &:hover{
-    border:1px solid #007bc4;
+  &:hover {
+    border: 1px solid #007bc4;
     background-color: var(--color-white);
   }
 }
@@ -165,6 +167,12 @@
   background-color: #ebfffa;
 }
 
+.country {
+  margin-left: 12px;
+  font-size: 14px;
+  line-height: 21px;
+  color: var(--color-black-alt);
+}
 @media screen and (max-width: 768px) {
   .wrapper {
     display: flex;

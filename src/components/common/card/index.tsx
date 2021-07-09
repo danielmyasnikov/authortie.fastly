@@ -14,7 +14,7 @@ interface Props {
   comment: string;
   authorStatus: string;
   institution: string;
-  author: string;
+  author: any;
   title: string;
   workType: string;
   fieldOfActivity: string;
@@ -47,7 +47,6 @@ export const Card: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation('card');
   const showWords = !!keyWords.length ? keyWords : [];
-  // const showWords = keyWords.slice(0, 3);
   const numberAfterShowWords = keyWords.length - 3;
   const numberAfterShowWordsKnowledgeArea = knowledgeArea.length - 1;
 
@@ -107,14 +106,29 @@ export const Card: React.FC<Props> = ({
         {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
       </div>
       <div className={styles.personBlock}>
-        <div className={cn(styles.avatar, { [styles.blurAvatar]: privateAccaunt })}>
-          <Camera className={styles.defaultPhoto} />
-        </div>
-        <div className={styles.personInfo}>
-          <span className={styles.text}>{privateAccaunt ? t('private') : author}</span>
-          <span className={styles.comment}>{authorStatus}</span>
-          <span className={styles.comment}>{institution}</span>
-        </div>
+        {!author.first_name && !author.public_visibility && (
+          <span className={styles.text}>Профиль не заполнен</span>
+        )}
+        {author.public_visibility && author.first_name && (
+          <span className={styles.text}>Профиль скрыт</span>
+        )}
+        {author.first_name && !author.public_visibility && (
+          <div className={styles.personInfo}>
+            <div className={styles.row}>
+              <span className={styles.text}>
+                {`${author.first_name} ${author.last_name} ${author.middle_name}`}
+              </span>
+              <span className={styles.country}>{author.country}</span>
+            </div>
+            <div className={styles.row}>
+              <span className={styles.comment}>{`${t(author.degree)} ${
+                author.degree_category
+              }`}</span>
+            </div>
+
+            <span className={styles.comment}>{author.affiliation}</span>
+          </div>
+        )}
       </div>
 
       <div className={styles.btnWrapper}>
@@ -128,13 +142,3 @@ export const Card: React.FC<Props> = ({
     </div>
   );
 };
-
-// user: {id: 55, email: "lvladv@mail.ru", created_at: "2021-06-21T19:44:29.679Z",…}
-// allow_password_change: false
-// avatar_content_type: null
-// avatar_file_name: null
-// avatar_file_size: null
-// avatar_updated_at: null
-// created_at: "2021-06-21T19:44:29.679Z"
-// email: "lvladv@mail.ru"
-// id: 55

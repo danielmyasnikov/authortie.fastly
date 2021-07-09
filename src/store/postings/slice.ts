@@ -12,7 +12,6 @@ export const postings = createSlice({
   initialState,
   reducers: {
     cleanPostings: (state) => {
-      console.log('hello')
       state.postings = [];
     },
   },
