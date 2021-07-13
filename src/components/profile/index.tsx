@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Footer } from 'components/footer';
 import { STATUS_OPTIONS, STUDENT_OPTIONS, GRADE_OPTIONS, COUNTRIES } from './constansts';
 import { Button } from 'components/common/button';
-import { setProfile } from 'store/profile/actions';
+import { setProfile, getProfile } from 'store/profile/actions';
+import { getProfileSelector } from 'store/profile/selectors';
 import { AppDispatch } from 'store/types';
 import { Textarea } from 'components/common/textarea';
 import Select from 'react-select';
@@ -13,6 +14,12 @@ import Pencil from 'assets/pencil.svg';
 import Close from 'assets/close.svg';
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
+import { useEffect } from 'react';
+
+interface Option {
+  value: string;
+  label: string;
+}
 
 const FILE_MAX_SIZE = 5242880;
 
@@ -25,25 +32,55 @@ export const Profile = () => {
   const [lastName, setLastName] = useState<string>('');
   const [middleName, setMiddleName] = useState<string>('');
   const [affiliation, setAffiliation] = useState<string>('');
-  const [status, setStatus] = useState<string | undefined>('scientist');
-  const [grade, setGrade] = useState<string | undefined>('');
+  const [status, setStatus] = useState<Option>({ value: 'scientist', label: 'Учёный' });
+  const [grade, setGrade] = useState<Option>({ value: '', label: '' });
   const [about, setAbout] = useState<string>('');
-  const [country, setCountry] = useState<string | undefined>('');
+  const [country, setCountry] = useState<Option>({ value: '', label: '' });
   const [linkArray, setLinkArray] = useState<{ url: string; id: number }[]>([
     { url: '', id: 1 },
     { url: '', id: 2 },
   ]);
-  const [privateAnc, setPrivateAnc] = useState(true);
-  const [privateAff, setPrivateAff] = useState(true);
+  const [privateAnc, setPrivateAnc] = useState(false);
   const [notificationsEmail, setNotificationsEmail] = useState(true);
   const [notificationsBrow, setNotificationsBrow] = useState(true);
+
   const [fileError, setFileError] = useState('');
   const [nameError, setNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
   const [modal, setModal] = useState<boolean>(false);
+  const { profile } = useSelector(getProfileSelector);
 
   const IDURL =
-    'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/';
+    'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/profile';
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
+
+  useEffect(() => {
+    const userCountry = COUNTRIES.filter((item) => item.label === profile.country)[0];
+    const userDegree = STATUS_OPTIONS.filter((item) => item.value === profile.degree)[0];
+    if (profile.degree === 'student') {
+      const userGrade = STUDENT_OPTIONS.filter((item) => item.value === profile.degree_category)[0];
+      setGrade(userGrade);
+    } else {
+      const userGrade = GRADE_OPTIONS.filter((item) => item.value === profile.degree_category)[0];
+      setGrade(userGrade);
+    }
+    const userLinks = profile.links.map((item: any, index: number) => ({ url: item, id: index }));
+    setLinkArray(userLinks);
+    setAvatarURL(profile.avatar_url);
+    setName(profile.first_name);
+    setLastName(profile.last_name);
+    setMiddleName(profile.middle_name);
+    setAffiliation(profile.affiliation);
+    setAbout(profile.about);
+    setPrivateAnc(profile.public_visibility);
+    setNotificationsEmail(profile.email_notifications);
+    setNotificationsBrow(profile.push_notifications);
+    setCountry(userCountry);
+    setStatus(userDegree);
+  }, [profile]);
 
   const getDataUrlFromFile = (file: File | Blob): Promise<string> =>
     new Promise((resolve) => {
@@ -93,6 +130,7 @@ export const Profile = () => {
   }
 
   async function submitProfile() {
+    const linksForData = linkArray.map((item) => ({ url: item.url }));
     const data = {
       name,
       lastName,
@@ -100,13 +138,13 @@ export const Profile = () => {
       affiliation,
       avatar,
       about,
-      country,
+      country: country?.label,
       privateAnc,
-      privateAff,
       notificationsEmail,
       notificationsBrow,
-      status,
-      grade,
+      status: status.value,
+      grade: grade.label,
+      linksForData,
     };
     const resultConf = await dispatch(setProfile(data));
     if (setProfile.fulfilled.match(resultConf)) {
@@ -131,7 +169,6 @@ export const Profile = () => {
     <div className={styles.wrapper}>
       <div className={styles.content}>
         <span className={styles.title}>Личная информация</span>
-
         <div className={styles.profileWrapper}>
           {avatarURL ? (
             <img className={styles.img} src={avatarURL} alt="" />
@@ -156,10 +193,19 @@ export const Profile = () => {
         </div>
         <span className={styles.error}>{fileError}</span>
         <div className={styles.linkWrap}>
-          <a href={IDURL} className={styles.bigIcon}>
-            <img src={IDColor} alt="" />
-          </a>
-          <span className={styles.subtitle}> Подтвердить orcid</span>
+          {profile.orcid_uuid ? (
+            <>
+              <a href={IDURL} className={styles.bigIcon}>
+                <img src={IDColor} alt="" />
+              </a>
+              <span className={styles.subtitle}> Подтвердить orcid</span>
+            </>
+          ) : (
+            <>
+              <img className={styles.bigIcon} src={IDColor} alt="" />
+              <span className={styles.subtitle}> Orcid подтвержден</span>{' '}
+            </>
+          )}
         </div>
         <span className={styles.subtitle}>Имя</span>
         <input
@@ -195,21 +241,21 @@ export const Profile = () => {
         <span className={styles.subtitle}>Статус</span>
         <Select
           classNamePrefix="CustomSelect"
-          onChange={(option) => setStatus(option?.value)}
+          onChange={(option: any) => setStatus(option)}
+          value={status}
           className={styles.block}
           defaultValue={STATUS_OPTIONS[0]}
           options={STATUS_OPTIONS}
         />
-
-        {(status === 'scientist' || status === 'student') && (
+        {(status?.value === 'scientist' || status?.value === 'student') && (
           <Select
             classNamePrefix="CustomSelect"
-            options={status === 'student' ? STUDENT_OPTIONS : GRADE_OPTIONS}
-            defaultValue={status === 'student' ? STUDENT_OPTIONS[0] : GRADE_OPTIONS[0]}
-            onChange={(option) => setGrade(option?.label)}
+            options={status.value === 'student' ? STUDENT_OPTIONS : GRADE_OPTIONS}
+            defaultValue={status.value === 'student' ? STUDENT_OPTIONS[0] : GRADE_OPTIONS[0]}
+            value={grade}
+            onChange={(option: any) => setGrade(option)}
           />
         )}
-
         <span className={styles.subtitle}>Аффилиация</span>
         <input
           value={affiliation}
@@ -219,32 +265,17 @@ export const Profile = () => {
           type="text"
           onChange={(e) => setAffiliation(e.target.value)}
         />
-        <div>
-          <input
-            className={styles.checkboxInput}
-            type="checkbox"
-            name="privateAff"
-            id="privateAff"
-            checked={privateAff}
-            onChange={() => setPrivateAff(!privateAff)}
-          />
-          <label htmlFor="privateAff">Приватная аффилиация</label>
-        </div>
         <span className={styles.subtitle}>О себе</span>
-
         <Textarea value={about} onChange={setAbout} />
-
         <span className={styles.subtitle}>Страна </span>
-
         <Select
           placeholder={'Выберите страну'}
           classNamePrefix="CustomSelect"
+          value={country}
           options={COUNTRIES}
-          onChange={(option) => setCountry(option?.label)}
+          onChange={(option: any) => setCountry(option)}
         />
-
         <span className={styles.subtitle}>Ссылки</span>
-
         {linkArray.map((item) => (
           <input
             value={item.url}
@@ -255,9 +286,10 @@ export const Profile = () => {
             onChange={handleLinkChange}
           />
         ))}
+        {console.log(linkArray)}
         <button
           className={styles.btnLink}
-          onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length }])}
+          onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length + 1 }])}
         >
           Добавить ссылку
         </button>

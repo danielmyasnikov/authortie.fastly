@@ -4,6 +4,7 @@ import { authSlice } from './auth/slice';
 import { createPost } from './request/slice';
 import { postings } from './postings/slice';
 import { postingsMain } from './main/slice';
+import { profileSlice } from './profile/slice';
 
 const store = configureStore({
   reducer: {
@@ -11,6 +12,7 @@ const store = configureStore({
     createPost: createPost.reducer,
     postings: postings.reducer,
     postingsMain: postingsMain.reducer,
+    profileSlice: profileSlice.reducer,
   },
 
   middleware: (getDefaultMiddleware) => {
