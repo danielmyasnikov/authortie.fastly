@@ -23,6 +23,11 @@ interface Option {
 
 const FILE_MAX_SIZE = 5242880;
 
+const LINKS_DEFAULT = [
+  { url: '', id: 1 },
+  { url: '', id: 2 },
+];
+
 export const Profile = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch: AppDispatch = useDispatch();
@@ -36,10 +41,7 @@ export const Profile = () => {
   const [grade, setGrade] = useState<Option>({ value: '', label: '' });
   const [about, setAbout] = useState<string>('');
   const [country, setCountry] = useState<Option>({ value: '', label: '' });
-  const [linkArray, setLinkArray] = useState<{ url: string; id: number }[]>([
-    { url: '', id: 1 },
-    { url: '', id: 2 },
-  ]);
+  const [linkArray, setLinkArray] = useState<{ url: string; id: number }[]>(LINKS_DEFAULT);
   const [privateAnc, setPrivateAnc] = useState(false);
   const [notificationsEmail, setNotificationsEmail] = useState(true);
   const [notificationsBrow, setNotificationsBrow] = useState(true);
@@ -67,8 +69,11 @@ export const Profile = () => {
       const userGrade = GRADE_OPTIONS.filter((item) => item.value === profile.degree_category)[0];
       setGrade(userGrade);
     }
-    const userLinks = profile.links.map((item: any, index: number) => ({ url: item, id: index }));
-    setLinkArray(userLinks);
+
+    if (!!profile.links && !!profile.links.length) {
+      const userLinks = profile.links.map((item: any, index: number) => ({ url: item, id: index }));
+      setLinkArray(userLinks);
+    }
     setAvatarURL(profile.avatar_url);
     setName(profile.first_name);
     setLastName(profile.last_name);
@@ -164,7 +169,6 @@ export const Profile = () => {
       <div className={styles.overlay} />
     </div>
   );
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -286,7 +290,6 @@ export const Profile = () => {
             onChange={handleLinkChange}
           />
         ))}
-        {console.log(linkArray)}
         <button
           className={styles.btnLink}
           onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length + 1 }])}
