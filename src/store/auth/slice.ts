@@ -16,10 +16,10 @@ export const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(actions.getSignIn.fulfilled, (state, action) => {
+      .addCase(actions.getSignIn.fulfilled, (state) => {
         state.isAuth = true;
       })
-      .addCase(actions.getRegistration.fulfilled, (state, action) => {
+      .addCase(actions.getRegistration.fulfilled, (state) => {
         state.isAuth = true;
       });
   },

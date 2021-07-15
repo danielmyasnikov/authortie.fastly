@@ -92,4 +92,29 @@ export const ru = {
     public: 'Публичная заявка',
     choose: 'Выбрать',
   },
+
+  profile:{
+    title: 'Личная информация',
+    maxSize: 'Файл должен быть меньше 5Мб',
+    inputName: 'Введите имя',
+    inputLastName: 'Введите фамилию',
+    applicationHasBeenGenerated: 'Заявка сформирована!',
+    confirmOrcid: 'Подтвердить orcid',
+    confirmedOrcid: 'Orcid подтвержден',
+    name:'Имя',
+    lastName: 'Фамилия',
+    middleName: 'Отчество',
+    affiliation: 'Аффилиация',
+    about: 'О себе',
+    country: 'Страна',
+    changeContry: 'Выберите страну',
+    delete: 'Удалить',
+    links: 'Ссылки',
+    addLink: 'Добавить ссылку',
+    setings: 'Настройки',
+    privateAnc: 'Приватная анкета',
+    notificationsEmail: 'Уведомления по Email',
+    notificationsBrow: 'Уведомления в браузере',
+    save: 'Сохранить'
+  }
 };

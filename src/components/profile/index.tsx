@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import * as T from 'store/profile/types';
 import { Footer } from 'components/footer';
 import { STATUS_OPTIONS, STUDENT_OPTIONS, GRADE_OPTIONS, COUNTRIES } from './constansts';
 import { Button } from 'components/common/button';
@@ -16,11 +18,6 @@ import Note from 'assets/note.svg';
 import styles from './styles.module.less';
 import { useEffect } from 'react';
 
-interface Option {
-  value: string;
-  label: string;
-}
-
 const FILE_MAX_SIZE = 5242880;
 
 const LINKS_DEFAULT = [
@@ -29,6 +26,7 @@ const LINKS_DEFAULT = [
 ];
 
 export const Profile = () => {
+  const { t } = useTranslation('profile');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch: AppDispatch = useDispatch();
   const [avatarURL, setAvatarURL] = useState<string>('');
@@ -37,15 +35,14 @@ export const Profile = () => {
   const [lastName, setLastName] = useState<string>('');
   const [middleName, setMiddleName] = useState<string>('');
   const [affiliation, setAffiliation] = useState<string>('');
-  const [status, setStatus] = useState<Option>({ value: 'scientist', label: 'Учёный' });
-  const [grade, setGrade] = useState<Option>({ value: '', label: '' });
+  const [status, setStatus] = useState<T.Option>({ value: 'scientist', label: 'Учёный' });
+  const [grade, setGrade] = useState<T.Option>({ value: '', label: '' });
   const [about, setAbout] = useState<string>('');
-  const [country, setCountry] = useState<Option>({ value: '', label: '' });
-  const [linkArray, setLinkArray] = useState<{ url: string; id: number }[]>(LINKS_DEFAULT);
+  const [country, setCountry] = useState<T.Option>({ value: '', label: '' });
+  const [linkArray, setLinkArray] = useState<T.Links[]>(LINKS_DEFAULT);
   const [privateAnc, setPrivateAnc] = useState(false);
   const [notificationsEmail, setNotificationsEmail] = useState(true);
   const [notificationsBrow, setNotificationsBrow] = useState(true);
-
   const [fileError, setFileError] = useState('');
   const [nameError, setNameError] = useState('');
   const [lastNameError, setLastNameError] = useState('');
@@ -60,31 +57,19 @@ export const Profile = () => {
   }, []);
 
   useEffect(() => {
-    const userCountry = COUNTRIES.filter((item) => item.label === profile.country)[0];
-    const userDegree = STATUS_OPTIONS.filter((item) => item.value === profile.degree)[0];
-    if (profile.degree === 'student') {
-      const userGrade = STUDENT_OPTIONS.filter((item) => item.value === profile.degree_category)[0];
-      setGrade(userGrade);
-    } else {
-      const userGrade = GRADE_OPTIONS.filter((item) => item.value === profile.degree_category)[0];
-      setGrade(userGrade);
-    }
-
-    if (!!profile.links && !!profile.links.length) {
-      const userLinks = profile.links.map((item: any, index: number) => ({ url: item, id: index }));
-      setLinkArray(userLinks);
-    }
-    setAvatarURL(profile.avatar_url);
-    setName(profile.first_name);
-    setLastName(profile.last_name);
-    setMiddleName(profile.middle_name);
+    setAvatarURL(profile.avatarUrl);
+    setName(profile.name);
+    setLastName(profile.lastName);
+    setMiddleName(profile.middleName);
     setAffiliation(profile.affiliation);
     setAbout(profile.about);
-    setPrivateAnc(profile.public_visibility);
-    setNotificationsEmail(profile.email_notifications);
-    setNotificationsBrow(profile.push_notifications);
-    setCountry(userCountry);
-    setStatus(userDegree);
+    setPrivateAnc(profile.privateAnc);
+    setNotificationsEmail(profile.notificationsEmail);
+    setNotificationsBrow(profile.notificationsBrow);
+    setCountry(profile.country);
+    setStatus(profile.status);
+    setGrade(profile.grade);
+    setLinkArray(profile.links);
   }, [profile]);
 
   const getDataUrlFromFile = (file: File | Blob): Promise<string> =>
@@ -102,7 +87,7 @@ export const Profile = () => {
     // @ts-ignore
     const [file] = event.target.files || [];
     if (file.size > FILE_MAX_SIZE) {
-      setFileError('Файл должен быть меньше 5Мб');
+      setFileError(t('maxSize'));
     } else setFileError('');
 
     setAvatar(file);
@@ -127,10 +112,10 @@ export const Profile = () => {
   function handleBlur(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
     if (name === 'name' && value === '') {
-      setNameError('Введите имя');
+      setNameError(t('inputName'));
     }
     if (name === 'last_name' && value === '') {
-      setLastNameError('Введите имя');
+      setLastNameError(t('Введите фамилию'));
     }
   }
 
@@ -157,6 +142,11 @@ export const Profile = () => {
     }
   }
 
+  function deleteLink(id?: number) {
+    const newLinkArray = linkArray.filter((link) => link.id !== id);
+    setLinkArray(newLinkArray);
+  }
+
   const isValid = !fileError && !!name && !!lastName;
 
   const renderModal = () => (
@@ -164,7 +154,7 @@ export const Profile = () => {
       <div className={styles.contaier}>
         <Close className={styles.exit} onClick={() => setModal(false)} />
         <Note className={styles.noteIcon} />
-        <span className={styles.subtitle}>Заявка сформирована!</span>
+        <span className={styles.subtitle}>{t('applicationHasBeenGenerated')}</span>
       </div>
       <div className={styles.overlay} />
     </div>
@@ -172,7 +162,7 @@ export const Profile = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        <span className={styles.title}>Личная информация</span>
+        <span className={styles.title}>{t('title')}</span>
         <div className={styles.profileWrapper}>
           {avatarURL ? (
             <img className={styles.img} src={avatarURL} alt="" />
@@ -195,23 +185,23 @@ export const Profile = () => {
             <Pencil />
           </div>
         </div>
-        <span className={styles.error}>{fileError}</span>
+        {fileError && <span className={styles.error}>{fileError}</span>}
         <div className={styles.linkWrap}>
-          {profile.orcid_uuid ? (
+          {profile.confirmOrcid ? (
             <>
               <a href={IDURL} className={styles.bigIcon}>
                 <img src={IDColor} alt="" />
               </a>
-              <span className={styles.subtitle}> Подтвердить orcid</span>
+              <span className={styles.subtitle}>{t('confirmOrcid')}</span>
             </>
           ) : (
             <>
               <img className={styles.bigIcon} src={IDColor} alt="" />
-              <span className={styles.subtitle}> Orcid подтвержден</span>{' '}
+              <span className={styles.subtitle}>{t('confirmedOrcid')}</span>{' '}
             </>
           )}
         </div>
-        <span className={styles.subtitle}>Имя</span>
+        <span className={styles.subtitle}>{t('name')}</span>
         <input
           value={name}
           name="name"
@@ -221,8 +211,8 @@ export const Profile = () => {
           type="text"
           onChange={(e) => setName(e.target.value)}
         />
-        <span className={styles.error}>{nameError}</span>
-        <span className={styles.subtitle}>Фамилия</span>
+        {nameError && <span className={styles.error}>{nameError}</span>}
+        <span className={styles.subtitle}>{t('lastName')}</span>
         <input
           value={lastName}
           name="last_name"
@@ -232,8 +222,8 @@ export const Profile = () => {
           type="text"
           onChange={(e) => setLastName(e.target.value)}
         />
-        <span className={styles.error}>{lastNameError}</span>
-        <span className={styles.subtitle}>Отчество</span>
+        {lastNameError && <span className={styles.error}>{lastNameError}</span>}
+        <span className={styles.subtitle}>{t('middleName')}</span>
         <input
           value={middleName}
           name="middle_name"
@@ -260,7 +250,7 @@ export const Profile = () => {
             onChange={(option: any) => setGrade(option)}
           />
         )}
-        <span className={styles.subtitle}>Аффилиация</span>
+        <span className={styles.subtitle}>{t('affiliation')}</span>
         <input
           value={affiliation}
           name="affiliation"
@@ -269,34 +259,39 @@ export const Profile = () => {
           type="text"
           onChange={(e) => setAffiliation(e.target.value)}
         />
-        <span className={styles.subtitle}>О себе</span>
+        <span className={styles.subtitle}>{t('about')}</span>
         <Textarea value={about} onChange={setAbout} />
-        <span className={styles.subtitle}>Страна </span>
+        <span className={styles.subtitle}>{t('country')}</span>
         <Select
-          placeholder={'Выберите страну'}
+          placeholder={t('changeContry')}
           classNamePrefix="CustomSelect"
           value={country}
           options={COUNTRIES}
           onChange={(option: any) => setCountry(option)}
         />
-        <span className={styles.subtitle}>Ссылки</span>
+        <span className={styles.subtitle}>{t('links')}</span>
         {linkArray.map((item) => (
-          <input
-            value={item.url}
-            name={String(item.id)}
-            id={String(item.id)}
-            className={styles.inputLink}
-            type="text"
-            onChange={handleLinkChange}
-          />
+          <div className={styles.linksWrapper}>
+            <input
+              value={item.url}
+              name={String(item.id)}
+              id={String(item.id)}
+              className={styles.inputLink}
+              type="text"
+              onChange={handleLinkChange}
+            />
+            <button onClick={() => deleteLink(item.id)} className={styles.deleteBtn}>
+              {t('delete')}
+            </button>
+          </div>
         ))}
         <button
           className={styles.btnLink}
           onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length + 1 }])}
         >
-          Добавить ссылку
+          {t('addLink')}
         </button>
-        <span className={styles.title}>Настройки</span>
+        <span className={styles.title}>{t('setings')}</span>
         <div>
           <input
             className={styles.checkboxInput}
@@ -306,7 +301,7 @@ export const Profile = () => {
             checked={privateAnc}
             onChange={() => setPrivateAnc(!privateAnc)}
           />
-          <label htmlFor="privateAnc">Приватная анкета</label>
+          <label htmlFor="privateAnc">{t('privateAnc')}</label>
         </div>
         <div>
           <input
@@ -317,7 +312,7 @@ export const Profile = () => {
             checked={notificationsEmail}
             onChange={() => setNotificationsEmail(!notificationsEmail)}
           />
-          <label htmlFor="notificationsEmail">Уведомления по Email</label>
+          <label htmlFor="notificationsEmail">{t('notificationsEmail')}</label>
         </div>
         <div>
           <input
@@ -328,11 +323,11 @@ export const Profile = () => {
             checked={notificationsBrow}
             onChange={() => setNotificationsBrow(!notificationsBrow)}
           />
-          <label htmlFor="notificationsBrow">Уведомления в браузере</label>
+          <label htmlFor="notificationsBrow">{t('notificationsBrow')}</label>
         </div>
         <div className={styles.saveBtn}>
           <Button disabled={!isValid} onClick={submitProfile}>
-            Сохранить
+            {t('save')}
           </Button>
         </div>
       </div>
