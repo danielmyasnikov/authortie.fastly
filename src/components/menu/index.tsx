@@ -31,7 +31,13 @@ export const Menu: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={cn(styles.itemsWrapperMobile, { [styles.openMenu]: isOpenMenu })}>
         <span className={styles.item}>{t('analitics')}</span>
-        <span className={styles.item}>{t('community')}</span>
+        <Link
+          to={'/community'}
+          className={styles.item}
+          onClick={() => seIsOpenMenu(false)}
+          >
+          {t('community')}
+        </Link>
         <span className={styles.item}>{t('forBusiness')}</span>
       </div>
 
