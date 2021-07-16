@@ -16,6 +16,7 @@
       display: flex;
       align-items: center;
       height: 48px;
+      padding: 0 12px;
       background: #f2f7ff;
       border: 0;
       border-radius: 12px 12px 0 0;
@@ -136,6 +137,7 @@
   padding: 14px 20px 13px 20px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  font-size: 16px;
   background: #f2f7ff;
   border: none;
   border-bottom: 5px solid #e9f1ff;
@@ -269,4 +271,78 @@
     width: 40px;
     height: 40px;
   }
+}
+
+.error {
+  margin: 8px 0;
+  font-size: 14px;
+  color: var(--color-red);
+}
+
+.modalWrapper {
+  position: fixed;
+  display: flex;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.contaier {
+  position: relative;
+  width: 434px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border-radius: 10px;
+  background: #f9fbff;
+  z-index: 20;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.exit {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  fill: var(--color-gray);
+  cursor: pointer;
+  &:hover {
+    fill: var(--color-black);
+  }
+}
+
+.linkWrap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .subtitle {
+    margin: 0;
+    margin-left: 12px;
+  }
+}
+
+.linksWrapper{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.deleteBtn{
+  background: transparent;
+  color: #2c80ff;
+  border: none;
+  cursor: pointer;
 }

@@ -52,7 +52,7 @@ export const Postings = () => {
   }
 
   function setKnowledgeAreaChange(val?: string) {
-    setWorkType(val);
+    setKnowledgeArea(val);
     setPage(1);
     dispatch(Slice.postings.actions.cleanPostings());
   }
@@ -88,7 +88,7 @@ export const Postings = () => {
               id={item.id}
               keyWords={item.keyword_list}
               comment={item.comment}
-              author=""
+              author={item.user.profile}
               institution=""
               authorStatus=""
               title={item.title}

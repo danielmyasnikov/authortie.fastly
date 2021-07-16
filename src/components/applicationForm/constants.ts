@@ -1,6 +1,6 @@
 export const CATEGORY_DEFAULT = [
   {
-    value: 'Повысить цитируемость своих работ',
+    value: 'Повысить цитируемость',
     checked: false,
     workType: 'cite_mines',
     workTypeRevert: 'cite_others',
@@ -12,7 +12,7 @@ export const CATEGORY_DEFAULT = [
     workTypeRevert: 'become_coathor',
   },
   {
-    value: 'Найти рецензента/эксперта/эдвайзора',
+    value: 'Услугу рецензента/эксперта/эдвайзора',
     checked: false,
     workType: 'find_reviewer',
     workTypeRevert: 'become_reviewer',
@@ -45,3 +45,24 @@ export const currencyOptions = [
   { label: 'EUR', value: 'EUR' },
   { label: 'CHN', value: 'CHN' },
 ];
+
+
+// about: "я , просто я "
+// affiliation: "ВУЗ "
+// affiliation_visibility: false
+// city: null
+// country: "RUSSIAN FEDERATION"
+// created_at: "2021-06-26T15:56:02.062Z"
+// degree: "student"
+// degree_category: "Студент"
+// email_notifications: false
+// first_name: "Владик"
+// id: 3
+// lang: null
+// last_name: "L"
+// middle_name: ""
+// orcid_uuid: null
+// public_visibility: false
+// push_notifications: false
+// updated_at: "2021-07-08T19:19:45.919Z"
+// user_id: 55

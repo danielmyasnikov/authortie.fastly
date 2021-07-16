@@ -1,10 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'components/common/button';
 import { Card } from 'components/common/card';
 import { getIsAuth } from 'store/auth/selectors';
+import { getPostingsMain } from 'store/main/actions';
+import { getPostingsMainSelector } from 'store/main/selectors';
 import Arrow from 'assets/arrow.svg';
 import { Footer } from 'components/footer';
 import Assessment from 'assets/assessment.png';
@@ -14,11 +16,18 @@ import Enhance from 'assets/enhance.png';
 import styles from './styles.module.less';
 
 import { cards } from './mock';
+import { useEffect } from 'react';
 
 export const Main: React.FC = () => {
   const { t } = useTranslation('main');
+  const dispatch = useDispatch();
   const location = useLocation();
   const isAuth = useSelector(getIsAuth);
+  const {postings} = useSelector(getPostingsMainSelector);
+
+  useEffect(() => {
+    dispatch(getPostingsMain());
+  }, []);
 
   const renderHowItsWork = () => (
     <div className={styles.howWorkWrapper}>
@@ -85,7 +94,7 @@ export const Main: React.FC = () => {
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 
           <div className={styles.cards}>
-            {cards.map((item: any) => (
+            {postings.map((item: any) => (
               <Card
                 key={item.id}
                 privateAccaunt={false}
