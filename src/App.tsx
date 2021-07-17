@@ -17,7 +17,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   // @ts-ignore
-  let background = location.state && location.state.background;
+  const background = location.state && location.state.background;
   const history = useHistory();
 
   const params = new URLSearchParams(history.location.search);
@@ -26,7 +26,7 @@ const App: React.FC = () => {
     if (location.pathname === '/authorization' && !background) {
       history.push({
         pathname: 'authorization',
-        state: { background: '/' },
+        state: { background: location.pathname  },
       });
     }
   }, []);
