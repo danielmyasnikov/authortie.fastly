@@ -26,6 +26,7 @@ export const Registration: React.FC = () => {
   const { t } = useTranslation('auth');
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
+  const originPath = window.origin;
   const [isRegistration, setIsRegistration] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
@@ -34,9 +35,9 @@ export const Registration: React.FC = () => {
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
   const [error, setError] = useState('');
   const [check, setCheck] = useState(false);
+  const googleURL = `https://authortie-app.herokuapp.com/auth/google_oauth2?front_url=${originPath}${pathname}`;
+  const facebookURL = `https://authortie-app.herokuapp.com/auth/facebook?front_url=${originPath}${pathname}`;
 
-  const googleURL = `https://authortie-app.herokuapp.com/auth/google_oauth2?front_url=https://authorties-sky.herokuapp.com${pathname}`;
-  const facebookURL = `https://authortie-app.herokuapp.com/auth/facebook?front_url=https://authorties-sky.herokuapp.com${pathname}`;
   function onClose() {
     history.goBack();
   }

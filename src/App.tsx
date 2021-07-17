@@ -21,12 +21,12 @@ const App: React.FC = () => {
   const history = useHistory();
 
   const params = new URLSearchParams(history.location.search);
-
+  const pathNoSlash = location.pathname.substr(location.pathname.indexOf('/') + 1);
   useEffect(() => {
     if (location.pathname === '/authorization' && !background) {
       history.push({
-        pathname: 'authorization',
-        state: { background: location.pathname  },
+        pathname: location.pathname,
+        state: { background: location.pathname },
       });
     }
   }, []);
@@ -40,7 +40,7 @@ const App: React.FC = () => {
       localStorage.setItem('access-token', accessToken);
       localStorage.setItem('client', client);
       dispatch(authSlice.actions.getAuth());
-      history.push('/');
+      history.push(pathNoSlash);
     }
   }, [history.location.search]);
 
@@ -59,19 +59,15 @@ const App: React.FC = () => {
       <Switch location={background || location}>
         <Route exact path="/">
           <Container Component={Main} />
-
         </Route>
         <Route exact path="/application">
           <Container Component={ApplicationForm} />
-
         </Route>
         <Route exact path="/community">
           <Container Component={Postings} />
-
         </Route>
         <Route exact path="/profile">
           <Container Component={Profile} />
-
         </Route>
       </Switch>
       {background && <Route path="/authorization" component={Registration} />}
