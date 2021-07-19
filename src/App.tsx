@@ -6,6 +6,7 @@ import { Menu } from 'components/menu';
 import { Main } from 'components/main';
 import { Postings } from 'components/postings';
 import { ApplicationForm } from 'components/applicationForm';
+import { DetailedApplication } from 'components/detailedApplication';
 import { Footer } from 'components/footer';
 import { Profile } from 'components/profile';
 import { Registration } from 'components/auth/registration';
@@ -68,6 +69,9 @@ const App: React.FC = () => {
         </Route>
         <Route exact path="/profile">
           <Container Component={Profile} />
+        </Route>
+        <Route exact path="/application/:id">
+          <Container Component={DetailedApplication} />
         </Route>
       </Switch>
       {background && <Route path="/authorization" component={Registration} />}
