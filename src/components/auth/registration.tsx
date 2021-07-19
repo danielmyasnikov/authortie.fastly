@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import cn from 'classnames';
 import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
@@ -20,23 +20,23 @@ import { getRegistration, getSignIn } from 'store/auth/actions';
 import styles from './styles.module.less';
 
 export const Registration: React.FC = () => {
+  const location = useLocation();
+  // @ts-ignore
+  const { pathname } = location.state && location.state.background;
   const { t } = useTranslation('auth');
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
+  const originPath = window.origin;
   const [isRegistration, setIsRegistration] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
-  const [passwordError, setPasswordError] = useState<string>('');
-  const [passwordConfirmationError, setPasswordConfirmationError] = useState<string>('');
-  const [emailError, setEmailError] = useState<string>('');
-
-  const googleURL =
-    'https://authortie-app.herokuapp.com/auth/google_oauth2?front_url=https://authorties-sky.herokuapp.com/';
-  const facebookURL =
-    'https://authortie-app.herokuapp.com/auth/facebook?front_url=https://authorties-sky.herokuapp.com/';
+  const [error, setError] = useState('');
+  const [check, setCheck] = useState(false);
+  const googleURL = `https://authortie-app.herokuapp.com/auth/google_oauth2?front_url=${originPath}${pathname}`;
+  const facebookURL = `https://authortie-app.herokuapp.com/auth/facebook?front_url=${originPath}${pathname}`;
 
   function onClose() {
     history.goBack();
@@ -47,14 +47,14 @@ export const Registration: React.FC = () => {
     switch (name) {
       case 'email':
         setEmail(value);
-        setEmailError('');
+        setError('');
         break;
       case 'password':
-        setPasswordError('');
+        setError('');
         setPassword(value);
         break;
       case 'repeatPassword':
-        setPasswordConfirmationError('');
+        setError('');
         setPasswordConfirmation(value);
         break;
       default:
@@ -68,10 +68,8 @@ export const Registration: React.FC = () => {
 
   async function signIn() {
     const resultConf = await dispatch(getSignIn({ email, password }));
-
-    if (getRegistration.rejected.match(resultConf) && resultConf.payload) {
-      setEmailError(resultConf.payload.emailError[0]);
-      setPasswordError(resultConf.payload.passwordError[0]);
+    if (getSignIn.rejected.match(resultConf) && resultConf.payload) {
+      setError(resultConf.payload);
     } else {
       history.goBack();
     }
@@ -81,10 +79,7 @@ export const Registration: React.FC = () => {
     const resultConf = await dispatch(getRegistration({ email, password, passwordConfirmation }));
 
     if (getRegistration.rejected.match(resultConf) && resultConf.payload) {
-      setEmailError(resultConf.payload.emailError[0]);
-      setPasswordError(resultConf.payload.passwordError[0]);
-      resultConf.payload.passwordConfirmationError &&
-        setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
+      setError(resultConf.payload);
     } else {
       setIsConfirm(true);
     }
@@ -120,7 +115,7 @@ export const Registration: React.FC = () => {
         </button>
       </div>
 
-      <div className={cn(styles.inputWrapper, { [styles.inputWrapperError]: !!emailError })}>
+      <div className={styles.inputWrapper}>
         <input
           placeholder={t('email')}
           value={email}
@@ -131,9 +126,8 @@ export const Registration: React.FC = () => {
           onChange={handleChange}
         />
       </div>
-      <div className={styles.error}>{emailError}</div>
 
-      <div className={cn(styles.inputWrapper, { [styles.inputWrapperError]: !!passwordError })}>
+      <div className={styles.inputWrapper}>
         <input
           placeholder={t('password')}
           value={password}
@@ -147,15 +141,10 @@ export const Registration: React.FC = () => {
           {isShowPassword ? <Eye /> : <CloseEye />}
         </div>
       </div>
-      <div className={styles.error}>{passwordError}</div>
 
       {isRegistration && (
         <>
-          <div
-            className={cn(styles.inputWrapper, {
-              [styles.inputWrapperError]: !!passwordConfirmationError,
-            })}
-          >
+          <div className={styles.inputWrapper}>
             <input
               placeholder={t('repeatPassword')}
               value={passwordConfirmation}
@@ -169,7 +158,6 @@ export const Registration: React.FC = () => {
               {isShowPassword ? <Eye /> : <CloseEye />}
             </div>
           </div>
-          <div className={styles.error}>{passwordConfirmationError}</div>
         </>
       )}
       {!isRegistration && (
@@ -179,7 +167,7 @@ export const Registration: React.FC = () => {
       {isRegistration && (
         <div className={styles.checkWrapper}>
           <label className={styles.checkbox} htmlFor="element">
-            <input type="checkbox" id="element" />
+            <input checked={check} type="checkbox" id="element" onClick={() => setCheck(!check)} />
             <span>
               <div className={styles.check} />
             </span>
@@ -198,9 +186,15 @@ export const Registration: React.FC = () => {
         </div>
       )}
 
-      <Button className={styles.btn} onClick={onSubmit}>
+      <Button
+        className={cn(styles.btn, { [styles.disabled]: isRegistration && !check })}
+        onClick={onSubmit}
+        disabled={isRegistration && !check}
+      >
         {isRegistration ? t('logup') : t('login')}
       </Button>
+
+      <div className={styles.error}>{error}</div>
 
       <span className={styles.loginWithTitle}>{t('loginWith')}</span>
       <div className={styles.iconsWrapper}>

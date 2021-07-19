@@ -15,7 +15,7 @@ export const Menu: React.FC = () => {
   const { t } = useTranslation('menu');
   const location = useLocation();
   const auth = useSelector(getIsAuth);
-  const [isOpenMenu, seIsOpenMenu] = useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
@@ -31,11 +31,7 @@ export const Menu: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={cn(styles.itemsWrapperMobile, { [styles.openMenu]: isOpenMenu })}>
         <span className={styles.item}>{t('analitics')}</span>
-        <Link
-          to={'/community'}
-          className={styles.item}
-          onClick={() => seIsOpenMenu(false)}
-          >
+        <Link to={'/community'} onClick={() => setIsOpenMenu(!isOpenMenu)} className={styles.item}>
           {t('community')}
         </Link>
         <span className={styles.item}>{t('forBusiness')}</span>
@@ -44,7 +40,7 @@ export const Menu: React.FC = () => {
       <div className={styles.content}>
         <button
           className={cn(styles.burger, { [styles.active]: isOpenMenu })}
-          onClick={() => seIsOpenMenu(!isOpenMenu)}
+          onClick={() => setIsOpenMenu(!isOpenMenu)}
           type="button"
         >
           <span className={styles.burgerItem}></span>

@@ -26,7 +26,9 @@ export const Postings = () => {
     }
   }
   useEffect(() => {
-    loadData();
+    if (page > 1) {
+      loadData();
+    }
   }, [page]);
 
   useEffect(() => {
@@ -57,6 +59,14 @@ export const Postings = () => {
     dispatch(Slice.postings.actions.cleanPostings());
   }
 
+  function dismissFilter() {
+    setWorkType('');
+    setKnowledgeArea('');
+    setPage(1);
+    dispatch(Slice.postings.actions.cleanPostings());
+    dispatch(getPostings({ page: 1, workType: '', knowledgeArea: '' }));
+  }
+
   return (
     <div className={styles.wrapper} ref={pageRef} onScroll={handleScroll}>
       <div className={styles.content}>
@@ -79,6 +89,9 @@ export const Postings = () => {
             placeholder="Область знания"
             onChange={(option) => setKnowledgeAreaChange(option?.value)}
           />
+          <button className={styles.lineBtn} onClick={dismissFilter}>
+            Сброс фильтра
+          </button>
         </div>
         <div className={styles.cards}>
           {postings.map((item: any) => (
@@ -106,19 +119,3 @@ export const Postings = () => {
     </div>
   );
 };
-
-// approx_date: "2021-08-01"
-// comment: "Some string with random text"
-// count_views: 0
-// id: 2
-// keyword_list: "string;string1"
-// knowledge_area_list: "biology"
-// poster: {id: 2, first_name: null, last_name: null, middle_name: null, about: null, country: null, lang: null,…}
-// revert_posting: {work_type: "become_coathor", knowledge_area_list: "biology", title: "Title #1. So it's about this.",…}
-// reward_comment: null
-// reward_currency: null
-// reward_sum: 500
-// reward_type: "return_help"
-// secreted: true
-// title: "Title #0. So it's about that"
-// work_type: "invite_coathor"

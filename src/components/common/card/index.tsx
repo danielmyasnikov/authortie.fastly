@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import ReactTooltip from 'react-tooltip';
 import Camera from 'assets/camera.svg';
@@ -134,9 +135,11 @@ export const Card: React.FC<Props> = ({
       <div className={styles.btnWrapper}>
         <Button className={styles.btn}>{t('offerCooperation')}</Button>
         <a href="https://www.google.ru/" target="_blank">
-          <Button className={styles.rightBtn}>
-            <Right className={styles.rigthIcon} />
-          </Button>
+          <Link to={`/application/${id}`}>
+            <Button className={styles.rightBtn}>
+              <Right className={styles.rigthIcon} />
+            </Button>
+          </Link>
         </a>
       </div>
     </div>

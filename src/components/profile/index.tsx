@@ -187,7 +187,8 @@ export const Profile = () => {
         </div>
         {fileError && <span className={styles.error}>{fileError}</span>}
         <div className={styles.linkWrap}>
-          {profile.confirmOrcid ? (
+          {console.log(!!profile.confirmOrcid)}
+          {!profile.confirmOrcid ? (
             <>
               <a href={IDURL} className={styles.bigIcon}>
                 <img src={IDColor} alt="" />
