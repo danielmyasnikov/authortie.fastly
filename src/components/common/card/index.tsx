@@ -102,7 +102,7 @@ export const Card: React.FC<Props> = ({
 
       <div className={styles.keyWrapper}>
         {showWords.map((word) => (
-          <Tag>{word}</Tag>
+          <Tag key={word}>{word}</Tag>
         ))}
         {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
       </div>

@@ -95,24 +95,25 @@ export const Postings = () => {
         </div>
         <div className={styles.cards}>
           {postings.map((item: any) => (
-            <Card
-              key={item.id + item.title}
-              privateAccaunt={false}
-              id={item.id}
-              keyWords={item.keyword_list}
-              comment={item.comment}
-              author={item.user.profile}
-              institution=""
-              authorStatus=""
-              title={item.title}
-              fieldOfActivity=""
-              workType={item.work_type || ''}
-              knowledgeArea={item.knowledge_area_list || ''}
-              rewardType={item.reward_type}
-              rewardCurrency={item.reward_currency}
-              rewardSum={item.reward_sum}
-              rewardСomment={item.reward_comment}
-            />
+            <React.Fragment key={item.id + item.title}>
+              <Card
+                privateAccaunt={false}
+                id={item.id}
+                keyWords={item.keyword_list}
+                comment={item.comment}
+                author={item.user.profile}
+                institution=""
+                authorStatus=""
+                title={item.title}
+                fieldOfActivity=""
+                workType={item.work_type || ''}
+                knowledgeArea={item.knowledge_area_list || ''}
+                rewardType={item.reward_type}
+                rewardCurrency={item.reward_currency}
+                rewardSum={item.reward_sum}
+                rewardСomment={item.reward_comment}
+              />
+            </React.Fragment>
           ))}
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { Switch, Route, useLocation, useHistory, Redirect } from 'react-router-dom';
 import { Container } from 'components/container';
 import { Menu } from 'components/menu';
 import { Main } from 'components/main';
@@ -53,25 +53,26 @@ const App: React.FC = () => {
       dispatch(authSlice.actions.getAuth());
     }
   }, []);
-
+  const redirectUrl = `${location.pathname}${location.search}`;
   return (
     <div className={styles.wrapper}>
       <Menu />
       <Switch location={background || location}>
+
         <Route exact path="/">
           <Container Component={Main} />
         </Route>
         <Route exact path="/application">
           <Container Component={ApplicationForm} />
         </Route>
-        <Route exact path="/community">
+        <Route path="/community">
           <Container Component={Postings} />
-        </Route>
-        <Route exact path="/profile">
-          <Container Component={Profile} />
         </Route>
         <Route exact path="/application/:id">
           <Container Component={DetailedApplication} />
+        </Route>
+        <Route path="/profile">
+          <Container Component={Profile} />
         </Route>
       </Switch>
       {background && <Route path="/authorization" component={Registration} />}

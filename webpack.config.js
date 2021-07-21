@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const { truncate } = require('fs');
 require('dotenv').config();
 
 module.exports = {
@@ -16,9 +17,6 @@ module.exports = {
 
   devServer: {
     historyApiFallback: true,
-    contentBase: path.resolve(__dirname, './dist'),
-    open: false,
-    compress: true,
     hot: true,
     port: 8585,
   },
@@ -62,6 +60,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].[contenthash].js',
+    publicPath: '/',
   },
 
   module: {

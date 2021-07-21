@@ -272,7 +272,7 @@ export const Profile = () => {
         />
         <span className={styles.subtitle}>{t('links')}</span>
         {linkArray.map((item) => (
-          <div className={styles.linksWrapper}>
+          <div key={item.id + item.url} className={styles.linksWrapper}>
             <input
               value={item.url}
               name={String(item.id)}
