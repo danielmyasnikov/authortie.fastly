@@ -53,7 +53,7 @@ const App: React.FC = () => {
       dispatch(authSlice.actions.getAuth());
     }
   }, []);
-  const redirectUrl = `${location.pathname}${location.search}`;
+
   return (
     <div className={styles.wrapper}>
       <Menu />
@@ -65,13 +65,13 @@ const App: React.FC = () => {
         <Route exact path="/application">
           <Container Component={ApplicationForm} />
         </Route>
-        <Route path="/community">
+        <Route exact path="/community">
           <Container Component={Postings} />
         </Route>
         <Route exact path="/application/:id">
           <Container Component={DetailedApplication} />
         </Route>
-        <Route path="/profile">
+        <Route exact path="/profile">
           <Container Component={Profile} />
         </Route>
       </Switch>
