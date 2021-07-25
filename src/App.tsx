@@ -58,18 +58,17 @@ const App: React.FC = () => {
     <div className={styles.wrapper}>
       <Menu />
       <Switch location={background || location}>
-
         <Route exact path="/">
           <Container Component={Main} />
         </Route>
         <Route exact path="/application">
           <Container Component={ApplicationForm} />
         </Route>
+        <Route path="/application/:id">
+          <Container Component={DetailedApplication} />
+        </Route>
         <Route exact path="/community">
           <Container Component={Postings} />
-        </Route>
-        <Route exact path="/application/:id">
-          <Container Component={DetailedApplication} />
         </Route>
         <Route exact path="/profile">
           <Container Component={Profile} />

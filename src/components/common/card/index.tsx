@@ -134,13 +134,12 @@ export const Card: React.FC<Props> = ({
 
       <div className={styles.btnWrapper}>
         <Button className={styles.btn}>{t('offerCooperation')}</Button>
-        <a href="https://www.google.ru/" target="_blank">
-          <Link to={`/application/${id}`}>
-            <Button className={styles.rightBtn}>
-              <Right className={styles.rigthIcon} />
-            </Button>
-          </Link>
-        </a>
+
+        <Link to={`/application/${id}`}>
+          <Button className={styles.rightBtn}>
+            <Right className={styles.rigthIcon} />
+          </Button>
+        </Link>
       </div>
     </div>
   );
