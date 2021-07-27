@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -8,6 +8,7 @@ import { getDetailedApplicationSelector } from 'store/detailedApplication/select
 import { Footer } from 'components/footer';
 import { Button } from 'components/common/button';
 import { Tag } from './tag';
+import { Offer } from './offer';
 
 import styles from './styles.module.less';
 
@@ -19,8 +20,10 @@ export const DetailedApplication = () => {
   const dispatch = useDispatch();
   const params = useParams<Params>();
   const { post }: any = useSelector(getDetailedApplicationSelector);
-
   const { t } = useTranslation('card');
+
+  const [offerCooperation, setOfferCooperation] = useState(false);
+
   useEffect(() => {
     if (!!params.id) dispatch(getDetailedApplication(params.id));
   }, []);
@@ -64,7 +67,7 @@ export const DetailedApplication = () => {
               <span className={styles.comment}>{t(post.reward_type)}</span>
             )}
           </div>
-          <Button>Предложить сотрудничество</Button>
+          <Button onClick={() => setOfferCooperation(true)}>Предложить сотрудничество</Button>
         </div>
 
         <div className={styles.profileWrapper}>
@@ -92,6 +95,8 @@ export const DetailedApplication = () => {
             <span className={styles.comment}>{profile.about}</span>
           </div>
         </div>
+
+        {offerCooperation && <Offer />}
       </div>
 
       <div className={styles.foot}>

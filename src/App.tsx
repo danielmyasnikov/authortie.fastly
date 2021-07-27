@@ -64,7 +64,7 @@ const App: React.FC = () => {
         <Route exact path="/application">
           <Container Component={ApplicationForm} />
         </Route>
-        <Route path="/application/:id">
+        <Route exact path="/application/:id">
           <Container Component={DetailedApplication} />
         </Route>
         <Route exact path="/community">
