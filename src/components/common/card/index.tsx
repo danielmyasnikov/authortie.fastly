@@ -110,10 +110,10 @@ export const Card: React.FC<Props> = ({
         {!author.first_name && !author.public_visibility && (
           <span className={styles.text}>Профиль не заполнен</span>
         )}
-        {author.public_visibility && author.first_name && (
+        {!author.public_visibility && author.first_name && (
           <span className={styles.text}>Профиль скрыт</span>
         )}
-        {author.first_name && !author.public_visibility && (
+        {author.first_name && author.public_visibility && (
           <div className={styles.personInfo}>
             <div className={styles.row}>
               <span className={styles.text}>
