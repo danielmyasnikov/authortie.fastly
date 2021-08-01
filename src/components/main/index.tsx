@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,19 +15,21 @@ import Improve from 'assets/improve.png';
 import Enhance from 'assets/enhance.png';
 import styles from './styles.module.less';
 
-import { cards } from './mock';
-import { useEffect } from 'react';
-
 export const Main: React.FC = () => {
   const { t } = useTranslation('main');
   const dispatch = useDispatch();
   const location = useLocation();
   const isAuth = useSelector(getIsAuth);
-  const {postings} = useSelector(getPostingsMainSelector);
+  const { postings } = useSelector(getPostingsMainSelector);
+  const [publications, setPublications] = useState<any[]>([]);
 
   useEffect(() => {
     dispatch(getPostingsMain());
   }, []);
+
+  useEffect(() => {
+    setPublications(postings);
+  }, [postings]);
 
   const renderHowItsWork = () => (
     <div className={styles.howWorkWrapper}>
@@ -94,16 +96,14 @@ export const Main: React.FC = () => {
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 
           <div className={styles.cards}>
-            {postings.map((item: any) => (
+            {!!publications.length && publications.map((item: any) => (
               <Card
                 key={item.id}
-                privateAccaunt={false}
+                privateAccaunt={!item.is_profile_visible}
                 id={item.id}
                 keyWords={item.keyword_list}
                 comment={item.comment}
-                author=""
-                institution=""
-                authorStatus=""
+                author={item.user && item.user.profile}
                 title={item.title}
                 fieldOfActivity=""
                 workType={item.work_type || ''}

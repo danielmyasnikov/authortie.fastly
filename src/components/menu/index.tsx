@@ -19,12 +19,7 @@ export const Menu: React.FC = () => {
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    setIsAuth(
-      auth ||
-        (!!localStorage.getItem('uid') &&
-          !!localStorage.getItem('access-token') &&
-          !!localStorage.getItem('client')),
-    );
+    setIsAuth(auth);
   }, [auth]);
 
   return (
@@ -66,7 +61,7 @@ export const Menu: React.FC = () => {
           <>
             <Bell className={styles.icon} />
             <User className={styles.icon} />
-            <Link to={'profile'} className={styles.userName}>
+            <Link to={'/profile'} className={styles.userName}>
               User
             </Link>
           </>

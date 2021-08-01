@@ -1,3 +1,108 @@
 .wrapper {
   margin-top: 24px;
+  :global {
+    .CustomSelect__control {
+      margin-right: 20px;
+      width: 600px;
+      display: flex;
+      align-items: center;
+      height: 48px;
+      padding: 0 12px;
+      background: #f2f7ff;
+      border: 0;
+      border-radius: 12px 12px 0 0;
+      outline: 0;
+      box-shadow: none;
+    }
+
+    .CustomSelect__single-value {
+      position: static;
+      top: unset;
+      display: block;
+      margin: 0;
+      font-size: 16px;
+      line-height: 18px;
+      transform: unset;
+    }
+
+    .CustomSelect__indicator-separator {
+      display: none;
+    }
+
+    .CustomSelect__indicators {
+      margin-right: 8px;
+      transition: all 0.3s;
+    }
+
+    .CustomSelect__control--menu-is-open .CustomSelect__indicators {
+      transform: rotate(180deg);
+    }
+
+    .CustomSelect__control--is-focused {
+      border: 0 !important;
+    }
+
+    .CustomSelect__menu-list {
+      max-height: 240px;
+      padding: 16px 20px;
+    }
+
+    .CustomSelect__menu {
+      position: relative !important;
+      max-width: 600px;
+      z-index: 12;
+      top: 0;
+      display: block;
+      background: #f2f7ff;
+      margin-top: 4px;
+      margin-bottom: 0;
+      font-size: 14px;
+      line-height: 20px;
+      border-radius: 0 0 12px 12px;
+    }
+
+    .CustomSelect__option {
+      padding-right: 0;
+      padding-left: 0;
+      &:first-child {
+        padding-top: 0;
+      }
+      &:last-child {
+        padding-bottom: 0;
+      }
+      &:active {
+        background-color: transparent;
+      }
+    }
+
+    .CustomSelect__option--is-focused {
+      background-color: #e9f1ff;
+      cursor: pointer;
+    }
+
+    .CustomSelect__option--is-active {
+      background-color: transparent;
+    }
+
+    .CustomSelect__option--is-selected {
+      color: var(--color-black);
+      background: 0;
+    }
+  }
+}
+
+.btnWrapper {
+  margin-left: 25px;
+  display: flex;
+  flex-direction: row;
+  button {
+    margin-right: 20px;
+  }
+}
+
+.selectWrapper {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+
 }

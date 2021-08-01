@@ -19,6 +19,8 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     port: 8585,
+    compress: true,
+    contentBase: path.resolve(__dirname, './dist'),
   },
   resolve: {
     modules: [

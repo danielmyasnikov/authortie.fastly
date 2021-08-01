@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Switch, Route, useLocation, useHistory, Redirect } from 'react-router-dom';
-import { Container } from 'components/container';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import getUnixTime from 'date-fns/getUnixTime';
+import Container from 'components/container';
 import { Menu } from 'components/menu';
 import { Main } from 'components/main';
 import { Postings } from 'components/postings';
 import { ApplicationForm } from 'components/applicationForm';
 import { DetailedApplication } from 'components/detailedApplication';
-import { Footer } from 'components/footer';
 import { Profile } from 'components/profile';
 import { Registration } from 'components/auth/registration';
 import { authSlice } from 'store/auth/slice';
@@ -49,8 +49,11 @@ const App: React.FC = () => {
     const uid = localStorage.getItem('uid');
     const client = localStorage.getItem('client');
     const accessToken = localStorage.getItem('access-token');
-    if (!!uid && !!client && !!accessToken) {
-      dispatch(authSlice.actions.getAuth());
+    const expiry = localStorage.getItem('expiry');
+    if (!!uid && !!client && !!accessToken && !!expiry) {
+      if (Number(expiry) > getUnixTime(Date.now())) {
+        dispatch(authSlice.actions.getAuth());
+      }
     }
   }, []);
 
@@ -64,17 +67,17 @@ const App: React.FC = () => {
         <Route exact path="/application">
           <Container Component={ApplicationForm} />
         </Route>
-        <Route exact path="/application/:id">
-          <Container Component={DetailedApplication} />
-        </Route>
         <Route exact path="/community">
           <Container Component={Postings} />
         </Route>
         <Route exact path="/profile">
           <Container Component={Profile} />
         </Route>
+        <Route exact path="/community/:id">
+          <Container Component={DetailedApplication} />
+        </Route>
       </Switch>
-      {background && <Route path="/authorization" component={Registration} />}
+      {background && <Route exact path="/authorization" component={Registration} />}
     </div>
   );
 };

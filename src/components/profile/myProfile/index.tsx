@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-
+import * as T from 'store/profile/types'
 import {
   STATUS_OPTIONS,
   STUDENT_OPTIONS,
@@ -190,7 +190,6 @@ export const MyProfile = () => {
       </div>
       {fileError && <span className={styles.error}>{fileError}</span>}
       <div className={styles.linkWrap}>
-        {console.log(!!profile.confirmOrcid)}
         {!profile.confirmOrcid ? (
           <>
             <a href={IDURL} className={styles.bigIcon}>

@@ -6,6 +6,7 @@ import { Footer } from 'components/footer';
 import cn from 'classnames';
 import { DatePicker } from 'components/common/datePicker';
 import { Textarea } from 'components/common/textarea';
+import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { AppDispatch } from 'store/types';
 import format from 'date-fns/format';
 import { getIsAuth } from 'store/auth/selectors';
@@ -24,7 +25,12 @@ import {
   currencyOptions,
 } from './constants';
 
-export const ApplicationForm = () => {
+interface Props {
+  isOffer?: boolean;
+  requestId?: string;
+}
+
+export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId }) => {
   const { t } = useTranslation('application');
   const dispatch: AppDispatch = useDispatch();
   const history = useHistory();
@@ -146,6 +152,7 @@ export const ApplicationForm = () => {
       sum,
       currency,
       secreted,
+      requestId,
       // данные для обратной заяки
       rewardWorkType,
       rewardTitle,
@@ -157,7 +164,9 @@ export const ApplicationForm = () => {
     if (isAuth) {
       const resultConf = await dispatch(createPostings(postData));
       if (createPostings.fulfilled.match(resultConf)) {
-        setModal(true);
+        if (isOffer && requestId) {
+          dispatch(getDetailedApplication(requestId));
+        } else setModal(true);
       }
     } else {
       history.push({
@@ -491,13 +500,15 @@ export const ApplicationForm = () => {
       </div>
       <div className={styles.btnCont}>
         <Button onClick={createPost}>
-          {isAuth ? 'Опубликовать' : 'Зарегистрироваться и Опубликовать'}
+          {isAuth ? (isOffer ? 'Предложить' : 'Опубликовать') : 'Зарегистрироваться и Опубликовать'}
         </Button>
       </div>
       {modal && renderModal()}
-      <div className={styles.foot}>
-        <Footer />
-      </div>
+      {!isOffer && (
+        <div className={styles.foot}>
+          <Footer />
+        </div>
+      )}
     </div>
   );
 };

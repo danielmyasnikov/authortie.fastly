@@ -20,13 +20,11 @@ export const MainPosts = () => {
         {lastPostings.map((item: any) => (
           <Card
             key={item.id}
-            privateAccaunt={false}
+            privateAccaunt={!item.is_profile_visible}
             id={item.id}
             keyWords={item.keyword_list}
             comment={item.comment}
-            author=""
-            institution=""
-            authorStatus=""
+            author={item.user && item.user.profile}
             title={item.title}
             fieldOfActivity=""
             workType={item.work_type || ''}
