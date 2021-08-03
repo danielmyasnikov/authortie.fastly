@@ -14,6 +14,7 @@ export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue
       localStorage.setItem('uid', res.headers.uid);
       localStorage.setItem('access-token', res.headers['access-token']);
       localStorage.setItem('client', res.headers.client);
+      localStorage.setItem('expiry', res.headers.expiry);
       return undefined;
     } catch (err) {
       const errorMassege = 'Не верные данные при авторизации ';
@@ -33,6 +34,7 @@ export const getSignIn = createAsyncThunk<undefined, T.Auth, { rejectValue: stri
       localStorage.setItem('uid', res.headers.uid);
       localStorage.setItem('access-token', res.headers['access-token']);
       localStorage.setItem('client', res.headers.client);
+      localStorage.setItem('expiry', res.headers.expiry);
       return undefined;
     } catch (err) {
       const errorMassege = 'Не верные данные при авторизации ';

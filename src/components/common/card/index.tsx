@@ -13,8 +13,6 @@ interface Props {
   privateAccaunt: boolean;
   keyWords: string[];
   comment: string;
-  authorStatus: string;
-  institution: string;
   author: any;
   title: string;
   workType: string;
@@ -33,8 +31,6 @@ export const Card: React.FC<Props> = ({
   keyWords,
   comment,
   author,
-  institution,
-  authorStatus,
   title,
   workType,
   fieldOfActivity,
@@ -107,35 +103,39 @@ export const Card: React.FC<Props> = ({
         {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
       </div>
       <div className={styles.personBlock}>
-        {!author.first_name && !author.public_visibility && (
-          <span className={styles.text}>Профиль не заполнен</span>
-        )}
-        {!author.public_visibility && author.first_name && (
+        {privateAccaunt ? (
           <span className={styles.text}>Профиль скрыт</span>
-        )}
-        {author.first_name && author.public_visibility && (
-          <div className={styles.personInfo}>
-            <div className={styles.row}>
-              <span className={styles.text}>
-                {`${author.first_name} ${author.last_name} ${author.middle_name}`}
-              </span>
-              <span className={styles.country}>{author.country}</span>
-            </div>
-            <div className={styles.row}>
-              <span className={styles.comment}>{`${t(author.degree)} ${
-                author.degree_category
-              }`}</span>
-            </div>
+        ) : (
+          <>
+            {!privateAccaunt && !author.first_name && (
+              <span className={styles.text}>Профиль не заполнен</span>
+            )}
 
-            <span className={styles.comment}>{author.affiliation}</span>
-          </div>
+            {author.first_name && !author.public_visibility && (
+              <div className={styles.personInfo}>
+                <div className={styles.row}>
+                  <span className={styles.text}>
+                    {`${author.first_name} ${author.last_name} ${author.middle_name}`}
+                  </span>
+                  <span className={styles.country}>{author.country}</span>
+                </div>
+                <div className={styles.row}>
+                  <span className={styles.comment}>{`${t(author.degree)} ${
+                    author.degree_category
+                  }`}</span>
+                </div>
+
+                <span className={styles.comment}>{author.affiliation}</span>
+              </div>
+            )}
+          </>
         )}
       </div>
 
       <div className={styles.btnWrapper}>
         <Button className={styles.btn}>{t('offerCooperation')}</Button>
 
-        <Link to={`/application/${id}`}>
+        <Link to={`/community/${id}`}>
           <Button className={styles.rightBtn}>
             <Right className={styles.rigthIcon} />
           </Button>

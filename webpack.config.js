@@ -19,8 +19,9 @@ module.exports = {
     historyApiFallback: true,
     hot: true,
     port: 8585,
+    compress: true,
+    contentBase: path.resolve(__dirname, './dist'),
   },
-
   resolve: {
     modules: [
       path.resolve(__dirname, 'assets'),
@@ -33,6 +34,7 @@ module.exports = {
       assets: path.resolve(__dirname, 'assets'),
       components: path.resolve(__dirname, 'src/components'),
       store: path.resolve(__dirname, 'src/store'),
+      src: path.resolve(__dirname, 'src'),
     },
   },
 

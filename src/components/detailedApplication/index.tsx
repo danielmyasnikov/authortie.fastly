@@ -1,13 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import Camera from 'assets/camera.svg';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { getDetailedApplicationSelector } from 'store/detailedApplication/selectors';
+import { submitBidsUp } from 'store/detailedApplication/actions';
+import { AppDispatch } from 'store/types';
 import { Footer } from 'components/footer';
+import { Card } from 'components/common/card';
 import { Button } from 'components/common/button';
 import { Tag } from './tag';
+import { Offer } from './offer';
 
 import styles from './styles.module.less';
 
@@ -16,19 +20,49 @@ interface Params {
 }
 
 export const DetailedApplication = () => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const params = useParams<Params>();
   const { post }: any = useSelector(getDetailedApplicationSelector);
-
   const { t } = useTranslation('card');
+  const profile = post.is_profile_visible && post.user.profile;
+  const [offerCooperation, setOfferCooperation] = useState(false);
+  const [requstType, setRequestType] = useState('');
+  const [accept, setAccept] = useState(false);
+
   useEffect(() => {
-    if (!!params.id) dispatch(getDetailedApplication(params.id));
-  }, []);
+    if (!!params.id) {
+      dispatch(getDetailedApplication(params.id));
+    }
+  }, [params.id]);
 
   if (Object.keys(post).length == 0) {
-    return null;
+    return <></>;
   }
-  const { profile } = post.user;
+  const postingId = post.posting_id;
+  async function submitOffer(requstType: string) {
+    // @ts-ignore
+    const requestId = postingId;
+    const supplyId = Number(params.id);
+    const agreementType = requstType;
+
+    const resultConf = await dispatch(submitBidsUp({ requestId, supplyId, agreementType }));
+    if (submitBidsUp.fulfilled.match(resultConf)) {
+      dispatch(getDetailedApplication(params.id));
+    }
+  }
+
+  const acceptButton = () => (
+    <div className={styles.btnWrapper}>
+      <Button onClick={() => submitOffer('safe_deal')}>Безопасная сделка</Button>
+      <Button onClick={() => submitOffer('honest_partner')}>Честный партнер</Button>
+    </div>
+  );
+
+  const knowledgeAreaList = post.knowledge_area_list || [];
+  const keywordList = post.keyword_list || [];
+  const offers = post.offers || [];
+  const isGuest = post.whois === 'guest';
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
@@ -36,8 +70,8 @@ export const DetailedApplication = () => {
           <div className={styles.tagWrapper}>
             <Tag className={styles.workType}>{t(post.work_type)}</Tag>
 
-            {post.knowledge_area_list.length > 0 &&
-              post.knowledge_area_list.map((item: any) => (
+            {knowledgeAreaList.length > 0 &&
+              knowledgeAreaList.map((item: any) => (
                 <React.Fragment key={item}>
                   <Tag className={styles.knowledgeArea}>{item}</Tag>
                 </React.Fragment>
@@ -46,8 +80,8 @@ export const DetailedApplication = () => {
           <span className={styles.subtitle}>{post.title}</span>
           <span className={styles.text}>Ключевые слова:</span>
           <div className={styles.tagWrapper}>
-            {post.keyword_list.length > 0 &&
-              post.keyword_list.map((item: any) => (
+            {keywordList.length > 0 &&
+              keywordList.map((item: any) => (
                 <React.Fragment key={item}>
                   <Tag>{item}</Tag>
                 </React.Fragment>
@@ -64,33 +98,67 @@ export const DetailedApplication = () => {
               <span className={styles.comment}>{t(post.reward_type)}</span>
             )}
           </div>
-          <Button>Предложить сотрудничество</Button>
+          {!postingId && (
+            <Button onClick={() => setOfferCooperation(true)}>Предложить сотрудничество</Button>
+          )}
+          {postingId && !accept && (
+            <Button onClick={() => setAccept(true)}>Принять сотрудничество</Button>
+          )}
+          {postingId && accept && acceptButton()}
         </div>
 
         <div className={styles.profileWrapper}>
-          <div className={styles.avatarWrapper}>
-            {!!profile.avatar ? (
-              <img className={styles.img} src={profile.avatar} alt="" />
-            ) : (
-              <Camera className={styles.defaultPhoto} />
-            )}
-          </div>
-          <div className={styles.personInfo}>
-            <div className={styles.row}>
-              <span className={styles.text}>
-                {`${profile.first_name} ${profile.last_name} ${profile.middle_name}`}
-              </span>
-              <span className={styles.country}>{profile.country}</span>
-            </div>
-            <div className={styles.row}>
-              <span className={styles.comment}>{`${t(profile.degree)} ${
-                profile.degree_category
-              }`}</span>
-            </div>
+          {post.is_profile_visible ? (
+            <>
+              <div className={styles.avatarWrapper}>
+                {!!profile.avatar ? (
+                  <img className={styles.img} src={profile.avatar} alt="" />
+                ) : (
+                  <Camera className={styles.defaultPhoto} />
+                )}
+              </div>
+              <div className={styles.personInfo}>
+                <div className={styles.row}>
+                  <span className={styles.text}>
+                    {`${profile.first_name} ${profile.last_name} ${profile.middle_name}`}
+                  </span>
+                  <span className={styles.country}>{profile.country}</span>
+                </div>
+                <div className={styles.row}>
+                  <span className={styles.comment}>{`${t(profile.degree)} ${
+                    profile.degree_category
+                  }`}</span>
+                </div>
 
-            <span className={styles.comment}>{profile.affiliation}</span>
-            <span className={styles.comment}>{profile.about}</span>
-          </div>
+                <span className={styles.comment}>{profile.affiliation}</span>
+                <span className={styles.comment}>{profile.about}</span>
+              </div>
+            </>
+          ) : (
+            <span className={styles.text}>Пользователь скрыл свой профиль</span>
+          )}
+        </div>
+        {offerCooperation && isGuest && <Offer />}
+
+        <div className={styles.cards}>
+          {offers.map((item: any) => (
+            <Card
+              key={item.id}
+              privateAccaunt={!item.is_profile_visible}
+              id={item.id}
+              keyWords={item.keyword_list}
+              comment={item.comment}
+              author={item.user && item.user.profile}
+              title={item.title}
+              fieldOfActivity=""
+              workType={item.work_type || ''}
+              knowledgeArea={item.knowledge_area_list || ''}
+              rewardType={item.reward_type}
+              rewardCurrency={item.reward_currency}
+              rewardSum={item.reward_sum}
+              rewardСomment={item.reward_comment}
+            />
+          ))}
         </div>
       </div>
 

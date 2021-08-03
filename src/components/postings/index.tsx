@@ -26,6 +26,9 @@ export const Postings = () => {
     }
   }
   useEffect(() => {
+    loadData();
+  }, []);
+  useEffect(() => {
     if (page > 1) {
       loadData();
     }
@@ -97,13 +100,11 @@ export const Postings = () => {
           {postings.map((item: any) => (
             <React.Fragment key={item.id + item.title}>
               <Card
-                privateAccaunt={false}
+                privateAccaunt={!item.is_profile_visible}
                 id={item.id}
                 keyWords={item.keyword_list}
                 comment={item.comment}
-                author={item.user.profile}
-                institution=""
-                authorStatus=""
+                author={item.user && item.user.profile}
                 title={item.title}
                 fieldOfActivity=""
                 workType={item.work_type || ''}

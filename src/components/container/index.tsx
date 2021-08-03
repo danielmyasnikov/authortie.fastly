@@ -5,8 +5,10 @@ interface Props {
   Component: React.FC<any> | React.ComponentClass<any>;
 }
 
-export const Container: React.FC<Props> = ({ Component }) => (
+const Container: React.FC<Props> = ({ Component }) => (
   <div className={styles.container}>
     <Component />
   </div>
 );
+
+export default Container;

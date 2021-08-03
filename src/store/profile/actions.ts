@@ -6,7 +6,7 @@ import {
   STUDENT_OPTIONS,
   GRADE_OPTIONS,
   COUNTRIES,
-} from 'components/profile/constansts';
+} from 'src/constants/profileConstants';
 
 const client = localStorage.getItem('client');
 const accessToken = localStorage.getItem('access-token');
