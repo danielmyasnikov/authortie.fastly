@@ -96,24 +96,26 @@ export const Main: React.FC = () => {
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 
           <div className={styles.cards}>
-            {!!publications.length && publications.map((item: any) => (
-              <Card
-                key={item.id}
-                privateAccaunt={!item.is_profile_visible}
-                id={item.id}
-                keyWords={item.keyword_list}
-                comment={item.comment}
-                author={item.user && item.user.profile}
-                title={item.title}
-                fieldOfActivity=""
-                workType={item.work_type || ''}
-                knowledgeArea={item.knowledge_area_list || ''}
-                rewardType={item.reward_type}
-                rewardCurrency={item.reward_currency}
-                rewardSum={item.reward_sum}
-                rewardСomment={item.reward_comment}
-              />
-            ))}
+            {!!publications.length &&
+              publications.map((item: any) => (
+                <React.Fragment key={item.id}>
+                  <Card
+                    privateAccaunt={!item.is_profile_visible}
+                    id={item.id}
+                    keyWords={item.keyword_list}
+                    comment={item.comment}
+                    author={item.user && item.user.profile}
+                    title={item.title}
+                    fieldOfActivity=""
+                    workType={item.work_type || ''}
+                    knowledgeArea={item.knowledge_area_list || ''}
+                    rewardType={item.reward_type}
+                    rewardCurrency={item.reward_currency}
+                    rewardSum={item.reward_sum}
+                    rewardСomment={item.reward_comment}
+                  />
+                </React.Fragment>
+              ))}
           </div>
           <div className={styles.goToCommunityWrapper}>
             <Link to={'/community'}>

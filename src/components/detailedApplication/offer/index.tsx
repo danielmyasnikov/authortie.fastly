@@ -63,8 +63,6 @@ export const Offer = () => {
     }
   }
 
-  console.log(!lastPostingsOptions.length);
-
   const renderListOffer = () => (
     <div className={styles.selectWrapper}>
       {!lastPostingsOptions.length ? (

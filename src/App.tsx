@@ -20,7 +20,6 @@ const App: React.FC = () => {
   // @ts-ignore
   const background = location.state && location.state.background;
   const history = useHistory();
-console.log(background)
   const params = new URLSearchParams(history.location.search);
   const pathNoSlash = location.pathname.substr(location.pathname.indexOf('/') + 1);
   useEffect(() => {
@@ -73,13 +72,11 @@ console.log(background)
         <Route exact path="/profile">
           <Container Component={Profile} />
         </Route>
-
-        {pathNoSlash !== 'community/authorization' && (
-          <Route exact path="/community/:id(\d+)">
-            <Container Component={DetailedApplication} />
-          </Route>
-        )}
+        <Route exact path="/community/:id(\d+)">
+          <Container Component={DetailedApplication} />
+        </Route>
       </Switch>
+      {/* <Registration /> */}
       {background && <Route exact path="/authorization" component={Registration} />}
     </div>
   );

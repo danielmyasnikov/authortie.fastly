@@ -14,6 +14,13 @@ const uid = localStorage.getItem('uid');
 
 const headers = { client, uid, ['access-token']: accessToken };
 
+const defaultArr = { value: '', label: '' };
+
+interface Options {
+  label: string;
+  value: string;
+}
+
 export const setProfile = createAsyncThunk<any, any>(
   'postings/getPostings',
   async (profileData) => {
@@ -50,22 +57,25 @@ export const getProfile = createAsyncThunk('postings/getPostings', async () => {
 
   const { data } = res;
 
-  const userCountry = COUNTRIES.filter((item) => item.label === data.country)[0];
+  const userCountry = COUNTRIES.filter((item: Options) => item.label === data.country)[0];
   const userLinks: T.Links[] = !!data.links.length
-    ? data.links.map((item: string, index: number) => ({
-        url: item,
+    ? data.links.map((item: { url: string }, index: number) => ({
+        url: item.url,
         id: index,
       }))
     : [
         { url: '', id: 1 },
         { url: '', id: 2 },
       ];
-  const userDegree = STATUS_OPTIONS.filter((item) => item.value === data.degree)[0];
+
+  const userDegree = !!data.degree
+    ? STATUS_OPTIONS.filter((item: Options) => item.value === data.degree)[0]
+    : defaultArr;
 
   const userGrade =
     userDegree.value === 'student'
-      ? STUDENT_OPTIONS.filter((item) => item.value === data.degree_category)[0]
-      : GRADE_OPTIONS.filter((item) => item.value === data.degree_category)[0];
+      ? STUDENT_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0]
+      : GRADE_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0];
 
   const profile: T.Profile = {
     name: data.first_name,
@@ -79,7 +89,7 @@ export const getProfile = createAsyncThunk('postings/getPostings', async () => {
     notificationsBrow: data.push_notifications,
     avatarUrl: data.avatar_url,
     status: userDegree,
-    grade: userGrade,
+    grade: userGrade || defaultArr,
     links: userLinks,
     confirmOrcid: data.orcid_uuid,
   };

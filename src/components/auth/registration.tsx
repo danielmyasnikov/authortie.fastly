@@ -9,6 +9,7 @@ import Close from 'assets/close.svg';
 import Eye from 'assets/eye.svg';
 import CloseEye from 'assets/closeEye.svg';
 import FacebookColor from 'assets/facebookColor.png';
+import { getProfile } from 'store/profile/actions';
 
 import GoogleColor from 'assets/googleColor.png';
 import Coolicon from 'assets/coolicon.svg';
@@ -72,6 +73,7 @@ export const Registration: React.FC = () => {
       setError(resultConf.payload);
     } else {
       history.goBack();
+      dispatch(getProfile());
     }
   }
 

@@ -28,6 +28,7 @@ export const Postings = () => {
   useEffect(() => {
     loadData();
   }, []);
+  
   useEffect(() => {
     if (page > 1) {
       loadData();

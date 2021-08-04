@@ -68,7 +68,7 @@ export const Menu: React.FC = () => {
         ) : (
           <Link
             to={{
-              pathname: 'authorization',
+              pathname: '/authorization',
               state: { background: location },
             }}
             className={styles.userName}

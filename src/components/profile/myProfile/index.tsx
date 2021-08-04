@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import * as T from 'store/profile/types'
+import * as T from 'store/profile/types';
 import {
   STATUS_OPTIONS,
   STUDENT_OPTIONS,
@@ -53,12 +53,9 @@ export const MyProfile = () => {
   const [modal, setModal] = useState<boolean>(false);
   const { profile } = useSelector(getProfileSelector);
 
+
   const IDURL =
     'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/profile';
-
-  useEffect(() => {
-    dispatch(getProfile());
-  }, []);
 
   useEffect(() => {
     setAvatarURL(profile.avatarUrl);
@@ -75,6 +72,10 @@ export const MyProfile = () => {
     setGrade(profile.grade);
     setLinkArray(profile.links);
   }, [profile]);
+
+  useEffect(() => {
+    dispatch(getProfile());
+  }, []);
 
   const getDataUrlFromFile = (file: File | Blob): Promise<string> =>
     new Promise((resolve) => {
