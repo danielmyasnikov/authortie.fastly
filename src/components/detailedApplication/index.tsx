@@ -7,6 +7,7 @@ import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { getDetailedApplicationSelector } from 'store/detailedApplication/selectors';
 import { submitBidsUp } from 'store/detailedApplication/actions';
 import { AppDispatch } from 'store/types';
+import { getIsAuth } from 'store/auth/selectors';
 import { Footer } from 'components/footer';
 import { Card } from 'components/common/card';
 import { Button } from 'components/common/button';
@@ -26,8 +27,8 @@ export const DetailedApplication = () => {
   const { t } = useTranslation('card');
   const profile = post.is_profile_visible && post.user.profile;
   const [offerCooperation, setOfferCooperation] = useState(false);
-  const [requstType, setRequestType] = useState('');
   const [accept, setAccept] = useState(false);
+  const isAuth = useSelector(getIsAuth);
 
   useEffect(() => {
     if (!!params.id) {
