@@ -60,9 +60,9 @@ export const Menu: React.FC = () => {
         {isAuth ? (
           <>
             <Bell className={styles.icon} />
-            <User className={styles.icon} />
+
             <Link to={'/profile'} className={styles.userName}>
-              User
+              <User className={styles.icon} />
             </Link>
           </>
         ) : (

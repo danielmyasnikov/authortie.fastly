@@ -27,7 +27,7 @@ export const getSignIn = createAsyncThunk<undefined, T.Auth, { rejectValue: stri
   'auth/SIGN_IN',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`https://authortie-app.herokuapp.com//auth/sign_in`, {
+      const res = await axios.post(`https://authortie-app.herokuapp.com/auth/sign_in`, {
         email,
         password,
       });
