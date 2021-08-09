@@ -6,7 +6,7 @@ import Container from 'components/container';
 import { Menu } from 'components/menu';
 import { Main } from 'components/main';
 import { Postings } from 'components/postings';
-import { ApplicationForm } from 'components/applicationForm';
+import { Application } from 'components/applicationForm';
 import { DetailedApplication } from 'components/detailedApplication';
 import { AuthorProfile } from 'components/autorProfile';
 import { Profile } from 'components/profile';
@@ -65,7 +65,7 @@ const App: React.FC = () => {
           <Container Component={Main} />
         </Route>
         <Route exact path="/application">
-          <Container Component={ApplicationForm} />
+          <Container Component={Application} />
         </Route>
         <Route exact path="/community">
           <Container Component={Postings} />

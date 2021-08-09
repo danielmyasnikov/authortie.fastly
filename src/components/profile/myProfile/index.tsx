@@ -267,6 +267,7 @@ export const MyProfile = () => {
       <span className={styles.subtitle}>{t('about')}</span>
       <Textarea value={about} onChange={setAbout} />
       <span className={styles.subtitle}>{t('country')}</span>
+      {console.log(country)}
       <Select
         placeholder={t('changeContry')}
         classNamePrefix="CustomSelect"

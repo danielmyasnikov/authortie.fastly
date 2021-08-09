@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { getIsAuth } from 'store/auth/selectors';
 import { Button } from 'components/common/button';
-import { ApplicationForm } from 'components/applicationForm';
+import { ApplicationForm } from 'components/applicationForm/applicationForm';
 import { getLastPostings } from 'store/request/actions';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 

@@ -163,24 +163,26 @@
       align-items: center;
       height: 21px;
       border: 0;
-      border-radius: 12px 12px 0 0;
+      background: inherit;
       outline: 0;
       box-shadow: none;
     }
 
     .CustomSelect__single-value {
-      position: static;
-      top: unset;
-      display: block;
-      font-size: 18px;
-      line-height: 21px;
-      transform: unset;
-    }
-    .CustomSelect__value-container {
       height: 22px;
       position: static;
       top: unset;
-      display: block;
+      margin: 0;
+      font-size: 18px;
+      line-height: 21px;
+      transform: unset;
+      padding: 0;
+    }
+
+    .CustomSelect__value-container {
+      height: 30px;
+      position: static;
+      top: unset;
       margin: 0;
       font-size: 18px;
       line-height: 21px;
@@ -371,7 +373,13 @@
   text-align: center;
   width: 480px;
   margin-top: 35px;
+  margin-bottom: 35px;
   font-size: 16px;
   line-height: 19px;
   color: #b8b8b8;
+}
+
+.privateCheckWrapper{
+  composes: btnBlock;
+  margin-top: 115px;
 }

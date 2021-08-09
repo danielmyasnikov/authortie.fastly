@@ -2,36 +2,40 @@ export const radioItemsListDefault = [
   {
     value: 'Повысить цитируемость своих работ',
     checked: false,
-    id: '1',
+    id: 'increase_the_citation_of_your_works',
   },
   {
     value: 'Стать соавтором',
     checked: false,
-    id: '2',
+    id: 'become_coathor',
   },
   {
     value: 'Заказать исследования',
     checked: false,
-    id: '3',
+    id: 'request_research',
   },
   {
     value: 'Заказать работу с текстом и графикой',
     checked: false,
-    id: '4',
+    id: 'request_graphic_design',
   },
   {
     value: 'Найти эксперта',
     checked: false,
-    id: '5',
+    id: 'find_expert',
   },
 ];
 
 export const checkboxListDefault = [
-  { value: 'Процитировать других', checked: false, id: '11' },
-  { value: 'Принять в соавторы', id: false, workType: '12' },
-  { value: 'Выполнить исследования', checked: false, id: '13' },
-  { value: 'Выполнить работу с текстом и графикой', checked: false, id: '14' },
-  { value: 'Предоставить экспертные услуги', checked: false, id: '15' },
+  { value: 'Процитировать других', checked: false, id: 'cite_others' },
+  { value: 'Принять в соавторы', checked: false, id: 'accept_as_coauthors' },
+  { value: 'Выполнить исследования', checked: false, id: 'do_research' },
+  {
+    value: 'Выполнить работу с текстом и графикой',
+    checked: false,
+    id: 'work_with_text_and_graphics',
+  },
+  { value: 'Предоставить экспертные услуги', checked: false, id: 'provide_expert_services' },
 ];
 
 export const knowledgeDefault = [
