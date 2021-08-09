@@ -87,12 +87,12 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
 
     const data = {
       request_type: whoIAm,
-      work_type:
+      work_types:
         whoIAm === WhoIAm.CUSTOMER ? checkedRadioItemsList : checkedCheckboxItemsListWithMoney,
-      reward_type:
+      reward_types:
         whoIAm === WhoIAm.EXECUTOR ? checkedRadioItemsList : checkedCheckboxItemsListWithMoney,
-      reward_sum: [sum],
-      knowledge_area_list: checkedKnowledgeList,
+      reward_sum: sum,
+      knowledge_areas: checkedKnowledgeList,
       title: workName,
       comment: workDescription,
       reward_currency: currency?.value,
@@ -100,6 +100,8 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
       approx_date: format(approxDate, 'dd/MM/yyyy'),
       hide_from_other_users: hideFromOtherUsers,
       hide_from_search: hideFromSearch,
+      request_posting_id: whoIAm === WhoIAm.CUSTOMER && requestId ? requestId : '',
+      supply_posting_id: whoIAm === WhoIAm.EXECUTOR && requestId ? requestId : '',
     };
 
     if (isAuth) {
