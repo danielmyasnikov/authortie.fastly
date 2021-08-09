@@ -7,6 +7,7 @@ import {
   STUDENT_OPTIONS,
   GRADE_OPTIONS,
   COUNTRIES,
+    // @ts-ignore
 } from 'src/constants/profileConstants';
 import { Button } from 'components/common/button';
 import { setProfile, getProfile } from 'store/profile/actions';
