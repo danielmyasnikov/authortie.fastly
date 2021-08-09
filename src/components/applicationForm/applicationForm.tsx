@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import { getIsAuth } from 'store/auth/selectors';
 import { RadioButton } from 'components/common/radioBtn';
@@ -9,7 +9,11 @@ import { Checkbox } from 'components/common/checkbox';
 import { DatePicker } from 'components/common/datePicker';
 import { Button } from 'components/common/button';
 import cn from 'classnames';
+import format from 'date-fns/format';
+import { getLastPostings, createPostings } from 'store/request/actions';
+import { getDetailedApplication } from 'store/detailedApplication/actions';
 
+import NoteModal from 'assets/note.svg';
 import RoundRowRight from 'assets/roundRowRight.svg';
 import RoundRowLeft from 'assets/roundRowLeft.svg';
 import Pencil from 'assets/edit.svg';
@@ -48,6 +52,7 @@ interface Props {
 
 export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArray }) => {
   const { t } = useTranslation('application');
+  const history = useHistory();
   const dispatch: AppDispatch = useDispatch();
   const isAuth = useSelector(getIsAuth);
   const location = useLocation();
@@ -67,25 +72,49 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
   const [workDescription, setWorkDescription] = useState('');
   const [keyWords, setKeyWords] = useState('');
 
-  // const []
+  const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false);
+  const [hideFromSearch, setHideFromSearch] = useState(false);
 
-  function submitForm() {
+  const [modal, setModal] = useState<boolean>(false);
+
+  async function submitForm() {
     const checkedRadioItemsList = radioItemsList.filter((el) => el.checked).map((item) => item.id);
     const checkedCheckboxItemsList = checkboxList.filter((el) => el.checked).map((item) => item.id);
+    const checkedCheckboxItemsListWithMoney = sumCheck
+      ? [...checkedCheckboxItemsList, 'money']
+      : checkedCheckboxItemsList;
     const checkedKnowledgeList = knowledge.filter((el) => el.checked).map((item) => item.id);
 
     const data = {
       request_type: whoIAm,
-      work_type: whoIAm === WhoIAm.CUSTOMER ? checkedRadioItemsList : checkedCheckboxItemsList,
-      reward_type: whoIAm === WhoIAm.EXECUTOR ? checkedRadioItemsList : checkedCheckboxItemsList,
+      work_type:
+        whoIAm === WhoIAm.CUSTOMER ? checkedRadioItemsList : checkedCheckboxItemsListWithMoney,
+      reward_type:
+        whoIAm === WhoIAm.EXECUTOR ? checkedRadioItemsList : checkedCheckboxItemsListWithMoney,
       reward_sum: [sum],
       knowledge_area_list: checkedKnowledgeList,
       title: workName,
       comment: workDescription,
       reward_currency: currency?.value,
       keyword_list: keyWords,
-      approx_date: approxDate,
+      approx_date: format(approxDate, 'dd/MM/yyyy'),
+      hide_from_other_users: hideFromOtherUsers,
+      hide_from_search: hideFromSearch,
     };
+
+    if (isAuth) {
+      const resultConf = await dispatch(createPostings(data));
+      if (createPostings.fulfilled.match(resultConf)) {
+        if (isOffer && requestId) {
+          dispatch(getDetailedApplication(requestId));
+        } else setModal(true);
+      }
+    } else {
+      history.push({
+        pathname: 'authorization',
+        state: { background: location },
+      });
+    }
   }
 
   // request_type: 'спрос|предложения'
@@ -94,7 +123,7 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
   // ++++++++work_type: [''], -  то что я хочу
   // ++++++reward_type: [''], - то что я предлогаю, если бабос то money
   // +++++++++reward_sum: [''], - сумма
-  // hide_from_other_users: true|false
+  // +++++++hide_from_other_users: true|false
   // hide_from_search
   // ++++++++++++knowledge_area_list
   // ++++++++title
@@ -315,6 +344,25 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
     </div>
   );
 
+  const renderModal = () => (
+    <div className={css.modalWrapper}>
+      <div className={css.modalContaier}>
+        <NoteModal className={css.noteIcon} />
+        <span className={css.subtitle}>Заявка сформирована!</span>
+        <span className={css.modalInfo}>
+          Ваша заявка отправлена на модерацию. После проверки вам придет оповещение о её публикации.
+        </span>
+        <Link to={'/community'}>
+          <Button>Перейти к заявкам</Button>
+        </Link>
+        <Link to={'/'}>
+          <Button className={css.btnBorder}>На главную</Button>
+        </Link>
+      </div>
+      <div className={css.overlay} />
+    </div>
+  );
+
   return (
     <>
       {renderHeaderBtnsGroup()}
@@ -335,18 +383,18 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
 
         <div className={css.privateCheckWrapper}>
           <Checkbox
-            checked={sumCheck}
-            id={String('id')}
-            name={String('id')}
+            checked={hideFromOtherUsers}
+            id="hideFromOtherUsers"
+            name="hideFromOtherUsers"
             label={'Скрыть от других пользователей'}
-            onChange={() => setSumCheck(!sumCheck)}
+            onChange={() => setHideFromOtherUsers(!hideFromOtherUsers)}
           />
           <Checkbox
-            checked={sumCheck}
-            id={String('id')}
-            name={String('id')}
+            checked={hideFromSearch}
+            id="hideFromSearch"
+            name="hideFromSearch"
             label={'Скрыть от поисковиков'}
-            onChange={() => setSumCheck(!sumCheck)}
+            onChange={() => setHideFromSearch(!hideFromSearch)}
           />
         </div>
       </div>
@@ -363,6 +411,7 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
           Вам не придется заново заполнять форму, после регистрации ваша заявка будет отправлена на
           публикацию.
         </span>
+        {modal && renderModal()}
       </div>
     </>
   );

@@ -379,7 +379,55 @@
   color: #b8b8b8;
 }
 
-.privateCheckWrapper{
+.privateCheckWrapper {
   composes: btnBlock;
   margin-top: 115px;
+}
+
+// ---------- modal
+
+.modalWrapper {
+  position: fixed;
+  display: flex;
+  top: 0;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.modalContaier {
+  position: relative;
+  width: 434px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border-radius: 10px;
+  background: #f9fbff;
+  z-index: 20;
+}
+
+.noteIcon {
+  margin-bottom: 24px;
+}
+
+.modalInfo {
+  width: 271px;
+  margin-bottom: 40px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }

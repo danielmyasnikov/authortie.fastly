@@ -22,30 +22,7 @@ export const getLastPostings = createAsyncThunk('createPost/getLastPosting', asy
 
 export const createPostings = createAsyncThunk<undefined, any>(
   'createPost/createPostings',
-  async (postData) => {
-
-    const data = 
-    {
-      knowledge_area_list: postData.knowledgeArea,
-      title: postData.title,
-      comment: postData.comment,
-      approx_date: postData.approxDate,
-      keyword_list: postData.keywordList,
-      work_type: postData.workType,
-      reward_type: postData.rewardType,
-      reward_comment: postData.serviceRewardDescription,
-      reward_currency: postData.currency,
-      reward_sum: postData.sum,
-      secreted: postData.secreted,
-      request_posting_id: Number(postData.requestId),
-      revert_posting_attributes: {
-        approx_date: postData.rewordApproxDate,
-        work_type: postData.rewardWorkType,
-        knowledge_area_list: postData.rewardnNowledgeArea,
-        title: postData.rewardTitle,
-        comment: postData.rewardComment,
-      },
-    }
+  async (data) => {
 
     try {
       const res = await axios({
