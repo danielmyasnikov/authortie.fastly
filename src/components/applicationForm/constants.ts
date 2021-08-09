@@ -1,22 +1,37 @@
-export const CATEGORY_DEFAULT = [
+export const radioItemsListDefault = [
   {
-    value: 'Повысить цитируемость',
+    value: 'Повысить цитируемость своих работ',
     checked: false,
-    workType: 'cite_mines',
-    workTypeRevert: 'cite_others',
+    id: '1',
   },
   {
-    value: 'Стать соавтором/соисполнителем',
+    value: 'Стать соавтором',
     checked: false,
-    workType: 'invite_coathor',
-    workTypeRevert: 'become_coathor',
+    id: '2',
   },
   {
-    value: 'Услугу рецензента/эксперта/эдвайзора',
+    value: 'Заказать исследования',
     checked: false,
-    workType: 'find_reviewer',
-    workTypeRevert: 'become_reviewer',
+    id: '3',
   },
+  {
+    value: 'Заказать работу с текстом и графикой',
+    checked: false,
+    id: '4',
+  },
+  {
+    value: 'Найти эксперта',
+    checked: false,
+    id: '5',
+  },
+];
+
+export const checkboxListDefault = [
+  { value: 'Процитировать других', checked: false, id: '11' },
+  { value: 'Принять в соавторы', id: false, workType: '12' },
+  { value: 'Выполнить исследования', checked: false, id: '13' },
+  { value: 'Выполнить работу с текстом и графикой', checked: false, id: '14' },
+  { value: 'Предоставить экспертные услуги', checked: false, id: '15' },
 ];
 
 export const knowledgeDefault = [
@@ -33,36 +48,9 @@ export const knowledgeDefault = [
   { value: 'Management/Economics', checked: false, id: 'management_econmics' },
 ];
 
-export const responsiveCheckedDefault = [
-  { value: 'Стать рецензентом', checked: true, workType: 'become_reviewer' },
-  { value: 'Процитировать других в своей работе', checked: false, workType: 'cite_others' },
-  { value: 'Предложить соавторство', checked: false, workType: 'become_coathor' },
-];
-
 export const currencyOptions = [
   { label: 'USD', value: 'USD' },
   { label: 'RUB', value: 'RUB' },
   { label: 'EUR', value: 'EUR' },
   { label: 'CHN', value: 'CHN' },
 ];
-
-
-// about: "я , просто я "
-// affiliation: "ВУЗ "
-// affiliation_visibility: false
-// city: null
-// country: "RUSSIAN FEDERATION"
-// created_at: "2021-06-26T15:56:02.062Z"
-// degree: "student"
-// degree_category: "Студент"
-// email_notifications: false
-// first_name: "Владик"
-// id: 3
-// lang: null
-// last_name: "L"
-// middle_name: ""
-// orcid_uuid: null
-// public_visibility: false
-// push_notifications: false
-// updated_at: "2021-07-08T19:19:45.919Z"
-// user_id: 55

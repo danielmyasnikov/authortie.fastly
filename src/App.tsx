@@ -8,6 +8,7 @@ import { Main } from 'components/main';
 import { Postings } from 'components/postings';
 import { ApplicationForm } from 'components/applicationForm';
 import { DetailedApplication } from 'components/detailedApplication';
+import { AuthorProfile } from 'components/autorProfile';
 import { Profile } from 'components/profile';
 import { Registration } from 'components/auth/registration';
 import { authSlice } from 'store/auth/slice';
@@ -71,6 +72,9 @@ const App: React.FC = () => {
         </Route>
         <Route exact path="/profile">
           <Container Component={Profile} />
+        </Route>
+        <Route exact path="/profile/:id">
+          <Container Component={AuthorProfile} />
         </Route>
         <Route exact path="/community/:id(\d+)">
           <Container Component={DetailedApplication} />

@@ -5,13 +5,13 @@ import DateFnsUtils from '@date-io/date-fns';
 import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const inputDateStyle = {
-  width: '300px',
-  background: '#f2f7ff',
-  padding: '11px 30px 9px 30px',
+  width: '249px',
+  height: '46px',
+  background: '#ffffff',
+  padding: '9px 30px 13px 30px',
+  boxShadow: '0px 3px 17px rgba(43, 123, 211, 0.06)',
   margin: 0,
-  borderBottom: '5px solid #e9f1ff',
-  borderTopLeftRadius: '12px',
-  borderTopRightRadius: '12px',
+  borderRadius: '8px',
 };
 
 const materialTheme = createMuiTheme({

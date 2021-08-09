@@ -52,6 +52,7 @@ export const MyProfile = () => {
   const [lastNameError, setLastNameError] = useState('');
   const [modal, setModal] = useState<boolean>(false);
   const { profile } = useSelector(getProfileSelector);
+  console.log(profile)
 
 
   const IDURL =

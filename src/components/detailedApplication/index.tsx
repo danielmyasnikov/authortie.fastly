@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams } from 'react-router-dom';
+import { useHistory, useParams, Link } from 'react-router-dom';
 import Camera from 'assets/camera.svg';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { getDetailedApplicationSelector } from 'store/detailedApplication/selectors';
@@ -111,13 +111,14 @@ export const DetailedApplication = () => {
         <div className={styles.profileWrapper}>
           {post.is_profile_visible ? (
             <>
-              <div className={styles.avatarWrapper}>
+              <Link to={`/profile/${profile.user_id}`} className={styles.avatarWrapper}>
+                
                 {!!profile.avatar ? (
                   <img className={styles.img} src={profile.avatar} alt="" />
                 ) : (
                   <Camera className={styles.defaultPhoto} />
                 )}
-              </div>
+              </Link>
               <div className={styles.personInfo}>
                 <div className={styles.row}>
                   <span className={styles.text}>
@@ -149,7 +150,7 @@ export const DetailedApplication = () => {
               id={item.id}
               keyWords={item.keyword_list}
               comment={item.comment}
-              author={item.user && item.user.profile}
+              author={!!item.user && item.user.profile}
               title={item.title}
               fieldOfActivity=""
               workType={item.work_type || ''}
