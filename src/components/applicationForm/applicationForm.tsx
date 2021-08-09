@@ -267,7 +267,7 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
       </div>
     </div>
   );
-  console.log(currency);
+
   const renderWorkName = () => (
     <div className={css.blockWrapper}>
       <span className={css.subtile}>

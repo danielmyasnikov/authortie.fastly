@@ -9,10 +9,10 @@ import styles from './styles.module.less';
 export const AuthorProfile = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector(getProfileSelector);
-  const params = useParams<Params>();
+  // const params = useParams<Params>();
   console.log(profile);
   useEffect(() => {
-    dispatch(getAuthProfile(params.id));
+    // dispatch(getAuthProfile(params.id));
   }, []);
   return (
     <div className={styles.profileWrapper}>
