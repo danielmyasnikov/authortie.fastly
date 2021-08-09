@@ -69,7 +69,7 @@ export const Offer = () => {
         <span className={styles.info}>Список пуст</span>
       ) : (
         <Select
-          classNamePrefix="CustomSelect"
+          classNamePrefix="CustomSelectOffer"
           defaultValue={lastPostingsOptions[0] && lastPostingsOptions[0].value}
           options={lastPostingsOptions}
           placeholder="Выберите работу"

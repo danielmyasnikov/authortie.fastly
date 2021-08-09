@@ -65,7 +65,7 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
 
   const [sumCheck, setSumCheck] = useState(false);
-  const [sum, setSum] = useState();
+  const [sum, setSum] = useState<string>();
   const [currency, setCurrency] = useState<Option>();
 
   const [workName, setWorkName] = useState('');

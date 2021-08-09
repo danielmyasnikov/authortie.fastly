@@ -1,7 +1,7 @@
 .wrapper {
   margin-top: 24px;
   :global {
-    .CustomSelect__control {
+    .CustomSelectOffer__control {
       margin-right: 20px;
       width: 600px;
       display: flex;
@@ -15,7 +15,7 @@
       box-shadow: none;
     }
 
-    .CustomSelect__single-value {
+    .CustomSelectOffer__single-value {
       position: static;
       top: unset;
       display: block;
@@ -25,29 +25,29 @@
       transform: unset;
     }
 
-    .CustomSelect__indicator-separator {
+    .CustomSelectOffer__indicator-separator {
       display: none;
     }
 
-    .CustomSelect__indicators {
+    .CustomSelectOffer__indicators {
       margin-right: 8px;
       transition: all 0.3s;
     }
 
-    .CustomSelect__control--menu-is-open .CustomSelect__indicators {
+    .CustomSelectOffer__control--menu-is-open .CustomSelectOffer__indicators {
       transform: rotate(180deg);
     }
 
-    .CustomSelect__control--is-focused {
+    .CustomSelectOffer__control--is-focused {
       border: 0 !important;
     }
 
-    .CustomSelect__menu-list {
+    .CustomSelectOffer__menu-list {
       max-height: 240px;
       padding: 16px 20px;
     }
 
-    .CustomSelect__menu {
+    .CustomSelectOffer__menu {
       position: relative !important;
       max-width: 600px;
       z-index: 12;
@@ -61,7 +61,7 @@
       border-radius: 0 0 12px 12px;
     }
 
-    .CustomSelect__option {
+    .CustomSelectOffer__option {
       padding-right: 0;
       padding-left: 0;
       &:first-child {
@@ -75,16 +75,16 @@
       }
     }
 
-    .CustomSelect__option--is-focused {
+    .CustomSelectOffer__option--is-focused {
       background-color: #e9f1ff;
       cursor: pointer;
     }
 
-    .CustomSelect__option--is-active {
+    .CustomSelectOffer__option--is-active {
       background-color: transparent;
     }
 
-    .CustomSelect__option--is-selected {
+    .CustomSelectOffer__option--is-selected {
       color: var(--color-black);
       background: 0;
     }
@@ -92,6 +92,7 @@
 }
 
 .btnWrapper {
+  margin-bottom: 32px;
   margin-left: 25px;
   display: flex;
   flex-direction: row;
