@@ -10,7 +10,7 @@ import { DatePicker } from 'components/common/datePicker';
 import { Button } from 'components/common/button';
 import cn from 'classnames';
 import format from 'date-fns/format';
-import { getLastPostings, createPostings } from 'store/request/actions';
+import { createPostings } from 'store/request/actions';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 
 import NoteModal from 'assets/note.svg';
@@ -24,9 +24,9 @@ import Stat from 'assets/stat.svg';
 import { AppDispatch } from 'store/types';
 
 import {
-  radioItemsListDefault,
+  workTypesDefault,
   knowledgeDefault,
-  checkboxListDefault,
+  rewardTypestDefault,
   currencyOptions,
 } from './constants';
 import css from './css.module.less';
@@ -39,6 +39,9 @@ interface Option {
 interface Props {
   isOffer?: boolean;
   requestId?: string;
+  isEdit?: boolean;
+  editData: any; // TODO: типизировать
+  addToArray?: () => void;
 }
 
 enum WhoIAm {
@@ -46,11 +49,13 @@ enum WhoIAm {
   EXECUTOR = 'supply', //предложение (я исполнитель)
 }
 
-interface Props {
-  addToArray?: () => void;
-}
-
-export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArray }) => {
+export const ApplicationForm: React.FC<Props> = ({
+  isEdit,
+  isOffer,
+  requestId,
+  addToArray,
+  editData,
+}) => {
   const { t } = useTranslation('application');
   const history = useHistory();
   const dispatch: AppDispatch = useDispatch();
@@ -59,38 +64,52 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
 
   const [whoIAm, setWhoIAm] = useState<WhoIAm>(WhoIAm.CUSTOMER);
 
-  const [approxDate, setApproxDate] = useState(new Date(Date.now()));
-  const [radioItemsList, setRadioItemsList] = useState(radioItemsListDefault);
-  const [checkboxList, setCheckboxList] = useState(checkboxListDefault);
+  const [approxDate, setApproxDate] = useState(new Date(Date.now())); //
+  const [workTypes, setWorkTypes] = useState(workTypesDefault);
+  const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault);
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
 
   const [sumCheck, setSumCheck] = useState(false);
-  const [sum, setSum] = useState<string>();
-  const [currency, setCurrency] = useState<Option>();
+  const [sum, setSum] = useState<string>(); //
+  const [currency, setCurrency] = useState<Option>(); //
 
-  const [workName, setWorkName] = useState('');
-  const [workDescription, setWorkDescription] = useState('');
+  const [workName, setWorkName] = useState(''); //
+  const [workDescription, setWorkDescription] = useState(''); //
   const [keyWords, setKeyWords] = useState('');
 
-  const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false);
-  const [hideFromSearch, setHideFromSearch] = useState(false);
+  const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false); //
+  const [hideFromSearch, setHideFromSearch] = useState(false); //
 
   const [modal, setModal] = useState<boolean>(false);
 
-  async function submitForm() {
-    const checkedRadioItemsList = radioItemsList.filter((el) => el.checked).map((item) => item.id);
-    const checkedCheckboxItemsList = checkboxList.filter((el) => el.checked).map((item) => item.id);
-    const checkedCheckboxItemsListWithMoney = sumCheck
-      ? [...checkedCheckboxItemsList, 'money']
-      : checkedCheckboxItemsList;
-    const checkedKnowledgeList = knowledge.filter((el) => el.checked).map((item) => item.id);
+  // editData
 
+  useEffect(() => {
+    if (!!editData && isEdit) {
+      // setKnowledge(knowledgeDefault.)
+      setSum(editData.reward_sum);
+      setCurrency({ label: editData.reward_currency, value: editData.reward_currency });
+
+      setApproxDate(editData.approx_date);
+      setWorkName(editData.title);
+      setWorkDescription(editData.comment);
+
+      setHideFromSearch(editData.hide_from_other_users);
+      setHideFromSearch(editData.hide_from_search);
+    }
+  }, [editData]);
+
+  async function submitForm() {
+    const checkedWorkTypes = workTypes.filter((el) => el.checked).map((item) => item.id);
+    const checkedRewardTypes = rewardTypes.filter((el) => el.checked).map((item) => item.id);
+    const checkedRewardTypesWithMoney = sumCheck
+      ? [...checkedRewardTypes, 'money']
+      : checkedRewardTypes;
+    const checkedKnowledgeList = knowledge.filter((el) => el.checked).map((item) => item.id);
     const data = {
       request_type: whoIAm,
-      work_types:
-        whoIAm === WhoIAm.CUSTOMER ? checkedRadioItemsList : checkedCheckboxItemsListWithMoney,
-      reward_types:
-        whoIAm === WhoIAm.EXECUTOR ? checkedRadioItemsList : checkedCheckboxItemsListWithMoney,
+      work_types: checkedWorkTypes,
+      reward_types: checkedRewardTypes,
       reward_sum: sum,
       knowledge_areas: checkedKnowledgeList,
       title: workName,
@@ -122,20 +141,6 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
   // request_type: 'спрос|предложения'
   // demand - спрос(я заказчик) /supply - предложение (я исполнитель)
 
-  // ++++++++work_type: [''], -  то что я хочу
-  // ++++++reward_type: [''], - то что я предлогаю, если бабос то money
-  // +++++++++reward_sum: [''], - сумма
-  // +++++++hide_from_other_users: true|false
-  // hide_from_search
-  // ++++++++++++knowledge_area_list
-  // ++++++++title
-  // ++++++++comment
-  // ++++++++reward_currency - валюта
-  // ++++++++keyword_list
-  // +++++++++approx_date
-  // request_posting_id - не обязательное поле, под какую заявку я предлагяю
-  // supply_posting_id - не обязательное поле, под какую я хочу
-
   function addArray() {
     if (!!addToArray) {
       addToArray();
@@ -147,17 +152,17 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
   };
 
   function handleRadioList(id: string) {
-    const newRadioItemsList = radioItemsList.map((item: any) =>
+    const newWorkTypes = workTypes.map((item: any) =>
       item.id === id ? { ...item, checked: true } : { ...item, checked: false },
     );
-    setRadioItemsList(newRadioItemsList);
+    setWorkTypes(newWorkTypes);
   }
 
   function handleCheckedList(id: string) {
-    const newCheckedItemsList = checkboxList.map((item: any) =>
+    const newRewardTypes = rewardTypes.map((item: any) =>
       item.id === id ? { ...item, checked: !item.checked } : { ...item },
     );
-    setCheckboxList(newCheckedItemsList);
+    setRewardTypes(newRewardTypes);
   }
 
   function handleKnowledgeList(id: string) {
@@ -167,35 +172,49 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
     setKnowledge(newKnowledge);
   }
 
+  function setCustomer() {
+    setWhoIAm(WhoIAm.CUSTOMER);
+    setWorkTypes(workTypesDefault);
+    setRewardTypes(rewardTypestDefault);
+  }
+
+  function setExecutor() {
+    setWhoIAm(WhoIAm.EXECUTOR);
+    setWorkTypes(rewardTypestDefault);
+    setRewardTypes(workTypesDefault);
+  }
+
   const renderHeaderBtnsGroup = () => (
     <div className={css.rowBtnContainer}>
       <div className={css.headerBtns}>
         <button
           className={cn(css.headerBtn, { [css.headerBtnFocus]: whoIAm === WhoIAm.CUSTOMER })}
-          onClick={() => setWhoIAm(WhoIAm.CUSTOMER)}
+          onClick={setCustomer}
         >
           Я заказчик
         </button>
         <button
           className={cn(css.headerBtn, { [css.headerBtnFocus]: whoIAm === WhoIAm.EXECUTOR })}
-          onClick={() => setWhoIAm(WhoIAm.EXECUTOR)}
+          onClick={setExecutor}
         >
           Я исполнитель
         </button>
       </div>
-      <span className={css.authDescription}>
-        Для публикации заявки вам необходимо{' '}
-        <Link
-          to={{
-            pathname: '/authorization',
-            state: { background: location },
-          }}
-          className={css.authLink}
-        >
-          зарегистрироваться
-        </Link>
-        .
-      </span>
+      {!isAuth && (
+        <span className={css.authDescription}>
+          Для публикации заявки вам необходимо
+          <Link
+            to={{
+              pathname: '/authorization',
+              state: { background: location },
+            }}
+            className={css.authLink}
+          >
+            зарегистрироваться
+          </Link>
+          .
+        </span>
+      )}
     </div>
   );
 
@@ -206,7 +225,7 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
         {whoIAm === WhoIAm.CUSTOMER ? 'Я хочу' : 'Я предлагаю'}
       </span>
       <div className={css.block}>
-        {radioItemsList.map(({ checked, id, value }) => (
+        {workTypes.map(({ checked, id, value }) => (
           <RadioButton
             checked={!!checked}
             id={String(id)}
@@ -229,7 +248,7 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
       <div className={css.block}>
         <div className={css.checkWrapper}>
           <div className={css.checkBlock}>
-            {checkboxList.map(({ checked, id, value }) => (
+            {rewardTypes.map(({ checked, id, value }) => (
               <Checkbox
                 checked={!!checked}
                 id={String(id)}
@@ -312,7 +331,7 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
         value={keyWords}
       />
       <span className={css.keyWordsInfo}>
-        Пример: <b>Первый ключ; Второй ключ;</b>
+        Пример: <b>первый ключ; второй ключ;</b>
       </span>
     </div>
   );
@@ -402,17 +421,26 @@ export const ApplicationForm: React.FC<Props> = ({ isOffer, requestId, addToArra
       </div>
       <div className={css.btnWrapper}>
         <div className={css.btnBlock}>
-          <button className={css.outlineBtn} onClick={addArray}>
-            + добавить заявку
-          </button>
-          <Button onClick={submitForm}>
-            {isAuth ? 'Опубликовать' : 'Зарегистрироваться и Опубликовать'}
-          </Button>
+          {!isEdit && (
+            <>
+              <button className={css.outlineBtn} onClick={addArray}>
+                + добавить заявку
+              </button>
+
+              <Button onClick={submitForm}>
+                {isAuth ? 'Опубликовать' : 'Зарегистрироваться и Опубликовать'}
+              </Button>
+            </>
+          )}
+
+          {isEdit && <Button onClick={submitForm}>Редактировать</Button>}
         </div>
-        <span className={css.info}>
-          Вам не придется заново заполнять форму, после регистрации ваша заявка будет отправлена на
-          публикацию.
-        </span>
+        {!isAuth && (
+          <span className={css.info}>
+            Вам не придется заново заполнять форму, после регистрации ваша заявка будет отправлена
+            на публикацию.
+          </span>
+        )}
         {modal && renderModal()}
       </div>
     </>

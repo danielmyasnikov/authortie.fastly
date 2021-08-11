@@ -10,7 +10,6 @@ export const AuthorProfile = () => {
   const dispatch = useDispatch();
   const { profile } = useSelector(getProfileSelector);
   // const params = useParams<Params>();
-  console.log(profile);
   useEffect(() => {
     // dispatch(getAuthProfile(params.id));
   }, []);

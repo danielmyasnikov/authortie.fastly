@@ -2,7 +2,14 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import * as T from './types';
 import axios from 'axios';
 
-export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue: string }>(
+export interface AuthErrors {
+  emailError: string;
+  passwordError: string;
+  passwordConfirmationError?: string;
+  fullMessagesError?: string;
+}
+
+export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue: AuthErrors }>(
   'auth/REGISTRATION',
   async ({ email, password, passwordConfirmation }, { rejectWithValue }) => {
     try {
@@ -17,8 +24,16 @@ export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue
       localStorage.setItem('expiry', res.headers.expiry);
       return undefined;
     } catch (err) {
-      const errorMassege = 'Не верные данные при авторизации ';
-      return rejectWithValue(errorMassege);
+      const emailError: string = err.response.data.errors.email;
+      const passwordError: string = err.response.data.errors.password || '';
+      const passwordConfirmationError = err.response.data.errors.password_confirmation || '';
+      const fullMessagesError = err.response.data.errors.full_messages || '';
+      return rejectWithValue({
+        emailError,
+        passwordError,
+        passwordConfirmationError,
+        fullMessagesError,
+      });
     }
   },
 );

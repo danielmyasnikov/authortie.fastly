@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useParams, Link } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import Camera from 'assets/camera.svg';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { getDetailedApplicationSelector } from 'store/detailedApplication/selectors';
@@ -159,6 +159,7 @@ export const DetailedApplication = () => {
               rewardCurrency={item.reward_currency}
               rewardSum={item.reward_sum}
               rewardСomment={item.reward_comment}
+              whois={item.whois}
             />
           ))}
         </div>

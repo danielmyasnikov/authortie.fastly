@@ -113,6 +113,7 @@ export const Main: React.FC = () => {
                     rewardCurrency={item.reward_currency}
                     rewardSum={item.reward_sum}
                     rewardСomment={item.reward_comment}
+                    whois={item.whois}
                   />
                 </React.Fragment>
               ))}

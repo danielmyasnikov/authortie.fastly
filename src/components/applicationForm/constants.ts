@@ -1,4 +1,4 @@
-export const radioItemsListDefault = [
+export const workTypesDefault = [
   {
     value: 'Повысить цитируемость своих работ',
     checked: false,
@@ -26,7 +26,7 @@ export const radioItemsListDefault = [
   },
 ];
 
-export const checkboxListDefault = [
+export const rewardTypestDefault = [
   { value: 'Процитировать других', checked: false, id: 'cite_others' },
   { value: 'Принять в соавторы', checked: false, id: 'accept_as_coauthors' },
   { value: 'Выполнить исследования', checked: false, id: 'do_research' },

@@ -24,6 +24,7 @@ interface Props {
   rewardCurrency: string;
   rewardSum: string;
   rewardСomment: string;
+  whois: string;
 }
 
 export const Card: React.FC<Props> = ({
@@ -41,11 +42,13 @@ export const Card: React.FC<Props> = ({
   rewardType,
   rewardSum,
   rewardСomment,
+  whois,
 }) => {
   const { t } = useTranslation('card');
   const showWords = !!keyWords.length ? keyWords : [];
   const numberAfterShowWords = keyWords.length - 3;
   const numberAfterShowWordsKnowledgeArea = knowledgeArea.length - 1;
+  const isMyPost = whois !== 'guest';
 
   return (
     <div className={styles.wrapper} key={key}>
@@ -135,7 +138,11 @@ export const Card: React.FC<Props> = ({
       </div>
 
       <div className={styles.btnWrapper}>
-        <Button className={styles.btn}>{t('offerCooperation')}</Button>
+        <Link to={`/edit/${id}`}>
+          <Button className={styles.btn}>
+            {isMyPost ? 'Редактировать' : t('offerCooperation')}
+          </Button>
+        </Link>
 
         <Link to={`/community/${id}`}>
           <Button className={styles.rightBtn}>

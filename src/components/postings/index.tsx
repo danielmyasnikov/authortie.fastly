@@ -16,8 +16,13 @@ export const Postings = () => {
   const { postings, isLoadNecessary } = useSelector(getPostingsSelector);
   const [page, setPage] = useState<number>(1);
   const [load, setLoad] = useState(false);
+  const [postingsList, setPostingsList] = useState<any[]>([]);
   const [workType, setWorkType] = useState<string | undefined>('');
   const [knowledgeArea, setKnowledgeArea] = useState<string | undefined>('');
+
+  useEffect(() => {
+    setPostingsList(postings);
+  }, [postings]);
 
   async function loadData() {
     const resultConf = await dispatch(getPostings({ page, workType, knowledgeArea }));
@@ -28,7 +33,7 @@ export const Postings = () => {
   useEffect(() => {
     loadData();
   }, []);
-  
+
   useEffect(() => {
     if (page > 1) {
       loadData();
@@ -98,25 +103,27 @@ export const Postings = () => {
           </button>
         </div>
         <div className={styles.cards}>
-          {postings.map((item: any) => (
-            <React.Fragment key={item.id + item.title}>
-              <Card
-                privateAccaunt={!item.is_profile_visible}
-                id={item.id}
-                keyWords={item.keyword_list}
-                comment={item.comment}
-                author={item.user && item.user.profile}
-                title={item.title}
-                fieldOfActivity=""
-                workType={item.work_type || ''}
-                knowledgeArea={item.knowledge_area_list || ''}
-                rewardType={item.reward_type}
-                rewardCurrency={item.reward_currency}
-                rewardSum={item.reward_sum}
-                rewardСomment={item.reward_comment}
-              />
-            </React.Fragment>
-          ))}
+          {!!postingsList.length &&
+            postingsList.map((item: any) => (
+              <React.Fragment key={item.id + item.title}>
+                <Card
+                  privateAccaunt={!item.is_profile_visible}
+                  id={item.id}
+                  keyWords={item.keyword_list}
+                  comment={item.comment}
+                  author={item.user && item.user.profile}
+                  title={item.title}
+                  fieldOfActivity=""
+                  workType={item.work_type || ''}
+                  knowledgeArea={item.knowledge_area_list || ''}
+                  rewardType={item.reward_type}
+                  rewardCurrency={item.reward_currency}
+                  rewardSum={item.reward_sum}
+                  rewardСomment={item.reward_comment}
+                  whois={item.whois}
+                />
+              </React.Fragment>
+            ))}
         </div>
       </div>
     </div>

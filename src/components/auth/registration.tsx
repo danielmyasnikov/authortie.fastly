@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation, Link } from 'react-router-dom';
 import cn from 'classnames';
 import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
@@ -34,6 +34,10 @@ export const Registration: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
+
+  const [passwordError, setPasswordError] = useState<string>('');
+  const [passwordConfirmationError, setPasswordConfirmationError] = useState<string>('');
+  const [emailError, setEmailError] = useState<string>('');
   const [error, setError] = useState('');
   const [check, setCheck] = useState(false);
   const googleURL = `https://authortie-app.herokuapp.com/auth/google_oauth2?front_url=${originPath}${pathname}`;
@@ -45,6 +49,7 @@ export const Registration: React.FC = () => {
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value, name } = e.target;
+
     switch (name) {
       case 'email':
         setEmail(value);
@@ -81,10 +86,22 @@ export const Registration: React.FC = () => {
     const resultConf = await dispatch(getRegistration({ email, password, passwordConfirmation }));
 
     if (getRegistration.rejected.match(resultConf) && resultConf.payload) {
-      setError(resultConf.payload);
+      setEmailError(resultConf.payload.emailError[0]);
+      setPasswordError(resultConf.payload.passwordError[0]);
+      resultConf.payload.passwordConfirmationError &&
+        setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
+      resultConf.payload.fullMessagesError && setError(resultConf.payload.fullMessagesError[0]);
     } else {
       setIsConfirm(true);
     }
+  }
+
+  function handleAuthType() {
+    setIsRegistration(!isRegistration);
+    setPasswordError('');
+    setPasswordConfirmationError('');
+    setEmailError('');
+    setError('');
   }
 
   const renderConfirm = () => (
@@ -95,7 +112,9 @@ export const Registration: React.FC = () => {
         <Button className={styles.btnConfirm} onClick={onClose}>
           {t('toMain')}
         </Button>
-        <Button className={styles.btnConfirm}>{t('toProfile')}</Button>
+        <Link to={'/profile'} className={styles.userName}>
+          <Button className={styles.btnConfirm}>{t('toProfile')}</Button>
+        </Link>
       </div>
     </div>
   );
@@ -104,20 +123,24 @@ export const Registration: React.FC = () => {
     <>
       <div className={styles.titleWrapper}>
         <button
-          onClick={() => setIsRegistration(!isRegistration)}
+          onClick={handleAuthType}
           className={cn(styles.title, { [styles.titleFocus]: !isRegistration })}
         >
           {t('authorization')}
         </button>
         <button
-          onClick={() => setIsRegistration(!isRegistration)}
+          onClick={handleAuthType}
           className={cn(styles.title, { [styles.titleFocus]: isRegistration })}
         >
           {t('registration')}
         </button>
       </div>
 
-      <div className={styles.inputWrapper}>
+      <div
+        className={cn(styles.inputWrapper, {
+          [styles.inputWrapperError]: !!emailError && isRegistration,
+        })}
+      >
         <input
           placeholder={t('email')}
           value={email}
@@ -128,8 +151,13 @@ export const Registration: React.FC = () => {
           onChange={handleChange}
         />
       </div>
+      <div className={styles.error}>{isRegistration && emailError}</div>
 
-      <div className={styles.inputWrapper}>
+      <div
+        className={cn(styles.inputWrapper, {
+          [styles.inputWrapperError]: !!passwordError && isRegistration,
+        })}
+      >
         <input
           placeholder={t('password')}
           value={password}
@@ -143,10 +171,15 @@ export const Registration: React.FC = () => {
           {isShowPassword ? <Eye /> : <CloseEye />}
         </div>
       </div>
+      <div className={styles.error}>{isRegistration && passwordError}</div>
 
       {isRegistration && (
         <>
-          <div className={styles.inputWrapper}>
+          <div
+            className={cn(styles.inputWrapper, {
+              [styles.inputWrapperError]: !!passwordConfirmationError && isRegistration,
+            })}
+          >
             <input
               placeholder={t('repeatPassword')}
               value={passwordConfirmation}
@@ -160,6 +193,7 @@ export const Registration: React.FC = () => {
               {isShowPassword ? <Eye /> : <CloseEye />}
             </div>
           </div>
+          <div className={styles.error}>{passwordConfirmationError}</div>
         </>
       )}
       {!isRegistration && (
@@ -196,7 +230,7 @@ export const Registration: React.FC = () => {
         {isRegistration ? t('logup') : t('login')}
       </Button>
 
-      <div className={styles.error}>{error}</div>
+      <div className={styles.errorBottom}>{error}</div>
 
       <span className={styles.loginWithTitle}>{t('loginWith')}</span>
       <div className={styles.iconsWrapper}>

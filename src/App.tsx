@@ -11,6 +11,7 @@ import { DetailedApplication } from 'components/detailedApplication';
 import { AuthorProfile } from 'components/autorProfile';
 import { Profile } from 'components/profile';
 import { Registration } from 'components/auth/registration';
+import { EditApplication } from 'components/editApplication';
 import { authSlice } from 'store/auth/slice';
 import styles from './app.module.css';
 import './styles/colors.module.css';
@@ -75,6 +76,9 @@ const App: React.FC = () => {
         </Route>
         <Route exact path="/profile/:id">
           <Container Component={AuthorProfile} />
+        </Route>
+        <Route exact path="/edit/:id">
+          <Container Component={EditApplication} />
         </Route>
         <Route exact path="/community/:id(\d+)">
           <Container Component={DetailedApplication} />
