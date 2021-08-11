@@ -40,7 +40,7 @@ interface Props {
   isOffer?: boolean;
   requestId?: string;
   isEdit?: boolean;
-  editData: any; // TODO: типизировать
+  editData?: any; // TODO: типизировать
   addToArray?: () => void;
 }
 
@@ -65,9 +65,9 @@ export const ApplicationForm: React.FC<Props> = ({
   const [whoIAm, setWhoIAm] = useState<WhoIAm>(WhoIAm.CUSTOMER);
 
   const [approxDate, setApproxDate] = useState(new Date(Date.now())); //
-  const [workTypes, setWorkTypes] = useState(workTypesDefault);
-  const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault);
-  const [knowledge, setKnowledge] = useState(knowledgeDefault);
+  const [workTypes, setWorkTypes] = useState(workTypesDefault); //
+  const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault); //
+  const [knowledge, setKnowledge] = useState(knowledgeDefault); //
 
   const [sumCheck, setSumCheck] = useState(false);
   const [sum, setSum] = useState<string>(); //
@@ -75,25 +75,54 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [workName, setWorkName] = useState(''); //
   const [workDescription, setWorkDescription] = useState(''); //
-  const [keyWords, setKeyWords] = useState('');
+  const [keyWords, setKeyWords] = useState(''); //
 
   const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false); //
   const [hideFromSearch, setHideFromSearch] = useState(false); //
 
   const [modal, setModal] = useState<boolean>(false);
 
-  // editData
-
   useEffect(() => {
     if (!!editData && isEdit) {
-      // setKnowledge(knowledgeDefault.)
+      const editKnowledge = knowledgeDefault.map((item) => ({
+        ...item,
+        checked:
+          Array.isArray(editData.knowledge_area_list) &&
+          editData.knowledge_area_list.includes(item.id),
+      }));
+      const editWorkTypes = workTypesDefault.map((item) => ({
+        ...item,
+        checked:
+          Array.isArray(editData.work_type_list) && editData.work_type_list.includes(item.id),
+      }));
+
+      const editRewardTypes = rewardTypestDefault.map((item) => ({
+        ...item,
+        checked:
+          Array.isArray(editData.reward_type_list) && editData.reward_type_list.includes(item.id),
+      }));
+
+      if (editData.request_type === WhoIAm.CUSTOMER) {
+        setWorkTypes(editWorkTypes);
+        setRewardTypes(editRewardTypes);
+      } else {
+        setWorkTypes(editRewardTypes);
+        setRewardTypes(editWorkTypes);
+      }
+
+      setKnowledge(editKnowledge);
       setSum(editData.reward_sum);
       setCurrency({ label: editData.reward_currency, value: editData.reward_currency });
+      setSumCheck(
+        Array.isArray(editData.reward_type_list) &&
+          editData.reward_type_list.find((item: string) => item === 'money'),
+      );
 
       setApproxDate(editData.approx_date);
       setWorkName(editData.title);
       setWorkDescription(editData.comment);
 
+      setKeyWords(Array.isArray(editData.keyword_list) && editData.keyword_list.join(';'));
       setHideFromSearch(editData.hide_from_other_users);
       setHideFromSearch(editData.hide_from_search);
     }
