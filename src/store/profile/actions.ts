@@ -79,6 +79,7 @@ export const getProfile = createAsyncThunk('postings/getPostings', async () => {
       : GRADE_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0];
 
   const profile: T.Profile = {
+    id: data.id,
     name: data.first_name,
     lastName: data.last_name,
     middleName: data.middle_name,
@@ -108,7 +109,8 @@ export const getAuthProfile = createAsyncThunk<any, any>('postings/getAuthProfil
   const { data } = res;
 
   const userCountry = COUNTRIES.filter((item: Options) => item.label === data.country)[0];
-  const userLinks: T.Links[] = !!data.links.length
+
+  const userLinks: T.Links[] = !!data.links && !!data.links.length
     ? data.links.map((item: { url: string }, index: number) => ({
         url: item.url,
         id: index,
@@ -128,6 +130,7 @@ export const getAuthProfile = createAsyncThunk<any, any>('postings/getAuthProfil
       : GRADE_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0];
 
   const profile: T.Profile = {
+    id: data.id,
     name: data.first_name,
     lastName: data.last_name,
     middleName: data.middle_name,
@@ -139,10 +142,11 @@ export const getAuthProfile = createAsyncThunk<any, any>('postings/getAuthProfil
     notificationsBrow: data.push_notifications,
     avatarUrl: data.avatar_url,
     status: userDegree,
-    grade: userGrade || defaultArr,
+    grade: userGrade,
     links: userLinks,
     confirmOrcid: data.orcid_uuid,
   };
+
 
   return profile;
 });

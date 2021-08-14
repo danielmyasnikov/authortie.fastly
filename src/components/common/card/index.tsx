@@ -45,8 +45,8 @@ export const Card: React.FC<Props> = ({
   whois,
 }) => {
   const { t } = useTranslation('card');
-  const showWords = !!keyWords.length ? keyWords : [];
-  const numberAfterShowWords = keyWords.length - 3;
+  const showWords = !!keyWords && !!keyWords.length ? keyWords : [];
+  const numberAfterShowWords = !!keyWords && !!keyWords.length && keyWords.length - 3;
   const numberAfterShowWordsKnowledgeArea = knowledgeArea.length - 1;
   const isMyPost = whois !== 'guest';
 
@@ -116,7 +116,7 @@ export const Card: React.FC<Props> = ({
               <span className={styles.text}>Профиль не заполнен</span>
             )}
 
-            {author.first_name && !author.public_visibility && (
+            {author.first_name  && (
               <div className={styles.personInfo}>
                 <div className={styles.row}>
                   <span className={styles.text}>

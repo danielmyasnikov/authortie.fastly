@@ -10,7 +10,7 @@ import { DatePicker } from 'components/common/datePicker';
 import { Button } from 'components/common/button';
 import cn from 'classnames';
 import format from 'date-fns/format';
-import { createPostings } from 'store/request/actions';
+import { createPostings, editPostings } from 'store/request/actions';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 
 import NoteModal from 'assets/note.svg';
@@ -64,21 +64,21 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [whoIAm, setWhoIAm] = useState<WhoIAm>(WhoIAm.CUSTOMER);
 
-  const [approxDate, setApproxDate] = useState(new Date(Date.now())); //
-  const [workTypes, setWorkTypes] = useState(workTypesDefault); //
-  const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault); //
-  const [knowledge, setKnowledge] = useState(knowledgeDefault); //
+  const [approxDate, setApproxDate] = useState(new Date(Date.now())); 
+  const [workTypes, setWorkTypes] = useState(workTypesDefault); 
+  const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault); 
+  const [knowledge, setKnowledge] = useState(knowledgeDefault); 
 
   const [sumCheck, setSumCheck] = useState(false);
-  const [sum, setSum] = useState<string>(); //
-  const [currency, setCurrency] = useState<Option>(); //
+  const [sum, setSum] = useState<string>(); 
+  const [currency, setCurrency] = useState<Option>(); 
 
-  const [workName, setWorkName] = useState(''); //
-  const [workDescription, setWorkDescription] = useState(''); //
-  const [keyWords, setKeyWords] = useState(''); //
+  const [workName, setWorkName] = useState(''); 
+  const [workDescription, setWorkDescription] = useState(''); 
+  const [keyWords, setKeyWords] = useState(''); 
 
-  const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false); //
-  const [hideFromSearch, setHideFromSearch] = useState(false); //
+  const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false); 
+  const [hideFromSearch, setHideFromSearch] = useState(false); 
 
   const [modal, setModal] = useState<boolean>(false);
 
@@ -138,27 +138,34 @@ export const ApplicationForm: React.FC<Props> = ({
     const data = {
       request_type: whoIAm,
       work_types: checkedWorkTypes,
-      reward_types: checkedRewardTypes,
+      reward_types: checkedRewardTypesWithMoney,
       reward_sum: sum,
       knowledge_areas: checkedKnowledgeList,
       title: workName,
       comment: workDescription,
       reward_currency: currency?.value,
       keyword_list: keyWords,
-      approx_date: format(approxDate, 'dd/MM/yyyy'),
+      approx_date: format(new Date(approxDate), 'dd/MM/yyyy'),
       hide_from_other_users: hideFromOtherUsers,
       hide_from_search: hideFromSearch,
       request_posting_id: whoIAm === WhoIAm.CUSTOMER && requestId ? requestId : '',
       supply_posting_id: whoIAm === WhoIAm.EXECUTOR && requestId ? requestId : '',
     };
-
     if (isAuth) {
-      const resultConf = await dispatch(createPostings(data));
-      if (createPostings.fulfilled.match(resultConf)) {
-        if (isOffer && requestId) {
-          dispatch(getDetailedApplication(requestId));
-        } else setModal(true);
+      if (isEdit) {
+        editPost(data);
+      } else {
+        createPost(data);
       }
+    }
+  }
+
+  async function editPost(data: any) {
+    const resultConf = await dispatch(editPostings({ data, id: editData.id }));
+    if (editPostings.fulfilled.match(resultConf)) {
+      if (isOffer && requestId) {
+        dispatch(getDetailedApplication(requestId));
+      } else setModal(true);
     } else {
       history.push({
         pathname: 'authorization',
@@ -167,8 +174,19 @@ export const ApplicationForm: React.FC<Props> = ({
     }
   }
 
-  // request_type: 'спрос|предложения'
-  // demand - спрос(я заказчик) /supply - предложение (я исполнитель)
+  async function createPost(data: any) {
+    const resultConf = await dispatch(createPostings(data));
+    if (createPostings.fulfilled.match(resultConf)) {
+      if (isOffer && requestId) {
+        dispatch(getDetailedApplication(requestId));
+      } else setModal(true);
+    } else {
+      history.push({
+        pathname: 'authorization',
+        state: { background: location },
+      });
+    }
+  }
 
   function addArray() {
     if (!!addToArray) {
@@ -295,7 +313,6 @@ export const ApplicationForm: React.FC<Props> = ({
               name={String('id')}
               label={'Оплатить деньгами'}
               onChange={() => setSumCheck(!sumCheck)}
-              isColor
             />
             <div className={css.inputWrapper}>
               <input

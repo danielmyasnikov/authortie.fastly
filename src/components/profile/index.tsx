@@ -4,11 +4,13 @@ import cn from 'classnames';
 
 import { MyProfile } from './myProfile';
 import { MainPosts } from './mainPosts';
+import { MainReview } from './mainReview';
 import styles from './styles.module.less';
 
 enum Item {
   MAIN = 'main',
   PROFILE = 'profile',
+  REVIEW = 'review',
 }
 
 export const Profile = () => {
@@ -20,7 +22,8 @@ export const Profile = () => {
         return <MyProfile />;
       case Item.MAIN:
         return <MainPosts />;
-
+      case Item.REVIEW:
+        return <MainReview />;
       default:
         break;
     }
@@ -41,6 +44,12 @@ export const Profile = () => {
             onClick={() => setItemNavbar(Item.MAIN)}
           >
             Мои заявки
+          </span>
+          <span
+            className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.REVIEW })}
+            onClick={() => setItemNavbar(Item.REVIEW)}
+          >
+            Отзывы
           </span>
         </div>
         {renderProfile()}

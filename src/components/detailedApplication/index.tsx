@@ -51,7 +51,7 @@ export const DetailedApplication = () => {
       dispatch(getDetailedApplication(params.id));
     }
   }
-
+  console.log(profile);
   const acceptButton = () => (
     <div className={styles.btnWrapper}>
       <Button onClick={() => submitOffer('safe_deal')}>Безопасная сделка</Button>
@@ -99,11 +99,21 @@ export const DetailedApplication = () => {
               <span className={styles.comment}>{t(post.reward_type)}</span>
             )}
           </div>
-          {!postingId && (
+          {isGuest && (
+            <Link className={styles.toReview} to={`/review/${params.id}`}>
+              Оставить отзыв
+            </Link>
+          )}
+          {!postingId && isGuest && (
             <Button onClick={() => setOfferCooperation(true)}>Предложить сотрудничество</Button>
           )}
-          {postingId && !accept && (
+          {!!postingId && !accept && isGuest && (
             <Button onClick={() => setAccept(true)}>Принять сотрудничество</Button>
+          )}
+          {!isGuest && (
+            <Link to={`/edit/${params.id}`}>
+              <Button>Редактировать</Button>
+            </Link>
           )}
           {postingId && accept && acceptButton()}
         </div>
@@ -111,8 +121,7 @@ export const DetailedApplication = () => {
         <div className={styles.profileWrapper}>
           {post.is_profile_visible ? (
             <>
-              <Link to={`/profile/${profile.user_id}`} className={styles.avatarWrapper}>
-                
+              <Link to={`/profile/${profile.slug}`} className={styles.avatarWrapper}>
                 {!!profile.avatar ? (
                   <img className={styles.img} src={profile.avatar} alt="" />
                 ) : (

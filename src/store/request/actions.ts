@@ -23,13 +23,29 @@ export const getLastPostings = createAsyncThunk('createPost/getLastPosting', asy
 export const createPostings = createAsyncThunk<undefined, any>(
   'createPost/createPostings',
   async (data) => {
-
     try {
-      const res = await axios({
+      await axios({
         method: 'POST',
         url: `https://authortie-app.herokuapp.com/api/v1/postings`,
         headers,
-        data
+        data,
+      });
+      return undefined;
+    } catch (err) {
+      return;
+    }
+  },
+);
+
+export const editPostings = createAsyncThunk<undefined, any, any>(
+  'createPost/editPostings',
+  async ({data, id}) => {
+    try {
+      await axios({
+        method: 'PATCH',
+        url: `https://authortie-app.herokuapp.com/api/v1/postings/${id}`,
+        headers,
+        data,
       });
       return undefined;
     } catch (err) {

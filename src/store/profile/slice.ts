@@ -4,6 +4,7 @@ import * as actions from './actions';
 
 const initialState: T.State = {
   profile: {
+    id: NaN,
     name: '',
     lastName: '',
     middleName: '',

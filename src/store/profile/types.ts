@@ -3,6 +3,7 @@ export interface State {
 }
 
 export interface Profile {
+  id: number | string
   name: string;
   lastName: string;
   middleName: string;

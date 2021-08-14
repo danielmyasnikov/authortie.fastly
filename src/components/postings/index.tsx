@@ -103,7 +103,7 @@ export const Postings = () => {
           </button>
         </div>
         <div className={styles.cards}>
-          {!!postingsList.length &&
+          {!!postingsList && !!postingsList.length &&
             postingsList.map((item: any) => (
               <React.Fragment key={item.id + item.title}>
                 <Card

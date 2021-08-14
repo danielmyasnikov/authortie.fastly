@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useParams, Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { ApplicationForm } from 'components/applicationForm/applicationForm';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { getDetailedApplicationSelector } from 'store/detailedApplication/selectors';
@@ -28,6 +28,7 @@ export const EditApplication = () => {
       dispatch(getDetailedApplication(params.id));
     }
   }, [params.id]);
+
   return (
     <div className={css.wrapper}>
       <div className={css.content}>
