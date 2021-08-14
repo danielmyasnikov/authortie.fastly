@@ -14,6 +14,7 @@ import { Registration } from 'components/auth/registration';
 import { EditApplication } from 'components/editApplication';
 import { Review } from 'components/review';
 import { authSlice } from 'store/auth/slice';
+import {Contract} from 'components/contract'
 import styles from './app.module.css';
 import './styles/colors.module.css';
 
@@ -86,6 +87,9 @@ const App: React.FC = () => {
         </Route>
         <Route exact path="/review/:id">
           <Container Component={Review} />
+        </Route>
+        <Route exact path="/contract/:id">
+          <Container Component={Contract} />
         </Route>
       </Switch>
       {/* <Registration /> */}

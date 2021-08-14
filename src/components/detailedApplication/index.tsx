@@ -27,7 +27,6 @@ export const DetailedApplication = () => {
   const { t } = useTranslation('card');
   const profile = post.is_profile_visible && post.user.profile;
   const [offerCooperation, setOfferCooperation] = useState(false);
-  const [accept, setAccept] = useState(false);
   const isAuth = useSelector(getIsAuth);
 
   useEffect(() => {
@@ -51,13 +50,6 @@ export const DetailedApplication = () => {
       dispatch(getDetailedApplication(params.id));
     }
   }
-  console.log(profile);
-  const acceptButton = () => (
-    <div className={styles.btnWrapper}>
-      <Button onClick={() => submitOffer('safe_deal')}>Безопасная сделка</Button>
-      <Button onClick={() => submitOffer('honest_partner')}>Честный партнер</Button>
-    </div>
-  );
 
   const knowledgeAreaList = post.knowledge_area_list || [];
   const keywordList = post.keyword_list || [];
@@ -79,7 +71,7 @@ export const DetailedApplication = () => {
               ))}
           </div>
           <span className={styles.subtitle}>{post.title}</span>
-          <span className={styles.text}>Ключевые слова:</span>
+          <span className={styles.text}>{t('keyWords')}</span>
           <div className={styles.tagWrapper}>
             {keywordList.length > 0 &&
               keywordList.map((item: any) => (
@@ -88,9 +80,9 @@ export const DetailedApplication = () => {
                 </React.Fragment>
               ))}
           </div>
-          <span className={styles.text}>Комментарий</span>
+          <span className={styles.text}>{t('comment')}</span>
           <span className={styles.comment}>{post.comment}</span>
-          <span className={styles.text}>Вознаграждение</span>
+          <span className={styles.text}>{t('reward')}</span>
           <div className={styles.tagWrapper}>
             {post.reward_type === 'money' && (
               <span className={styles.comment}>{`${post.reward_sum} ${post.reward_currency}`}</span>
@@ -101,54 +93,57 @@ export const DetailedApplication = () => {
           </div>
           {isGuest && (
             <Link className={styles.toReview} to={`/review/${params.id}`}>
-              Оставить отзыв
+              {t('addReview')}
             </Link>
           )}
           {!postingId && isGuest && (
-            <Button onClick={() => setOfferCooperation(true)}>Предложить сотрудничество</Button>
+            <Button onClick={() => setOfferCooperation(true)}>{t('offerCooperation')}</Button>
           )}
-          {!!postingId && !accept && isGuest && (
-            <Button onClick={() => setAccept(true)}>Принять сотрудничество</Button>
-          )}
+          {!!postingId && isGuest && <Button>{t('toDialog')}</Button>}
           {!isGuest && (
             <Link to={`/edit/${params.id}`}>
-              <Button>Редактировать</Button>
+              <Button>{t('edit')}</Button>
             </Link>
           )}
-          {postingId && accept && acceptButton()}
         </div>
 
-        <div className={styles.profileWrapper}>
-          {post.is_profile_visible ? (
-            <>
-              <Link to={`/profile/${profile.slug}`} className={styles.avatarWrapper}>
-                {!!profile.avatar ? (
-                  <img className={styles.img} src={profile.avatar} alt="" />
-                ) : (
-                  <Camera className={styles.defaultPhoto} />
-                )}
-              </Link>
-              <div className={styles.personInfo}>
-                <div className={styles.row}>
-                  <span className={styles.text}>
-                    {`${profile.first_name} ${profile.last_name} ${profile.middle_name}`}
-                  </span>
-                  <span className={styles.country}>{profile.country}</span>
-                </div>
-                <div className={styles.row}>
-                  <span className={styles.comment}>{`${t(profile.degree)} ${
-                    profile.degree_category
-                  }`}</span>
-                </div>
+        {isGuest && (
+          <div className={styles.profileWrapper}>
+            {post.is_profile_visible ? (
+              !!profile.first_name ? (
+                <>
+                  <Link to={`/profile/${profile.slug}`} className={styles.avatarWrapper}>
+                    {!!profile.avatar ? (
+                      <img className={styles.img} src={profile.avatar} alt="" />
+                    ) : (
+                      <Camera className={styles.defaultPhoto} />
+                    )}
+                  </Link>
+                  <div className={styles.personInfo}>
+                    <div className={styles.row}>
+                      <span className={styles.text}>
+                        {`${profile.first_name} ${profile.last_name} ${profile.middle_name}`}
+                      </span>
+                      <span className={styles.country}>{profile.country}</span>
+                    </div>
+                    <div className={styles.row}>
+                      <span className={styles.comment}>{`${t(profile.degree)} ${
+                        profile.degree_category
+                      }`}</span>
+                    </div>
 
-                <span className={styles.comment}>{profile.affiliation}</span>
-                <span className={styles.comment}>{profile.about}</span>
-              </div>
-            </>
-          ) : (
-            <span className={styles.text}>Пользователь скрыл свой профиль</span>
-          )}
-        </div>
+                    <span className={styles.comment}>{profile.affiliation}</span>
+                    <span className={styles.comment}>{profile.about}</span>
+                  </div>
+                </>
+              ) : (
+                <span className={styles.text}>{t('profileIsNotCompleted')}</span>
+              )
+            ) : (
+              <span className={styles.text}>{t('hiddenProfile')}</span>
+            )}
+          </div>
+        )}
         {offerCooperation && isGuest && <Offer />}
 
         <div className={styles.cards}>

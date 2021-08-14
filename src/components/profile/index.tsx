@@ -1,5 +1,6 @@
 import { Footer } from 'components/footer';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 
 import { MyProfile } from './myProfile';
@@ -15,6 +16,7 @@ enum Item {
 
 export const Profile = () => {
   const [itemNavbar, setItemNavbar] = useState(Item.PROFILE);
+  const { t } = useTranslation('profile');
 
   const renderProfile = () => {
     switch (itemNavbar) {
@@ -37,19 +39,19 @@ export const Profile = () => {
             className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.PROFILE })}
             onClick={() => setItemNavbar(Item.PROFILE)}
           >
-            Личная информация
+            {t('title')}
           </span>
           <span
             className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.MAIN })}
             onClick={() => setItemNavbar(Item.MAIN)}
           >
-            Мои заявки
+            {t('mainApp')}
           </span>
           <span
             className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.REVIEW })}
             onClick={() => setItemNavbar(Item.REVIEW)}
           >
-            Отзывы
+            {t('reviews')}
           </span>
         </div>
         {renderProfile()}

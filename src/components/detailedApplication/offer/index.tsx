@@ -33,6 +33,7 @@ export const Offer = () => {
   const [lastPostingsOptions, setLastPostingsOptions] = useState<any[]>([]);
   const { lastPostings } = useSelector(getCreatePost);
   const isAuth = useSelector(getIsAuth);
+  const { t } = useTranslation('card');
 
   useEffect(() => {
     if (isAuth) dispatch(getLastPostings());
@@ -66,18 +67,18 @@ export const Offer = () => {
   const renderListOffer = () => (
     <div className={styles.selectWrapper}>
       {!lastPostingsOptions.length ? (
-        <span className={styles.info}>Список пуст</span>
+        <span className={styles.info}>{t('emptyList')}</span>
       ) : (
         <Select
           classNamePrefix="CustomSelectOffer"
           defaultValue={lastPostingsOptions[0] && lastPostingsOptions[0].value}
           options={lastPostingsOptions}
-          placeholder="Выберите работу"
+          placeholder={'changeWork'}
           onChange={selectWork}
         />
       )}
 
-      {!!work && <Button onClick={submitOffer}>Предложить</Button>}
+      {!!work && <Button onClick={submitOffer}>{t('suggest')}</Button>}
     </div>
   );
 
@@ -85,9 +86,11 @@ export const Offer = () => {
     <div className={styles.wrapper}>
       <div className={styles.btnWrapper}>
         <Button onClick={() => setOfferType(OfferType.THERE_ARE_PUBLICATION)}>
-          У меня есть заявка
+          {t('hasApplication')}
         </Button>
-        <Button onClick={() => setOfferType(OfferType.NEW_PUBLICATION)}>Создать новую</Button>
+        <Button onClick={() => setOfferType(OfferType.NEW_PUBLICATION)}>
+          {t('newApplication')}
+        </Button>
       </div>
       {offerType === OfferType.NEW_PUBLICATION && <ApplicationForm isOffer requestId={params.id} />}
       {offerType === OfferType.THERE_ARE_PUBLICATION && renderListOffer()}

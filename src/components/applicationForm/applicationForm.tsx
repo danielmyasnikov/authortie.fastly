@@ -64,21 +64,21 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [whoIAm, setWhoIAm] = useState<WhoIAm>(WhoIAm.CUSTOMER);
 
-  const [approxDate, setApproxDate] = useState(new Date(Date.now())); 
-  const [workTypes, setWorkTypes] = useState(workTypesDefault); 
-  const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault); 
-  const [knowledge, setKnowledge] = useState(knowledgeDefault); 
+  const [approxDate, setApproxDate] = useState(new Date(Date.now()));
+  const [workTypes, setWorkTypes] = useState(workTypesDefault);
+  const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault);
+  const [knowledge, setKnowledge] = useState(knowledgeDefault);
 
   const [sumCheck, setSumCheck] = useState(false);
-  const [sum, setSum] = useState<string>(); 
-  const [currency, setCurrency] = useState<Option>(); 
+  const [sum, setSum] = useState<string>();
+  const [currency, setCurrency] = useState<Option>();
 
-  const [workName, setWorkName] = useState(''); 
-  const [workDescription, setWorkDescription] = useState(''); 
-  const [keyWords, setKeyWords] = useState(''); 
+  const [workName, setWorkName] = useState('');
+  const [workDescription, setWorkDescription] = useState('');
+  const [keyWords, setKeyWords] = useState('');
 
-  const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false); 
-  const [hideFromSearch, setHideFromSearch] = useState(false); 
+  const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false);
+  const [hideFromSearch, setHideFromSearch] = useState(false);
 
   const [modal, setModal] = useState<boolean>(false);
 
@@ -238,18 +238,18 @@ export const ApplicationForm: React.FC<Props> = ({
           className={cn(css.headerBtn, { [css.headerBtnFocus]: whoIAm === WhoIAm.CUSTOMER })}
           onClick={setCustomer}
         >
-          Я заказчик
+          {t('customer')}
         </button>
         <button
           className={cn(css.headerBtn, { [css.headerBtnFocus]: whoIAm === WhoIAm.EXECUTOR })}
           onClick={setExecutor}
         >
-          Я исполнитель
+          {t('executor')}
         </button>
       </div>
       {!isAuth && (
         <span className={css.authDescription}>
-          Для публикации заявки вам необходимо
+          {t('registrationInfo')}
           <Link
             to={{
               pathname: '/authorization',
@@ -257,7 +257,7 @@ export const ApplicationForm: React.FC<Props> = ({
             }}
             className={css.authLink}
           >
-            зарегистрироваться
+            {t('registration')}
           </Link>
           .
         </span>
@@ -269,7 +269,7 @@ export const ApplicationForm: React.FC<Props> = ({
     <div className={css.radioBlock}>
       <span className={css.subtile}>
         <RoundRowRight className={css.subtileIcon} />
-        {whoIAm === WhoIAm.CUSTOMER ? 'Я хочу' : 'Я предлагаю'}
+        {whoIAm === WhoIAm.CUSTOMER ? t('want') : t('suggest')}
       </span>
       <div className={css.block}>
         {workTypes.map(({ checked, id, value }) => (
@@ -290,7 +290,7 @@ export const ApplicationForm: React.FC<Props> = ({
     <div className={css.checkboxBlock}>
       <span className={css.subtile}>
         <RoundRowLeft className={css.subtileIcon} />
-        {whoIAm === WhoIAm.EXECUTOR ? 'Я хочу' : 'Я предлагаю'}
+        {whoIAm === WhoIAm.EXECUTOR ? t('want') : t('suggest')}
       </span>
       <div className={css.block}>
         <div className={css.checkWrapper}>
@@ -311,7 +311,7 @@ export const ApplicationForm: React.FC<Props> = ({
               checked={sumCheck}
               id={String('id')}
               name={String('id')}
-              label={'Оплатить деньгами'}
+              label={t('pay')}
               onChange={() => setSumCheck(!sumCheck)}
             />
             <div className={css.inputWrapper}>
@@ -339,10 +339,10 @@ export const ApplicationForm: React.FC<Props> = ({
     <div className={css.blockWrapper}>
       <span className={css.subtile}>
         <Pencil className={css.subtileIcon} />
-        Название работы
+        {t('workName')}
       </span>
       <textarea
-        placeholder={'Введите название'}
+        placeholder={t('addWorkName')}
         className={css.textarea}
         onChange={(e) => setWorkName(e.target.value)}
         value={workName}
@@ -354,10 +354,10 @@ export const ApplicationForm: React.FC<Props> = ({
     <div className={css.blockWrapper}>
       <span className={css.subtile}>
         <Note className={css.subtileIcon} />
-        Описание работы
+        {t('workDescription')}
       </span>
       <textarea
-        placeholder={'Введите описание'}
+        placeholder={t('addDescription')}
         className={css.textareaHight}
         onChange={(e) => setWorkDescription(e.target.value)}
         value={workDescription}
@@ -369,7 +369,7 @@ export const ApplicationForm: React.FC<Props> = ({
     <div className={css.blockWrapper}>
       <span className={css.subtile}>
         <KeyWord className={css.subtileIcon} />
-        Ключевые слова
+        {t('keyWords')}
       </span>
       <textarea
         className={css.textareaKeyWords}
@@ -377,7 +377,8 @@ export const ApplicationForm: React.FC<Props> = ({
         value={keyWords}
       />
       <span className={css.keyWordsInfo}>
-        Пример: <b>первый ключ; второй ключ;</b>
+        {t('keyWordsExpl')}
+        <b>{t('keyWordsExpl_2')}</b>
       </span>
     </div>
   );
@@ -386,7 +387,7 @@ export const ApplicationForm: React.FC<Props> = ({
     <div className={css.blockWrapperKnowledge}>
       <span className={css.subtile}>
         <Stat className={css.subtileIcon} />
-        Область знаний
+        {t('knowledge')}
       </span>
       <div className={css.knowledgeBlock}>
         {knowledge.map(({ checked, id, value }) => (
@@ -406,7 +407,7 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const renderDate = () => (
     <div className={css.blockWrapper}>
-      <span className={css.subtile}>Срок исполнения</span>
+      <span className={css.subtile}>{t('periodOfExecution')}</span>
       <DatePicker value={approxDate} onChange={handleDateChange} />
     </div>
   );
@@ -415,15 +416,13 @@ export const ApplicationForm: React.FC<Props> = ({
     <div className={css.modalWrapper}>
       <div className={css.modalContaier}>
         <NoteModal className={css.noteIcon} />
-        <span className={css.subtitle}>Заявка сформирована!</span>
-        <span className={css.modalInfo}>
-          Ваша заявка отправлена на модерацию. После проверки вам придет оповещение о её публикации.
-        </span>
+        <span className={css.subtitle}>{t('confirmTitle')}</span>
+        <span className={css.modalInfo}>{t('confirmInfo')}</span>
         <Link to={'/community'}>
-          <Button>Перейти к заявкам</Button>
+          <Button>{t('toPostings')}</Button>
         </Link>
         <Link to={'/'}>
-          <Button className={css.btnBorder}>На главную</Button>
+          <Button className={css.btnBorder}>{t('toMain')}</Button>
         </Link>
       </div>
       <div className={css.overlay} />
@@ -453,14 +452,14 @@ export const ApplicationForm: React.FC<Props> = ({
             checked={hideFromOtherUsers}
             id="hideFromOtherUsers"
             name="hideFromOtherUsers"
-            label={'Скрыть от других пользователей'}
+            label={t('hideFromOtherUsers')}
             onChange={() => setHideFromOtherUsers(!hideFromOtherUsers)}
           />
           <Checkbox
             checked={hideFromSearch}
             id="hideFromSearch"
             name="hideFromSearch"
-            label={'Скрыть от поисковиков'}
+            label={t('hideFromSearch')}
             onChange={() => setHideFromSearch(!hideFromSearch)}
           />
         </div>
@@ -470,23 +469,16 @@ export const ApplicationForm: React.FC<Props> = ({
           {!isEdit && (
             <>
               <button className={css.outlineBtn} onClick={addArray}>
-                + добавить заявку
+                {t('addApplication')}
               </button>
 
-              <Button onClick={submitForm}>
-                {isAuth ? 'Опубликовать' : 'Зарегистрироваться и Опубликовать'}
-              </Button>
+              <Button onClick={submitForm}>{isAuth ? t('publish') : t('regAndPublish')}</Button>
             </>
           )}
 
-          {isEdit && <Button onClick={submitForm}>Редактировать</Button>}
+          {isEdit && <Button onClick={submitForm}>{t('edit')}</Button>}
         </div>
-        {!isAuth && (
-          <span className={css.info}>
-            Вам не придется заново заполнять форму, после регистрации ваша заявка будет отправлена
-            на публикацию.
-          </span>
-        )}
+        {!isAuth && <span className={css.info}>{t('info')}</span>}
         {modal && renderModal()}
       </div>
     </>

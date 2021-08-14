@@ -31,7 +31,7 @@ enum Item {
 
 export const AuthorProfile = () => {
   const dispatch = useDispatch();
-  const { t } = useTranslation('card');
+  const { t } = useTranslation('profile');
   const { profile } = useSelector(getProfileSelector);
   const params = useParams<Params>();
   const [reviewList, setRewiewList] = useState([]);
@@ -89,9 +89,9 @@ export const AuthorProfile = () => {
         {!!reviewList.length &&
           reviewList.map((item: any) => (
             <div className={styles.wrapReview}>
-              <span className={styles.titleReview}>Название работы:</span>
+              <span className={styles.titleReview}>{t('workName')}</span>
               <span className={styles.textReview}>{item.reviewable.title}</span>
-              <span className={styles.titleReview}>Отзыв:</span>
+              <span className={styles.titleReview}> {t('review')}</span>
               <span className={styles.textReview}>{item.message}</span>
               <Rating name="read-only" value={item.rate} readOnly />
             </div>
@@ -121,7 +121,7 @@ export const AuthorProfile = () => {
             className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.PROFILE })}
             onClick={() => setItemNavbar(Item.PROFILE)}
           >
-            Личная информация
+            {t('title')}
           </span>
           {/* <span
             className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.MAIN })}
@@ -133,7 +133,7 @@ export const AuthorProfile = () => {
             className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.REVIEW })}
             onClick={() => setItemNavbar(Item.REVIEW)}
           >
-            Отзывы
+            {t('reviews')}
           </span>
         </div>
         {renderProfileItems()}

@@ -7,11 +7,13 @@ import * as Slice from 'store/postings/slice';
 import { getPostingsSelector } from 'store/postings/selectors';
 import { Card } from 'components/common/card';
 import { debounce } from 'lodash';
+import { useTranslation } from 'react-i18next';
 import { CATEGORY_OPTIONS, KNOWLEDGE_OPTIONS } from './contants';
 import styles from './styles.module.less';
 
 export const Postings = () => {
   const dispatch: AppDispatch = useDispatch();
+  const { t } = useTranslation('postings');
   const pageRef = useRef<HTMLTableElement>(null);
   const { postings, isLoadNecessary } = useSelector(getPostingsSelector);
   const [page, setPage] = useState<number>(1);
@@ -80,30 +82,31 @@ export const Postings = () => {
     <div className={styles.wrapper} ref={pageRef} onScroll={handleScroll}>
       <div className={styles.content}>
         <div className={styles.titleWrapper}>
-          <h1 className={styles.title}>Сообщество</h1>
-          <span className={styles.info}>Тысячи учёных уже предлагают свою помощь</span>
+          <h1 className={styles.title}>{t('community')}</h1>
+          <span className={styles.info}>{t('info')}</span>
         </div>
         <div className={styles.filterWrapper}>
           <Select
             classNamePrefix="CustomSelect"
             className={styles.filter}
             options={CATEGORY_OPTIONS}
-            placeholder="Категория"
+            placeholder={t('category')}
             onChange={(option) => workTypeChange(option?.value)}
           />
           <Select
             classNamePrefix="CustomSelect"
             className={styles.filter}
             options={KNOWLEDGE_OPTIONS}
-            placeholder="Область знания"
+            placeholder={t('knowledgeArea')}
             onChange={(option) => setKnowledgeAreaChange(option?.value)}
           />
           <button className={styles.lineBtn} onClick={dismissFilter}>
-            Сброс фильтра
+            {t('reset')}
           </button>
         </div>
         <div className={styles.cards}>
-          {!!postingsList && !!postingsList.length &&
+          {!!postingsList &&
+            !!postingsList.length &&
             postingsList.map((item: any) => (
               <React.Fragment key={item.id + item.title}>
                 <Card
