@@ -124,7 +124,7 @@ export const Menu: React.FC = () => {
                     className={styles.notificationsItem}
                     to={item.url}
                   >
-                    <span> {`${t('newNotification')} ${item.ago}`}</span>
+                    <span> {`${item.message} ${item.ago}`}</span>
                   </Link>
                 ))}
               </div>
