@@ -277,7 +277,7 @@ export const ApplicationForm: React.FC<Props> = ({
             checked={!!checked}
             id={String(id)}
             name={String(id)}
-            label={value}
+            label={t(value)}
             onChange={() => handleRadioList(id)}
             isColor
           />
@@ -300,7 +300,7 @@ export const ApplicationForm: React.FC<Props> = ({
                 checked={!!checked}
                 id={String(id)}
                 name={String(id)}
-                label={value}
+                label={t(value)}
                 onChange={() => handleCheckedList(id)}
               />
             ))}

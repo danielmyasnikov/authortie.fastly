@@ -109,11 +109,11 @@ export const Card: React.FC<Props> = ({
       </div>
       <div className={styles.personBlock}>
         {privateAccaunt ? (
-          <span className={styles.text}>Профиль скрыт</span>
+          <span className={styles.text}>{t('hiddenProfile')}</span>
         ) : (
           <>
             {!privateAccaunt && !author.first_name && (
-              <span className={styles.text}>Профиль не заполнен</span>
+              <span className={styles.text}>{t('profileIsNotCompleted')}</span>
             )}
 
             {author.first_name  && (
@@ -140,7 +140,7 @@ export const Card: React.FC<Props> = ({
       <div className={styles.btnWrapper}>
         <Link to={`/edit/${id}`}>
           <Button className={styles.btn}>
-            {isMyPost ? 'Редактировать' : t('offerCooperation')}
+            {isMyPost ? t('edit') : t('offerCooperation')}
           </Button>
         </Link>
 

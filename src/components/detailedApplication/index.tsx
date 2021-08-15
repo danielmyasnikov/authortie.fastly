@@ -61,7 +61,7 @@ export const DetailedApplication = () => {
       <div className={styles.content}>
         <div className={styles.cardWrap}>
           <div className={styles.tagWrapper}>
-            <Tag className={styles.workType}>{t(post.work_type)}</Tag>
+            <Tag className={styles.workType}>{t(post.work_type_list[0])}</Tag>
 
             {knowledgeAreaList.length > 0 &&
               knowledgeAreaList.map((item: any) => (
@@ -157,7 +157,7 @@ export const DetailedApplication = () => {
               author={!!item.user && item.user.profile}
               title={item.title}
               fieldOfActivity=""
-              workType={item.work_type || ''}
+              workType={item.work_type_list[0] || ''}
               knowledgeArea={item.knowledge_area_list || ''}
               rewardType={item.reward_type}
               rewardCurrency={item.reward_currency}

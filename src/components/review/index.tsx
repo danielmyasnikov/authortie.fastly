@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Rating from '@material-ui/lab/Rating';
 import { useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { Checkbox } from 'components/common/checkbox';
 import { Button } from 'components/common/button';
 import axios from 'axios';
@@ -24,6 +25,7 @@ export const Review = () => {
   const [error, setError] = useState('');
   const [isConf, setIsConf] = useState(false);
   const params = useParams<Params>();
+  const { t } = useTranslation('review');
 
   async function submitReview() {
     const data = {
@@ -42,16 +44,16 @@ export const Review = () => {
       });
       setIsConf(true);
     } catch {
-      setError('Ошибка. Попробуйте позже.');
+      setError(t('error'));
     }
   }
 
   return (
     <div className={css.wrapper}>
       <div className={css.content}>
-        <h1 className={css.title}>Отзыв</h1>
+        <h1 className={css.title}>{t('title')}</h1>
         <textarea
-          placeholder={'Введите отзыв'}
+          placeholder={t('addReview')}
           className={css.textarea}
           onChange={(e) => setMessage(e.target.value)}
           value={message}
@@ -70,15 +72,15 @@ export const Review = () => {
           checked={visible}
           id={String('id')}
           name={String('id')}
-          label={'Показывать для всех'}
+          label={t('showFowAll')}
           onChange={() => setVisible(!visible)}
         />
 
         {isConf ? (
-          <span className={css.confirm}>Отзыв успешно отправлен</span>
+          <span className={css.confirm}>{t('confirm')}</span>
         ) : (
           <Button onClick={submitReview} className={css.btn}>
-            Отправить
+            {t('submit')}
           </Button>
         )}
         <span className={css.error}>{error}</span>

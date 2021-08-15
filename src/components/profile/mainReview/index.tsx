@@ -26,7 +26,6 @@ export const MainReview = () => {
     const res = await axios({
       headers,
       url: `https://authortie-app.herokuapp.com/api/v1/reviews/mine`,
-      // url: `https://authortie-app.herokuapp.com/api/v1/notifications`,
     });
     setRewiewList(res.data);
   }

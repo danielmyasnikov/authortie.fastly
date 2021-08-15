@@ -8,6 +8,7 @@ import cn from 'classnames';
 import logo from 'assets/logo.png';
 import Bell from 'assets/bell.svg';
 import User from 'assets/user.svg';
+import Lang from 'assets/lang.svg';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
 import { useEffect } from 'react';
@@ -20,11 +21,18 @@ const headers = { client, uid, ['access-token']: accessToken };
 
 export const Menu: React.FC = () => {
   const { t } = useTranslation('menu');
+  const { i18n } = useTranslation();
+
   const location = useLocation();
   const auth = useSelector(getIsAuth);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
+
+  const changeLanguageHandler = (lang: string) => {
+    i18n.changeLanguage(lang);
+    localStorage.setItem('lang', lang);
+  };
 
   useEffect(() => {
     setIsAuth(auth);
@@ -32,6 +40,8 @@ export const Menu: React.FC = () => {
 
   useEffect(() => {
     getNotifications();
+    const lang = localStorage.getItem('lang');
+    if (!!lang) changeLanguageHandler(lang);
   }, []);
 
   async function getNotifications() {
@@ -88,6 +98,17 @@ export const Menu: React.FC = () => {
         <Link to="/application">
           <Button className={styles.btn}>{t('createRequest')}</Button>
         </Link>
+        <div className={styles.langWrap}>
+          <Lang />
+          <div className={styles.langList}>
+            <span className={styles.langItem} onClick={() => changeLanguageHandler('ru')}>
+              RU
+            </span>
+            <span className={styles.langItem} onClick={() => changeLanguageHandler('en')}>
+              EN
+            </span>
+          </div>
+        </div>
 
         {isAuth ? (
           <>
@@ -103,7 +124,7 @@ export const Menu: React.FC = () => {
                     className={styles.notificationsItem}
                     to={item.url}
                   >
-                    <span> {`Новое уведомление ${item.ago}`}</span>
+                    <span> {`${t('newNotification')} ${item.ago}`}</span>
                   </Link>
                 ))}
               </div>

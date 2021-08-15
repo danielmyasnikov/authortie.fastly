@@ -1,16 +1,13 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import { ru } from './locales/ru';
+import { en } from './locales/en';
 
 const resources = {
   ru: {
     ...ru,
   },
-  fr: {
-    translation: {
-      'Welcome to React': 'Bienvenue à React et react-i18next',
-    },
-  },
+  en: { ...en },
 };
 
 i18n

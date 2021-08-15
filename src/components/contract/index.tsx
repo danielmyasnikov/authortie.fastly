@@ -54,7 +54,7 @@ export const Contract = () => {
     return (
       <div className={styles.cardWrap}>
         <div className={styles.tagWrapper}>
-          <Tag className={styles.workType}>{t(application.work_type)}</Tag>
+          <Tag className={styles.workType}>{t(application.work_type_list[0])}</Tag>
 
           {knowledgeAreaList.length > 0 &&
             knowledgeAreaList.map((item: any) => (

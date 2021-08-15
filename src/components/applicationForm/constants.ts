@@ -1,41 +1,41 @@
 export const workTypesDefault = [
   {
-    value: 'Повысить цитируемость своих работ',
+    value: 'increase_the_citation_of_your_works',
     checked: false,
     id: 'increase_the_citation_of_your_works',
   },
   {
-    value: 'Стать соавтором',
+    value: 'become_coathor',
     checked: false,
     id: 'become_coathor',
   },
   {
-    value: 'Заказать исследования',
+    value: 'request_research',
     checked: false,
     id: 'request_research',
   },
   {
-    value: 'Заказать работу с текстом и графикой',
+    value: 'request_graphic_design',
     checked: false,
     id: 'request_graphic_design',
   },
   {
-    value: 'Найти эксперта',
+    value: 'find_expert',
     checked: false,
     id: 'find_expert',
   },
 ];
 
 export const rewardTypestDefault = [
-  { value: 'Процитировать других', checked: false, id: 'cite_others' },
-  { value: 'Принять в соавторы', checked: false, id: 'accept_as_coauthors' },
-  { value: 'Выполнить исследования', checked: false, id: 'do_research' },
+  { value: 'cite_others', checked: false, id: 'cite_others' },
+  { value: 'accept_as_coauthors', checked: false, id: 'accept_as_coauthors' },
+  { value: 'do_research', checked: false, id: 'do_research' },
   {
-    value: 'Выполнить работу с текстом и графикой',
+    value: 'work_with_text_and_graphics',
     checked: false,
     id: 'work_with_text_and_graphics',
   },
-  { value: 'Предоставить экспертные услуги', checked: false, id: 'provide_expert_services' },
+  { value: 'provide_expert_services', checked: false, id: 'provide_expert_services' },
 ];
 
 export const knowledgeDefault = [
