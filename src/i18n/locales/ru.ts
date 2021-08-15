@@ -99,6 +99,7 @@ export const ru = {
     edit: 'Редактировать',
     hiddenProfile: 'Пользователь скрыл свой профиль',
     profileIsNotCompleted: 'Профиль не заполнен',
+    offerCooperation: 'Предложить сотрудничество',
   },
 
   category: {
@@ -152,6 +153,7 @@ export const ru = {
     customer: 'Я заказчик',
     executor: 'Я исполнитель',
     editTitle: 'Редактирование',
+    offerCooperation: 'Предложить сотрудничество',
     // категории
     increase_the_citation_of_your_works: 'Повысить цитируемость своих работ',
     become_coathor: 'Стать соавтором',
@@ -175,6 +177,7 @@ export const ru = {
     social: 'Social',
     humanities_arts: 'Humanities/Arts',
     management_econmics: 'Management/Economics',
+    toDialog: 'Перейти к диалогу',
   },
 
   profile: {
