@@ -148,8 +148,8 @@ export const ApplicationForm: React.FC<Props> = ({
       approx_date: format(new Date(approxDate), 'dd/MM/yyyy'),
       hide_from_other_users: hideFromOtherUsers,
       hide_from_search: hideFromSearch,
-      request_posting_id: whoIAm === WhoIAm.CUSTOMER && requestId ? requestId : '',
-      supply_posting_id: whoIAm === WhoIAm.EXECUTOR && requestId ? requestId : '',
+      request_posting_id: whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
+      supply_posting_id: whoIAm !== WhoIAm.EXECUTOR && requestId ? requestId : '',
     };
     if (isAuth) {
       if (isEdit) {

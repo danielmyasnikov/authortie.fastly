@@ -138,11 +138,19 @@ export const Card: React.FC<Props> = ({
       </div>
 
       <div className={styles.btnWrapper}>
+      { isMyPost ?
         <Link to={`/edit/${id}`}>
           <Button className={styles.btn}>
-            {isMyPost ? t('edit') : t('offerCooperation')}
+            {t('edit')}
           </Button>
         </Link>
+        :
+        <Link to={`/community/${id}?offerCooperation=true`}>
+          <Button className={styles.btn}>
+            {t('offerCooperation')}
+          </Button>
+        </Link>
+      }
 
         <Link to={`/community/${id}`}>
           <Button className={styles.rightBtn}>
