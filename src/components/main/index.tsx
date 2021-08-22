@@ -51,7 +51,7 @@ export const Main: React.FC = () => {
 
       <div>
         <div className={styles.howWorkBlock}>
-          <img src={Enhance} alt="" className={styles.howWorkIcon} />
+          <img src={Improve} alt="" className={styles.howWorkIcon} />
         </div>
         <p className={styles.howWorkText}> {t('point_3')}</p>
       </div>
@@ -59,7 +59,7 @@ export const Main: React.FC = () => {
 
       <div>
         <div className={styles.howWorkBlock}>
-          <img src={Improve} alt="" className={styles.howWorkIcon} />
+          <img src={Enhance} alt="" className={styles.howWorkIcon} />        
         </div>
         <p className={styles.howWorkText}> {t('point_4')}</p>
       </div>
