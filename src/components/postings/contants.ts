@@ -1,10 +1,16 @@
 export const CATEGORY_OPTIONS = [
-  { label: 'Повысить цитируемость своих работ', value: 'cite_mines' },
+  { label: 'Повысить цитируемость своих работ', value: 'increase_the_citation_of_your_works' },
   { label: 'Цитировать других', value: 'cite_others' },
-  { label: 'Найти соавторов/соисполнителей', value: 'invite_coathor' },
+  { label: 'Найти соавторов/соисполнителей', value: 'accept_as_coauthors' },
   { label: 'Стать соавтором/соисполнителем', value: 'become_coathor' },
-  { label: 'Найти рецензента/эксперта/эдвайзора', value: 'find_reviewer' },
-  { label: 'Стать рецензентом/экспертом/эдвайзором', value: 'become_reviewer' },
+  { label: 'Найти рецензента/эксперта/эдвайзора', value: 'find_expert' },
+  { label: 'Стать рецензентом/экспертом/эдвайзором', value: 'provide_expert_services' },
+  { label: 'Выполнить работу с текстом и графикой', value: 'work_with_text_and_graphics' },
+  { label: 'Заказать исследования', value: 'request_research' },
+  { label: 'Выполнить исследования', value: 'do_research' },
+  { label: 'Заказать работу с текстом и графикой', value: 'request_graphic_design' },
+
+
 ];
 
 export const KNOWLEDGE_OPTIONS = [
