@@ -48,16 +48,22 @@
   background: #e7f0ff;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
+  align-self: flex-start;
 }
 
 .headerBtn {
-  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   padding: 20px 125px 18px;
+  border: none;
   background: none;
   outline: none;
   border-top-left-radius: 25px;
   border-top-right-radius: 25px;
   font-weight: 500;
+  white-space: nowrap;
   font-size: 18px;
   line-height: 18px;
   color: #849dc7;
@@ -79,6 +85,14 @@
 }
 
 .authDescription {
+  font-size: 16px;
+  line-height: 16px;
+  color: #2f2f2f;
+}
+
+.authDescriptionTop {
+  display: none;
+  margin-bottom: 30px;
   font-size: 16px;
   line-height: 16px;
   color: #2f2f2f;
@@ -439,7 +453,151 @@
   background: none;
   border: 2px solid #3a85f4;
   color: #3a85f4;
-  &:hover{
+  &:hover {
     background: none;
+  }
+}
+
+@media screen and (max-width: 1336px) {
+  .container {
+    padding: 111px 43px 40px;
+  }
+
+  .headerBtn {
+    padding: 15px 89px 11px;
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .wrapper {
+    position: relative;
+    display: grid;
+    grid-column-gap: 20px;
+    grid-template-areas:
+      '. cont .'
+      'btnCont'
+      'f';
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, min-content);
+  }
+
+  .container {
+    padding: 72px 36px 40px;
+    max-width: 728px;
+  }
+
+  .title {
+    margin-top: 80px;
+    margin-bottom: 20px;
+    margin-left: 0px;
+  }
+
+  .authDescriptionTop {
+    display: inline-block;
+  }
+
+  .radioBlock {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .authDescription {
+    display: none;
+  }
+
+  .rowContainer {
+    flex-direction: column;
+  }
+
+  .radioBlock {
+    margin-bottom: 60px;
+  }
+
+  .sumBlock {
+    padding-left: 27px;
+  }
+
+  .workName {
+    margin-top: 60px;
+    margin-bottom: 60px;
+  }
+
+  .bottomBlock {
+    margin-top: 60px;
+  }
+
+  .blockWrapperKnowledge {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding: 0;
+  }
+
+  .textareaKeyWords {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .wrapper {
+    position: relative;
+    display: grid;
+    grid-column-gap: 20px;
+    grid-template-areas:
+      '. cont .'
+      'btnCont'
+      'f';
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(3, min-content);
+  }
+
+  .container {
+    padding: 72px 36px 40px;
+    max-width: 100%;
+  }
+
+  .title {
+    font-size: 36px;
+    line-height: 36px;
+  }
+
+  .blockWrapperKnowledge {
+    margin-top: 60px;
+    margin-bottom: 60px;
+    padding: 0;
+  }
+
+  .checkWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkBlock {
+    flex: 1;
+    padding-right: 0px;
+    padding-bottom:30px;
+    max-width: 422px;
+    border-right: none;
+    border-bottom: 1px solid #d6e5ff;
+    margin-bottom: 31px;
+  }
+
+  .sumBlock {
+    max-width: 100%;
+    padding-left: 0px;
+  }
+  .inputWrapper {
+    margin-top: 30px;
+  }
+
+  .btnBlock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .outlineBtn{
+      margin-bottom: 20px;
+      margin-right: 0;
+    }
   }
 }

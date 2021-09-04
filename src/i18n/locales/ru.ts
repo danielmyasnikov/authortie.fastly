@@ -149,7 +149,7 @@ export const ru = {
     want: 'Я хочу',
     suggest: 'Я предлагаю',
     registration: 'зарегистрироваться',
-    registrationInfo: 'Для публикации заявки вам необходимо',
+    registrationInfo: 'Для публикации заявки вам необходимо ',
     customer: 'Я заказчик',
     executor: 'Я исполнитель',
     editTitle: 'Редактирование',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
@@ -42,6 +42,7 @@ interface Props {
   isEdit?: boolean;
   editData?: any; // TODO: типизировать
   addToArray?: () => void;
+  index?: number;
 }
 
 enum WhoIAm {
@@ -55,6 +56,7 @@ export const ApplicationForm: React.FC<Props> = ({
   requestId,
   addToArray,
   editData,
+  index,
 }) => {
   const { t } = useTranslation('application');
   const history = useHistory();
@@ -273,14 +275,16 @@ export const ApplicationForm: React.FC<Props> = ({
       </span>
       <div className={css.block}>
         {workTypes.map(({ checked, id, value }) => (
-          <RadioButton
-            checked={!!checked}
-            id={String(id)}
-            name={String(id)}
-            label={t(value)}
-            onChange={() => handleRadioList(id)}
-            isColor
-          />
+          <Fragment key={id + index}>
+            <RadioButton
+              checked={!!checked}
+              id={`${String(id)}_${index}`}
+              name={`${String(id)}_${index}`}
+              label={t(value)}
+              onChange={() => handleRadioList(id)}
+              isColor
+            />
+          </Fragment>
         ))}
       </div>
     </div>
@@ -296,21 +300,23 @@ export const ApplicationForm: React.FC<Props> = ({
         <div className={css.checkWrapper}>
           <div className={css.checkBlock}>
             {rewardTypes.map(({ checked, id, value }) => (
-              <Checkbox
-                checked={!!checked}
-                id={String(id)}
-                name={String(id)}
-                label={t(value)}
-                onChange={() => handleCheckedList(id)}
-              />
+              <Fragment key={id + index}>
+                <Checkbox
+                  checked={!!checked}
+                  id={`${String(id)}_${index}`}
+                  name={`${String(id)}_${index}`}
+                  label={t(value)}
+                  onChange={() => handleCheckedList(id)}
+                />
+              </Fragment>
             ))}
           </div>
 
           <div className={css.sumBlock}>
             <Checkbox
               checked={sumCheck}
-              id={String('id')}
-              name={String('id')}
+              id={String(index)}
+              name={String(index)}
               label={t('pay')}
               onChange={() => setSumCheck(!sumCheck)}
             />
@@ -391,15 +397,17 @@ export const ApplicationForm: React.FC<Props> = ({
       </span>
       <div className={css.knowledgeBlock}>
         {knowledge.map(({ checked, id, value }) => (
-          <Checkbox
-            className={css.knowledgeItem}
-            checked={!!checked}
-            id={String(id)}
-            name={String(id)}
-            label={value}
-            onChange={() => handleKnowledgeList(id)}
-            isColor
-          />
+          <Fragment key={id + index}>
+            <Checkbox
+              className={css.knowledgeItem}
+              checked={!!checked}
+              id={`${String(id)}_${index}`}
+              name={`${String(id)}_${index}`}
+              label={value}
+              onChange={() => handleKnowledgeList(id)}
+              isColor
+            />
+          </Fragment>
         ))}
       </div>
     </div>
@@ -450,15 +458,15 @@ export const ApplicationForm: React.FC<Props> = ({
         <div className={css.privateCheckWrapper}>
           <Checkbox
             checked={hideFromOtherUsers}
-            id="hideFromOtherUsers"
-            name="hideFromOtherUsers"
+            id={`hideFromOtherUsers_${index}`}
+            name={`hideFromOtherUsers_${index}`}
             label={t('hideFromOtherUsers')}
             onChange={() => setHideFromOtherUsers(!hideFromOtherUsers)}
           />
           <Checkbox
             checked={hideFromSearch}
-            id="hideFromSearch"
-            name="hideFromSearch"
+            id={`hideFromSearch_${index}`}
+            name={`hideFromSearch_${index}`}
             label={t('hideFromSearch')}
             onChange={() => setHideFromSearch(!hideFromSearch)}
           />
