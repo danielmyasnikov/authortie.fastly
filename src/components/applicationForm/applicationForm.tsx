@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import Select from 'react-select';
 import { getIsAuth } from 'store/auth/selectors';
+import { authSlice } from 'store/auth/slice';
 import { RadioButton } from 'components/common/radioBtn';
 import { Checkbox } from 'components/common/checkbox';
 import { DatePicker } from 'components/common/datePicker';
@@ -20,6 +21,7 @@ import Pencil from 'assets/edit.svg';
 import Note from 'assets/noteDescription.svg';
 import KeyWord from 'assets/keyWord.svg';
 import Stat from 'assets/stat.svg';
+import Close from 'assets/close.svg';
 
 import { AppDispatch } from 'store/types';
 
@@ -66,7 +68,7 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [whoIAm, setWhoIAm] = useState<WhoIAm>(WhoIAm.CUSTOMER);
 
-  const [approxDate, setApproxDate] = useState(new Date(Date.now()));
+  const [approxDate, setApproxDate] = useState<Date | string | null>(null);
   const [workTypes, setWorkTypes] = useState(workTypesDefault);
   const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault);
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
@@ -83,6 +85,17 @@ export const ApplicationForm: React.FC<Props> = ({
   const [hideFromSearch, setHideFromSearch] = useState(false);
 
   const [modal, setModal] = useState<boolean>(false);
+
+  // состояние для валидации
+  const [valid, setValid] = useState({
+    radioBlock: '',
+    checboxBlock: '',
+    workName: '',
+    workDescription: '',
+    keyWords: '',
+    knowledge: '',
+    approxDate: '',
+  });
 
   useEffect(() => {
     if (!!editData && isEdit) {
@@ -130,7 +143,79 @@ export const ApplicationForm: React.FC<Props> = ({
     }
   }, [editData]);
 
+  function unsetValid() {
+    setValid({
+      radioBlock: '',
+      checboxBlock: '',
+      workName: '',
+      workDescription: '',
+      keyWords: '',
+      knowledge: '',
+      approxDate: '',
+    });
+  }
+
+  function validation() {
+    let validValue = valid;
+    if (!workName.length) {
+      validValue = { ...validValue, workName: 'Поле обязательно для заполнения' };
+    }
+    if (workName.length > 455) {
+      validValue = { ...validValue, workName: 'Название не должно превышать 455 символов' };
+    }
+    if (!workDescription.length) {
+      validValue = { ...validValue, workDescription: 'Поле обязательно для заполнения' };
+    }
+    if (workDescription.length > 2500) {
+      validValue = { ...validValue, workDescription: 'Описание не должно превышать 455 символов' };
+    }
+    const vaildRadioBlock = workTypes.find((item) => item.checked);
+    if (!vaildRadioBlock) {
+      validValue = { ...validValue, radioBlock: 'Поле обязательно для заполнения' };
+    }
+    const vaildChecboxBlock = rewardTypes.filter((item) => item.checked);
+    if (!vaildChecboxBlock.length && !sumCheck) {
+      validValue = { ...validValue, checboxBlock: 'Поле обязательно для заполнения' };
+    }
+
+    if (vaildChecboxBlock.length + Number(sumCheck) > 3) {
+      validValue = { ...validValue, checboxBlock: 'Выберете не более 3 пунктов' };
+    }
+    if (!keyWords.length) {
+      validValue = { ...validValue, keyWords: 'Поле обязательно для заполнения' };
+    }
+    const vaildKnowledge = knowledge.filter((item) => item.checked);
+    if (!vaildKnowledge.length) {
+      validValue = { ...validValue, knowledge: 'Поле обязательно для заполнения' };
+    }
+    if (vaildKnowledge.length > 3) {
+      validValue = { ...validValue, knowledge: 'Выберете не более 3 пунктов' };
+    }
+
+    if (!keyWords.length) {
+      validValue = { ...validValue, keyWords: 'Поле обязательно для заполнения' };
+    }
+
+    if (!approxDate) {
+      validValue = { ...validValue, approxDate: 'Поле обязательно для заполнения' };
+    }
+
+    setValid(validValue);
+    if (
+      !validValue.radioBlock &&
+      !validValue.checboxBlock &&
+      !validValue.workName &&
+      !validValue.workDescription &&
+      !validValue.keyWords &&
+      !validValue.knowledge &&
+      !validValue.approxDate
+    ) {
+      return true;
+    }
+  }
+
   async function submitForm() {
+    validation();
     const checkedWorkTypes = workTypes.filter((el) => el.checked).map((item) => item.id);
     const checkedRewardTypes = rewardTypes.filter((el) => el.checked).map((item) => item.id);
     const checkedRewardTypesWithMoney = sumCheck
@@ -147,18 +232,26 @@ export const ApplicationForm: React.FC<Props> = ({
       comment: workDescription,
       reward_currency: currency?.value,
       keyword_list: keyWords,
-      approx_date: format(new Date(approxDate), 'dd/MM/yyyy'),
+      approx_date: !!approxDate && format(new Date(approxDate), 'dd/MM/yyyy'),
       hide_from_other_users: hideFromOtherUsers,
       hide_from_search: hideFromSearch,
       request_posting_id: whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
       supply_posting_id: whoIAm !== WhoIAm.EXECUTOR && requestId ? requestId : '',
     };
     if (isAuth) {
-      if (isEdit) {
-        editPost(data);
-      } else {
-        createPost(data);
+      if (validation()) {
+        if (isEdit) {
+          editPost(data);
+        } else {
+          createPost(data);
+        }
       }
+    } else {
+      dispatch(authSlice.actions.setRegistrationTab(true));
+      history.push({
+        pathname: '/authorization',
+        state: { background: location },
+      });
     }
   }
 
@@ -168,11 +261,6 @@ export const ApplicationForm: React.FC<Props> = ({
       if (isOffer && requestId) {
         dispatch(getDetailedApplication(requestId));
       } else setModal(true);
-    } else {
-      history.push({
-        pathname: 'authorization',
-        state: { background: location },
-      });
     }
   }
 
@@ -182,11 +270,6 @@ export const ApplicationForm: React.FC<Props> = ({
       if (isOffer && requestId) {
         dispatch(getDetailedApplication(requestId));
       } else setModal(true);
-    } else {
-      history.push({
-        pathname: 'authorization',
-        state: { background: location },
-      });
     }
   }
 
@@ -197,10 +280,12 @@ export const ApplicationForm: React.FC<Props> = ({
   }
 
   const handleDateChange = (date: any) => {
+    unsetValid();
     setApproxDate(date);
   };
 
   function handleRadioList(id: string) {
+    unsetValid();
     const newWorkTypes = workTypes.map((item: any) =>
       item.id === id ? { ...item, checked: true } : { ...item, checked: false },
     );
@@ -208,6 +293,7 @@ export const ApplicationForm: React.FC<Props> = ({
   }
 
   function handleCheckedList(id: string) {
+    unsetValid();
     const newRewardTypes = rewardTypes.map((item: any) =>
       item.id === id ? { ...item, checked: !item.checked } : { ...item },
     );
@@ -215,6 +301,7 @@ export const ApplicationForm: React.FC<Props> = ({
   }
 
   function handleKnowledgeList(id: string) {
+    unsetValid();
     const newKnowledge = knowledge.map((item: any) =>
       item.id === id ? { ...item, checked: !item.checked } : { ...item },
     );
@@ -231,6 +318,31 @@ export const ApplicationForm: React.FC<Props> = ({
     setWhoIAm(WhoIAm.EXECUTOR);
     setWorkTypes(rewardTypestDefault);
     setRewardTypes(workTypesDefault);
+  }
+
+  function handleSum(e: React.ChangeEvent<HTMLInputElement>) {
+    unsetValid();
+    const valueNum = e.target.value.replace(/[^0-9|,|.]/, '');
+    setSum(valueNum);
+    if (valueNum) {
+      setSumCheck(true);
+    }
+    if (!e.target.value) {
+      setSumCheck(false);
+    }
+  }
+
+  function handleWorkName(e: any) {
+    unsetValid();
+    setWorkName(e.target.value);
+  }
+  function handleWorkDescription(e: any) {
+    unsetValid();
+    setWorkDescription(e.target.value);
+  }
+  function handleKeyWords(e: any) {
+    unsetValid();
+    setKeyWords(e.target.value);
   }
 
   const renderHeaderBtnsGroup = () => (
@@ -258,6 +370,7 @@ export const ApplicationForm: React.FC<Props> = ({
               state: { background: location },
             }}
             className={css.authLink}
+            onClick={() => dispatch(authSlice.actions.setRegistrationTab(true))}
           >
             {t('registration')}
           </Link>
@@ -273,7 +386,7 @@ export const ApplicationForm: React.FC<Props> = ({
         <RoundRowRight className={css.subtileIcon} />
         {whoIAm === WhoIAm.CUSTOMER ? t('want') : t('suggest')}
       </span>
-      <div className={css.block}>
+      <div className={cn(css.block, { [css.errorWrapper]: !!valid.workName })}>
         {workTypes.map(({ checked, id, value }) => (
           <Fragment key={id + index}>
             <RadioButton
@@ -287,6 +400,7 @@ export const ApplicationForm: React.FC<Props> = ({
           </Fragment>
         ))}
       </div>
+      {!!valid.radioBlock && <span className={css.error}>{valid.radioBlock}</span>}
     </div>
   );
 
@@ -296,7 +410,7 @@ export const ApplicationForm: React.FC<Props> = ({
         <RoundRowLeft className={css.subtileIcon} />
         {whoIAm === WhoIAm.EXECUTOR ? t('want') : t('suggest')}
       </span>
-      <div className={css.block}>
+      <div className={cn(css.block, { [css.errorWrapper]: !!valid.checboxBlock })}>
         <div className={css.checkWrapper}>
           <div className={css.checkBlock}>
             {rewardTypes.map(({ checked, id, value }) => (
@@ -321,12 +435,7 @@ export const ApplicationForm: React.FC<Props> = ({
               onChange={() => setSumCheck(!sumCheck)}
             />
             <div className={css.inputWrapper}>
-              <input
-                type="text"
-                className={css.sumInput}
-                value={sum}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSum(e.target.value)}
-              />
+              <input type="text" className={css.sumInput} value={sum} onChange={handleSum} />
               <Select
                 defaultValue={currencyOptions[0]}
                 classNamePrefix="CustomSelect"
@@ -338,6 +447,7 @@ export const ApplicationForm: React.FC<Props> = ({
           </div>
         </div>
       </div>
+      {!!valid.checboxBlock && <span className={css.error}>{valid.checboxBlock}</span>}
     </div>
   );
 
@@ -349,10 +459,11 @@ export const ApplicationForm: React.FC<Props> = ({
       </span>
       <textarea
         placeholder={t('addWorkName')}
-        className={css.textarea}
-        onChange={(e) => setWorkName(e.target.value)}
+        className={cn(css.textarea, { [css.errorWrapper]: !!valid.workName })}
+        onChange={handleWorkName}
         value={workName}
       />
+      {!!valid.workName && <span className={css.error}>{valid.workName}</span>}
     </div>
   );
 
@@ -364,10 +475,11 @@ export const ApplicationForm: React.FC<Props> = ({
       </span>
       <textarea
         placeholder={t('addDescription')}
-        className={css.textareaHight}
-        onChange={(e) => setWorkDescription(e.target.value)}
+        className={cn(css.textareaHight, { [css.errorWrapper]: !!valid.workDescription })}
+        onChange={handleWorkDescription}
         value={workDescription}
       />
+      {!!valid.workDescription && <span className={css.error}>{valid.workDescription}</span>}
     </div>
   );
 
@@ -378,14 +490,15 @@ export const ApplicationForm: React.FC<Props> = ({
         {t('keyWords')}
       </span>
       <textarea
-        className={css.textareaKeyWords}
-        onChange={(e) => setKeyWords(e.target.value)}
+        className={cn(css.textareaKeyWords, { [css.errorWrapper]: !!valid.keyWords })}
+        onChange={handleKeyWords}
         value={keyWords}
       />
       <span className={css.keyWordsInfo}>
         {t('keyWordsExpl')}
         <b>{t('keyWordsExpl_2')}</b>
       </span>
+      {!!valid.keyWords && <span className={css.error}>{valid.keyWords}</span>}
     </div>
   );
 
@@ -395,7 +508,7 @@ export const ApplicationForm: React.FC<Props> = ({
         <Stat className={css.subtileIcon} />
         {t('knowledge')}
       </span>
-      <div className={css.knowledgeBlock}>
+      <div className={cn(css.knowledgeBlock, { [css.errorWrapper]: !!valid.knowledge })}>
         {knowledge.map(({ checked, id, value }) => (
           <Fragment key={id + index}>
             <Checkbox
@@ -410,19 +523,24 @@ export const ApplicationForm: React.FC<Props> = ({
           </Fragment>
         ))}
       </div>
+      {!!valid.knowledge && <span className={css.error}>{valid.knowledge}</span>}
     </div>
   );
 
   const renderDate = () => (
     <div className={css.blockWrapper}>
       <span className={css.subtile}>{t('periodOfExecution')}</span>
-      <DatePicker value={approxDate} onChange={handleDateChange} />
+      <div className={cn({ [css.errorWrapper]: !!valid.approxDate })}>
+        <DatePicker value={approxDate} onChange={handleDateChange} />
+      </div>
+      {!!valid.approxDate && <span className={css.error}>{valid.approxDate}</span>}
     </div>
   );
 
   const renderModal = () => (
     <div className={css.modalWrapper}>
       <div className={css.modalContaier}>
+        <Close className={css.exit} onClick={() => setModal(false)} />
         <NoteModal className={css.noteIcon} />
         <span className={css.subtitle}>{t('confirmTitle')}</span>
         <span className={css.modalInfo}>{t('confirmInfo')}</span>
@@ -479,7 +597,6 @@ export const ApplicationForm: React.FC<Props> = ({
               <button className={css.outlineBtn} onClick={addArray}>
                 {t('addApplication')}
               </button>
-
               <Button onClick={submitForm}>{isAuth ? t('publish') : t('regAndPublish')}</Button>
             </>
           )}

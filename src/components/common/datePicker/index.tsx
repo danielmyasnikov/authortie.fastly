@@ -33,7 +33,7 @@ const materialTheme = createMuiTheme({
 });
 
 interface Props {
-  value: Date | string;
+  value: Date | string | null;
   // TODO: разобраться с типами
   onChange: (date: any) => void;
 }
@@ -43,6 +43,7 @@ export const DatePicker: React.FC<Props> = ({ value, onChange }) => {
     <ThemeProvider theme={materialTheme}>
       <MuiPickersUtilsProvider utils={DateFnsUtils}>
         <KeyboardDatePicker
+          autoOk={true}
           disableToolbar
           variant="inline"
           format="dd/MM/yyyy"

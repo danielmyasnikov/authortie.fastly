@@ -23,7 +23,7 @@ export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue
       localStorage.setItem('client', res.headers.client);
       localStorage.setItem('expiry', res.headers.expiry);
       return undefined;
-    } catch (err) {
+    } catch (err: any) {
       const emailError: string = err.response.data.errors.email;
       const passwordError: string = err.response.data.errors.password || '';
       const passwordConfirmationError = err.response.data.errors.password_confirmation || '';

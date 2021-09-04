@@ -1,9 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import * as T from './types';
 import * as actions from './actions';
 
 const initialState: T.State = {
   isAuth: false,
+  registrationTab: false,
 };
 
 export const authSlice = createSlice({
@@ -12,6 +13,9 @@ export const authSlice = createSlice({
   reducers: {
     getAuth: (state) => {
       state.isAuth = true;
+    },
+    setRegistrationTab: (state, { payload }: PayloadAction<boolean>) => {
+      state.registrationTab = payload;
     },
   },
   extraReducers: (builder) => {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import cn from 'classnames';
 import { AppDispatch } from 'store/types';
@@ -10,6 +10,7 @@ import Eye from 'assets/eye.svg';
 import CloseEye from 'assets/closeEye.svg';
 import FacebookColor from 'assets/facebookColor.png';
 import { getProfile } from 'store/profile/actions';
+import { getRegistrationTab } from 'store/auth/selectors';
 
 import GoogleColor from 'assets/googleColor.png';
 import Coolicon from 'assets/coolicon.svg';
@@ -26,9 +27,10 @@ export const Registration: React.FC = () => {
   const { pathname } = location.state && location.state.background;
   const { t } = useTranslation('auth');
   const dispatch: AppDispatch = useDispatch();
+  const isRegTab = useSelector(getRegistrationTab);
   const history = useHistory();
   const originPath = window.origin;
-  const [isRegistration, setIsRegistration] = useState<boolean>(false);
+  const [isRegistration, setIsRegistration] = useState<boolean>(isRegTab);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');

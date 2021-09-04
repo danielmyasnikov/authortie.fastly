@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getIsAuth } from 'store/auth/selectors';
+import { authSlice } from 'store/auth/slice';
 import { Link } from 'react-router-dom';
 import { ApplicationForm } from './applicationForm';
 import { useTranslation } from 'react-i18next';
 import css from './css.module.less';
 
 export const Application = () => {
+  const dispatch = useDispatch();
   const { t } = useTranslation('application');
   const isAuth = useSelector(getIsAuth);
   const [applicationsArray, setApplicationsArray] = useState<number[]>([0]);
@@ -20,19 +22,20 @@ export const Application = () => {
       <div className={css.content}>
         <h1 className={css.title}>{t('title')}</h1>
         {!isAuth && (
-        <span className={css.authDescriptionTop}>
-          {t('registrationInfo')}
-          <Link
-            to={{
-              pathname: '/authorization',
-              state: { background: location },
-            }}
-            className={css.authLink}
-          >
-            {t('registration')}
-          </Link>
-          .
-        </span>
+          <span className={css.authDescriptionTop}>
+            {t('registrationInfo')}
+            <Link
+              to={{
+                pathname: '/authorization',
+                state: { background: location },
+              }}
+              className={css.authLink}
+              onClick={() => dispatch(authSlice.actions.setRegistrationTab(true))}
+            >
+              {t('registration')}
+            </Link>
+            .
+          </span>
         )}
 
         {applicationsArray.map((_, index) => (

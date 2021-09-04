@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { authSlice } from 'store/auth/slice';
 import axios from 'axios';
 import { getIsAuth } from 'store/auth/selectors';
 import cn from 'classnames';
@@ -22,7 +23,7 @@ const headers = { client, uid, ['access-token']: accessToken };
 export const Menu: React.FC = () => {
   const { t } = useTranslation('menu');
   const { i18n } = useTranslation();
-
+  const dispatch = useDispatch();
   const location = useLocation();
   const auth = useSelector(getIsAuth);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -117,17 +118,20 @@ export const Menu: React.FC = () => {
               {notifications.length > 0 && (
                 <div className={styles.notifications}>{notifications.length}</div>
               )}
-              <div className={styles.notificationsList}>
-                {notifications.map((item) => (
-                  <Link
-                    onClick={() => submitNotifications(item.id)}
-                    className={styles.notificationsItem}
-                    to={item.url}
-                  >
-                    <span> {`${item.message} ${item.ago}`}</span>
-                  </Link>
-                ))}
-              </div>
+
+              {notifications.length > 0 && (
+                <div className={styles.notificationsList}>
+                  {notifications.map((item) => (
+                    <Link
+                      onClick={() => submitNotifications(item.id)}
+                      className={styles.notificationsItem}
+                      to={item.url}
+                    >
+                      <span> {`${item.message} ${item.ago}`}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
             <Link to={'/profile'} className={styles.userName}>
@@ -141,6 +145,7 @@ export const Menu: React.FC = () => {
               state: { background: location },
             }}
             className={styles.userName}
+            onClick={() => dispatch(authSlice.actions.setRegistrationTab(false))}
           >
             {t('singIn')}
           </Link>
