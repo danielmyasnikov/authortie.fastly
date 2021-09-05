@@ -1,7 +1,6 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  max-width: 600px;
   :global {
     .CustomSelect__control {
       max-width: 600px;
@@ -90,6 +89,24 @@
   }
 }
 
+.contentRow {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  .contentItem {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    .item {
+      width: calc(50% - 10px);
+    }
+  }
+}
+
+.rowContainer {
+  width: 100%;
+  display: flex;
+}
 
 
 .title {
@@ -132,10 +149,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 205px;
-  height: 205px;
-  border-radius: 50%;
-  background: #e9f1ff;
+  padding-right: 50px;
 }
 
 .img {
@@ -247,12 +261,27 @@
 }
 
 .bigIcon {
-  width: 50px;
-  height: 50px;
   & > img {
-    width: 40px;
-    height: 40px;
+    margin-right: 10px;
+    width: 30px;
+    height: 30px;
   }
+}
+
+.settings {
+  .actions {
+    color: #B8C0D8;
+  } 
+}
+
+.confirmOrcid {
+  font-size: 16px;
+  color: #2c80ff;
+}
+
+.confirmedOrcid {
+  font-size: 16px;
+  color: #A6CE39;
 }
 
 .error {

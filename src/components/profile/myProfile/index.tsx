@@ -7,7 +7,7 @@ import {
   STUDENT_OPTIONS,
   GRADE_OPTIONS,
   COUNTRIES,
-    // @ts-ignore
+  // @ts-ignore
 } from 'src/constants/profileConstants';
 import { Button } from 'components/common/button';
 import { setProfile, getProfile } from 'store/profile/actions';
@@ -22,6 +22,7 @@ import Close from 'assets/close.svg';
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
 import { useEffect } from 'react';
+import Star from '../../../../assets/star.svg';
 
 const FILE_MAX_SIZE = 5242880;
 
@@ -167,177 +168,221 @@ export const MyProfile = () => {
   );
   return (
     <div className={styles.wrapper}>
-      <span className={styles.title}>{t('title')}</span>
-      <div className={styles.profileWrapper}>
-        {avatarURL ? (
-          <img className={styles.img} src={avatarURL} alt="" />
-        ) : (
-          <Camera className={styles.defaultPhoto} />
-        )}
+      <div className={styles.rowContainer}>
+        <div className={styles.profileWrapper}>
+          {avatarURL ? (
+            <img className={styles.img} src={avatarURL} alt="" />
+          ) : (
+            <Camera className={styles.defaultPhoto} />
+          )}
 
-        <div className={styles.pencil} onClick={handleUploadAvatarBtnClick}>
-          <form>
-            <input
-              hidden
-              onChange={handleFileInputChanged}
-              ref={fileInputRef}
-              type="file"
-              id="avatar"
-              accept=".png, .jpg, .jpeg"
-            />
-          </form>
-
-          <Pencil />
+          <div className={styles.pencil} onClick={handleUploadAvatarBtnClick}>
+            <form>
+              <input
+                hidden
+                onChange={handleFileInputChanged}
+                ref={fileInputRef}
+                type="file"
+                id="avatar"
+                accept=".png, .jpg, .jpeg"
+              />
+            </form>
+            <Pencil />
+          </div>
+          {fileError && <span className={styles.error}>{fileError}</span>}
+          <div className={styles.linkWrap}>
+            {!profile.confirmOrcid ? (
+              <>
+                <a href={IDURL} className={styles.bigIcon}>
+                  <img src={IDColor} alt="" />
+                </a>
+                <span className={styles.confirmOrcid}>{t('confirmOrcid')}</span>
+              </>
+            ) : (
+              <>
+                <img className={styles.bigIcon} src={IDColor} alt="" />
+                <span className={styles.confirmedOrcid}>{t('confirmedOrcid')}</span>{' '}
+              </>
+            )}
+          </div>
+          <div className={styles.rating}>
+            <img src={Star} alt="" />
+            <span>4.4</span>
+          </div>
+          <div className={styles.dateOfReg}>
+            <span className={styles.ratungSubtitle}>Дата регистрации:</span>
+            <span className={styles.date}>01.01.2021</span>
+          </div>
+          <div className={styles.settings}>
+            <div className={styles.chkbox}>
+              <div>
+                <input
+                  className={styles.checkboxInput}
+                  type="checkbox"
+                  name="privateAnc"
+                  id="privateAnc"
+                  checked={privateAnc}
+                  onChange={() => setPrivateAnc(!privateAnc)}
+                />
+                <label htmlFor="privateAnc">{t('privateAnc')}</label>
+              </div>
+              <div>
+                <input
+                  className={styles.checkboxInput}
+                  type="checkbox"
+                  name="notificationsEmail"
+                  id="notificationsEmail"
+                  checked={notificationsEmail}
+                  onChange={() => setNotificationsEmail(!notificationsEmail)}
+                />
+                <label htmlFor="notificationsEmail">{t('notificationsEmail')}</label>
+              </div>
+              <div>
+                <input
+                  className={styles.checkboxInput}
+                  type="checkbox"
+                  name="notificationsBrow"
+                  id="notificationsBrow"
+                  checked={notificationsBrow}
+                  onChange={() => setNotificationsBrow(!notificationsBrow)}
+                />
+                <label htmlFor="notificationsBrow">{t('notificationsBrow')}</label>
+              </div>
+            </div>
+            <div className={styles.actions}>
+              <div className={styles.item} >
+                <img src={Star} alt="" />
+                <span>Сменить пароль</span>
+              </div>
+              <div className={styles.item} >
+                <img src={Star} alt="" />
+                <span>Выйти из аккаунта</span>
+              </div>
+              <div className={styles.item} >
+                <img src={Star} alt="" />
+                <span>Удалить аккаунт</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      {fileError && <span className={styles.error}>{fileError}</span>}
-      <div className={styles.linkWrap}>
-        {!profile.confirmOrcid ? (
-          <>
-            <a href={IDURL} className={styles.bigIcon}>
-              <img src={IDColor} alt="" />
-            </a>
-            <span className={styles.subtitle}>{t('confirmOrcid')}</span>
-          </>
-        ) : (
-          <>
-            <img className={styles.bigIcon} src={IDColor} alt="" />
-            <span className={styles.subtitle}>{t('confirmedOrcid')}</span>{' '}
-          </>
-        )}
-      </div>
-      <span className={styles.subtitle}>{t('name')}</span>
-      <input
-        value={name}
-        name="name"
-        id="name"
-        className={styles.input}
-        onBlur={handleBlur}
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-      />
-      {nameError && <span className={styles.error}>{nameError}</span>}
-      <span className={styles.subtitle}>{t('lastName')}</span>
-      <input
-        value={lastName}
-        name="last_name"
-        onBlur={handleBlur}
-        id="last_name"
-        className={styles.input}
-        type="text"
-        onChange={(e) => setLastName(e.target.value)}
-      />
-      {lastNameError && <span className={styles.error}>{lastNameError}</span>}
-      <span className={styles.subtitle}>{t('middleName')}</span>
-      <input
-        value={middleName}
-        name="middle_name"
-        id="middle_name"
-        className={styles.input}
-        type="text"
-        onChange={(e) => setMiddleName(e.target.value)}
-      />
-      <span className={styles.subtitle}>Статус</span>
-      <Select
-        classNamePrefix="CustomSelect"
-        onChange={(option: any) => setStatus(option)}
-        value={status}
-        className={styles.block}
-        defaultValue={STATUS_OPTIONS[0]}
-        options={STATUS_OPTIONS}
-      />
-      {(status?.value === 'scientist' || status?.value === 'student') && (
-        <Select
-          classNamePrefix="CustomSelect"
-          options={status.value === 'student' ? STUDENT_OPTIONS : GRADE_OPTIONS}
-          defaultValue={status.value === 'student' ? STUDENT_OPTIONS[0] : GRADE_OPTIONS[0]}
-          value={grade}
-          onChange={(option: any) => setGrade(option)}
-        />
-      )}
-      <span className={styles.subtitle}>{t('affiliation')}</span>
-      <input
-        value={affiliation}
-        name="affiliation"
-        id="affiliation"
-        className={styles.input}
-        type="text"
-        onChange={(e) => setAffiliation(e.target.value)}
-      />
-      <span className={styles.subtitle}>{t('about')}</span>
-      <Textarea value={about} onChange={setAbout} />
-      <span className={styles.subtitle}>{t('country')}</span>
+        <div className={styles.content}>
+          <div className={styles.contentRow}>
+            <div className={styles.contentItem}>
+              <div className={styles.item}>
+                <span className={styles.subtitle}>{t('name')}</span>
+                <input
+                  value={name}
+                  name="name"
+                  id="name"
+                  className={styles.input}
+                  onBlur={handleBlur}
+                  type="text"
+                  onChange={(e) => setName(e.target.value)}
+                />
+                {nameError && <span className={styles.error}>{nameError}</span>}
+              </div>
+              <div className={styles.item}>
+                <span className={styles.subtitle}>Статус</span>
+                <Select
+                  classNamePrefix="CustomSelect"
+                  onChange={(option: any) => setStatus(option)}
+                  value={status}
+                  className={styles.block}
+                  defaultValue={STATUS_OPTIONS[0]}
+                  options={STATUS_OPTIONS}
+                />
+                {(status?.value === 'scientist' || status?.value === 'student') && (
+                  <Select
+                    classNamePrefix="CustomSelect"
+                    options={status.value === 'student' ? STUDENT_OPTIONS : GRADE_OPTIONS}
+                    defaultValue={status.value === 'student' ? STUDENT_OPTIONS[0] : GRADE_OPTIONS[0]}
+                    value={grade}
+                    onChange={(option: any) => setGrade(option)}
+                  />
+                )}
+              </div>
+            </div>
+            <div className={styles.contentItem}>
+              <div className={styles.item}>
+                <span className={styles.subtitle}>{t('lastName')}</span>
+                <input
+                  value={lastName}
+                  name="last_name"
+                  onBlur={handleBlur}
+                  id="last_name"
+                  className={styles.input}
+                  type="text"
+                  onChange={(e) => setLastName(e.target.value)}
+                />
+                {lastNameError && <span className={styles.error}>{lastNameError}</span>}
+              </div>
+              <div className={styles.item}>
+                <span className={styles.subtitle}>{t('affiliation')}</span>
+                <input
+                  value={affiliation}
+                  name="affiliation"
+                  id="affiliation"
+                  className={styles.input}
+                  type="text"
+                  onChange={(e) => setAffiliation(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className={styles.item}>
+              <span className={styles.subtitle}>{t('middleName')}</span>
+              <input
+                value={middleName}
+                name="middle_name"
+                id="middle_name"
+                className={styles.input}
+                type="text"
+                onChange={(e) => setMiddleName(e.target.value)}
+              />
+            </div>
+          </div>
 
-      <Select
-        placeholder={t('changeContry')}
-        classNamePrefix="CustomSelect"
-        value={country}
-        options={COUNTRIES}
-        onChange={(option: any) => setCountry(option)}
-      />
-      <span className={styles.subtitle}>{t('links')}</span>
-      {linkArray.map((item) => (
-        <div key={item.id + item.url} className={styles.linksWrapper}>
-          <input
-            value={item.url}
-            name={String(item.id)}
-            id={String(item.id)}
-            className={styles.inputLink}
-            type="text"
-            onChange={handleLinkChange}
+          <span className={styles.subtitle}>{t('about')}</span>
+          <Textarea value={about} onChange={setAbout} />
+          <span className={styles.subtitle}>{t('country')}</span>
+
+          <Select
+            placeholder={t('changeContry')}
+            classNamePrefix="CustomSelect"
+            value={country}
+            options={COUNTRIES}
+            onChange={(option: any) => setCountry(option)}
           />
-          <button onClick={() => deleteLink(item.id)} className={styles.deleteBtn}>
-            {t('delete')}
+          <span className={styles.subtitle}>{t('links')}</span>
+          {linkArray.map((item) => (
+            <div key={item.id + item.url} className={styles.linksWrapper}>
+              <input
+                value={item.url}
+                name={String(item.id)}
+                id={String(item.id)}
+                className={styles.inputLink}
+                type="text"
+                onChange={handleLinkChange}
+              />
+              <button onClick={() => deleteLink(item.id)} className={styles.deleteBtn}>
+                {t('delete')}
+              </button>
+            </div>
+          ))}
+          <button
+            className={styles.btnLink}
+            onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length + 1 }])}
+          >
+            {t('addLink')}
           </button>
-        </div>
-      ))}
-      <button
-        className={styles.btnLink}
-        onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length + 1 }])}
-      >
-        {t('addLink')}
-      </button>
-      <span className={styles.title}>{t('setings')}</span>
-      <div>
-        <input
-          className={styles.checkboxInput}
-          type="checkbox"
-          name="privateAnc"
-          id="privateAnc"
-          checked={privateAnc}
-          onChange={() => setPrivateAnc(!privateAnc)}
-        />
-        <label htmlFor="privateAnc">{t('privateAnc')}</label>
-      </div>
-      <div>
-        <input
-          className={styles.checkboxInput}
-          type="checkbox"
-          name="notificationsEmail"
-          id="notificationsEmail"
-          checked={notificationsEmail}
-          onChange={() => setNotificationsEmail(!notificationsEmail)}
-        />
-        <label htmlFor="notificationsEmail">{t('notificationsEmail')}</label>
-      </div>
-      <div>
-        <input
-          className={styles.checkboxInput}
-          type="checkbox"
-          name="notificationsBrow"
-          id="notificationsBrow"
-          checked={notificationsBrow}
-          onChange={() => setNotificationsBrow(!notificationsBrow)}
-        />
-        <label htmlFor="notificationsBrow">{t('notificationsBrow')}</label>
-      </div>
-      <div className={styles.saveBtn}>
-        <Button disabled={!isValid} onClick={submitProfile}>
-          {t('save')}
-        </Button>
-      </div>
+          <div className={styles.saveBtn}>
+            <Button disabled={!isValid} onClick={submitProfile}>
+              {t('save')}
+            </Button>
+          </div>
 
-      {modal && renderModal()}
-    </div>
+          {modal && renderModal()}
+        </div>
+      </div>
+    </div >
   );
 };
