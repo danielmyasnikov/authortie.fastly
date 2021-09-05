@@ -13,6 +13,7 @@ import cn from 'classnames';
 import format from 'date-fns/format';
 import { createPostings, editPostings } from 'store/request/actions';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
+import { KeyWords } from 'components/common/keywords';
 
 import NoteModal from 'assets/note.svg';
 import RoundRowRight from 'assets/roundRowRight.svg';
@@ -130,7 +131,7 @@ export const ApplicationForm: React.FC<Props> = ({
       setCurrency({ label: editData.reward_currency, value: editData.reward_currency });
       setSumCheck(
         Array.isArray(editData.reward_type_list) &&
-        editData.reward_type_list.find((item: string) => item === 'money'),
+          editData.reward_type_list.find((item: string) => item === 'money'),
       );
 
       setApproxDate(editData.approx_date);
@@ -489,11 +490,12 @@ export const ApplicationForm: React.FC<Props> = ({
         <KeyWord className={css.subtileIcon} />
         {t('keyWords')}
       </span>
-      <textarea
+      {/* <textarea
         className={cn(css.textareaKeyWords, { [css.errorWrapper]: !!valid.keyWords })}
         onChange={handleKeyWords}
         value={keyWords}
-      />
+      /> */}
+      <KeyWords />
       <span className={css.keyWordsInfo}>
         {t('keyWordsExpl')}
         <b>{t('keyWordsExpl_2')}</b>
