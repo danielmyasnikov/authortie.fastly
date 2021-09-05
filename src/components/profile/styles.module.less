@@ -9,48 +9,72 @@
   grid-template-rows: 1fr min-content;
   width: 100%;
   height: 100%;
-  padding-top: 80px ;
   overflow: auto;
+  background-color: #f6f6f6;
+  padding-top: 80px;
+}
+
+.rowContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .footer {
   grid-area: f;
 }
-
+ 
 .content {
   grid-area: cont;
-  display: flex;
-  flex-direction: row;
   margin-bottom: 80px;
 }
 
-.navBarWrapper {
+.container {
+  width: 100%;
+  padding: 114px 81px 45px;
+  background: #f9fbff;
+  box-shadow: 0px 0px 26px rgb(0 0 0 / 8%);
+  border-radius: 25px;
+  border-top-left-radius: 0px;
+}
+
+.rowBtnContainer {
+  align-items: center;
+}
+
+.headerBtns {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  background: #e7f0ff;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  align-self: flex-start;
+}
+
+.headerBtn {
   display: flex;
   flex-direction: column;
-  width: 312px;
-  height: min-content;
-  margin-right: 50px;
-  padding: 24px;
-  border-radius: 8px;
-  background: var(--color-white);
-  box-shadow: 0px 0px 8px -5px rgb(34 60 80);
-}
-
-.navBarItem {
-  font-size: 16px;
-  line-height: 20px;
-  color: var(--color-black);
-  text-decoration: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 125px 18px;
+  border: none;
+  background: none;
+  outline: none;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  font-weight: 500;
+  white-space: nowrap;
+  font-size: 18px;
+  line-height: 18px;
+  color: #849dc7;
   cursor: pointer;
-  &:not(:last-child) {
-    margin-bottom: 12px;
-  }
-  &:hover {
-    font-weight: bold;
-  }
 }
 
-.active {
-  composes: navBarItem;
-  font-weight: bold;
+.headerBtnFocus {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 22px;
+  color: #597db6;
+  background: #f9fbff;
 }

@@ -34,27 +34,31 @@ export const Profile = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        <div className={styles.navBarWrapper}>
-          <span
-            className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.PROFILE })}
-            onClick={() => setItemNavbar(Item.PROFILE)}
-          >
-            {t('title')}
-          </span>
-          <span
-            className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.MAIN })}
-            onClick={() => setItemNavbar(Item.MAIN)}
-          >
-            {t('mainApp')}
-          </span>
-          <span
-            className={cn(styles.navBarItem, { [styles.active]: itemNavbar === Item.REVIEW })}
-            onClick={() => setItemNavbar(Item.REVIEW)}
-          >
-            {t('reviews')}
-          </span>
+        <div className={`${styles.rowBtnContainer} ${styles.rowContainer}`}>
+          <div className={styles.headerBtns}>
+            <button
+              className={cn(styles.headerBtn, { [styles.headerBtnFocus]: itemNavbar === Item.PROFILE })}
+              onClick={() => setItemNavbar(Item.PROFILE)}
+            >
+              {t('title')}
+            </button>
+            <button
+              className={cn(styles.headerBtn, { [styles.headerBtnFocus]: itemNavbar === Item.MAIN })}
+              onClick={() => setItemNavbar(Item.MAIN)}
+            >
+              {t('mainApp')}
+            </button>
+            <button
+              className={cn(styles.headerBtn, { [styles.headerBtnFocus]: itemNavbar === Item.REVIEW })}
+              onClick={() => setItemNavbar(Item.REVIEW)}
+            >
+              {t('reviews')}
+            </button>
+          </div>
         </div>
-        {renderProfile()}
+        <div className={styles.container}>
+          {renderProfile()}
+        </div>
       </div>
 
       <div className={styles.footer}>
