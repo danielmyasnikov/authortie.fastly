@@ -130,7 +130,7 @@ export const ApplicationForm: React.FC<Props> = ({
       setCurrency({ label: editData.reward_currency, value: editData.reward_currency });
       setSumCheck(
         Array.isArray(editData.reward_type_list) &&
-          editData.reward_type_list.find((item: string) => item === 'money'),
+        editData.reward_type_list.find((item: string) => item === 'money'),
       );
 
       setApproxDate(editData.approx_date);
@@ -528,7 +528,7 @@ export const ApplicationForm: React.FC<Props> = ({
   );
 
   const renderDate = () => (
-    <div className={css.blockWrapper}>
+    <div className={css.blockDeadLine}>
       <span className={css.subtile}>{t('periodOfExecution')}</span>
       <div className={cn({ [css.errorWrapper]: !!valid.approxDate })}>
         <DatePicker value={approxDate} onChange={handleDateChange} />

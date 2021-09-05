@@ -102,8 +102,19 @@
   }
 }
 
-@media screen and (max-width: 1336px) {
-  .label {
-    font-size: 16px;
+@screen-ml:1238px;
+@media screen and (max-width: @screen-ml){
+  .checkbox input + span {
+    width: 0;
+    height: 0;
+    padding: 7px;
+  }
+  .checkedIcon div {
+    padding: 1px;
+    width: 1px;
+    height: 1px;
+  }
+  .checkbox input:checked + span div {
+    transform: scale(5);
   }
 }
