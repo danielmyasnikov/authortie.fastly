@@ -385,4 +385,4 @@ export const MyProfile = () => {
       </div>
     </div >
   );
-};
+}; 
