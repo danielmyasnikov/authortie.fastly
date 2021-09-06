@@ -12,4 +12,3 @@ npm install
 npm run dev 
 переходим на http://localhost:8585/
 ```
-

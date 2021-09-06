@@ -80,7 +80,7 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [workName, setWorkName] = useState('');
   const [workDescription, setWorkDescription] = useState('');
-  const [keyWords, setKeyWords] = useState('');
+  const [keyWords, setKeyWords] = useState<string[]>([]);
 
   const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false);
   const [hideFromSearch, setHideFromSearch] = useState(false);
@@ -97,7 +97,7 @@ export const ApplicationForm: React.FC<Props> = ({
     knowledge: '',
     approxDate: '',
   });
-
+  console.log('keyWords', keyWords);
   useEffect(() => {
     if (!!editData && isEdit) {
       const editKnowledge = knowledgeDefault.map((item) => ({
@@ -341,9 +341,9 @@ export const ApplicationForm: React.FC<Props> = ({
     unsetValid();
     setWorkDescription(e.target.value);
   }
-  function handleKeyWords(e: any) {
+  function handleKeyWords(value: string[]) {
     unsetValid();
-    setKeyWords(e.target.value);
+    setKeyWords(value);
   }
 
   const renderHeaderBtnsGroup = () => (
@@ -495,7 +495,7 @@ export const ApplicationForm: React.FC<Props> = ({
         onChange={handleKeyWords}
         value={keyWords}
       /> */}
-      <KeyWords />
+      <KeyWords onChange={handleKeyWords} />
       <span className={css.keyWordsInfo}>
         {t('keyWordsExpl')}
         <b>{t('keyWordsExpl_2')}</b>

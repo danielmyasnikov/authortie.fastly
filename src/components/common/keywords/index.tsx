@@ -1,38 +1,99 @@
 /* eslint-disable no-use-before-define */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Chip from '@material-ui/core/Chip';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { flatten } from 'lodash';
-import { OutlinedInputProps } from '@material-ui/core/OutlinedInput';
+import {
+  createStyles,
+  fade,
+  Theme,
+  ThemeProvider,
+  withStyles,
+  makeStyles,
+  createMuiTheme,
+} from '@material-ui/core/styles';
 
-const useStylesReddit = makeStyles((theme: Theme) =>
+const CssTextField = withStyles({
+  root: {
+    '& input:valid + fieldset': {
+      borderColor: 'green',
+      borderWidth: 2,
+    },
+    '& input:invalid + fieldset': {
+      borderColor: 'red',
+      borderWidth: 2,
+    },
+    '& input:valid:focus + fieldset': {
+      borderLeftWidth: 6,
+      padding: '4px !important',
+    },
+    '& textarea': {
+      minHeight: '156px',
+      borderLeftWidth: 6,
+      padding: '4px !important',
+      background: '#ffffff',
+    },
+    '& .MuiInputBase-root, & .MuiFilledInput-root, &  .MuiFilledInput-underline, &  .MuiAutocomplete-inputRoot, &  .MuiInputBase-fullWidth, &  .MuiInputBase-formControl, & .MuiInputBase-multiline, & .MuiFilledInput-multiline,& .MuiInputBase-adornedEnd,& .MuiFilledInput-adornedEnd': {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+      background: '#ffffff',
+      borderRadius: '12px',
+      boxShadow: '0px 3px 17px rgba(43, 123, 211, 0.06)',
+      padding: '16px !important',
+      maxWidth: '438px !important',
+      width: '100%',
+      minHeight: '196px',
+    },
+    '& .MuiFilledInput-underline:before': {
+      display: 'none',
+    },
+    '& .MuiFilledInput-underline:after': {
+      display: 'none',
+    },
+    '& .MuiAutocomplete-endAdornment': {
+      display: 'none',
+    },
+  },
+})(TextField);
+
+const CssChip = withStyles({
+  root: {
+    padding: '9px 8px',
+    fontSize: '14px',
+  },
+})(Chip);
+
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      border: '1px solid #e2e2e1',
-      overflow: 'hidden',
-      borderRadius: 4,
-      backgroundColor: '#fcfcfb',
-      transition: theme.transitions.create(['border-color', 'box-shadow']),
-      '&:hover': {
-        backgroundColor: '#fff',
-      },
+      //   display: 'flex',
+      //   flexWrap: 'wrap',
     },
-    focused: {},
+    margin: {
+      //   margin: theme.spacing(1),
+    },
   }),
 );
 
-export const KeyWords = () => {
-  const classes = useStylesReddit();
+interface Props {
+  onChange: (value: string[]) => void;
+}
+
+export const KeyWords: React.FC<Props> = ({ onChange }) => {
   const words = [''];
+  const classes = useStyles();
   return (
     <Autocomplete
       multiple
       id="tags-filled"
       options={words.map((option) => option)}
-      //   onInputChange={handleInputChange}
       freeSolo
+      onChange={(e, newval, reason) => {
+        onChange(newval);
+      }}
       open={false}
       renderTags={(value: string[], getTagProps) => {
         const newVal = flatten(
@@ -41,16 +102,15 @@ export const KeyWords = () => {
           }),
         ).filter((item) => !!item.length);
         return newVal.map((option: string, index: number) => {
-          return <Chip variant="outlined" label={option} {...getTagProps({ index })} />;
+          return (
+            <React.Fragment key={index + option}>
+              <CssChip size="small" variant="outlined" label={option} {...getTagProps({ index })} />
+            </React.Fragment>
+          );
         });
       }}
       renderInput={(params) => (
-        <TextField
-          multiline
-          {...params}
-          variant="filled"
-        //   InputProps={{ classes, disableUnderline: true } as Partial<OutlinedInputProps>}
-        />
+        <CssTextField className={classes.root} multiline {...params} variant="filled" />
       )}
     />
   );
