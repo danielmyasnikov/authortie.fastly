@@ -17,6 +17,14 @@ export const Application = () => {
     setApplicationsArray([...applicationsArray, applicationsArray.length]);
   }
 
+  console.log(applicationsArray);
+
+  function removeItem(index: number) {
+    const arrayWithRemove = applicationsArray.filter((item) => item !== index);
+    console.log(index, arrayWithRemove);
+    setApplicationsArray(arrayWithRemove);
+  }
+
   return (
     <div className={css.wrapper}>
       <div className={css.content}>
@@ -38,9 +46,14 @@ export const Application = () => {
           </span>
         )}
 
-        {applicationsArray.map((_, index) => (
-          <React.Fragment key={index}>
-            <ApplicationForm addToArray={addToArray} index={index} />
+        {applicationsArray.map((item, index) => (
+          <React.Fragment key={item}>
+            <ApplicationForm
+              addToArray={addToArray}
+              index={index}
+              isLastCard={applicationsArray.length - 1 === index}
+              removeItem={removeItem}
+            />
           </React.Fragment>
         ))}
       </div>

@@ -23,6 +23,7 @@ import Note from 'assets/noteDescription.svg';
 import KeyWord from 'assets/keyWord.svg';
 import Stat from 'assets/stat.svg';
 import Close from 'assets/close.svg';
+import Delete from 'assets/delete.svg';
 
 import { AppDispatch } from 'store/types';
 
@@ -46,6 +47,8 @@ interface Props {
   editData?: any; // TODO: типизировать
   addToArray?: () => void;
   index?: number;
+  isLastCard?: boolean;
+  removeItem?: (index: number) => void;
 }
 
 enum WhoIAm {
@@ -60,6 +63,8 @@ export const ApplicationForm: React.FC<Props> = ({
   addToArray,
   editData,
   index,
+  isLastCard,
+  removeItem,
 }) => {
   const { t } = useTranslation('application');
   const history = useHistory();
@@ -97,7 +102,6 @@ export const ApplicationForm: React.FC<Props> = ({
     knowledge: '',
     approxDate: '',
   });
-  console.log('keyWords', keyWords);
   useEffect(() => {
     if (!!editData && isEdit) {
       const editKnowledge = knowledgeDefault.map((item) => ({
@@ -590,22 +594,29 @@ export const ApplicationForm: React.FC<Props> = ({
             label={t('hideFromSearch')}
             onChange={() => setHideFromSearch(!hideFromSearch)}
           />
+          {index !== undefined && !!removeItem && (
+            <div className={css.delete} onClick={() => removeItem(index)}>
+              <Delete className={css.deleteIcon} /> Удалить заявку
+            </div>
+          )}
         </div>
       </div>
-      <div className={css.btnWrapper}>
+      <div className={cn(css.btnWrapper, { [css.bottomStep]: !isLastCard })}>
         <div className={css.btnBlock}>
           {!isEdit && (
             <>
               <button className={css.outlineBtn} onClick={addArray}>
                 {t('addApplication')}
               </button>
-              <Button onClick={submitForm}>{isAuth ? t('publish') : t('regAndPublish')}</Button>
+              {isLastCard && (
+                <Button onClick={submitForm}>{isAuth ? t('publish') : t('regAndPublish')}</Button>
+              )}
             </>
           )}
 
           {isEdit && <Button onClick={submitForm}>{t('edit')}</Button>}
         </div>
-        {!isAuth && <span className={css.info}>{t('info')}</span>}
+        {!isAuth && isLastCard && <span className={css.info}>{t('info')}</span>}
         {modal && renderModal()}
       </div>
     </>

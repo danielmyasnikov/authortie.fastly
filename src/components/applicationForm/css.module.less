@@ -14,10 +14,14 @@
   background-color: #f6f6f6;
 }
 
-@screen-large:1400px;
-@screen-ml:1238px;
-@tablet:976px;
-@screen-m:460px;
+.bottomStep {
+  margin-bottom: 35px;
+}
+
+@screen-large: 1400px;
+@screen-ml: 1238px;
+@tablet: 976px;
+@screen-m: 460px;
 
 .content {
   width: 100%;
@@ -38,6 +42,7 @@
 }
 
 .container {
+  position: relative;
   width: 100%;
   padding: 114px 81px 45px;
   background: #f9fbff;
@@ -401,8 +406,26 @@
 }
 
 .privateCheckWrapper {
+  width: 100%;
   composes: btnBlock;
   margin-top: 115px;
+}
+
+.delete {
+  align-self: flex-end;
+  padding: 8px 15px;
+  position: absolute;
+  right: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 16px;
+  color: #b0d0ff;
+}
+.deleteIcon {
+  margin-right: 12px;
 }
 
 // ---------- modal
@@ -631,43 +654,42 @@
   }
 }
 
-@media screen and (max-width: @screen-large){
+@media screen and (max-width: @screen-large) {
   .authDescription {
     margin-left: 10px;
   }
-  .inputWrapper{
+  .inputWrapper {
     flex-direction: column;
     margin-top: 0;
-    
   }
   .blockWrapperKnowledge {
     padding: 0 0 0 20px;
   }
-  .bottomBlock{
-    .rowContainer{
+  .bottomBlock {
+    .rowContainer {
       flex-wrap: wrap;
       justify-content: space-between;
       .sumBlock {
         height: 100%;
       }
-      .blockWrapper{
+      .blockWrapper {
         .textareaKeyWords {
           width: 100%;
         }
         width: 40%;
       }
-      .blockWrapperKnowledge{
-         width: 60%; 
+      .blockWrapperKnowledge {
+        width: 60%;
       }
-      .blockDeadLine{
-        width: 100% ;
+      .blockDeadLine {
+        width: 100%;
       }
     }
   }
-  .checkWrapper{
+  .checkWrapper {
     height: 100%;
   }
-  .sumBlock{
+  .sumBlock {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -675,20 +697,17 @@
   }
 }
 
-@media screen and (max-width: @screen-ml){
+@media screen and (max-width: @screen-ml) {
   .checkboxItem {
     span {
-      width: 0!important;
-      height: 0!important;
-      padding: 7px!important;
-      
+      width: 0 !important;
+      height: 0 !important;
+      padding: 7px !important;
     }
   }
 }
 
-
-
-@media screen and (max-width:@tablet){
+@media screen and (max-width: @tablet) {
   .title {
     margin-left: 0;
     margin-bottom: 30px;
@@ -701,37 +720,37 @@
     flex-direction: column-reverse;
   }
   .container {
-    .rowContainer{
+    .rowContainer {
       flex-direction: column;
-    } 
+    }
   }
-  
+
   .bottomBlock .rowContainer .blockWrapper {
     width: 100%;
-}
-.blockDeadLine {
-  margin-top: 70px;
-}
-.checkboxBlock {
-  margin-top: 70px;
-}
-.checkBlock{
-  max-width: 768px;
-  width: 100%;
-}
-.inputWrapper{
-  flex-direction: row;
-}
-.headerBtn{
-  padding: 15px 30px 11px;
-}
-.info{
-  width: 100%;
-}
-.blockWrapperKnowledge {
-  margin-top: 70px;
-  padding: 0;
-}
+  }
+  .blockDeadLine {
+    margin-top: 70px;
+  }
+  .checkboxBlock {
+    margin-top: 70px;
+  }
+  .checkBlock {
+    max-width: 768px;
+    width: 100%;
+  }
+  .inputWrapper {
+    flex-direction: row;
+  }
+  .headerBtn {
+    padding: 15px 30px 11px;
+  }
+  .info {
+    width: 100%;
+  }
+  .blockWrapperKnowledge {
+    margin-top: 70px;
+    padding: 0;
+  }
 }
 @media screen and(max-width:@screen-m) {
   .title {
@@ -740,11 +759,11 @@
   .block {
     padding: 32px 25px 32px 25px;
   }
-  .privateCheckWrapper{
-    align-items:  flex-start;
+  .privateCheckWrapper {
+    align-items: flex-start;
     margin-top: 30px;
   }
-  .headerBtn{
+  .headerBtn {
     padding: 15px 18px 11px;
     font-size: 18px;
   }
