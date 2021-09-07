@@ -49,6 +49,14 @@ interface Props {
   index?: number;
   isLastCard?: boolean;
   removeItem?: (index: number) => void;
+  getErrorIndex?: (index: number) => void;
+  createPostItems?: ({ data, index }: { data: any; index: number }) => void;
+  createPostsApp?: () => void;
+  pushValidation?: boolean;
+  setPushvalidation: (val: boolean) => void;
+  setErrorIndex: (value: number[]) => void;
+  setError?: (val: string) => void;
+  error?: string;
 }
 
 enum WhoIAm {
@@ -65,6 +73,14 @@ export const ApplicationForm: React.FC<Props> = ({
   index,
   isLastCard,
   removeItem,
+  createPostItems,
+  createPostsApp,
+  pushValidation,
+  setPushvalidation,
+  getErrorIndex,
+  setErrorIndex,
+  setError,
+  error,
 }) => {
   const { t } = useTranslation('application');
   const history = useHistory();
@@ -91,6 +107,12 @@ export const ApplicationForm: React.FC<Props> = ({
   const [hideFromSearch, setHideFromSearch] = useState(false);
 
   const [modal, setModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (pushValidation) {
+      validation();
+    } else unsetValid();
+  }, [pushValidation]);
 
   // состояние для валидации
   const [valid, setValid] = useState({
@@ -129,7 +151,6 @@ export const ApplicationForm: React.FC<Props> = ({
         setWorkTypes(editRewardTypes);
         setRewardTypes(editWorkTypes);
       }
-
       setKnowledge(editKnowledge);
       setSum(editData.reward_sum);
       setCurrency({ label: editData.reward_currency, value: editData.reward_currency });
@@ -158,6 +179,10 @@ export const ApplicationForm: React.FC<Props> = ({
       knowledge: '',
       approxDate: '',
     });
+    setPushvalidation(false);
+    setErrorIndex([]);
+    // @ts-ignore
+    setError('');
   }
 
   function validation() {
@@ -219,6 +244,47 @@ export const ApplicationForm: React.FC<Props> = ({
     }
   }
 
+  useEffect(() => {
+    const checkedWorkTypes = workTypes.filter((el) => el.checked).map((item) => item.id);
+    const checkedRewardTypes = rewardTypes.filter((el) => el.checked).map((item) => item.id);
+    const checkedRewardTypesWithMoney = sumCheck
+      ? [...checkedRewardTypes, 'money']
+      : checkedRewardTypes;
+    const checkedKnowledgeList = knowledge.filter((el) => el.checked).map((item) => item.id);
+    const data = {
+      request_type: whoIAm,
+      work_types: checkedWorkTypes,
+      reward_types: checkedRewardTypesWithMoney,
+      reward_sum: sum,
+      knowledge_areas: checkedKnowledgeList,
+      title: workName,
+      comment: workDescription,
+      reward_currency: currency?.value,
+      keyword_list: keyWords,
+      approx_date: !!approxDate && format(new Date(approxDate), 'dd/MM/yyyy'),
+      hide_from_other_users: hideFromOtherUsers,
+      hide_from_search: hideFromSearch,
+      request_posting_id: whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
+      supply_posting_id: whoIAm !== WhoIAm.EXECUTOR && requestId ? requestId : '',
+    };
+    // @ts-ignore
+    createPostItems({ data, index });
+  }, [
+    whoIAm,
+    approxDate,
+    workTypes,
+    rewardTypes,
+    knowledge,
+    sumCheck,
+    sum,
+    currency,
+    workName,
+    workDescription,
+    keyWords,
+    hideFromOtherUsers,
+    hideFromSearch,
+  ]);
+
   async function submitForm() {
     validation();
     const checkedWorkTypes = workTypes.filter((el) => el.checked).map((item) => item.id);
@@ -243,10 +309,18 @@ export const ApplicationForm: React.FC<Props> = ({
       request_posting_id: whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
       supply_posting_id: whoIAm !== WhoIAm.EXECUTOR && requestId ? requestId : '',
     };
+    setPushvalidation(true)
+    if (!validation()) {
+      // @ts-ignore
+      getErrorIndex(index);
+    }
     if (isAuth) {
       if (validation()) {
         if (isEdit) {
           editPost(data);
+        }
+        if (createPostsApp) {
+          createPostsApp();
         } else {
           createPost(data);
         }

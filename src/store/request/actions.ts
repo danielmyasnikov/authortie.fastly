@@ -37,9 +37,28 @@ export const createPostings = createAsyncThunk<undefined, any>(
   },
 );
 
+export const createPostingsApp = createAsyncThunk<undefined, any>(
+  'createPost/createPostings',
+  async (data) => {
+    try {
+      await axios({
+        method: 'POST',
+        url: `https://authortie-app.herokuapp.com/api/v1/postings/create_list`,
+        headers,
+        data: {
+          postings: data,
+        },
+      });
+      return undefined;
+    } catch (err) {
+      return;
+    }
+  },
+);
+
 export const editPostings = createAsyncThunk<undefined, any, any>(
   'createPost/editPostings',
-  async ({data, id}) => {
+  async ({ data, id }) => {
     try {
       await axios({
         method: 'PATCH',
