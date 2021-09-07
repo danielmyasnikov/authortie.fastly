@@ -17,6 +17,7 @@ export const MainPosts = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>
+        {console.log(lastPostings)}
         {lastPostings.map((item: any) => (
           <Card
             key={item.id}
@@ -29,11 +30,12 @@ export const MainPosts = () => {
             fieldOfActivity=""
             workType={item.work_type_list[0] || ''}
             knowledgeArea={item.knowledge_area_list || ''}
-            rewardType={item.reward_type}
+            rewardType={item.reward_type_list || ''}
             rewardCurrency={item.reward_currency}
             rewardSum={item.reward_sum}
             rewardСomment={item.reward_comment}
-            whois={item.whois} 
+            whois={item.whois}
+            avatarUrl={item.user.profile.avatar_url}
           />
         ))}
       </div>

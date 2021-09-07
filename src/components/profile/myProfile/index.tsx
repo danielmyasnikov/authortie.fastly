@@ -22,7 +22,10 @@ import Close from 'assets/close.svg';
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
 import { useEffect } from 'react';
-import Star from '../../../../assets/star.svg';
+import Star from 'assets/star.svg';
+import ChangePass from 'assets/changePass.svg'
+import Leave from 'assets/leave.svg'
+import Delete from 'assets/delete.svg'
 
 const FILE_MAX_SIZE = 5242880;
 
@@ -168,26 +171,27 @@ export const MyProfile = () => {
   );
   return (
     <div className={styles.wrapper}>
-      <div className={styles.rowContainer}>
+      <div className={styles.gridContainer}>
         <div className={styles.profileWrapper}>
-          {avatarURL ? (
-            <img className={styles.img} src={avatarURL} alt="" />
-          ) : (
-            <Camera className={styles.defaultPhoto} />
-          )}
-
-          <div className={styles.pencil} onClick={handleUploadAvatarBtnClick}>
-            <form>
-              <input
-                hidden
-                onChange={handleFileInputChanged}
-                ref={fileInputRef}
-                type="file"
-                id="avatar"
-                accept=".png, .jpg, .jpeg"
-              />
-            </form>
-            <Pencil />
+          <div className={styles.profileImg}>
+            {avatarURL ? (
+              <img className={styles.img} src={avatarURL} alt="" />
+            ) : (
+              <Camera className={styles.defaultPhoto} />
+            )}
+            <div className={styles.pencil} onClick={handleUploadAvatarBtnClick}>
+              <form>
+                <input
+                  hidden
+                  onChange={handleFileInputChanged}
+                  ref={fileInputRef}
+                  type="file"
+                  id="avatar"
+                  accept=".png, .jpg, .jpeg"
+                />
+              </form>
+              <Pencil />
+            </div>
           </div>
           {fileError && <span className={styles.error}>{fileError}</span>}
           <div className={styles.linkWrap}>
@@ -206,66 +210,15 @@ export const MyProfile = () => {
             )}
           </div>
           <div className={styles.rating}>
-            <img src={Star} alt="" />
+            <Star />
             <span>4.4</span>
           </div>
           <div className={styles.dateOfReg}>
-            <span className={styles.ratungSubtitle}>Дата регистрации:</span>
+            <span className={styles.ratingSubtitle}>Дата регистрации:</span>
             <span className={styles.date}>01.01.2021</span>
           </div>
-          <div className={styles.settings}>
-            <div className={styles.chkbox}>
-              <div>
-                <input
-                  className={styles.checkboxInput}
-                  type="checkbox"
-                  name="privateAnc"
-                  id="privateAnc"
-                  checked={privateAnc}
-                  onChange={() => setPrivateAnc(!privateAnc)}
-                />
-                <label htmlFor="privateAnc">{t('privateAnc')}</label>
-              </div>
-              <div>
-                <input
-                  className={styles.checkboxInput}
-                  type="checkbox"
-                  name="notificationsEmail"
-                  id="notificationsEmail"
-                  checked={notificationsEmail}
-                  onChange={() => setNotificationsEmail(!notificationsEmail)}
-                />
-                <label htmlFor="notificationsEmail">{t('notificationsEmail')}</label>
-              </div>
-              <div>
-                <input
-                  className={styles.checkboxInput}
-                  type="checkbox"
-                  name="notificationsBrow"
-                  id="notificationsBrow"
-                  checked={notificationsBrow}
-                  onChange={() => setNotificationsBrow(!notificationsBrow)}
-                />
-                <label htmlFor="notificationsBrow">{t('notificationsBrow')}</label>
-              </div>
-            </div>
-            <div className={styles.actions}>
-              <div className={styles.item} >
-                <img src={Star} alt="" />
-                <span>Сменить пароль</span>
-              </div>
-              <div className={styles.item} >
-                <img src={Star} alt="" />
-                <span>Выйти из аккаунта</span>
-              </div>
-              <div className={styles.item} >
-                <img src={Star} alt="" />
-                <span>Удалить аккаунт</span>
-              </div>
-            </div>
-          </div>
         </div>
-        <div className={styles.content}>
+        <div className={`${styles.content} ${styles.line}`}>
           <div className={styles.contentRow}>
             <div className={styles.contentItem}>
               <div className={styles.item}>
@@ -328,61 +281,124 @@ export const MyProfile = () => {
                 />
               </div>
             </div>
-            <div className={styles.item}>
-              <span className={styles.subtitle}>{t('middleName')}</span>
-              <input
-                value={middleName}
-                name="middle_name"
-                id="middle_name"
-                className={styles.input}
-                type="text"
-                onChange={(e) => setMiddleName(e.target.value)}
-              />
+            <div className={styles.contentItem}>
+              <div className={styles.columnItem}>
+                <div className={styles.item}>
+                  <span className={styles.subtitle}>{t('middleName')}</span>
+                  <input
+                    value={middleName}
+                    name="middle_name"
+                    id="middle_name"
+                    className={styles.input}
+                    type="text"
+                    onChange={(e) => setMiddleName(e.target.value)}
+                  />
+                </div>
+                <div className={styles.item}>
+                  <span className={styles.subtitle}>{t('country')}</span>
+                  <Select
+                    placeholder={t('changeContry')}
+                    classNamePrefix="CustomSelect"
+                    value={country}
+                    options={COUNTRIES}
+                    onChange={(option: any) => setCountry(option)}
+                  />
+                </div>
+              </div>
+              <div className={styles.item}>
+                <span className={styles.subtitle}>{t('about')}</span>
+                <Textarea value={about} onChange={setAbout} />
+              </div>
             </div>
           </div>
-
-          <span className={styles.subtitle}>{t('about')}</span>
-          <Textarea value={about} onChange={setAbout} />
-          <span className={styles.subtitle}>{t('country')}</span>
-
-          <Select
-            placeholder={t('changeContry')}
-            classNamePrefix="CustomSelect"
-            value={country}
-            options={COUNTRIES}
-            onChange={(option: any) => setCountry(option)}
-          />
-          <span className={styles.subtitle}>{t('links')}</span>
-          {linkArray.map((item) => (
-            <div key={item.id + item.url} className={styles.linksWrapper}>
+        </div>
+        <div className={styles.settings}>
+          <div className={styles.chkbox}>
+            <div>
               <input
-                value={item.url}
-                name={String(item.id)}
-                id={String(item.id)}
-                className={styles.inputLink}
-                type="text"
-                onChange={handleLinkChange}
+                className={styles.checkboxInput}
+                type="checkbox"
+                name="privateAnc"
+                id="privateAnc"
+                checked={privateAnc}
+                onChange={() => setPrivateAnc(!privateAnc)}
               />
-              <button onClick={() => deleteLink(item.id)} className={styles.deleteBtn}>
-                {t('delete')}
-              </button>
+              <label htmlFor="privateAnc">{t('privateAnc')}</label>
             </div>
-          ))}
+            <div>
+              <input
+                className={styles.checkboxInput}
+                type="checkbox"
+                name="notificationsEmail"
+                id="notificationsEmail"
+                checked={notificationsEmail}
+                onChange={() => setNotificationsEmail(!notificationsEmail)}
+              />
+              <label htmlFor="notificationsEmail">{t('notificationsEmail')}</label>
+            </div>
+            <div>
+              <input
+                className={styles.checkboxInput}
+                type="checkbox"
+                name="notificationsBrow"
+                id="notificationsBrow"
+                checked={notificationsBrow}
+                onChange={() => setNotificationsBrow(!notificationsBrow)}
+              />
+              <label htmlFor="notificationsBrow">{t('notificationsBrow')}</label>
+            </div>
+          </div>
+          <div className={styles.actions}>
+            <div className={styles.item} >
+              <ChangePass />
+              <span>Сменить пароль</span>
+            </div>
+            <div className={styles.item} >
+              <Leave />
+              <span>Выйти из аккаунта</span>
+            </div>
+            <div className={styles.item} >
+              <Delete />
+              <span>Удалить аккаунт</span>
+            </div>
+          </div>
+        </div>
+        <div className={styles.linksBlock}>
+          <span className={styles.linksTitle}>{t('links')}</span>
+          <div className={styles.linksContainer}>
+            {linkArray.map((item) => (
+              <div key={item.id + item.url} className={styles.linksItem}>
+                <div className={styles.linksWrapper}>
+                  <input
+                    value={item.url}
+                    name={String(item.id)}
+                    id={String(item.id)}
+                    className={styles.inputLink}
+                    type="text"
+                    onChange={handleLinkChange}
+                  />
+                  <button onClick={() => deleteLink(item.id)} className={styles.deleteBtn}>
+                    {t('delete')}
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
           <button
             className={styles.btnLink}
             onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length + 1 }])}
           >
             {t('addLink')}
           </button>
-          <div className={styles.saveBtn}>
-            <Button disabled={!isValid} onClick={submitProfile}>
-              {t('save')}
-            </Button>
-          </div>
-
           {modal && renderModal()}
+        </div>
+        <div className={styles.saveBtn}>
+          <Button className={styles.variantPrimary} disabled={!isValid} onClick={submitProfile}>
+            {t('save')}
+          </Button>
         </div>
       </div>
     </div >
   );
-}; 
+};
+ 

@@ -20,11 +20,12 @@ interface Props {
   id: number;
   key?: number | string;
   knowledgeArea: string[];
-  rewardType: string;
+  rewardType: string[];
   rewardCurrency: string;
   rewardSum: string;
   rewardСomment: string;
   whois: string;
+  avatarUrl?: string;
 }
 
 export const Card: React.FC<Props> = ({
@@ -43,6 +44,7 @@ export const Card: React.FC<Props> = ({
   rewardSum,
   rewardСomment,
   whois,
+  avatarUrl,
 }) => {
   const { t } = useTranslation('card');
   const showWords = !!keyWords && !!keyWords.length ? keyWords : [];
@@ -93,10 +95,16 @@ export const Card: React.FC<Props> = ({
 
       <span className={styles.text}>{t('reward')}</span>
       <div className={styles.tagWrapper}>
-        {rewardType === 'money' && (
-          <span className={styles.comment}>{`${rewardSum} ${rewardCurrency}`}</span>
-        )}
-        {rewardType !== 'money' && <span className={styles.comment}>{t(rewardType)}</span>}
+        {rewardType &&
+          rewardType.map((item) => (
+            <>
+              {item === 'money' && (
+                <span className={styles.comment}>{`${rewardSum} ${rewardCurrency}`}</span>
+              )}
+              {item !== 'money' && <span className={styles.comment}>{t(rewardType)}</span>}
+            </>
+          ))
+        }
       </div>
 
       <div className={styles.keyWrapper}>
@@ -108,6 +116,7 @@ export const Card: React.FC<Props> = ({
         {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
       </div>
       <div className={styles.personBlock}>
+        <img src={avatarUrl} alt="" />
         {privateAccaunt ? (
           <span className={styles.text}>{t('hiddenProfile')}</span>
         ) : (
@@ -116,18 +125,17 @@ export const Card: React.FC<Props> = ({
               <span className={styles.text}>{t('profileIsNotCompleted')}</span>
             )}
 
-            {author.first_name  && (
+            {author.first_name && (
               <div className={styles.personInfo}>
+
                 <div className={styles.row}>
                   <span className={styles.text}>
                     {`${author.first_name} ${author.last_name} ${author.middle_name}`}
                   </span>
-                  <span className={styles.country}>{author.country}</span>
                 </div>
                 <div className={styles.row}>
-                  <span className={styles.comment}>{`${t(author.degree)} ${
-                    author.degree_category
-                  }`}</span>
+                  <span className={styles.comment}>{`${t(author.degree)} ${author.degree_category
+                    }`}</span>
                 </div>
 
                 <span className={styles.comment}>{author.affiliation}</span>
@@ -138,19 +146,19 @@ export const Card: React.FC<Props> = ({
       </div>
 
       <div className={styles.btnWrapper}>
-      { isMyPost ?
-        <Link to={`/edit/${id}`}>
-          <Button className={styles.btn}>
-            {t('edit')}
-          </Button>
-        </Link>
-        :
-        <Link to={`/community/${id}?offerCooperation=true`}>
-          <Button className={styles.btn}>
-            {t('offerCooperation')}
-          </Button>
-        </Link>
-      }
+        {isMyPost ?
+          <Link to={`/edit/${id}`}>
+            <Button className={styles.btn}>
+              {t('edit')}
+            </Button>
+          </Link>
+          :
+          <Link to={`/community/${id}?offerCooperation=true`}>
+            <Button className={styles.btn}>
+              {t('offerCooperation')}
+            </Button>
+          </Link>
+        }
 
         <Link to={`/community/${id}`}>
           <Button className={styles.rightBtn}>
