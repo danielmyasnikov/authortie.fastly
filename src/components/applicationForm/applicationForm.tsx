@@ -53,7 +53,7 @@ interface Props {
   createPostItems?: ({ data, index }: { data: any; index: number }) => void;
   createPostsApp?: () => void;
   pushValidation?: boolean;
-  setPushvalidation: (val: boolean) => void;
+  setPushvalidation?: (val: boolean) => void;
   setErrorIndex: (value: number[]) => void;
   setError?: (val: string) => void;
   error?: string;
@@ -179,6 +179,7 @@ export const ApplicationForm: React.FC<Props> = ({
       knowledge: '',
       approxDate: '',
     });
+    // @ts-ignore
     setPushvalidation(false);
     setErrorIndex([]);
     // @ts-ignore
@@ -309,7 +310,8 @@ export const ApplicationForm: React.FC<Props> = ({
       request_posting_id: whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
       supply_posting_id: whoIAm !== WhoIAm.EXECUTOR && requestId ? requestId : '',
     };
-    setPushvalidation(true)
+    // @ts-ignore
+    setPushvalidation(true);
     if (!validation()) {
       // @ts-ignore
       getErrorIndex(index);
