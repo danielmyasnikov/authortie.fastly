@@ -54,7 +54,7 @@ interface Props {
   createPostsApp?: () => void;
   pushValidation?: boolean;
   setPushvalidation?: (val: boolean) => void;
-  setErrorIndex: (value: number[]) => void;
+  setErrorIndex?: (value: number[]) => void;
   setError?: (val: string) => void;
   error?: string;
 }
@@ -181,6 +181,7 @@ export const ApplicationForm: React.FC<Props> = ({
     });
     // @ts-ignore
     setPushvalidation(false);
+    // @ts-ignore
     setErrorIndex([]);
     // @ts-ignore
     setError('');
