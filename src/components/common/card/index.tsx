@@ -5,6 +5,7 @@ import cn from 'classnames';
 import ReactTooltip from 'react-tooltip';
 import Camera from 'assets/camera.svg';
 import Right from 'assets/right.svg';
+import Key from 'assets/key.svg';
 import { Tag } from './tag';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
@@ -48,7 +49,9 @@ export const Card: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation('card');
   const showWords = !!keyWords && !!keyWords.length ? keyWords : [];
+  const showRewardType = !!rewardType && !!rewardType.length ? rewardType : [];
   const numberAfterShowWords = !!keyWords && !!keyWords.length && keyWords.length - 3;
+  const numberAfterShowRewardType = !!rewardType && !!rewardType.length && rewardType.length - 3;
   const numberAfterShowWordsKnowledgeArea = knowledgeArea.length - 1;
   const isMyPost = whois !== 'guest';
 
@@ -97,12 +100,20 @@ export const Card: React.FC<Props> = ({
       <div className={styles.tagWrapper}>
         {rewardType &&
           rewardType.map((item) => (
-            <>
+            <React.Fragment key={item}>
               {item === 'money' && (
-                <span className={styles.comment}>{`${rewardSum} ${rewardCurrency}`}</span>
+                <div className={styles.award}>
+                  <Button className={styles.btn}>
+                    Оплата деньгами
+                  </Button>
+                  <span className={styles.price}>{`${rewardSum} ${rewardCurrency}`}</span>
+                </div>
               )}
-              {item !== 'money' && <span className={styles.comment}>{t(rewardType)}</span>}
-            </>
+              {item !== 'money' &&
+                <Button className={styles.btn}>{t(rewardType)}</Button>
+              }
+              {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
+            </React.Fragment>
           ))
         }
       </div>
@@ -110,7 +121,10 @@ export const Card: React.FC<Props> = ({
       <div className={styles.keyWrapper}>
         {showWords.map((word) => (
           <React.Fragment key={word}>
-            <Tag>{word}</Tag>
+            <Tag>
+              <Key />
+              {word}
+            </Tag>
           </React.Fragment>
         ))}
         {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}

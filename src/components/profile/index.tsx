@@ -55,7 +55,6 @@ export const Profile = () => {
               {t('reviews')}
             </button>
           </div>
-          <div className={styles.backdrop}></div>
         </div>
         <div className={styles.container}>
           {renderProfile()}
