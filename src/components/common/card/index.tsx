@@ -121,7 +121,7 @@ export const Card: React.FC<Props> = ({
       <div className={styles.keyWrapper}>
         {showWords.map((word) => (
           <React.Fragment key={word}>
-            <Tag>
+            <Tag className={styles.tagKey}>
               <Key />
               {word}
             </Tag>

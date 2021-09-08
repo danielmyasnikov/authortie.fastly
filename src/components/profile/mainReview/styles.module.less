@@ -3,32 +3,70 @@
 }
 
 .cards {
-  display: flex;
+  display       : flex;
   flex-direction: column;
 }
 
 .wrap {
-  display: flex;
+  display       : flex;
   flex-direction: column;
-  padding: 24px;
-  background: #ffffff;
-  max-width: 700px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 8px -5px rgb(34 60 80);
+  margin-bottom : 50px;
 }
 
-.title {
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 105%;
-  color: #2f2f2f;
-  margin-bottom: 16px;
+.header {
+  display        : flex;
+  justify-content: space-between;
+
+  .title {
+    font-weight  : 600;
+    font-size    : 20px;
+    line-height  : 105%;
+    color        : #2f2f2f;
+    margin-bottom: 16px;
+  }
 }
 
-.text {
-  color: #2f2f2f;
-  font-size: 16px;
-  line-height: 136.2%;
-  margin-bottom: 16px;
+.content {
+  display: flex;
+
+  .profile {
+    position: relative;
+
+    .checkedProfile {
+      position: absolute;
+      right   : -2px;
+      top     : 2px;
+    }
+
+    .profilePic {
+      border-radius: 50%;
+      width        : 70px;
+      height       : 70px;
+    }
+  }
+  .date {
+    color: #999999;
+    font-size: 14px;
+    width: 120px;
+    text-align: right;
+  }
+  .comment {
+    .message {
+      margin-top: 3px;
+      color        : #2f2f2f;
+      font-size    : 14px;
+      line-height  : 120%;
+      margin-bottom: 16px;
+    }
+    .title {
+      font-size: 16px;
+      color: #747474;
+    }
+    width: calc(100% - 120px);
+    margin-left: 20px;
+  }
+}
+
+.award {
+  width: 12px;
 }

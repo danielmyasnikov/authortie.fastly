@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from '@material-ui/lab/Rating';
 import { useTranslation } from 'react-i18next';
+import CheckedProfile from 'assets/checkedProfile.svg';
+import ProfilePic from 'assets/profilePic.svg';
 
 import axios from 'axios';
 
@@ -30,19 +32,36 @@ export const MainReview = () => {
     setRewiewList(res.data);
   }
 
-  
+
 
   return (
     <div className={css.wrapper}>
+      {console.log(reviewList)}
       <div className={css.cards}>
         {!!reviewList.length &&
           reviewList.map((item: any) => (
             <div className={css.wrap}>
-              <span className={css.title}>{t('workName')}</span>
-              <span className={css.text}>{item.reviewable.title}</span>
-              <span className={css.title}>{t('review')}</span>
-              <span className={css.text}>{item.message}</span>
-              <Rating name="read-only" value={item.rate} readOnly />
+              <div className={css.header}>
+                <div className={css.title}>Title</div>
+                <Rating name="read-only" value={item.rate} readOnly />
+              </div>
+              <div className={css.content}>
+                <div className={css.profile}>
+                  <div className={css.profilePic}>
+                    <ProfilePic />
+                  </div>
+                  <div className={css.checkedProfile}>
+                    <CheckedProfile />
+                  </div>
+                </div>
+                <div className={css.comment}>
+                  <span className={css.title}>Сергей Сергеев</span>
+                  <p className={css.message}>{item.message}</p>
+                </div>
+                <div className={css.date}>
+                  8 января 2021
+                </div>
+              </div>
             </div>
           ))}
       </div>
