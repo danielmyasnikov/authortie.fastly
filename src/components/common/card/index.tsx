@@ -110,7 +110,7 @@ export const Card: React.FC<Props> = ({
                 </div>
               )}
               {item !== 'money' &&
-                <Button className={styles.btn}>{t(rewardType)}</Button>
+                <Button className={styles.btnRewardType}>{t(rewardType)}</Button>
               }
               {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
             </React.Fragment>

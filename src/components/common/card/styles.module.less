@@ -45,7 +45,7 @@
 
 .tagWrapper {
   display      : flex;
-  flex-wrap: wrap;
+  flex-wrap    : wrap;
   align-items  : center;
   margin-bottom: 16px;
 }
@@ -109,36 +109,52 @@
   }
 }
 
+.btnRewardType {}
 
 .tagKey {
-  display: flex;
+  display    : flex;
   align-items: center;
-  background: #F3F3F3; 
-  color: #2F2F2F;
+  background : #F3F3F3;
+  color      : #2F2F2F;
   font-weight: 400;
-  font-size: 13px;
+  font-size  : 13px;
+
   svg {
     margin-right: 5px;
   }
 }
 
+.btnRewardType {
+  display        : inline-flex;
+  font-weight    : 200;
+  text-align     : center;
+  justify-content: center;
+  align-items    : center;
+  text-align     : center;
+  height         : 30px;
+  font-size      : 13px;
+  border: none;
+}
+
 .award {
   display: flex;
+
   .price {
-    align-self: center;
+    align-self : center;
     margin-left: 10px;
-    font-size: 13px;
-    
+    font-size  : 13px;
+
   }
+
   .btn {
-    display: inline-flex;
-    font-weight: 200;
-    text-align: center;
+    display        : inline-flex;
+    font-weight    : 200;
+    text-align     : center;
     justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 30px;
-    font-size: 13px;
+    align-items    : center;
+    text-align     : center;
+    height         : 30px;
+    font-size      : 13px;
   }
 }
 
@@ -197,11 +213,11 @@
 }
 
 .keyWrapper {
-  
+
   composes  : tagWrapper;
   margin-top: auto;
-  
-  
+
+
 }
 
 .workType {
@@ -231,7 +247,7 @@
 
   .tagWrapper {
     flex-flow: row wrap;
-    
+
   }
 
   .tag {
@@ -239,7 +255,7 @@
     max-width    : 100%;
     margin-bottom: 8px;
     text-overflow: clip;
-  
+
   }
 
   .personInfo {
@@ -250,52 +266,54 @@
     width: 80%;
   }
 }
-@media screen and(max-width:800px){
-.btnWrapper{
-  .btn{
-    width: fit-content;
-    margin-top: 8px;
+
+@media screen and(max-width:800px) {
+  .btnWrapper {
+    .btn {
+      width     : fit-content;
+      margin-top: 8px;
+    }
   }
-}
-.price{
-  width: 100px;
-}
+
+  .price {
+    width: 100px;
+  }
 
 }
 
 @media screen and(max-width:600px) {
-  .cards{  
-    justify-content: center;    
+  .cards {
+    justify-content: center;
   }
-  .wrapper{
+
+  .wrapper {
     justify-self: center;
-    width: 90%;
-   .tagWrapper{
-     .btn{
-       justify-self: center;
-       align-self: center;
-     }
-   }
+    width       : 90%;
+
+    .tagWrapper {
+      .btn {
+        justify-self: center;
+        align-self  : center;
+      }
+    }
   }
-  
+
 }
-@media screen and(max-width:500px){
-  .wrapper{    
+
+@media screen and(max-width:500px) {
+  .wrapper {
     width: 70%;
   }
 }
 
-@media screen and(max-width:390px){
-  .wrapper{    
+@media screen and(max-width:390px) {
+  .wrapper {
     width: 60%;
   }
 }
 
-.cards{
-  .wrapper{
+.cards {
+  .wrapper {
     box-shadow: 0px 3px 17px rgba(43, 123, 211, 0.06);
   }
 }
-
-
-
