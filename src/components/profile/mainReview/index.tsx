@@ -43,24 +43,26 @@ export const MainReview = () => {
             <div className={css.wrap}>
               <div className={css.header}>
                 <div className={css.title}>Title</div>
+              </div>
+              <div className={css.rating}>
                 <Rating name="read-only" value={item.rate} readOnly />
               </div>
-              <div className={css.content}>
-                <div className={css.profile}>
-                  <div className={css.profilePic}>
-                    <ProfilePic />
-                  </div>
-                  <div className={css.checkedProfile}>
-                    <CheckedProfile />
-                  </div>
+              <div className={css.profile}>
+                <div className={css.profilePic}>
+                  <ProfilePic />
                 </div>
-                <div className={css.comment}>
-                  <span className={css.title}>Сергей Сергеев</span>
-                  <p className={css.message}>{item.message}</p>
+                <div className={css.checkedProfile}>
+                  <CheckedProfile />
                 </div>
-                <div className={css.date}>
-                  8 января 2021
-                </div>
+              </div>
+              <div className={css.comment}>
+                <span className={css.title}>Сергей Сергеев</span>
+              </div>
+              <div className={css.messageBlock}>
+                <p className={css.message}>{item.message}</p>
+              </div>
+              <div className={css.date}>
+                8 января 2021
               </div>
             </div>
           ))}
