@@ -129,7 +129,7 @@
   align-items: center;
   margin-bottom: 21px;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 18px;
   line-height: 22px;
   color: #3a85f4;
 }
@@ -263,12 +263,15 @@
     .CustomSelect__option {
       padding-right: 0;
       padding-left: 0;
+
       &:first-child {
         padding-top: 0;
       }
+
       &:last-child {
         padding-bottom: 0;
       }
+
       &:active {
         background-color: transparent;
       }
@@ -320,6 +323,7 @@
   line-height: 21px;
   font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
+
   &::placeholder {
     color: #ccd2e3;
   }
@@ -481,6 +485,7 @@
   background: none;
   border: 2px solid #3a85f4;
   color: #3a85f4;
+
   &:hover {
     background: none;
   }
@@ -638,6 +643,7 @@
     max-width: 100%;
     padding-left: 0px;
   }
+
   .inputWrapper {
     margin-top: 30px;
   }
@@ -662,6 +668,7 @@
     flex-direction: column;
     margin-top: 0;
   }
+
   .blockWrapperKnowledge {
     padding: 0 0 0 20px;
   }
@@ -669,6 +676,7 @@
     .rowContainer {
       flex-wrap: wrap;
       justify-content: space-between;
+
       .sumBlock {
         height: 100%;
       }
@@ -676,6 +684,7 @@
         .textareaKeyWords {
           width: 100%;
         }
+
         width: 40%;
       }
       .blockWrapperKnowledge {
@@ -712,15 +721,22 @@
     margin-left: 0;
     margin-bottom: 30px;
   }
+
   .rowBtnContainer {
     .authDescription {
       margin-bottom: 30px;
     }
+
     align-items: flex-start;
     flex-direction: column-reverse;
   }
+
   .container {
     .rowContainer {
+      .radioBlock {
+        max-width: 100%;
+      }
+
       flex-direction: column;
     }
   }
@@ -728,46 +744,88 @@
   .bottomBlock .rowContainer .blockWrapper {
     width: 100%;
   }
-  .blockDeadLine {
-    margin-top: 70px;
+
+  .sumBlock {
+    label {
+      padding: 8px 0;
+    }
   }
-  .checkboxBlock {
-    margin-top: 70px;
-  }
+
   .checkBlock {
     max-width: 768px;
     width: 100%;
   }
+
   .inputWrapper {
     flex-direction: row;
   }
+
   .headerBtn {
     padding: 15px 30px 11px;
   }
+
   .info {
     width: 100%;
   }
+
   .blockWrapperKnowledge {
     margin-top: 70px;
     padding: 0;
   }
+
+  .checkboxBlock {
+    margin-top: 60px;
+  }
+
+  .blockDeadLine {
+    margin-top: 60px;
+  }
 }
+
+@media screen and (max-width: 771px) {
+  .blockDeadLine {
+    margin-top: 0;
+  }
+  .checkboxBlock {
+    margin-top: 0;
+  }
+}
+
 @media screen and(max-width:@screen-m) {
+  .checkboxBlock {
+    margin-top: 0;
+  }
+
+  .blockDeadLine {
+    margin-top: 0;
+  }
+
   .title {
     margin-top: 40px;
   }
+
   .block {
     padding: 32px 25px 32px 25px;
   }
+
   .privateCheckWrapper {
     align-items: flex-start;
     margin-top: 30px;
   }
+
   .headerBtn {
     padding: 15px 18px 11px;
     font-size: 18px;
   }
+
   .container {
     padding: 72px 25px 40px;
+  }
+
+  .knowledgeBlock {
+    overflow-x: scroll;
+    height: 274px;
+    flex-direction: column;
+    flex-wrap: wrap;
   }
 }

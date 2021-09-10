@@ -3,32 +3,122 @@
 }
 
 .cards {
-  display: flex;
+  display       : flex;
   flex-direction: column;
 }
 
 .wrap {
-  display: flex;
-  flex-direction: column;
-  padding: 24px;
-  background: #ffffff;
-  max-width: 700px;
-  margin-bottom: 12px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 8px -5px rgb(34 60 80);
+  display: grid;
+  grid-template-areas:
+    "a a b"
+    "c d f"
+    "c e f";
+  ;
+  margin-bottom: 50px;
+  grid-template-columns: 100px repeat(1, 1fr);
 }
 
-.title {
-  font-weight: 600;
-  font-size: 20px;
-  line-height: 105%;
-  color: #2f2f2f;
-  margin-bottom: 16px;
+.rating {
+  justify-self: end;
+  grid-area   : b;
 }
 
-.text {
-  color: #2f2f2f;
-  font-size: 16px;
-  line-height: 136.2%;
-  margin-bottom: 16px;
+.header {
+  grid-area: a;
+
+  .title {
+    font-weight  : 600;
+    font-size    : 20px;
+    line-height  : 105%;
+    color        : #2f2f2f;
+    margin-bottom: 16px;
+  }
+}
+
+.profile {
+  position    : relative;
+  grid-area   : c;
+  justify-self: self-start;
+
+  .checkedProfile {
+    position: absolute;
+    right   : -2px;
+    top     : 2px;
+  }
+
+  .profilePic {
+    border-radius: 50%;
+    width        : 70px;
+    height       : 70px;
+
+    img {
+      width : 70px;
+      height: 70px;
+    }
+  }
+}
+
+.date {
+  grid-area   : f;
+  justify-self: flex-end;
+  color       : #999999;
+  font-size   : 14px;
+  text-align  : right;
+}
+
+.comment {
+  grid-area: d;
+
+  .title {
+    font-size: 16px;
+    color    : #747474;
+  }
+}
+
+.messageBlock {
+  grid-area: e;
+
+  .message {
+    margin-top   : 3px;
+    color        : #2f2f2f;
+    font-size    : 14px;
+    line-height  : 120%;
+    margin-bottom: 16px;
+  }
+}
+
+.award {
+  width: 12px;
+}
+
+@media screen and (max-width: 1024px) {
+  .wrap {
+    grid-template-areas:
+      "a a a"
+      "c d f"
+      "c b b"
+      "c e e";
+    ;
+
+    .rating {
+      margin-top  : 3px;
+      justify-self: flex-start;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .wrap {
+    grid-template-areas:
+      "a a a"
+      "c d d"
+      "c b b"
+      "c e e"
+      "c f f";
+    ;
+  }
+
+  .date {
+    justify-self: self-start;
+  }
 }
