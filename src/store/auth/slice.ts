@@ -14,6 +14,9 @@ export const authSlice = createSlice({
     getAuth: (state) => {
       state.isAuth = true;
     },
+    getLogout: (state) => {
+      state.isAuth = false;
+    },
     setRegistrationTab: (state, { payload }: PayloadAction<boolean>) => {
       state.registrationTab = payload;
     },

@@ -18,7 +18,8 @@ export interface Profile {
   status: Option;
   grade: Option;
   links: Links[];
-  confirmOrcid: boolean
+  confirmOrcid: boolean;
+  regoDate: string;
 }
 
 export interface Links {

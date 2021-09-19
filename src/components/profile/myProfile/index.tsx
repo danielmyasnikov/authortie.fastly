@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import cn from 'classnames';
 import * as T from 'store/profile/types';
 import {
   STATUS_OPTIONS,
@@ -15,26 +16,31 @@ import { getProfileSelector } from 'store/profile/selectors';
 import { AppDispatch } from 'store/types';
 import { Textarea } from 'components/common/textarea';
 import Select from 'react-select';
-import Camera from 'assets/camera.svg';
-import IDColor from 'assets/IDColor.png';
-import Pencil from 'assets/pencil.svg';
-import Close from 'assets/close.svg';
+import { Modal } from 'components/common/modal';
+
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
 import { useEffect } from 'react';
-import Star from 'assets/star.svg';
-import ChangePass from 'assets/changePass.svg'
-import Leave from 'assets/leave.svg'
-import Delete from 'assets/delete.svg'
+
+import { Info } from './info';
+import { Widget } from './widget';
 
 const FILE_MAX_SIZE = 5242880;
 
 const LINKS_DEFAULT = [
   { url: '', id: 1 },
   { url: '', id: 2 },
+  { url: '', id: 3 },
+  { url: '', id: 4 },
+  { url: '', id: 5 },
+  { url: '', id: 6 },
 ];
 
-export const MyProfile = () => {
+interface Props {
+  id?: string;
+}
+
+export const MyProfile: React.FC<Props> = ({ id }) => {
   const { t } = useTranslation('profile');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const dispatch: AppDispatch = useDispatch();
@@ -57,7 +63,7 @@ export const MyProfile = () => {
   const [lastNameError, setLastNameError] = useState('');
   const [modal, setModal] = useState<boolean>(false);
   const { profile } = useSelector(getProfileSelector);
-
+  const isMyProfile = !id;
 
   const IDURL =
     'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/profile';
@@ -79,7 +85,9 @@ export const MyProfile = () => {
   }, [profile]);
 
   useEffect(() => {
-    dispatch(getProfile());
+    if (isMyProfile) {
+      dispatch(getProfile());
+    } else dispatch(getProfile(id));
   }, []);
 
   const getDataUrlFromFile = (file: File | Blob): Promise<string> =>
@@ -152,253 +160,232 @@ export const MyProfile = () => {
     }
   }
 
-  function deleteLink(id?: number) {
-    const newLinkArray = linkArray.filter((link) => link.id !== id);
-    setLinkArray(newLinkArray);
-  }
+  // function deleteLink(id?: number) {
+  //   const newLinkArray = linkArray.filter((link) => link.id !== id);
+  //   setLinkArray(newLinkArray);
+  // }
 
   const isValid = !fileError && !!name && !!lastName;
 
   const renderModal = () => (
-    <div className={styles.modalWrapper}>
-      <div className={styles.contaier}>
-        <Close className={styles.exit} onClick={() => setModal(false)} />
-        <Note className={styles.noteIcon} />
-        <span className={styles.subtitle}>{t('applicationHasBeenGenerated')}</span>
-      </div>
-      <div className={styles.overlay} />
-    </div>
+    <Modal onClose={setModal} open={modal}>
+      <Note className={styles.noteIcon} />
+      <span className={styles.subtitle}>{'Профиль обнавлен'}</span>
+    </Modal>
   );
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.gridContainer}>
-        <div className={styles.profileWrapper}>
-          <div className={styles.profileImg}>
-            {avatarURL ? (
-              <img className={styles.img} src={avatarURL} alt="" />
-            ) : (
-              <Camera className={styles.defaultPhoto} />
-            )}
-            <div className={styles.pencil} onClick={handleUploadAvatarBtnClick}>
-              <form>
-                <input
-                  hidden
-                  onChange={handleFileInputChanged}
-                  ref={fileInputRef}
-                  type="file"
-                  id="avatar"
-                  accept=".png, .jpg, .jpeg"
-                />
-              </form>
-              <Pencil />
-            </div>
-          </div>
-          {fileError && <span className={styles.error}>{fileError}</span>}
-          <div className={styles.linkWrap}>
-            {!profile.confirmOrcid ? (
-              <>
-                <a href={IDURL} className={styles.bigIcon}>
-                  <img src={IDColor} alt="" />
-                </a>
-                <span className={styles.confirmOrcid}>{t('confirmOrcid')}</span>
-              </>
-            ) : (
-              <>
-                <img className={styles.bigIcon} src={IDColor} alt="" />
-                <span className={styles.confirmedOrcid}>{t('confirmedOrcid')}</span>{' '}
-              </>
-            )}
-          </div>
-          <div className={styles.rating}>
-            <Star />
-            <span>4.4</span>
-          </div>
-          <div className={styles.dateOfReg}>
-            <span className={styles.ratingSubtitle}>Дата регистрации:</span>
-            <span className={styles.date}>01.01.2021</span>
-          </div>
-        </div>
-        <div className={`${styles.content} ${styles.line}`}>
+        <Info
+          avatarURL={avatarURL}
+          handleUploadAvatarBtnClick={handleUploadAvatarBtnClick}
+          handleFileInputChanged={handleFileInputChanged}
+          fileInputRef={fileInputRef}
+          fileError={fileError}
+          confirmOrcid={profile.confirmOrcid}
+          IDURL={IDURL}
+          isMyProfile={isMyProfile}
+          regoDate={profile.regoDate}
+        />
+        <div className={cn(styles.content, styles.line)}>
           <div className={styles.contentRow}>
             <div className={styles.contentItem}>
               <div className={styles.item}>
                 <span className={styles.subtitle}>{t('name')}</span>
-                <input
-                  value={name}
-                  name="name"
-                  id="name"
-                  className={styles.input}
-                  onBlur={handleBlur}
-                  type="text"
-                  onChange={(e) => setName(e.target.value)}
-                />
+                {isMyProfile && (
+                  <input
+                    value={name}
+                    name="name"
+                    id="name"
+                    className={styles.input}
+                    onBlur={handleBlur}
+                    type="text"
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                )}
+                {!isMyProfile && name && <span className={styles.userInfo}>{name}</span>}
+                {!isMyProfile && !name && <div className={styles.noConntentLine} />}
                 {nameError && <span className={styles.error}>{nameError}</span>}
               </div>
               <div className={styles.item}>
                 <span className={styles.subtitle}>Статус</span>
-                <Select
-                  classNamePrefix="CustomSelect"
-                  onChange={(option: any) => setStatus(option)}
-                  value={status}
-                  className={styles.block}
-                  defaultValue={STATUS_OPTIONS[0]}
-                  options={STATUS_OPTIONS}
-                />
-                {(status?.value === 'scientist' || status?.value === 'student') && (
+                {isMyProfile && (
+                  <Select
+                    classNamePrefix="CustomSelect"
+                    onChange={(option: any) => setStatus(option)}
+                    value={status}
+                    className={styles.block}
+                    defaultValue={STATUS_OPTIONS[0]}
+                    options={STATUS_OPTIONS}
+                  />
+                )}
+
+                {!isMyProfile && status.label && (
+                  <span className={styles.userInfo}>{status.label}</span>
+                )}
+                {!isMyProfile && !status.label && <div className={styles.noConntentLine} />}
+
+                {(status?.value === 'scientist' || status?.value === 'student') && isMyProfile && (
                   <Select
                     classNamePrefix="CustomSelect"
                     options={status.value === 'student' ? STUDENT_OPTIONS : GRADE_OPTIONS}
-                    defaultValue={status.value === 'student' ? STUDENT_OPTIONS[0] : GRADE_OPTIONS[0]}
+                    defaultValue={
+                      status.value === 'student' ? STUDENT_OPTIONS[0] : GRADE_OPTIONS[0]
+                    }
                     value={grade}
                     onChange={(option: any) => setGrade(option)}
                   />
                 )}
+
+                {!isMyProfile && grade.label && (
+                  <span className={styles.userInfo}>{grade.label}</span>
+                )}
+                {!isMyProfile && !grade.label && <div className={styles.noConntentLine} />}
               </div>
             </div>
             <div className={styles.contentItem}>
               <div className={styles.item}>
                 <span className={styles.subtitle}>{t('lastName')}</span>
-                <input
-                  value={lastName}
-                  name="last_name"
-                  onBlur={handleBlur}
-                  id="last_name"
-                  className={styles.input}
-                  type="text"
-                  onChange={(e) => setLastName(e.target.value)}
-                />
+                {isMyProfile && (
+                  <input
+                    value={lastName}
+                    name="last_name"
+                    onBlur={handleBlur}
+                    id="last_name"
+                    className={styles.input}
+                    type="text"
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                )}
+                {!isMyProfile && lastName && <span className={styles.userInfo}>{lastName}</span>}
+                {!isMyProfile && !lastName && <div className={styles.noConntentLine} />}
                 {lastNameError && <span className={styles.error}>{lastNameError}</span>}
               </div>
               <div className={styles.item}>
                 <span className={styles.subtitle}>{t('affiliation')}</span>
-                <input
-                  value={affiliation}
-                  name="affiliation"
-                  id="affiliation"
-                  className={styles.input}
-                  type="text"
-                  onChange={(e) => setAffiliation(e.target.value)}
-                />
+                {isMyProfile && (
+                  <input
+                    value={affiliation}
+                    name="affiliation"
+                    id="affiliation"
+                    className={styles.input}
+                    type="text"
+                    onChange={(e) => setAffiliation(e.target.value)}
+                  />
+                )}
+                {!isMyProfile && affiliation && (
+                  <span className={styles.userInfo}>{affiliation}</span>
+                )}
+                {!isMyProfile && !affiliation && <div className={styles.noConntentLine} />}
               </div>
             </div>
             <div className={styles.contentItem}>
               <div className={styles.columnItem}>
                 <div className={styles.item}>
                   <span className={styles.subtitle}>{t('middleName')}</span>
-                  <input
-                    value={middleName}
-                    name="middle_name"
-                    id="middle_name"
-                    className={styles.input}
-                    type="text"
-                    onChange={(e) => setMiddleName(e.target.value)}
-                  />
+                  {isMyProfile && (
+                    <input
+                      value={middleName}
+                      name="middle_name"
+                      id="middle_name"
+                      className={styles.input}
+                      type="text"
+                      onChange={(e) => setMiddleName(e.target.value)}
+                    />
+                  )}
+                  {!isMyProfile && middleName && (
+                    <span className={styles.userInfo}>{middleName}</span>
+                  )}
+                  {!isMyProfile && !middleName && <div className={styles.noConntentLine} />}
                 </div>
                 <div className={styles.item}>
                   <span className={styles.subtitle}>{t('country')}</span>
-                  <Select
-                    placeholder={t('changeContry')}
-                    classNamePrefix="CustomSelect"
-                    value={country}
-                    options={COUNTRIES}
-                    onChange={(option: any) => setCountry(option)}
-                  />
+                  {isMyProfile && (
+                    <Select
+                      placeholder={t('changeContry')}
+                      classNamePrefix="CustomSelect"
+                      value={country}
+                      options={COUNTRIES}
+                      onChange={(option: any) => setCountry(option)}
+                    />
+                  )}
+                  {!isMyProfile && country?.label && (
+                    <span className={styles.userInfo}>{country.label}</span>
+                  )}
+                  {!isMyProfile && !country?.label && <div className={styles.noConntentLine} />}
                 </div>
               </div>
               <div className={styles.item}>
                 <span className={styles.subtitle}>{t('about')}</span>
-                <Textarea value={about} onChange={setAbout} />
+                {isMyProfile && <Textarea value={about} onChange={setAbout} />}
+                {!isMyProfile && about && <span className={styles.userInfo}>{about}</span>}
+                {!isMyProfile && !about && <div className={styles.noConntentLine} />}
               </div>
             </div>
           </div>
         </div>
-        <div className={styles.settings}>
-          <div className={styles.chkbox}>
-            <div>
-              <input
-                className={styles.checkboxInput}
-                type="checkbox"
-                name="privateAnc"
-                id="privateAnc"
-                checked={privateAnc}
-                onChange={() => setPrivateAnc(!privateAnc)}
-              />
-              <label htmlFor="privateAnc">{t('privateAnc')}</label>
-            </div>
-            <div>
-              <input
-                className={styles.checkboxInput}
-                type="checkbox"
-                name="notificationsEmail"
-                id="notificationsEmail"
-                checked={notificationsEmail}
-                onChange={() => setNotificationsEmail(!notificationsEmail)}
-              />
-              <label htmlFor="notificationsEmail">{t('notificationsEmail')}</label>
-            </div>
-            <div>
-              <input
-                className={styles.checkboxInput}
-                type="checkbox"
-                name="notificationsBrow"
-                id="notificationsBrow"
-                checked={notificationsBrow}
-                onChange={() => setNotificationsBrow(!notificationsBrow)}
-              />
-              <label htmlFor="notificationsBrow">{t('notificationsBrow')}</label>
-            </div>
-          </div>
-          <div className={styles.actions}>
-            <div className={styles.item} >
-              <ChangePass />
-              <span>Сменить пароль</span>
-            </div>
-            <div className={styles.item} >
-              <Leave />
-              <span>Выйти из аккаунта</span>
-            </div>
-            <div className={styles.item} >
-              <Delete />
-              <span>Удалить аккаунт</span>
-            </div>
-          </div>
-        </div>
+
+        {isMyProfile && (
+          <Widget
+            privateAnc={privateAnc}
+            notificationsEmail={notificationsEmail}
+            notificationsBrow={notificationsBrow}
+            setPrivateAnc={setPrivateAnc}
+            setNotificationsEmail={setNotificationsEmail}
+            setNotificationsBrow={setNotificationsBrow}
+          />
+        )}
+
         <div className={styles.linksBlock}>
-          <span className={styles.linksTitle}>{t('links')}</span>
+          {((!!linkArray[0].url && !isMyProfile) || isMyProfile) && (
+            <span className={styles.linksTitle}>{t('links')}</span>
+          )}
           <div className={styles.linksContainer}>
             {linkArray.map((item) => (
               <div key={item.id + item.url} className={styles.linksItem}>
                 <div className={styles.linksWrapper}>
-                  <input
-                    value={item.url}
-                    name={String(item.id)}
-                    id={String(item.id)}
-                    className={styles.inputLink}
-                    type="text"
-                    onChange={handleLinkChange}
-                  />
-                  <button onClick={() => deleteLink(item.id)} className={styles.deleteBtn}>
+                  {isMyProfile && (
+                    <input
+                      value={item.url}
+                      name={String(item.id)}
+                      id={String(item.id)}
+                      className={styles.inputLink}
+                      type="text"
+                      onChange={handleLinkChange}
+                    />
+                  )}
+                  {/* <button onClick={() => deleteLink(item.id)} className={styles.deleteBtn}>
                     {t('delete')}
-                  </button>
+                  </button> */}
                 </div>
               </div>
             ))}
+            {!isMyProfile &&
+              !!linkArray.length &&
+              linkArray.map((item) => (
+                <a target="_blank" href={item.url} className={styles.userInfoLink}>
+                  {item.url}
+                </a>
+              ))}
           </div>
-          <button
+          {/* <button
             className={styles.btnLink}
             onClick={() => setLinkArray([...linkArray, { url: '', id: linkArray.length + 1 }])}
           >
             {t('addLink')}
-          </button>
-          {modal && renderModal()}
+          </button> */}
+          {renderModal()}
         </div>
-        <div className={styles.saveBtn}>
-          <Button className={styles.variantPrimary} disabled={!isValid} onClick={submitProfile}>
-            {t('save')}
-          </Button>
-        </div>
+
+        {isMyProfile && (
+          <div className={styles.saveBtn}>
+            <Button className={styles.variantPrimary} disabled={!isValid} onClick={submitProfile}>
+              {t('save')}
+            </Button>
+          </div>
+        )}
       </div>
-    </div >
+    </div>
   );
 };
- 

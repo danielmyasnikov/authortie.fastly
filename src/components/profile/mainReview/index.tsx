@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Rating from '@material-ui/lab/Rating';
 import { useTranslation } from 'react-i18next';
@@ -15,7 +15,11 @@ const uid = localStorage.getItem('uid');
 
 const headers = { client, uid, ['access-token']: accessToken };
 
-export const MainReview = () => {
+interface Props {
+  id?: string;
+}
+
+export const MainReview: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
   const [reviewList, setRewiewList] = useState([]);
   const { t } = useTranslation('profile');
@@ -25,20 +29,20 @@ export const MainReview = () => {
   }, []);
 
   async function getReview() {
+    const url = !!id
+      ? `https://authortie-app.herokuapp.com/api/v1/profiles/${id}/reputation`
+      : `https://authortie-app.herokuapp.com/api/v1/reviews/mine`;
     const res = await axios({
       headers,
-      url: `https://authortie-app.herokuapp.com/api/v1/reviews/mine`,
+      url,
     });
     setRewiewList(res.data);
   }
 
-
-
   return (
     <div className={css.wrapper}>
-      {console.log(reviewList)}
       <div className={css.cards}>
-        {!!reviewList.length &&
+        {!!reviewList.length ? (
           reviewList.map((item: any) => (
             <div className={css.wrap}>
               <div className={css.header}>
@@ -61,11 +65,12 @@ export const MainReview = () => {
               <div className={css.messageBlock}>
                 <p className={css.message}>{item.message}</p>
               </div>
-              <div className={css.date}>
-                8 января 2021
-              </div>
+              <div className={css.date}>8 января 2021</div>
             </div>
-          ))}
+          ))
+        ) : (
+          <span>Пока нет отзывов</span>
+        )}
       </div>
     </div>
   );

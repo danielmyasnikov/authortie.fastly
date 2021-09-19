@@ -19,6 +19,7 @@ const initialState: T.State = {
     notificationsBrow: true,
     avatar: undefined,
     avatarUrl: '',
+    regoDate: '',
     confirmOrcid: false,
     status: {
       value: '',

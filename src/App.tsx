@@ -8,13 +8,12 @@ import { Main } from 'components/main';
 import { Postings } from 'components/postings';
 import { Application } from 'components/applicationForm';
 import { DetailedApplication } from 'components/detailedApplication';
-import { AuthorProfile } from 'components/autorProfile';
 import { Profile } from 'components/profile';
 import { Registration } from 'components/auth/registration';
 import { EditApplication } from 'components/editApplication';
 import { Review } from 'components/review';
 import { authSlice } from 'store/auth/slice';
-import {Contract} from 'components/contract'
+import { Contract } from 'components/contract';
 import styles from './app.module.css';
 import './styles/colors.module.css';
 
@@ -77,7 +76,7 @@ const App: React.FC = () => {
           <Container Component={Profile} />
         </Route>
         <Route exact path="/profile/:id">
-          <Container Component={AuthorProfile} />
+          <Container Component={Profile} />
         </Route>
         <Route exact path="/edit/:id">
           <Container Component={EditApplication} />
@@ -92,7 +91,6 @@ const App: React.FC = () => {
           <Container Component={Contract} />
         </Route>
       </Switch>
-      {/* <Registration /> */}
       {background && <Route exact path="/authorization" component={Registration} />}
     </div>
   );

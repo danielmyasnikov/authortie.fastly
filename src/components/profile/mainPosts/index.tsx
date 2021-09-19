@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'components/common/card';
 import { getLastPostings } from 'store/request/actions';
@@ -6,7 +6,11 @@ import { getCreatePost } from 'store/request/selectors';
 
 import styles from './styles.module.less';
 
-export const MainPosts = () => {
+interface Props {
+  id?: string;
+}
+
+export const MainPosts: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
 
   const { lastPostings } = useSelector(getCreatePost);
@@ -14,6 +18,7 @@ export const MainPosts = () => {
   useEffect(() => {
     dispatch(getLastPostings());
   }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>

@@ -27,7 +27,7 @@ module.exports = {
       path.resolve(__dirname, 'node_modules'),
       path.resolve(__dirname, 'src/components'),
     ],
-    extensions: ['*', '.js', '.jsx', '.ts', '.tsx'],
+    extensions: ['*', '.js', '.jsx', '.ts', '.tsx', '.less', '.d.ts'],
     alias: {
       assets: path.resolve(__dirname, 'assets'),
       components: path.resolve(__dirname, 'src/components'),
@@ -66,6 +66,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(js|jsx)$/,
+        use: 'babel-loader',
+      },
+      {
         test: /\.(css|less)$/i,
         use: [
           MiniCssExtractPlugin.loader,
@@ -91,9 +95,26 @@ module.exports = {
         test: /\.(woff|woff2|eot|ttf|otf)$/i,
         type: 'asset/resource',
       },
-
       {
-        test: /\.(svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+      {
+        test: /\.(j|t)s$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        exclude: /node_modules/,
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+      },
+      {
+        test: /\.svg$/,
+        issuer: /\.(t|j)sx?$/,
         use: [
           {
             loader: 'babel-loader',
@@ -105,26 +126,6 @@ module.exports = {
             },
           },
         ],
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
-
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
-      {
-        exclude: /node_modules/,
-        test: /\.tsx?$/,
-        use: 'ts-loader',
       },
     ],
   },

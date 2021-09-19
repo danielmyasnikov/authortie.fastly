@@ -1,0 +1,46 @@
+.modalWrapper {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  top: 0;
+  left: 0;
+}
+
+.contaier {
+  position: relative;
+  width: 434px;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px;
+  border-radius: 10px;
+  background: #f9fbff;
+  z-index: 20;
+}
+
+.exit {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  fill: var(--color-gray);
+  cursor: pointer;
+
+  &:hover {
+    fill: var(--color-black);
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}

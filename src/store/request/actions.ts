@@ -7,18 +7,24 @@ const uid = localStorage.getItem('uid');
 
 const headers = { client, uid, ['access-token']: accessToken };
 
-export const getLastPostings = createAsyncThunk('createPost/getLastPosting', async () => {
-  try {
-    const res = await axios({
-      method: 'GET',
-      url: `https://authortie-app.herokuapp.com/api/v1/postings?view_type=mine`,
-      headers,
-    });
-    return res.data;
-  } catch (err) {
-    return;
-  }
-});
+export const getLastPostings = createAsyncThunk(
+  'createPost/getLastPosting',
+  async (id: string | undefined) => {
+    try {
+      const url = !!id
+        ? `https://authortie-app.herokuapp.com/api/v1/profiles/${id}`
+        : `https://authortie-app.herokuapp.com/api/v1/profiles/me`;
+      const res = await axios({
+        method: 'GET',
+        url: `https://authortie-app.herokuapp.com/api/v1/postings?view_type=mine`,
+        headers,
+      });
+      return res.data;
+    } catch (err) {
+      return;
+    }
+  },
+);
 
 export const createPostings = createAsyncThunk<undefined, any>(
   'createPost/createPostings',
