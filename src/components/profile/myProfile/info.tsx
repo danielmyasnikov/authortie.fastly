@@ -17,6 +17,7 @@ interface Props {
   handleFileInputChanged: (event: React.FormEvent<HTMLInputElement>) => void;
   confirmOrcid: boolean;
   fileInputRef: React.RefObject<HTMLInputElement>;
+  reputationScore: string | number;
 }
 
 export const Info: React.FC<Props> = ({
@@ -29,6 +30,7 @@ export const Info: React.FC<Props> = ({
   IDURL,
   isMyProfile,
   regoDate,
+  reputationScore,
 }) => {
   const { t } = useTranslation('profile');
   return (
@@ -71,7 +73,7 @@ export const Info: React.FC<Props> = ({
       </div>
       <div className={styles.rating}>
         <Star />
-        <span>4.4</span>
+        <span>{reputationScore}</span>
       </div>
       <div className={styles.dateOfReg}>
         <span className={styles.ratingSubtitle}>Дата регистрации:</span>

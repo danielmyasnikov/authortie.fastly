@@ -3,7 +3,7 @@ export interface State {
 }
 
 export interface Profile {
-  id: number | string
+  id: number | string;
   name: string;
   lastName: string;
   middleName: string;
@@ -14,12 +14,13 @@ export interface Profile {
   notificationsEmail: boolean;
   notificationsBrow: boolean;
   avatar?: File;
-  avatarUrl: string
+  avatarUrl: string;
   status: Option;
   grade: Option;
   links: Links[];
   confirmOrcid: boolean;
   regoDate: string;
+  reputationScore: string | number;
 }
 
 export interface Links {
@@ -28,6 +29,6 @@ export interface Links {
 }
 
 export interface Option {
-    value: string;
-    label: string;
-  }
+  value: string;
+  label: string;
+}

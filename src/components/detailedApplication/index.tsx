@@ -158,7 +158,7 @@ export const DetailedApplication = () => {
               author={!!item.user && item.user.profile}
               title={item.title}
               fieldOfActivity=""
-              workType={item.work_type_list[0] || ''}
+              workType={!!item.length ? item?.work_type_list[0] : ''}
               knowledgeArea={item.knowledge_area_list || ''}
               rewardType={item.reward_type}
               rewardCurrency={item.reward_currency}

@@ -90,6 +90,12 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
     } else dispatch(getProfile(id));
   }, []);
 
+  useEffect(() => {
+    if (isMyProfile) {
+      dispatch(getProfile());
+    } else dispatch(getProfile(id));
+  }, [id]);
+
   const getDataUrlFromFile = (file: File | Blob): Promise<string> =>
     new Promise((resolve) => {
       const reader = new FileReader();
@@ -146,14 +152,15 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
       affiliation,
       avatar,
       about,
-      country: country?.label,
+      country: country?.label || '',
       privateAnc,
       notificationsEmail,
       notificationsBrow,
       status: status.value,
-      grade: grade.label,
+      grade: grade?.label || '',
       linksForData,
     };
+    console.log('fghjk');
     const resultConf = await dispatch(setProfile(data));
     if (setProfile.fulfilled.match(resultConf)) {
       setModal(true);
@@ -187,6 +194,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
           IDURL={IDURL}
           isMyProfile={isMyProfile}
           regoDate={profile.regoDate}
+          reputationScore={profile.reputationScore}
         />
         <div className={cn(styles.content, styles.line)}>
           <div className={styles.contentRow}>
@@ -238,10 +246,10 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                   />
                 )}
 
-                {!isMyProfile && grade.label && (
+                {!isMyProfile && grade?.label && (
                   <span className={styles.userInfo}>{grade.label}</span>
                 )}
-                {!isMyProfile && !grade.label && <div className={styles.noConntentLine} />}
+                {!isMyProfile && !grade?.label && <div className={styles.noConntentLine} />}
               </div>
             </div>
             <div className={styles.contentItem}>
@@ -380,7 +388,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
 
         {isMyProfile && (
           <div className={styles.saveBtn}>
-            <Button className={styles.variantPrimary} disabled={!isValid} onClick={submitProfile}>
+            <Button className={styles.variantPrimary} onClick={submitProfile}>
               {t('save')}
             </Button>
           </div>

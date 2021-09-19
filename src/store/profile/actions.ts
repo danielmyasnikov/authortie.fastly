@@ -109,6 +109,7 @@ export const getProfile = createAsyncThunk(
       links: userLinks,
       confirmOrcid: data.orcid_uuid,
       regoDate: data.rego_date,
+      reputationScore: data.reputation_score
     };
 
     return profile;
@@ -163,6 +164,7 @@ export const getAuthProfile = createAsyncThunk<any, any>('postings/getAuthProfil
     links: userLinks,
     confirmOrcid: data.orcid_uuid,
     regoDate: data.rego_date,
+    reputationScore: data.reputation_score
   };
 
   return profile;

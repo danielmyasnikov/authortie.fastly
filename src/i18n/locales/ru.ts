@@ -131,7 +131,7 @@ export const ru = {
     publish: 'Опубликовать',
     regAndPublish: 'Зарегистрироваться и Опубликовать',
     edit: 'Редактировать',
-    addApplication: '+ добавить заявку',
+    addApplication: '+ Добавить заявку',
     hideFromSearch: 'Скрыть от поисковиков',
     hideFromOtherUsers: 'Скрыть от других пользователей',
     toMain: 'На главную',

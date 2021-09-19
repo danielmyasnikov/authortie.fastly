@@ -20,6 +20,7 @@ const initialState: T.State = {
     avatar: undefined,
     avatarUrl: '',
     regoDate: '',
+    reputationScore: 0,
     confirmOrcid: false,
     status: {
       value: '',

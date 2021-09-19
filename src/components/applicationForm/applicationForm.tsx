@@ -682,11 +682,13 @@ export const ApplicationForm: React.FC<Props> = ({
         <div className={css.btnBlock}>
           {!isEdit && (
             <>
-              <button className={css.outlineBtn} onClick={addArray}>
-                {t('addApplication')}
-              </button>
               {isLastCard && (
-                <Button onClick={submitForm}>{isAuth ? t('publish') : t('regAndPublish')}</Button>
+                <>
+                  <Button className={css.outlineBtn} onClick={addArray}>
+                    {t('addApplication')}
+                  </Button>
+                  <Button className={css.btn} onClick={submitForm}>{isAuth ? t('publish') : t('regAndPublish')}</Button>
+                </>
               )}
             </>
           )}
