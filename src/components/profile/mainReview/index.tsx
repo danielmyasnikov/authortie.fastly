@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import eoLocale from 'date-fns/locale/eo';
+import format from 'date-fns/format';
 import Rating from '@material-ui/lab/Rating';
 import { useTranslation } from 'react-i18next';
 import CheckedProfile from 'assets/checkedProfile.svg';
@@ -22,8 +24,8 @@ interface Props {
 export const MainReview: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
   const [reviewList, setRewiewList] = useState([]);
-  const { t } = useTranslation('profile');
-
+  const { t, i18n } = useTranslation('profile');
+  console.log(i18n);
   useEffect(() => {
     getReview();
   }, []);
@@ -39,6 +41,24 @@ export const MainReview: React.FC<Props> = ({ id }) => {
     setRewiewList(res.data);
   }
 
+  function getName(review: any) {
+    return review.profile.name
+      ? `review.profile.name review.profile.last_name review.profile.middle_name`
+      : 'Нет имени';
+  }
+
+  function getTime(value: any) {
+    const lang = i18n.language === 'ru' ? 'ru' : 'en';
+    const date = new Date(value);
+    const formatter = new Intl.DateTimeFormat(lang, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+
+    return formatter.format(date);
+  }
+
   return (
     <div className={css.wrapper}>
       <div className={css.cards}>
@@ -46,7 +66,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
           reviewList.map((item: any) => (
             <div className={css.wrap}>
               <div className={css.header}>
-                <div className={css.title}>Title</div>
+                <div className={css.title}>{item.reviewable.title || 'Нет назавания работы'}</div>
               </div>
               <div className={css.rating}>
                 <Rating name="read-only" value={item.rate} readOnly />
@@ -60,12 +80,12 @@ export const MainReview: React.FC<Props> = ({ id }) => {
                 </div>
               </div>
               <div className={css.comment}>
-                <span className={css.title}>Сергей Сергеев</span>
+                <span className={css.title}>{getName(item)}</span>
               </div>
               <div className={css.messageBlock}>
                 <p className={css.message}>{item.message}</p>
               </div>
-              <div className={css.date}>8 января 2021</div>
+              <div className={css.date}>{getTime(item.created_at)}</div>
             </div>
           ))
         ) : (
