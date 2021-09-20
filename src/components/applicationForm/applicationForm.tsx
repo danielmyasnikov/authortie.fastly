@@ -32,6 +32,7 @@ import {
   knowledgeDefault,
   rewardTypestDefault,
   currencyOptions,
+  workTypesDefaultAllList,
 } from './constants';
 import css from './css.module.less';
 
@@ -91,7 +92,7 @@ export const ApplicationForm: React.FC<Props> = ({
   const [whoIAm, setWhoIAm] = useState<WhoIAm>(WhoIAm.CUSTOMER);
 
   const [approxDate, setApproxDate] = useState<Date | string | null>(null);
-  const [workTypes, setWorkTypes] = useState(workTypesDefault);
+  const [workTypes, setWorkTypes] = useState<{ value: string; checked: boolean; id: string }[]>([]);
   const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault);
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
 
@@ -108,11 +109,22 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [modal, setModal] = useState<boolean>(false);
 
+  const [moreList, setMoreList] = useState(false);
+
   useEffect(() => {
     if (pushValidation) {
       validation();
     } else unsetValid();
   }, [pushValidation]);
+
+  useEffect(() => {
+    if (moreList) {
+      setWorkTypes(workTypesDefaultAllList);
+    }
+    if (!moreList) {
+      setWorkTypes(workTypesDefault);
+    }
+  }, [moreList]);
 
   // состояние для валидации
   const [valid, setValid] = useState({
@@ -468,19 +480,27 @@ export const ApplicationForm: React.FC<Props> = ({
         <RoundRowRight className={css.subtileIcon} />
         {whoIAm === WhoIAm.CUSTOMER ? t('want') : t('suggest')}
       </span>
-      <div className={cn(css.block, { [css.errorWrapper]: !!valid.workName })}>
-        {workTypes.map(({ checked, id, value }) => (
-          <Fragment key={id + index}>
-            <RadioButton
-              checked={!!checked}
-              id={`${String(id)}_${index}`}
-              name={`${String(id)}_${index}`}
-              label={t(value)}
-              onChange={() => handleRadioList(id)}
-              isColor
-            />
-          </Fragment>
-        ))}
+      <div
+        className={cn(css.listBlock, {
+          [css.errorWrapper]: !!valid.workName,
+          [css.openBlok]: moreList,
+        })}
+      >
+        {workTypes.map(
+          ({ checked, id, value }: { checked: boolean; id: string; value: string }) => (
+            <Fragment key={id + index}>
+              <RadioButton
+                checked={!!checked}
+                id={`${String(id)}_${index}`}
+                name={`${String(id)}_${index}`}
+                label={t(value)}
+                onChange={() => handleRadioList(id)}
+                isColor
+              />
+            </Fragment>
+          ),
+        )}
+        <span onClick={() => setMoreList(!moreList)}>more</span>
       </div>
       {!!valid.radioBlock && <span className={css.error}>{valid.radioBlock}</span>}
     </div>
@@ -687,7 +707,9 @@ export const ApplicationForm: React.FC<Props> = ({
                   <Button className={css.outlineBtn} onClick={addArray}>
                     {t('addApplication')}
                   </Button>
-                  <Button className={css.btn} onClick={submitForm}>{isAuth ? t('publish') : t('regAndPublish')}</Button>
+                  <Button className={css.btn} onClick={submitForm}>
+                    {isAuth ? t('publish') : t('regAndPublish')}
+                  </Button>
                 </>
               )}
             </>

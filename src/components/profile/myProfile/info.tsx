@@ -65,10 +65,10 @@ export const Info: React.FC<Props> = ({
             <span className={styles.confirmOrcid}>{t('confirmOrcid')}</span>
           </a>
         ) : (
-          <>
+          <a href={IDURL} className={styles.bigIcon}>
             <img className={styles.bigIcon} src={IDColor} alt="" />
             <span className={styles.confirmedOrcid}>{t('confirmedOrcid')}</span>{' '}
-          </>
+          </a>
         )}
       </div>
       <div className={styles.rating}>
