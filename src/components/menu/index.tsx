@@ -10,15 +10,10 @@ import logo from 'assets/logo.png';
 import Bell from 'assets/bell.svg';
 import User from 'assets/user.svg';
 import Lang from 'assets/lang.svg';
+import { getHeaders } from 'store/auth/selectors';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
 import { useEffect } from 'react';
-
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
 
 export const Menu: React.FC = () => {
   const { t } = useTranslation('menu');
@@ -29,6 +24,7 @@ export const Menu: React.FC = () => {
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
+  const headers = useSelector(getHeaders);
 
   const changeLanguageHandler = (lang: string) => {
     i18n.changeLanguage(lang);

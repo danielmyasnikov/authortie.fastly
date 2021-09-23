@@ -9,7 +9,7 @@ export interface AuthErrors {
   fullMessagesError?: string;
 }
 
-export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue: AuthErrors }>(
+export const getRegistration = createAsyncThunk<object, T.Auth, { rejectValue: AuthErrors }>(
   'auth/REGISTRATION',
   async ({ email, password, passwordConfirmation }, { rejectWithValue }) => {
     try {
@@ -18,11 +18,18 @@ export const getRegistration = createAsyncThunk<undefined, T.Auth, { rejectValue
         password,
         password_confirmation: passwordConfirmation,
       });
-      localStorage.setItem('uid', res.headers.uid);
-      localStorage.setItem('access-token', res.headers['access-token']);
-      localStorage.setItem('client', res.headers.client);
+
+      const client = res.headers.client;
+      const accessToken = res.headers['access-token'];
+      const uid = res.headers.uid;
+
+      localStorage.setItem('uid', uid);
+      localStorage.setItem('access-token', accessToken);
+      localStorage.setItem('client', client);
       localStorage.setItem('expiry', res.headers.expiry);
-      return undefined;
+
+      const headers = { client, uid, ['access-token']: accessToken };
+      return headers;
     } catch (err: any) {
       const emailError: string = err.response.data.errors.email;
       const passwordError: string = err.response.data.errors.password || '';

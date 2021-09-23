@@ -43,6 +43,8 @@ const App: React.FC = () => {
       localStorage.setItem('access-token', accessToken);
       localStorage.setItem('client', client);
       dispatch(authSlice.actions.getAuth());
+      const headers = { client, uid, ['access-token']: accessToken };
+      dispatch(authSlice.actions.setHeaders(headers));
       history.push(pathNoSlash);
     }
   }, [history.location.search]);
@@ -53,6 +55,8 @@ const App: React.FC = () => {
     const accessToken = localStorage.getItem('access-token');
     const expiry = localStorage.getItem('expiry');
     if (!!uid && !!client && !!accessToken && !!expiry) {
+      const headers = { client, uid, ['access-token']: accessToken };
+      dispatch(authSlice.actions.setHeaders(headers));
       if (Number(expiry) > getUnixTime(Date.now())) {
         dispatch(authSlice.actions.getAuth());
       }

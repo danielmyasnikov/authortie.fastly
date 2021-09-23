@@ -1,16 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import { useHistory } from 'react-router';
-
+import { useSelector } from 'react-redux';
+import { getHeaders } from 'store/auth/selectors';
 import { Modal } from 'components/common/modal';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
-
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
 
 interface Props {
   onClose: (value: boolean) => void;
@@ -19,7 +14,8 @@ interface Props {
 
 export const RemoveProfileModal: React.FC<Props> = ({ onClose, open }) => {
   const history = useHistory();
-
+  const headers = useSelector(getHeaders);
+  
   function closeModal() {
     onClose(false);
   }

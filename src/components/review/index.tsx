@@ -1,18 +1,14 @@
 import React, { useState } from 'react';
 import Rating from '@material-ui/lab/Rating';
 import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { Checkbox } from 'components/common/checkbox';
 import { Button } from 'components/common/button';
 import axios from 'axios';
+import { getHeaders } from 'store/auth/selectors';
 
 import css from './styles.module.less';
-
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
 
 interface Params {
   id: string;
@@ -26,6 +22,7 @@ export const Review = () => {
   const [isConf, setIsConf] = useState(false);
   const params = useParams<Params>();
   const { t } = useTranslation('review');
+  const headers = useSelector(getHeaders);
 
   async function submitReview() {
     const data = {
