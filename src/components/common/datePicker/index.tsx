@@ -1,8 +1,9 @@
 import React from 'react';
 import { createMuiTheme } from '@material-ui/core';
+import format from 'date-fns/format';
 import { ThemeProvider } from '@material-ui/styles';
 import DateFnsUtils from '@date-io/date-fns';
-import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import {KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 const inputDateStyle = {
   width: '249px',
@@ -47,8 +48,10 @@ export const DatePicker: React.FC<Props> = ({ value, onChange }) => {
           disableToolbar
           variant="inline"
           format="dd/MM/yyyy"
+          emptyLabel=''
           margin="normal"
           id="date-picker-inline"
+          minDate={new Date()} 
           value={value}
           onChange={onChange}
           KeyboardButtonProps={{
@@ -56,6 +59,7 @@ export const DatePicker: React.FC<Props> = ({ value, onChange }) => {
           }}
           InputProps={{
             disableUnderline: true,
+            readOnly: true
           }}
           style={inputDateStyle}
         />

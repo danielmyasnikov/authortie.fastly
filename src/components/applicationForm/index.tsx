@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getIsAuth } from 'store/auth/selectors';
 import { authSlice } from 'store/auth/slice';
@@ -9,7 +9,9 @@ import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'components/common/button';
 import NoteModal from 'assets/note.svg';
-import Close from 'assets/close.svg';
+import { Modal } from 'components/common/modal';
+import { getCreatePost } from 'store/request/selectors';
+import { createPost } from 'store/request/slice';
 import css from './css.module.less';
 
 export const Application = () => {
@@ -17,18 +19,18 @@ export const Application = () => {
   const { t } = useTranslation('application');
   const isAuth = useSelector(getIsAuth);
   const [applicationsArray, setApplicationsArray] = useState<number[]>([0]);
-  const [dataArray, setDataArray] = useState<any>([]);
   const [modal, setModal] = useState<boolean>(false);
-  const [errorIndex, setErrorIndex] = useState<number[]>([]);
   const [pushValidation, setPushvalidation] = useState(false);
   const [error, setError] = useState('');
+  const { dataArray, errorIndex } = useSelector(getCreatePost);
+
   function addToArray() {
     setApplicationsArray([...applicationsArray, applicationsArray.length]);
   }
 
   function createPostItems({ data, index }: { data: any; index: number }) {
     if (!dataArray.length || index === dataArray.length) {
-      setDataArray([...dataArray, data]);
+      dispatch(createPost.actions.setDataArray([...dataArray, data]));
     } else {
       const newDataArray = dataArray.map((item: any, i: number) => {
         if (i === index) {
@@ -36,19 +38,19 @@ export const Application = () => {
         }
         return item;
       });
-      setDataArray(newDataArray);
+      dispatch(createPost.actions.setDataArray(newDataArray));
     }
   }
 
   function removeItem(index: number) {
     const arrayWithRemove = applicationsArray.filter((item) => item !== index);
     const newDataArray = dataArray.filter((item: any, i: number) => i !== index);
-    setDataArray(newDataArray);
+    dispatch(createPost.actions.setDataArray(newDataArray));
     setApplicationsArray(arrayWithRemove);
   }
 
   function getErrorIndex(index: number) {
-    setErrorIndex([...errorIndex, index]);
+    dispatch(createPost.actions.setErrorIndex([...errorIndex, index]));
   }
 
   async function createPostsApp() {
@@ -59,21 +61,17 @@ export const Application = () => {
   }
 
   const renderModal = () => (
-    <div className={css.modalWrapper}>
-      <div className={css.modalContaier}>
-        <Close className={css.exit} onClick={() => setModal(false)} />
-        <NoteModal className={css.noteIcon} />
-        <span className={css.subtitle}>{t('confirmTitle')}</span>
-        <span className={css.modalInfo}>{t('confirmInfo')}</span>
-        <Link to={'/community'}>
-          <Button>{t('toPostings')}</Button>
-        </Link>
-        <Link to={'/'}>
-          <Button className={css.btnBorder}>{t('toMain')}</Button>
-        </Link>
-      </div>
-      <div className={css.overlay} />
-    </div>
+    <Modal open={modal} onClose={setModal}>
+      <NoteModal className={css.noteIcon} />
+      <span className={css.subtitle}>{t('confirmTitle')}</span>
+      <span className={css.modalInfo}>{t('confirmInfo')}</span>
+      <Link to={'/community'}>
+        <Button>{t('toPostings')}</Button>
+      </Link>
+      <Link to={'/'}>
+        <Button className={css.btnBorder}>{t('toMain')}</Button>
+      </Link>
+    </Modal>
   );
 
   return (
@@ -109,9 +107,10 @@ export const Application = () => {
               pushValidation={pushValidation}
               setPushvalidation={setPushvalidation}
               getErrorIndex={getErrorIndex}
-              setErrorIndex={setErrorIndex}
+              setErrorIndex={createPost.actions.setDataArray}
               setError={setError}
               error={error}
+              isAlone={applicationsArray.length === 1}
             />
           </React.Fragment>
         ))}

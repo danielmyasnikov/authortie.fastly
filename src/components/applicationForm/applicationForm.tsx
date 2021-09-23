@@ -1,3 +1,4 @@
+// todo: слишком большой компонент, разбить на несколько
 import React, { useState, useEffect, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,7 @@ import format from 'date-fns/format';
 import { createPostings, editPostings } from 'store/request/actions';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { KeyWords } from 'components/common/keywords';
+import { createPost as createPostSlice } from 'store/request/slice';
 
 import NoteModal from 'assets/note.svg';
 import RoundRowRight from 'assets/roundRowRight.svg';
@@ -58,6 +60,7 @@ interface Props {
   setErrorIndex?: (value: number[]) => void;
   setError?: (val: string) => void;
   error?: string;
+  isAlone?: boolean;
 }
 
 enum WhoIAm {
@@ -81,7 +84,7 @@ export const ApplicationForm: React.FC<Props> = ({
   getErrorIndex,
   setErrorIndex,
   setError,
-  error,
+  isAlone,
 }) => {
   const { t } = useTranslation('application');
   const history = useHistory();
@@ -221,10 +224,19 @@ export const ApplicationForm: React.FC<Props> = ({
     if (!vaildChecboxBlock.length && !sumCheck) {
       validValue = { ...validValue, checboxBlock: 'Поле обязательно для заполнения' };
     }
+    console.log('vaildChecboxBlock', vaildChecboxBlock);
 
     if (vaildChecboxBlock.length + Number(sumCheck) > 3) {
       validValue = { ...validValue, checboxBlock: 'Выберете не более 3 пунктов' };
     }
+
+    if (sumCheck && !sum) {
+      validValue = {
+        ...validValue,
+        checboxBlock: 'При выборое пункта "Оплатить деньгам" необходимо ввести сумму',
+      };
+    }
+
     if (!keyWords.length) {
       validValue = { ...validValue, keyWords: 'Поле обязательно для заполнения' };
     }
@@ -342,6 +354,7 @@ export const ApplicationForm: React.FC<Props> = ({
       }
     } else {
       dispatch(authSlice.actions.setRegistrationTab(true));
+      dispatch(createPostSlice.actions.getSubmitData(true));
       history.push({
         pathname: '/authorization',
         state: { background: location },
@@ -544,6 +557,7 @@ export const ApplicationForm: React.FC<Props> = ({
                 value={currency}
                 options={currencyOptions}
                 onChange={(option: any) => setCurrency(option)}
+                isSearchable={false}
               />
             </div>
           </div>
@@ -691,7 +705,7 @@ export const ApplicationForm: React.FC<Props> = ({
             label={t('hideFromSearch')}
             onChange={() => setHideFromSearch(!hideFromSearch)}
           />
-          {index !== undefined && !!removeItem && (
+          {index !== undefined && !!removeItem && !isAlone && (
             <div className={css.delete} onClick={() => removeItem(index)}>
               <Delete className={css.deleteIcon} /> Удалить заявку
             </div>

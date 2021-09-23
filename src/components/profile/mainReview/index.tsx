@@ -6,16 +6,11 @@ import Rating from '@material-ui/lab/Rating';
 import { useTranslation } from 'react-i18next';
 import CheckedProfile from 'assets/checkedProfile.svg';
 import ProfilePic from 'assets/profilePic.svg';
+import { getHeaders } from 'store/auth/selectors';
 
 import axios from 'axios';
 
 import css from './styles.module.less';
-
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
 
 interface Props {
   id?: string;
@@ -25,6 +20,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
   const [reviewList, setRewiewList] = useState([]);
   const { t, i18n } = useTranslation('profile');
+  const headers = useSelector(getHeaders);
   console.log(i18n);
   useEffect(() => {
     getReview();

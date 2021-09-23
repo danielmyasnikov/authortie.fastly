@@ -1,17 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
+import { RootState } from 'store/types';
+import { getHeaders } from 'store/auth/selectors';
 
 export const getPostings = createAsyncThunk<
   any,
   { page: number; workType?: string; knowledgeArea?: string },
-  any
->('postings/getPostings', async ({ page, workType, knowledgeArea }) => {
+  { state: RootState }
+>('postings/getPostings', async ({ page, workType, knowledgeArea }, { getState }) => {
+  const headers = getHeaders(getState());
   let filter = '';
   if (workType && !knowledgeArea) {
     filter = `&work_type=${workType}`;
@@ -32,4 +29,3 @@ export const getPostings = createAsyncThunk<
   });
   return res.data;
 });
-

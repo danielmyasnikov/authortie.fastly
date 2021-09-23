@@ -3,18 +3,14 @@ import axios from 'axios';
 import { useHistory } from 'react-router';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 
+import { getHeaders } from 'store/auth/selectors';
 import Eye from 'assets/eye.svg';
 import CloseEye from 'assets/closeEye.svg';
 import { Modal } from 'components/common/modal';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
-
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
 
 interface Props {
   onClose: (value: boolean) => void;
@@ -33,6 +29,8 @@ export const ChangePassword: React.FC<Props> = ({ onClose, open }) => {
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [isShowNewPassword, setIsShowNewPassword] = useState<boolean>(false);
   const [isConf, setIsConf] = useState(false);
+  const headers = useSelector(getHeaders);
+  
 
   const { t } = useTranslation('profile');
 
