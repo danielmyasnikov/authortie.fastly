@@ -21,7 +21,6 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   const [reviewList, setRewiewList] = useState([]);
   const { t, i18n } = useTranslation('profile');
   const headers = useSelector(getHeaders);
-  console.log(i18n);
   useEffect(() => {
     getReview();
   }, []);

@@ -160,7 +160,6 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
       grade: grade?.label || '',
       linksForData,
     };
-    console.log('fghjk');
     const resultConf = await dispatch(setProfile(data));
     if (setProfile.fulfilled.match(resultConf)) {
       setModal(true);

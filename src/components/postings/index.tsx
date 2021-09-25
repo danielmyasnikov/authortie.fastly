@@ -109,7 +109,6 @@ export const Postings = () => {
             !!postingsList.length &&
             postingsList.map((item: any) => (
               <React.Fragment key={item.id + item.title}>
-                {console.log(postingsList)}
                 <Card
                   privateAccaunt={!item.is_profile_visible}
                   id={item.id}

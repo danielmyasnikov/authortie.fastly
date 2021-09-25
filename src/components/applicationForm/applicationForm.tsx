@@ -3,10 +3,8 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useHistory } from 'react-router-dom';
-import Select from 'react-select';
 import { getIsAuth } from 'store/auth/selectors';
 import { authSlice } from 'store/auth/slice';
-import { RadioButton } from 'components/common/radioBtn';
 import { Checkbox } from 'components/common/checkbox';
 import { DatePicker } from 'components/common/datePicker';
 import { Button } from 'components/common/button';
@@ -16,10 +14,9 @@ import { createPostings, editPostings } from 'store/request/actions';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { KeyWords } from 'components/common/keywords';
 import { createPost as createPostSlice } from 'store/request/slice';
-
+import { CheckboxTypes } from './CheckboxTypes';
+import { RadioTypes } from './RadioTypes';
 import NoteModal from 'assets/note.svg';
-import RoundRowRight from 'assets/roundRowRight.svg';
-import RoundRowLeft from 'assets/roundRowLeft.svg';
 import Pencil from 'assets/edit.svg';
 import Note from 'assets/noteDescription.svg';
 import KeyWord from 'assets/keyWord.svg';
@@ -30,10 +27,10 @@ import Delete from 'assets/delete.svg';
 import { AppDispatch } from 'store/types';
 
 import {
-  workTypesDefault,
   knowledgeDefault,
   rewardTypestDefault,
   currencyOptions,
+  workTypesDefaultAllList,
 } from './constants';
 import css from './css.module.less';
 
@@ -62,7 +59,7 @@ interface Props {
   isAlone?: boolean;
 }
 
-enum WhoIAm {
+export enum WhoIAm {
   CUSTOMER = 'demand', //спрос(я заказчик)
   EXECUTOR = 'supply', //предложение (я исполнитель)
 }
@@ -94,7 +91,7 @@ export const ApplicationForm: React.FC<Props> = ({
   const [whoIAm, setWhoIAm] = useState<WhoIAm>(WhoIAm.CUSTOMER);
 
   const [approxDate, setApproxDate] = useState<Date | string | null>(null);
-  const [workTypes, setWorkTypes] = useState(workTypesDefault);
+  const [workTypes, setWorkTypes] = useState(workTypesDefaultAllList);
   const [rewardTypes, setRewardTypes] = useState(rewardTypestDefault);
   const [knowledge, setKnowledge] = useState(knowledgeDefault);
 
@@ -110,6 +107,8 @@ export const ApplicationForm: React.FC<Props> = ({
   const [hideFromSearch, setHideFromSearch] = useState(false);
 
   const [modal, setModal] = useState<boolean>(false);
+
+  const [moreList, setMoreList] = useState(false);
 
   useEffect(() => {
     if (pushValidation) {
@@ -127,6 +126,7 @@ export const ApplicationForm: React.FC<Props> = ({
     knowledge: '',
     approxDate: '',
   });
+
   useEffect(() => {
     if (!!editData && isEdit) {
       const editKnowledge = knowledgeDefault.map((item) => ({
@@ -135,17 +135,24 @@ export const ApplicationForm: React.FC<Props> = ({
           Array.isArray(editData.knowledge_area_list) &&
           editData.knowledge_area_list.includes(item.id),
       }));
-      const editWorkTypes = workTypesDefault.map((item) => ({
-        ...item,
-        checked:
-          Array.isArray(editData.work_type_list) && editData.work_type_list.includes(item.id),
-      }));
 
-      const editRewardTypes = rewardTypestDefault.map((item) => ({
-        ...item,
-        checked:
-          Array.isArray(editData.reward_type_list) && editData.reward_type_list.includes(item.id),
-      }));
+      const editWorkTypes = workTypesDefaultAllList.map((item: any) => {
+        const newList = item.list.map((itemList: any) => ({
+          ...itemList,
+          checked:
+            Array.isArray(editData.work_type_list) && editData.work_type_list.includes(item.id),
+        }));
+        return { ...item, list: newList };
+      });
+
+      const editRewardTypes = rewardTypestDefault.map((item: any) => {
+        const newList = item.list.map((itemList: any) => ({
+          ...itemList,
+          checked:
+            Array.isArray(editData.reward_type_list) && editData.reward_type_list.includes(item.id),
+        }));
+        return { ...item, list: newList };
+      });
 
       if (editData.request_type === WhoIAm.CUSTOMER) {
         setWorkTypes(editWorkTypes);
@@ -204,11 +211,17 @@ export const ApplicationForm: React.FC<Props> = ({
     if (workDescription.length > 2500) {
       validValue = { ...validValue, workDescription: 'Описание не должно превышать 455 символов' };
     }
-    const vaildRadioBlock = workTypes.find((item) => item.checked);
+    const vaildRadioBlock = workTypes
+      .map(({ list }) => list.map((itemList) => itemList))
+      .flat()
+      .find((item) => item.checked);
     if (!vaildRadioBlock) {
       validValue = { ...validValue, radioBlock: 'Поле обязательно для заполнения' };
     }
-    const vaildChecboxBlock = rewardTypes.filter((item) => item.checked);
+    const vaildChecboxBlock = rewardTypes
+      .map(({ list }) => list.map((itemList) => itemList))
+      .flat()
+      .filter((item) => item.checked);
     if (!vaildChecboxBlock.length && !sumCheck) {
       validValue = { ...validValue, checboxBlock: 'Поле обязательно для заполнения' };
     }
@@ -257,10 +270,18 @@ export const ApplicationForm: React.FC<Props> = ({
       return true;
     }
   }
-
+  
   useEffect(() => {
-    const checkedWorkTypes = workTypes.filter((el) => el.checked).map((item) => item.id);
-    const checkedRewardTypes = rewardTypes.filter((el) => el.checked).map((item) => item.id);
+    const checkedWorkTypes = workTypes
+      .map(({ list }) => list.map((itemList) => itemList))
+      .flat()
+      .filter((el) => el.checked)
+      .map((item) => item.id);
+    const checkedRewardTypes = rewardTypes
+      .map(({ list }) => list.map((itemList) => itemList))
+      .flat()
+      .filter((el) => el.checked)
+      .map((item) => item.id);
     const checkedRewardTypesWithMoney = sumCheck
       ? [...checkedRewardTypes, 'money']
       : checkedRewardTypes;
@@ -301,8 +322,16 @@ export const ApplicationForm: React.FC<Props> = ({
 
   async function submitForm() {
     validation();
-    const checkedWorkTypes = workTypes.filter((el) => el.checked).map((item) => item.id);
-    const checkedRewardTypes = rewardTypes.filter((el) => el.checked).map((item) => item.id);
+    const checkedWorkTypes = workTypes
+      .map(({ list }) => list.map((itemList) => itemList))
+      .flat()
+      .filter((el) => el.checked)
+      .map((item) => item.id);
+    const checkedRewardTypes = rewardTypes
+      .map(({ list }) => list.map((itemList) => itemList))
+      .flat()
+      .filter((el) => el.checked)
+      .map((item) => item.id);
     const checkedRewardTypesWithMoney = sumCheck
       ? [...checkedRewardTypes, 'money']
       : checkedRewardTypes;
@@ -381,17 +410,25 @@ export const ApplicationForm: React.FC<Props> = ({
 
   function handleRadioList(id: string) {
     unsetValid();
-    const newWorkTypes = workTypes.map((item: any) =>
-      item.id === id ? { ...item, checked: true } : { ...item, checked: false },
-    );
+
+    const newWorkTypes = workTypes.map((item: any) => {
+      const newList = item.list.map((itemList: any) =>
+        itemList.id === id ? { ...itemList, checked: true } : { ...itemList, checked: false },
+      );
+      return { ...item, list: newList };
+    });
     setWorkTypes(newWorkTypes);
   }
 
   function handleCheckedList(id: string) {
     unsetValid();
-    const newRewardTypes = rewardTypes.map((item: any) =>
-      item.id === id ? { ...item, checked: !item.checked } : { ...item },
-    );
+    const newRewardTypes = rewardTypes.map((item: any) => {
+      const newList = item.list.map((itemList: any) =>
+        itemList.id === id ? { ...itemList, checked: !itemList.checked } : { ...itemList },
+      );
+      return { ...item, list: newList };
+    });
+
     setRewardTypes(newRewardTypes);
   }
 
@@ -405,14 +442,14 @@ export const ApplicationForm: React.FC<Props> = ({
 
   function setCustomer() {
     setWhoIAm(WhoIAm.CUSTOMER);
-    setWorkTypes(workTypesDefault);
+    setWorkTypes(workTypesDefaultAllList);
     setRewardTypes(rewardTypestDefault);
   }
 
   function setExecutor() {
     setWhoIAm(WhoIAm.EXECUTOR);
     setWorkTypes(rewardTypestDefault);
-    setRewardTypes(workTypesDefault);
+    setRewardTypes(workTypesDefaultAllList);
   }
 
   function handleSum(e: React.ChangeEvent<HTMLInputElement>) {
@@ -472,78 +509,6 @@ export const ApplicationForm: React.FC<Props> = ({
           .
         </span>
       )}
-    </div>
-  );
-
-  const renderRadioBlock = () => (
-    <div className={css.radioBlock}>
-      <span className={css.subtile}>
-        <RoundRowRight className={css.subtileIcon} />
-        {whoIAm === WhoIAm.CUSTOMER ? t('want') : t('suggest')}
-      </span>
-      <div className={cn(css.block, { [css.errorWrapper]: !!valid.workName })}>
-        {workTypes.map(({ checked, id, value }) => (
-          <Fragment key={id + index}>
-            <RadioButton
-              checked={!!checked}
-              id={`${String(id)}_${index}`}
-              name={`${String(id)}_${index}`}
-              label={t(value)}
-              onChange={() => handleRadioList(id)}
-              isColor
-            />
-          </Fragment>
-        ))}
-      </div>
-      {!!valid.radioBlock && <span className={css.error}>{valid.radioBlock}</span>}
-    </div>
-  );
-
-  const renderChecboxBlock = () => (
-    <div className={css.checkboxBlock}>
-      <span className={css.subtile}>
-        <RoundRowLeft className={css.subtileIcon} />
-        {whoIAm === WhoIAm.EXECUTOR ? t('want') : t('suggest')}
-      </span>
-      <div className={cn(css.block, { [css.errorWrapper]: !!valid.checboxBlock })}>
-        <div className={css.checkWrapper}>
-          <div className={css.checkBlock}>
-            {rewardTypes.map(({ checked, id, value }) => (
-              <Fragment key={id + index}>
-                <Checkbox
-                  checked={!!checked}
-                  id={`${String(id)}_${index}`}
-                  name={`${String(id)}_${index}`}
-                  label={t(value)}
-                  onChange={() => handleCheckedList(id)}
-                />
-              </Fragment>
-            ))}
-          </div>
-
-          <div className={css.sumBlock}>
-            <Checkbox
-              checked={sumCheck}
-              id={String(index)}
-              name={String(index)}
-              label={t('pay')}
-              onChange={() => setSumCheck(!sumCheck)}
-            />
-            <div className={css.inputWrapper}>
-              <input type="text" className={css.sumInput} value={sum} onChange={handleSum} />
-              <Select
-                defaultValue={currencyOptions[0]}
-                classNamePrefix="CustomSelect"
-                value={currency}
-                options={currencyOptions}
-                onChange={(option: any) => setCurrency(option)}
-                isSearchable={false}
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-      {!!valid.checboxBlock && <span className={css.error}>{valid.checboxBlock}</span>}
     </div>
   );
 
@@ -657,8 +622,31 @@ export const ApplicationForm: React.FC<Props> = ({
       {renderHeaderBtnsGroup()}
       <div className={css.container}>
         <div className={css.rowContainer}>
-          {renderRadioBlock()}
-          {renderChecboxBlock()}
+          <RadioTypes
+            whoIAm={whoIAm}
+            valid={valid}
+            moreList={moreList}
+            workTypes={workTypes}
+            index={index}
+            handleRadioList={handleRadioList}
+            setMoreList={setMoreList}
+          />
+          <CheckboxTypes
+            whoIAm={whoIAm}
+            valid={valid}
+            moreList={moreList}
+            rewardTypes={rewardTypes}
+            index={index}
+            handleCheckedList={handleCheckedList}
+            sumCheck={sumCheck}
+            setSumCheck={setSumCheck}
+            currencyOptions={currencyOptions}
+            currency={currency}
+            setCurrency={setCurrency}
+            sum={sum}
+            handleSum={handleSum}
+            setMoreList={setMoreList}
+          />
         </div>
         <div className={css.workName}>{renderWorkName()}</div>
         {renderWorkDescription()}
