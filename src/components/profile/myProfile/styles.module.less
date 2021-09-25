@@ -261,7 +261,9 @@
 }
 
 .defaultPhoto {
-  width: 50%;
+  width        : 205px;
+  height       : 205px;
+  border-radius: 50%;
 }
 
 .pencil {
@@ -274,8 +276,6 @@
   justify-content: center;
   width          : 57px;
   height         : 57px;
-  border-radius  : 50%;
-  background     : #dbe6f9;
   cursor         : pointer;
 }
 
@@ -519,9 +519,9 @@
 }
 
 .variantPrimary {
-  border: 1px solid transparent;
+  border    : 1px solid transparent;
   background: #3A85F4;
-  color: #fff;
+  color     : #fff;
 }
 
 @media screen and (max-width:1465px) {
@@ -540,22 +540,26 @@
 
 @media screen and (max-width:1024px) {
   .settings {
-    margin-right: 0;
-    display: flex;
-    flex-direction: row;
+    margin-right   : 0;
+    display        : flex;
+    flex-direction : row;
     justify-content: space-around;
-    .actions{
-      margin-top: 0;
+
+    .actions {
+      margin-top  : 0;
       margin-right: 0;
     }
-    .chkbox{
+
+    .chkbox {
       margin-left: 0;
     }
 
   }
+
   .profileWrapper {
     padding-right: 0;
   }
+
   .gridContainer {
     grid-template-areas:
       'a'
@@ -571,31 +575,37 @@
       width: 100%;
     }
   }
+
   .contentRow {
     .contentItem {
       flex-wrap: wrap;
+
       .item {
         width: 100%;
       }
     }
+
     .columnItem {
       width: 100%;
     }
   }
+
   .settings {
-    margin-top: 0;
-    flex-direction: column;
+    margin-top     : 0;
+    flex-direction : column;
     justify-content: flex-start;
-    .chkbox{
-      margin-left: 0;     
+
+    .chkbox {
+      margin-left: 0;
     }
-    .actions{
+
+    .actions {
       margin-right: 0;
-      margin-top: 17px;
+      margin-top  : 17px;
     }
   }
 }
 
-.award{
+.award {
   width: 12px;
 }

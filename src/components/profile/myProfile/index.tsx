@@ -15,9 +15,9 @@ import { getProfileSelector } from 'store/profile/selectors';
 import { AppDispatch } from 'store/types';
 import { Textarea } from 'components/common/textarea';
 import Select from 'react-select';
-import Camera from 'assets/camera.svg';
+import Avatar from 'assets/avatar.jpg';
 import IDColor from 'assets/IDColor.png';
-import Pencil from 'assets/pencil.svg';
+import UploadAvatar from 'assets/uploadAvatar.png';
 import Close from 'assets/close.svg';
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
@@ -177,7 +177,7 @@ export const MyProfile = () => {
             {avatarURL ? (
               <img className={styles.img} src={avatarURL} alt="" />
             ) : (
-              <Camera className={styles.defaultPhoto} />
+              <img src={Avatar} className={styles.defaultPhoto} />
             )}
             <div className={styles.pencil} onClick={handleUploadAvatarBtnClick}>
               <form>
@@ -190,7 +190,7 @@ export const MyProfile = () => {
                   accept=".png, .jpg, .jpeg"
                 />
               </form>
-              <Pencil />
+              <img src={UploadAvatar} />
             </div>
           </div>
           {fileError && <span className={styles.error}>{fileError}</span>}
