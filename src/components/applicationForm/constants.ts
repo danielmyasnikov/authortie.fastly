@@ -27,9 +27,9 @@ export const workTypesDefault = [
 ];
 
 export const workTypesDefaultAllList = [
-  // {
-  //   category: 'НИОКР «под ключ»',
-  //   list: [
+  {
+    category: 'НИОКР «под ключ»',
+    list: [
       {
         value: 'НИОКР «под ключ»',
         checked: false,
@@ -40,11 +40,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Продажа технологии',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Поиск коллег и наставников',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Поиск коллег и наставников',
+    list: [
       {
         value: 'Участие в конкурсах и грантах',
         checked: false,
@@ -60,11 +60,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Совместные исследования',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Обзор, анализ, аудит',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Обзор, анализ, аудит',
+    list: [
       {
         value: 'Анализ литературных источников',
         checked: false,
@@ -85,11 +85,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Анализ опытных данных',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Разработка гипотезы',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Разработка гипотезы',
+    list: [
       {
         value: 'Open Challenge',
         checked: false,
@@ -100,11 +100,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Консультация',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Моделирование',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Моделирование',
+    list: [
       {
         value: 'Математическое',
         checked: false,
@@ -130,11 +130,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Концептуальное',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Создание прототипов',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Создание прототипов',
+    list: [
       {
         value: 'Разработка чертежей и схем',
         checked: false,
@@ -155,11 +155,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Монтаж и наладка ',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Проведение опытов и испытаний',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Проведение опытов и испытаний',
+    list: [
       {
         value: 'Планирование эксперимента',
         checked: false,
@@ -170,11 +170,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Проведение опытов и испытаний',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Обработка опытных данных',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Обработка опытных данных',
+    list: [
       {
         value: 'Интерпретация результатов',
         checked: false,
@@ -195,11 +195,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Обработка больших данных',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Защита интеллектуальной собственности',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Защита интеллектуальной собственности',
+    list: [
       {
         value: 'Подготовка заявок',
         checked: false,
@@ -210,11 +210,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Патентование и регистрация',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Написание статей',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Написание статей',
+    list: [
       {
         value: 'Соавторство',
         checked: false,
@@ -245,11 +245,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Публикация',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Написание учебно-методической литературы',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Написание учебно-методической литературы',
+    list: [
       {
         value: 'Соавторство',
         checked: false,
@@ -280,11 +280,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Публикация ',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Написание учебно-методической литературы',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Написание учебно-методической литературы',
+    list: [
       {
         value: 'Соавторство',
         checked: false,
@@ -315,11 +315,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Публикация',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Продвижение разработок',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Продвижение разработок',
+    list: [
       {
         value: 'Цитирование статей',
         checked: false,
@@ -345,11 +345,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Создание презентационных материалов',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Внедрение разработок',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Внедрение разработок',
+    list: [
       {
         value: 'Консалтинг и инжиниринг',
         checked: false,
@@ -370,11 +370,11 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Полевые работы',
       },
-  //   ],
-  // },
-  // {
-  //   category: 'Обмен опытом',
-  //   list: [
+    ],
+  },
+  {
+    category: 'Обмен опытом',
+    list: [
       {
         value: 'Проведение лекций и семинаров',
         checked: false,
@@ -386,20 +386,31 @@ export const workTypesDefaultAllList = [
         checked: false,
         id: 'Проведение лекций и семинаров',
       },
-  //   ],
-  // },
+    ],
+  },
 ];
 
 export const rewardTypestDefault = [
-  { value: 'cite_others', checked: false, id: 'cite_others' },
-  { value: 'accept_as_coauthors', checked: false, id: 'accept_as_coauthors' },
-  { value: 'do_research', checked: false, id: 'do_research' },
+  { category: '', list: [{ value: 'cite_others', checked: false, id: 'cite_others' }] },
   {
-    value: 'work_with_text_and_graphics',
-    checked: false,
-    id: 'work_with_text_and_graphics',
+    category: '',
+    list: [{ value: 'accept_as_coauthors', checked: false, id: 'accept_as_coauthors' }],
   },
-  { value: 'provide_expert_services', checked: false, id: 'provide_expert_services' },
+  { category: '', list: [{ value: 'do_research', checked: false, id: 'do_research' }] },
+  {
+    category: '',
+    list: [
+      {
+        value: 'work_with_text_and_graphics',
+        checked: false,
+        id: 'work_with_text_and_graphics',
+      },
+    ],
+  },
+  {
+    category: '',
+    list: [{ value: 'provide_expert_services', checked: false, id: 'provide_expert_services' }],
+  },
 ];
 
 export const knowledgeDefault = [

@@ -22,7 +22,6 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>
-        {console.log(lastPostings)}
         {lastPostings.map((item: any) => (
           <Card
             key={item.id}

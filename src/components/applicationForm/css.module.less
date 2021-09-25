@@ -144,6 +144,9 @@
   box-shadow: 0px 0px 23px rgba(43, 123, 211, 0.1);
   border-radius: 12px;
 }
+.relative {
+  position: relative;
+}
 
 .radioBlock {
   composes: blockWrapper;
@@ -165,17 +168,43 @@
   composes: block;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  max-width: 100%;
+  flex-wrap: nowrap;
   height: 267px;
   z-index: 20;
 }
 
 .openBlok {
+  flex-wrap: wrap;
   position: absolute;
-  max-width: 1598px;
-  width: 100%;
-  height: 700px;
+  grid-auto-flow: dense;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  max-width: 1597px;
+  left: 5%;
+  width: 90%;
+  height: max-content;
+  max-height: 1250px;
+}
+
+.subtileOpenBlok {
+  padding: 0 15px;
+  max-width: 400px;
+  margin-top: 16px;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color: #3a85f4;
+}
+
+.moreBtn {
+  font-size: 16px;
+  line-height: 19px;
+  color: #3a85f4;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
 }
 
 .checkWrapper {
