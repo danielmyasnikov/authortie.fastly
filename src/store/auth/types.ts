@@ -1,5 +1,7 @@
 export interface State {
   isAuth: boolean;
+  registrationTab: boolean
+  headers: object
 }
 
 export interface Auth {

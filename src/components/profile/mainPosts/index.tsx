@@ -1,12 +1,18 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'components/common/card';
 import { getLastPostings } from 'store/request/actions';
 import { getCreatePost } from 'store/request/selectors';
 
 import styles from './styles.module.less';
+import { Button } from 'components/common/button';
+import { Link } from 'react-router-dom';
 
-export const MainPosts = () => {
+interface Props {
+  id?: string;
+}
+
+export const MainPosts: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
 
   const { lastPostings } = useSelector(getCreatePost);
@@ -14,11 +20,12 @@ export const MainPosts = () => {
   useEffect(() => {
     dispatch(getLastPostings());
   }, []);
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>
         {console.log(lastPostings)}
-        {lastPostings.map((item: any) => (
+        {lastPostings !== undefined && lastPostings.map((item: any) => (
           <Card
             key={item.id}
             privateAccaunt={!item.is_profile_visible}
@@ -28,7 +35,7 @@ export const MainPosts = () => {
             author={item.user && item.user.profile}
             title={item.title}
             fieldOfActivity=""
-            workType={item.work_type_list[0] || ''}
+            workType={!!item.length ? item?.work_type_list[0] : ''}
             knowledgeArea={item.knowledge_area_list || ''}
             rewardType={item.reward_type_list || ''}
             rewardCurrency={item.reward_currency}
@@ -39,6 +46,21 @@ export const MainPosts = () => {
           />
         ))}
       </div>
+      {lastPostings === undefined && (
+        <div className={styles.emptyAplication}>
+          <div className={styles.emptyAplicationTitle}>
+            Здесь пока ничего нет
+          </div>
+          <div className={styles.emptyAplicationDesc}>
+            но мы вам предлагаем создать свою первую заявку!
+          </div>
+          <Link to="/application">
+            <Button className={styles.emptyAplicationBtn}>
+              Создать заявку
+            </Button>
+          </Link>
+        </div>
+      )} 
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import cn from 'classnames';
 import { AppDispatch } from 'store/types';
@@ -8,8 +8,13 @@ import { Button } from 'components/common/button';
 import Close from 'assets/close.svg';
 import Eye from 'assets/eye.svg';
 import CloseEye from 'assets/closeEye.svg';
+import NoteModal from 'assets/note.svg';
 import FacebookColor from 'assets/facebookColor.png';
 import { getProfile } from 'store/profile/actions';
+import { getCreatePost } from 'store/request/selectors';
+import { getRegistrationTab } from 'store/auth/selectors';
+import { createPost as createPostSlice } from 'store/request/slice';
+import { createPostingsApp } from 'store/request/actions';
 
 import GoogleColor from 'assets/googleColor.png';
 import Coolicon from 'assets/coolicon.svg';
@@ -26,9 +31,10 @@ export const Registration: React.FC = () => {
   const { pathname } = location.state && location.state.background;
   const { t } = useTranslation('auth');
   const dispatch: AppDispatch = useDispatch();
+  const isRegTab = useSelector(getRegistrationTab);
   const history = useHistory();
   const originPath = window.origin;
-  const [isRegistration, setIsRegistration] = useState<boolean>(false);
+  const [isRegistration, setIsRegistration] = useState<boolean>(isRegTab);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
   const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>('');
@@ -43,8 +49,11 @@ export const Registration: React.FC = () => {
   const googleURL = `https://authortie-app.herokuapp.com/auth/google_oauth2?front_url=${originPath}${pathname}`;
   const facebookURL = `https://authortie-app.herokuapp.com/auth/facebook?front_url=${originPath}${pathname}`;
 
+  const { dataArray, errorIndex, isSubmitData } = useSelector(getCreatePost);
+
   function onClose() {
     history.goBack();
+    dispatch(createPostSlice.actions.getSubmitData(false));
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -77,8 +86,16 @@ export const Registration: React.FC = () => {
     if (getSignIn.rejected.match(resultConf) && resultConf.payload) {
       setError(resultConf.payload);
     } else {
-      history.goBack();
-      dispatch(getProfile());
+      if (!errorIndex.length && !!dataArray && isSubmitData) {
+        const resultConf = await dispatch(createPostingsApp(dataArray));
+        if (createPostingsApp.fulfilled.match(resultConf)) {
+          setIsConfirm(true);
+          dispatch(createPostSlice.actions.getSubmitData(false));
+        }
+      } else {
+        history.goBack();
+        dispatch(getProfile());
+      }
     }
   }
 
@@ -92,6 +109,13 @@ export const Registration: React.FC = () => {
         setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
       resultConf.payload.fullMessagesError && setError(resultConf.payload.fullMessagesError[0]);
     } else {
+      if (!errorIndex.length && !!dataArray && isSubmitData) {
+        const resultConf = await dispatch(createPostingsApp(dataArray));
+        if (createPostingsApp.fulfilled.match(resultConf)) {
+          setIsConfirm(true);
+          dispatch(createPostSlice.actions.getSubmitData(false));
+        }
+      }
       setIsConfirm(true);
     }
   }
@@ -106,16 +130,37 @@ export const Registration: React.FC = () => {
 
   const renderConfirm = () => (
     <div className={styles.confirmWrapper}>
-      <Coolicon className={styles.confirmTitle} />
-      <span className={styles.confirmTitle}>{t('thankYouForRegistering')}</span>
-      <div className={styles.btnWrapper}>
-        <Button className={styles.btnConfirm} onClick={onClose}>
-          {t('toMain')}
-        </Button>
-        <Link to={'/profile'} className={styles.userName}>
-          <Button className={styles.btnConfirm}>{t('toProfile')}</Button>
-        </Link>
-      </div>
+      {!isSubmitData ? (
+        <>
+          <Coolicon className={styles.confirmTitle} />
+          <span className={styles.confirmTitle}>{t('thankYouForRegistering')}</span>
+          <div className={styles.btnWrapper}>
+            <Button className={styles.btnConfirm} onClick={onClose}>
+              {t('toMain')}
+            </Button>
+            <Link to={'/profile'} className={styles.userName}>
+              <Button className={styles.btnConfirm}>{t('toProfile')}</Button>
+            </Link>
+          </div>
+        </>
+      ) : (
+        <>
+          <NoteModal className={styles.noteIcon} />
+          <span className={styles.confirmTitle}>Заявка сформирована!</span>
+          <span className={styles.modalInfo}>
+            Ваша заявка отправлена на модерацию. После проверки вам придет оповещение о её
+            публикации.
+          </span>
+
+          <Link to={'/community'}>
+            <Button>Перейти к заявкам</Button>
+          </Link>
+
+          <Link to={'/'}>
+            <Button className={styles.btnBorder}>На главную</Button>
+          </Link>
+        </>
+      )}
     </div>
   );
 

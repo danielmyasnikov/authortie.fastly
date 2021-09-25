@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
+import { authSlice } from 'store/auth/slice';
 import axios from 'axios';
 import { getIsAuth } from 'store/auth/selectors';
 import cn from 'classnames';
@@ -9,25 +10,21 @@ import logo from 'assets/logo.png';
 import Bell from 'assets/bell.svg';
 import User from 'assets/user.svg';
 import Lang from 'assets/lang.svg';
+import { getHeaders } from 'store/auth/selectors';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
 import { useEffect } from 'react';
 
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
-
 export const Menu: React.FC = () => {
   const { t } = useTranslation('menu');
   const { i18n } = useTranslation();
-
+  const dispatch = useDispatch();
   const location = useLocation();
   const auth = useSelector(getIsAuth);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [isAuth, setIsAuth] = useState(false);
   const [notifications, setNotifications] = useState<any[]>([]);
+  const headers = useSelector(getHeaders);
 
   const changeLanguageHandler = (lang: string) => {
     i18n.changeLanguage(lang);
@@ -117,17 +114,20 @@ export const Menu: React.FC = () => {
               {notifications.length > 0 && (
                 <div className={styles.notifications}>{notifications.length}</div>
               )}
-              <div className={styles.notificationsList}>
-                {notifications.map((item) => (
-                  <Link
-                    onClick={() => submitNotifications(item.id)}
-                    className={styles.notificationsItem}
-                    to={item.url}
-                  >
-                    <span> {`${item.message} ${item.ago}`}</span>
-                  </Link>
-                ))}
-              </div>
+
+              {notifications.length > 0 && (
+                <div className={styles.notificationsList}>
+                  {notifications.map((item) => (
+                    <Link
+                      onClick={() => submitNotifications(item.id)}
+                      className={styles.notificationsItem}
+                      to={item.url}
+                    >
+                      <span> {`${item.message} ${item.ago}`}</span>
+                    </Link>
+                  ))}
+                </div>
+              )}
             </div>
 
             <Link to={'/profile'} className={styles.userName}>
@@ -141,6 +141,7 @@ export const Menu: React.FC = () => {
               state: { background: location },
             }}
             className={styles.userName}
+            onClick={() => dispatch(authSlice.actions.setRegistrationTab(false))}
           >
             {t('singIn')}
           </Link>

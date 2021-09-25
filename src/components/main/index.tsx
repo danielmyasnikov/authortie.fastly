@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'components/common/button';
 import { Card } from 'components/common/card';
 import { getIsAuth } from 'store/auth/selectors';
+import { authSlice } from 'store/auth/slice';
 import { getPostingsMain } from 'store/main/actions';
 import { getPostingsMainSelector } from 'store/main/selectors';
 import Arrow from 'assets/arrow.svg';
@@ -76,9 +77,10 @@ export const Main: React.FC = () => {
             <Link
               className={styles.btnLink}
               to={{
-                pathname: 'authorization',
+                pathname: '/authorization',
                 state: { background: location },
               }}
+              onClick={() => dispatch(authSlice.actions.setRegistrationTab(true))}
             >
               <Button className={styles.headerBtn}>{t('join')}</Button>
             </Link>
@@ -107,7 +109,7 @@ export const Main: React.FC = () => {
                     author={item.user && item.user.profile}
                     title={item.title}
                     fieldOfActivity=""
-                    workType={item.work_type_list[0] || ''}
+                    workType={!!item.length ? item?.work_type_list[0] : ''}
                     knowledgeArea={item.knowledge_area_list || ''}
                     rewardType={item.reward_type}
                     rewardCurrency={item.reward_currency}

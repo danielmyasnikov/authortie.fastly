@@ -1,29 +1,33 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { RootState } from 'store/types';
 import axios from 'axios';
+import { getHeaders } from 'store/auth/selectors';
 
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
-
-export const getLastPostings = createAsyncThunk('createPost/getLastPosting', async () => {
-  try {
-    const res = await axios({
-      method: 'GET',
-      url: `https://authortie-app.herokuapp.com/api/v1/postings?view_type=mine`,
-      headers,
-    });
-    return res.data;
-  } catch (err) {
-    return;
-  }
-});
-
-export const createPostings = createAsyncThunk<undefined, any>(
-  'createPost/createPostings',
-  async (data) => {
+export const getLastPostings = createAsyncThunk<any[], string | undefined, { state: RootState }>(
+  'createPost/getLastPosting',
+  async (id, { getState }) => {
     try {
+      const headers = getHeaders(getState());
+      const url = !!id
+        ? `https://authortie-app.herokuapp.com/api/v1/profiles/${id}`
+        : `https://authortie-app.herokuapp.com/api/v1/profiles/me`;
+      const res = await axios({
+        method: 'GET',
+        url,
+        headers,
+      });
+      return res.data;
+    } catch (err) {
+      return;
+    }
+  },
+);
+
+export const createPostings = createAsyncThunk<undefined, any, { state: RootState }>(
+  'createPost/createPostings',
+  async (data, { getState }) => {
+    try {
+      const headers = getHeaders(getState());
       await axios({
         method: 'POST',
         url: `https://authortie-app.herokuapp.com/api/v1/postings`,
@@ -37,10 +41,31 @@ export const createPostings = createAsyncThunk<undefined, any>(
   },
 );
 
-export const editPostings = createAsyncThunk<undefined, any, any>(
-  'createPost/editPostings',
-  async ({data, id}) => {
+export const createPostingsApp = createAsyncThunk<undefined, any, { state: RootState }>(
+  'createPost/createPostingsApp',
+  async (data, { getState }) => {
     try {
+      const headers = getHeaders(getState());
+      await axios({
+        method: 'POST',
+        url: `https://authortie-app.herokuapp.com/api/v1/postings/create_list`,
+        headers,
+        data: {
+          postings: data,
+        },
+      });
+      return undefined;
+    } catch (err) {
+      return;
+    }
+  },
+);
+
+export const editPostings = createAsyncThunk<undefined, any, { state: RootState }>(
+  'createPost/editPostings',
+  async ({ data, id }, { getState }) => {
+    try {
+      const headers = getHeaders(getState());
       await axios({
         method: 'PATCH',
         url: `https://authortie-app.herokuapp.com/api/v1/postings/${id}`,

@@ -23,6 +23,7 @@ interface Params {
 export const DetailedApplication = () => {
   const dispatch: AppDispatch = useDispatch();
   const params = useParams<Params>();
+
   const { post }: any = useSelector(getDetailedApplicationSelector);
   const { t } = useTranslation('card');
   const profile = post.is_profile_visible && post.user.profile;
@@ -112,7 +113,7 @@ export const DetailedApplication = () => {
             {post.is_profile_visible ? (
               !!profile.first_name ? (
                 <>
-                  <Link to={`/profile/${profile.slug}`} className={styles.avatarWrapper}>
+                  <Link to={`/profile/${profile.friendly_url}`} className={styles.avatarWrapper}>
                     {!!profile.avatar ? (
                       <img className={styles.img} src={profile.avatar} alt="" />
                     ) : (
@@ -157,7 +158,7 @@ export const DetailedApplication = () => {
               author={!!item.user && item.user.profile}
               title={item.title}
               fieldOfActivity=""
-              workType={item.work_type_list[0] || ''}
+              workType={!!item.length ? item?.work_type_list[0] : ''}
               knowledgeArea={item.knowledge_area_list || ''}
               rewardType={item.reward_type}
               rewardCurrency={item.reward_currency}

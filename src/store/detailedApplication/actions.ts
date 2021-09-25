@@ -1,15 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { RootState } from 'store/types';
+import { getHeaders } from 'store/auth/selectors';
 
-const client = localStorage.getItem('client');
-const accessToken = localStorage.getItem('access-token');
-const uid = localStorage.getItem('uid');
-
-const headers = { client, uid, ['access-token']: accessToken };
-
-export const getDetailedApplication = createAsyncThunk(
+export const getDetailedApplication = createAsyncThunk<any, string, { state: RootState }>(
   'detailedApplication/getPostings',
-  async (id: string) => {
+  async (id, { getState }) => {
+    const headers = getHeaders(getState());
     const res = await axios({
       method: 'GET',
       headers,
@@ -19,9 +16,10 @@ export const getDetailedApplication = createAsyncThunk(
   },
 );
 
-export const submitBids = createAsyncThunk<any, any, any>(
+export const submitBids = createAsyncThunk<any, any, { state: RootState }>(
   'detailedApplication/submitBids',
-  async ({ requestId, supplyId, agreementType }) => {
+  async ({ requestId, supplyId, agreementType }, { getState }) => {
+    const headers = getHeaders(getState());
     const formData = new FormData();
     formData.append('request_posting_id', requestId);
     formData.append('supply_posting_id', supplyId);
@@ -44,9 +42,10 @@ export const submitBids = createAsyncThunk<any, any, any>(
   },
 );
 
-export const submitBidsUp = createAsyncThunk<any, any, any>(
+export const submitBidsUp = createAsyncThunk<any, any, { state: RootState }>(
   'detailedApplication/submitBidsUp',
-  async ({ requestId, supplyId, agreementType }) => {
+  async ({ requestId, supplyId, agreementType }, { getState }) => {
+    const headers = getHeaders(getState());
     const formData = new FormData();
     formData.append('request_posting_id', requestId);
     formData.append('supply_posting_id', supplyId);

@@ -1,132 +1,137 @@
 .wrapper {
-  position       : relative;
-  display        : grid;
+  position: relative;
+  display: grid;
   grid-column-gap: 20px;
   grid-template-areas:
     '. cont cont cont cont cont cont cont cont cont cont .'
     '. btnCont  btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont .'
     'f f f f f f f f f f f f';
   grid-template-columns: repeat(12, 1fr);
-  grid-template-rows   : repeat(3, min-content);
-  width                : 100%;
-  height               : 100%;
-  overflow             : auto;
-  background-color     : #f6f6f6;
+  grid-template-rows: repeat(3, min-content);
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: #f6f6f6;
+}
+
+.bottomStep {
+  margin-bottom: 35px;
 }
 
 @screen-large: 1400px;
-@screen-ml   : 1238px;
-@tablet      : 976px;
-@screen-m    : 460px;
+@screen-ml: 1238px;
+@tablet: 976px;
+@screen-m: 460px;
 
 .content {
-  width         : 100%;
-  max-width     : 1762px;
-  justify-self  : center;
-  grid-area     : cont;
+  width: 100%;
+  max-width: 1762px;
+  justify-self: center;
+  grid-area: cont;
   padding-bottom: 100px;
 }
 
 .title {
-  margin-top   : 80px;
+  margin-top: 80px;
   margin-bottom: 59px;
-  margin-left  : 81px;
-  font-weight  : bold;
-  font-size    : 50px;
-  line-height  : 50px;
-  color        : #4d4d4d;
+  margin-left: 81px;
+  font-weight: bold;
+  font-size: 50px;
+  line-height: 50px;
+  color: #4d4d4d;
 }
 
 .container {
-  width                 : 100%;
-  padding               : 114px 81px 45px;
-  background            : #f9fbff;
-  box-shadow            : 0px 0px 26px rgba(0, 0, 0, 0.08);
-  border-radius         : 25px;
+  position: relative;
+  width: 100%;
+  padding: 114px 81px 45px;
+  background: #f9fbff;
+  box-shadow: 0px 0px 26px rgba(0, 0, 0, 0.08);
+  border-radius: 25px;
   border-top-left-radius: 0px;
 }
 
 .headerBtns {
-  display                : flex;
-  flex-direction         : row;
-  width                  : max-content;
-  background             : #e7f0ff;
-  border-top-left-radius : 25px;
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  background: #e7f0ff;
+  border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  align-self             : flex-start;
+  align-self: flex-start;
 }
 
 .headerBtn {
-  display                : flex;
-  flex-direction         : column;
-  align-items            : center;
-  justify-content        : center;
-  padding                : 20px 125px 18px;
-  border                 : none;
-  background             : none;
-  outline                : none;
-  border-top-left-radius : 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 125px 18px;
+  border: none;
+  background: none;
+  outline: none;
+  border-top-left-radius: 25px;
   border-top-right-radius: 25px;
-  font-weight            : 500;
-  white-space            : nowrap;
-  font-size              : 18px;
-  line-height            : 18px;
-  color                  : #849dc7;
-  cursor                 : pointer;
+  font-weight: 500;
+  white-space: nowrap;
+  font-size: 18px;
+  line-height: 18px;
+  color: #849dc7;
+  cursor: pointer;
 }
 
 .headerBtnFocus {
   font-weight: 600;
-  font-size  : 22px;
+  font-size: 22px;
   line-height: 22px;
-  color      : #597db6;
-  background : #f9fbff;
+  color: #597db6;
+  background: #f9fbff;
 }
 
 .rowContainer {
-  display        : flex;
-  flex-direction : row;
+  display: flex;
+  flex-direction: row;
   justify-content: space-between;
 }
 
 .authDescription {
-  font-size  : 16px;
+  font-size: 16px;
   line-height: 16px;
-  color      : #2f2f2f;
+  color: #2f2f2f;
 }
 
 .authDescriptionTop {
-  display      : none;
+  display: none;
   margin-bottom: 30px;
-  font-size    : 16px;
-  line-height  : 16px;
-  color        : #2f2f2f;
+  font-size: 16px;
+  line-height: 16px;
+  color: #2f2f2f;
 }
 
 .authLink {
   text-decoration: none;
-  color          : #3a85f4;
+  color: #3a85f4;
 }
 
 .rowBtnContainer {
-  composes   : rowContainer;
+  composes: rowContainer;
   align-items: center;
 }
 
 .blockWrapper {
-  display       : flex;
+  display: flex;
   flex-direction: column;
 }
 
 .subtile {
-  display       : flex;
+  display: flex;
   flex-direction: row;
-  align-items   : center;
-  margin-bottom : 21px;
-  font-weight   : 600;
-  font-size     : 18px;
-  line-height   : 22px;
-  color         : #3a85f4;
+  align-items: center;
+  margin-bottom: 21px;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #3a85f4;
 }
 
 .subtileIcon {
@@ -134,81 +139,81 @@
 }
 
 .block {
-  padding      : 32px 40px 32px 25px;
-  background   : #ffffff;
-  box-shadow   : 0px 0px 23px rgba(43, 123, 211, 0.1);
+  padding: 32px 40px 32px 25px;
+  background: #ffffff;
+  box-shadow: 0px 0px 23px rgba(43, 123, 211, 0.1);
   border-radius: 12px;
 }
 
 .radioBlock {
-  composes    : blockWrapper;
-  max-width   : 468px;
-  width       : 100%;
+  composes: blockWrapper;
+  max-width: 468px;
+  width: 100%;
   margin-right: 20px;
 }
 
 .checkboxBlock {
-  composes : blockWrapper;
+  composes: blockWrapper;
   max-width: 872px;
-  width    : 100%;
+  width: 100%;
 }
 
 .checkWrapper {
-  display       : flex;
+  display: flex;
   flex-direction: row;
-  align-items   : flex-start;
+  align-items: flex-start;
 }
 
 .checkBlock {
-  flex         : 1;
+  flex: 1;
   padding-right: 24px;
-  max-width    : 422px;
-  border-right : 1px solid #d6e5ff;
+  max-width: 422px;
+  border-right: 1px solid #d6e5ff;
 }
 
 .sumBlock {
-  max-width   : 344px;
+  max-width: 344px;
   padding-left: 51px;
 }
 
 .inputWrapper {
-  margin-top    : 52px;
-  display       : flex;
+  margin-top: 52px;
+  display: flex;
   flex-direction: row;
-  align-items   : center;
+  align-items: center;
 
   :global {
     .CustomSelect__control {
-      width      : 53px;
-      display    : flex;
+      width: 53px;
+      display: flex;
       align-items: center;
-      height     : 21px;
-      border     : 0;
-      background : inherit;
-      outline    : 0;
-      box-shadow : none;
+      height: 21px;
+      border: 0;
+      background: inherit;
+      outline: 0;
+      box-shadow: none;
     }
 
     .CustomSelect__single-value {
-      height     : 22px;
-      position   : static;
-      top        : unset;
-      margin     : 0;
-      font-size  : 18px;
+      height: 22px;
+      position: static;
+      top: unset;
+      margin: 0;
+      font-size: 18px;
       line-height: 21px;
-      transform  : unset;
-      padding    : 0;
+      transform: unset;
+      padding: 0;
     }
 
     .CustomSelect__value-container {
-      height     : 30px;
-      position   : static;
-      top        : unset;
-      margin     : 0;
-      font-size  : 18px;
+      height: 30px;
+      position: static;
+      top: unset;
+      margin: 0;
+      font-size: 18px;
       line-height: 21px;
-      transform  : unset;
-      padding    : 0;
+      transform: unset;
+      padding: 0;
     }
 
     .CustomSelect__indicator-separator {
@@ -221,14 +226,14 @@
     }
 
     .CustomSelect__indicators {
-      position       : absolute;
-      width          : 11px;
-      height         : 11px;
-      transition     : all 0.3s;
-      background     : url('/assets/selectArrow.png') no-repeat;
+      position: absolute;
+      width: 11px;
+      height: 11px;
+      transition: all 0.3s;
+      background: url('/assets/selectArrow.png') no-repeat;
       background-size: 11px 11px;
-      top            : 13px;
-      left           : 44px;
+      top: 13px;
+      left: 44px;
     }
 
     .CustomSelect__control--menu-is-open .CustomSelect__indicators {
@@ -241,23 +246,23 @@
 
     .CustomSelect__menu-list {
       max-height: 240px;
-      padding   : 12px;
+      padding: 12px;
     }
 
     .CustomSelect__menu {
-      width        : 63px;
-      z-index      : 12;
-      display      : block;
-      margin-top   : 4px;
+      width: 63px;
+      z-index: 12;
+      display: block;
+      margin-top: 4px;
       margin-bottom: 0;
-      font-size    : 14px;
-      line-height  : 20px;
+      font-size: 14px;
+      line-height: 20px;
       border-radius: 0 0 12px 12px;
     }
 
     .CustomSelect__option {
       padding-right: 0;
-      padding-left : 0;
+      padding-left: 0;
 
       &:first-child {
         padding-top: 0;
@@ -281,42 +286,42 @@
     }
 
     .CustomSelect__option--is-selected {
-      color     : var(--color-black);
+      color: var(--color-black);
       background: 0;
     }
   }
 }
 
 .sumInput {
-  margin-right           : 25px;
-  max-width              : 241px;
-  width                  : 100%;
-  padding                : 10px 30px;
-  border                 : none;
-  border-bottom          : 5px solid #e9f1ff;
-  border-top-left-radius : 12px;
+  margin-right: 25px;
+  max-width: 241px;
+  width: 100%;
+  padding: 10px 30px;
+  border: none;
+  border-bottom: 5px solid #e9f1ff;
+  border-top-left-radius: 12px;
   border-top-right-radius: 12px;
-  background             : #f2f7ff;
-  outline                : none;
+  background: #f2f7ff;
+  outline: none;
 }
 
 .workName {
-  margin-top   : 70px;
+  margin-top: 70px;
   margin-bottom: 60px;
 }
 
 .textarea {
-  min-height   : 82px;
-  border       : none;
-  padding      : 17px 30px;
-  background   : #ffffff;
-  box-shadow   : 0px 3px 17px rgba(43, 123, 211, 0.06);
+  min-height: 82px;
+  border: none;
+  padding: 17px 30px;
+  background: #ffffff;
+  box-shadow: 0px 3px 17px rgba(43, 123, 211, 0.06);
   border-radius: 12px;
-  outline      : none;
-  resize       : none;
-  font-size    : 18px;
-  line-height  : 21px;
-  font-family  : 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+  outline: none;
+  resize: none;
+  font-size: 18px;
+  line-height: 21px;
+  font-family: 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
     'Helvetica Neue', sans-serif;
 
   &::placeholder {
@@ -326,7 +331,7 @@
 
 .textareaHight {
   composes: textarea;
-  height  : 220px;
+  height: 220px;
 }
 
 .bottomBlock {
@@ -335,31 +340,31 @@
 
 .textareaKeyWords {
   composes: textarea;
-  width   : 500px;
-  height  : 196px;
+  width: 500px;
+  height: 196px;
 }
 
 .blockWrapperKnowledge {
   composes: blockWrapper;
-  padding : 0 20px;
+  padding: 0 20px;
 }
 
 .keyWordsInfo {
-  margin-top : 20px;
-  font-size  : 16px;
+  margin-top: 20px;
+  font-size: 16px;
   line-height: 16px;
-  color      : #b0bfdb;
+  color: #b0bfdb;
 }
 
 .knowledgeBlock {
-  composes      : block;
-  padding-left  : 17px;
-  padding-right : 17px;
-  max-width     : 756px;
-  width         : 100%;
-  display       : flex;
+  composes: block;
+  padding-left: 17px;
+  padding-right: 17px;
+  max-width: 756px;
+  width: 100%;
+  display: flex;
   flex-direction: row;
-  flex-wrap     : wrap;
+  flex-wrap: wrap;
 }
 
 .knowledgeItem {
@@ -367,72 +372,80 @@
 }
 
 .btnWrapper {
-  margin-top    : 50px;
-  display       : flex;
+  margin-top: 50px;
+  display: flex;
   flex-direction: column;
-  align-items   : center;
+  align-items: center;
 }
 
 .btnBlock {
-  display        : flex;
-  flex-direction : row;
-  align-items    : center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: center;
 }
 
 .outlineBtn {
-  margin-right  : 31px;
-  color         : #3a85f4;
-  border        : 2px solid #3a85f4;
-  padding       : 12px 24px;
-  outline       : none;
-  cursor        : pointer;
-  border-radius : 30px;
-  font-weight   : bold;
-  font-size     : 18px;
-  line-height   : 21px;
-  text-transform: uppercase;
+  margin-right: 31px;
 }
 
 .info {
-  text-align   : center;
-  width        : 480px;
-  margin-top   : 35px;
+  text-align: center;
+  width: 480px;
+  margin-top: 35px;
   margin-bottom: 35px;
-  font-size    : 16px;
-  line-height  : 19px;
-  color        : #b8b8b8;
+  font-size: 16px;
+  line-height: 19px;
+  color: #b8b8b8;
 }
 
 .privateCheckWrapper {
-  composes  : btnBlock;
+  width: 100%;
+  composes: btnBlock;
   margin-top: 115px;
+}
+
+.delete {
+  align-self: flex-end;
+  padding: 8px 15px;
+  position: absolute;
+  right: 40px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 16px;
+  color: #b0d0ff;
+}
+.deleteIcon {
+  margin-right: 12px;
 }
 
 // ---------- modal
 
 .modalWrapper {
-  position       : fixed;
-  display        : flex;
-  top            : 0;
-  align-items    : center;
+  position: fixed;
+  display: flex;
+  top: 0;
+  align-items: center;
   justify-content: center;
-  width          : 100%;
-  height         : 100%;
-  z-index        : 10;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
 }
 
 .modalContaier {
-  position      : relative;
-  width         : 434px;
-  max-width     : 500px;
-  display       : flex;
+  position: relative;
+  width: 434px;
+  max-width: 500px;
+  display: flex;
   flex-direction: column;
-  align-items   : center;
-  padding       : 40px;
-  border-radius : 10px;
-  background    : #f9fbff;
-  z-index       : 20;
+  align-items: center;
+  padding: 40px;
+  border-radius: 10px;
+  background: #f9fbff;
+  z-index: 20;
 }
 
 .noteIcon {
@@ -440,31 +453,61 @@
 }
 
 .modalInfo {
-  width        : 271px;
+  width: 271px;
   margin-bottom: 40px;
-  text-align   : center;
-  font-size    : 16px;
-  line-height  : 20px;
+  text-align: center;
+  font-size: 16px;
+  line-height: 20px;
 }
 
 .overlay {
-  position  : fixed;
-  top       : 0;
-  left      : 0;
-  width     : 100%;
-  height    : 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  z-index   : 10;
+  z-index: 10;
+}
+
+.btn {
+  border: 2px solid #3a85f4;
+  background-color: #3a85f4;
+  color: #ffffff;
 }
 
 .btnBorder {
   margin-top: 10px;
   background: none;
-  border    : 2px solid #3a85f4;
-  color     : #3a85f4;
+  border: 2px solid #3a85f4;
+  color: #3a85f4;
 
   &:hover {
     background: none;
+  }
+}
+
+.errorWrapper {
+  border: 2px solid #ffc5cf;
+  box-shadow: 0px 0px 23px rgba(255, 0, 46, 0.1);
+  border-radius: 12px;
+}
+
+.error {
+  margin-top: 9px;
+  margin-left: 30px;
+  color: #fe5050;
+  font-size: 14px;
+  line-height: 14px;
+}
+.exit {
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  fill: var(--color-gray);
+  cursor: pointer;
+  &:hover {
+    fill: var(--color-black);
   }
 }
 
@@ -480,26 +523,26 @@
 
 @media screen and (max-width: 770px) {
   .wrapper {
-    position       : relative;
-    display        : grid;
+    position: relative;
+    display: grid;
     grid-column-gap: 20px;
     grid-template-areas:
       '. cont .'
       'btnCont'
       'f';
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows   : repeat(3, min-content);
+    grid-template-rows: repeat(3, min-content);
   }
 
   .container {
-    padding  : 72px 36px 40px;
+    padding: 72px 36px 40px;
     max-width: 728px;
   }
 
   .title {
-    margin-top   : 80px;
+    margin-top: 80px;
     margin-bottom: 20px;
-    margin-left  : 0px;
+    margin-left: 0px;
   }
 
   .authDescriptionTop {
@@ -508,7 +551,7 @@
 
   .radioBlock {
     max-width: 100%;
-    width    : 100%;
+    width: 100%;
   }
 
   .authDescription {
@@ -528,7 +571,7 @@
   }
 
   .workName {
-    margin-top   : 60px;
+    margin-top: 60px;
     margin-bottom: 60px;
   }
 
@@ -537,9 +580,9 @@
   }
 
   .blockWrapperKnowledge {
-    margin-top   : 60px;
+    margin-top: 60px;
     margin-bottom: 60px;
-    padding      : 0;
+    padding: 0;
   }
 
   .textareaKeyWords {
@@ -549,51 +592,51 @@
 
 @media screen and (max-width: 700px) {
   .wrapper {
-    position       : relative;
-    display        : grid;
+    position: relative;
+    display: grid;
     grid-column-gap: 20px;
     grid-template-areas:
       '. cont .'
       'btnCont'
       'f';
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows   : repeat(3, min-content);
+    grid-template-rows: repeat(3, min-content);
   }
 
   .container {
-    padding  : 72px 36px 40px;
+    padding: 72px 36px 40px;
     max-width: 100%;
   }
 
   .title {
-    font-size  : 36px;
+    font-size: 36px;
     line-height: 36px;
   }
 
   .blockWrapperKnowledge {
-    margin-top   : 60px;
+    margin-top: 60px;
     margin-bottom: 60px;
-    padding      : 0;
+    padding: 0;
   }
 
   .checkWrapper {
-    display       : flex;
+    display: flex;
     flex-direction: column;
-    align-items   : flex-start;
+    align-items: flex-start;
   }
 
   .checkBlock {
-    flex          : 1;
-    padding-right : 0px;
+    flex: 1;
+    padding-right: 0px;
     padding-bottom: 30px;
-    max-width     : 422px;
-    border-right  : none;
-    border-bottom : 1px solid #d6e5ff;
-    margin-bottom : 31px;
+    max-width: 422px;
+    border-right: none;
+    border-bottom: 1px solid #d6e5ff;
+    margin-bottom: 31px;
   }
 
   .sumBlock {
-    max-width   : 100%;
+    max-width: 100%;
     padding-left: 0px;
   }
 
@@ -602,14 +645,13 @@
   }
 
   .btnBlock {
-    display        : flex;
-    flex-direction : column;
-    align-items    : center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: center;
-
     .outlineBtn {
       margin-bottom: 20px;
-      margin-right : 0;
+      margin-right: 0;
     }
   }
 }
@@ -618,26 +660,22 @@
   .authDescription {
     margin-left: 10px;
   }
-
   .inputWrapper {
     flex-direction: column;
-    margin-top    : 0;
-
+    margin-top: 0;
   }
 
   .blockWrapperKnowledge {
     padding: 0 0 0 20px;
   }
-
   .bottomBlock {
     .rowContainer {
-      flex-wrap      : wrap;
+      flex-wrap: wrap;
       justify-content: space-between;
 
       .sumBlock {
         height: 100%;
       }
-
       .blockWrapper {
         .textareaKeyWords {
           width: 100%;
@@ -645,45 +683,38 @@
 
         width: 40%;
       }
-
       .blockWrapperKnowledge {
         width: 60%;
       }
-
       .blockDeadLine {
         width: 100%;
       }
     }
   }
-
   .checkWrapper {
     height: 100%;
   }
-
   .sumBlock {
-    display        : flex;
-    flex-direction : column;
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    height         : 100%;
+    height: 100%;
   }
 }
 
 @media screen and (max-width: @screen-ml) {
   .checkboxItem {
     span {
-      width  : 0 !important;
-      height : 0 !important;
+      width: 0 !important;
+      height: 0 !important;
       padding: 7px !important;
-
     }
   }
 }
 
-
-
-@media screen and (max-width:@tablet) {
+@media screen and (max-width: @tablet) {
   .title {
-    margin-left  : 0;
+    margin-left: 0;
     margin-bottom: 30px;
   }
 
@@ -692,7 +723,7 @@
       margin-bottom: 30px;
     }
 
-    align-items   : flex-start;
+    align-items: flex-start;
     flex-direction: column-reverse;
   }
 
@@ -718,7 +749,7 @@
 
   .checkBlock {
     max-width: 768px;
-    width    : 100%;
+    width: 100%;
   }
 
   .inputWrapper {
@@ -735,7 +766,7 @@
 
   .blockWrapperKnowledge {
     margin-top: 70px;
-    padding   : 0;
+    padding: 0;
   }
 
   .checkboxBlock {
@@ -747,7 +778,7 @@
   }
 }
 
-@media screen and (max-width:771px) {
+@media screen and (max-width: 771px) {
   .blockDeadLine {
     margin-top: 0;
   }
@@ -775,11 +806,11 @@
 
   .privateCheckWrapper {
     align-items: flex-start;
-    margin-top : 30px;
+    margin-top: 30px;
   }
 
   .headerBtn {
-    padding  : 15px 18px 11px;
+    padding: 15px 18px 11px;
     font-size: 18px;
   }
 
@@ -788,9 +819,9 @@
   }
 
   .knowledgeBlock {
-    overflow-x    : scroll;
-    height        : 274px;
+    overflow-x: scroll;
+    height: 274px;
     flex-direction: column;
-    flex-wrap     : wrap;
+    flex-wrap: wrap;
   }
 }
