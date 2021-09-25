@@ -670,7 +670,6 @@ export const ApplicationForm: React.FC<Props> = ({
           {index !== undefined && !!removeItem && !isAlone && (
             <div className={css.delete} onClick={() => removeItem(index)}>
               <Delete className={css.deleteIcon} />
-              {' '}
               Удалить заявку
             </div>
           )}
