@@ -17,7 +17,7 @@
     "jsx": "react-jsx",
     "outDir": "./dist/",
     "noImplicitAny": true,
-    "target": "ESNext",
+    "target": "ES2019",
     "baseUrl": "src"
   },
   "exclude": ["node_modules"],
