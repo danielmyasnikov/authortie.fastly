@@ -67,7 +67,8 @@ export const Info: React.FC<Props> = ({
         ) : (
           <a href={IDURL} className={styles.bigIcon}>
             <img className={styles.bigIcon} src={IDColor} alt="" />
-            <span className={styles.confirmedOrcid}>{t('confirmedOrcid')}</span>{' '}
+            <span className={styles.confirmedOrcid}>{t('confirmedOrcid')}</span>
+            {' '}
           </a>
         )}
       </div>

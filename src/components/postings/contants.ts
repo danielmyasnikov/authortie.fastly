@@ -10,7 +10,6 @@ export const CATEGORY_OPTIONS = [
   { label: 'Выполнить исследования', value: 'do_research' },
   { label: 'Заказать работу с текстом и графикой', value: 'request_graphic_design' },
 
-
 ];
 
 export const KNOWLEDGE_OPTIONS = [

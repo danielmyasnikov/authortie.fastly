@@ -1,10 +1,10 @@
 import React, { Fragment } from 'react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
-import { WhoIAm } from './applicationForm';
 import { RadioButton } from 'components/common/radioBtn';
 import RoundRowRight from 'assets/roundRowRight.svg';
 import Expand from 'assets/expand.svg';
+import { WhoIAm } from './applicationForm';
 import css from './css.module.less';
 
 interface Props {
@@ -53,9 +53,9 @@ export const RadioTypes: React.FC<Props> = ({
         {listArray.map(({ category, list }: { category: string; list: any[] }, i: number) => (
           <div key={category + index + i}>
             {moreList && <p className={css.subtileOpenBlok}>{category}</p>}
-            {list &&
-              list.length &&
-              list.map(
+            {list
+              && list.length
+              && list.map(
                 (
                   { checked, id, value }: { checked: boolean; id: string; value: string },
                   i: number,

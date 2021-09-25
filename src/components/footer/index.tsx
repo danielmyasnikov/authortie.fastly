@@ -22,13 +22,13 @@ export const Footer: React.FC = () => {
           <span className={styles.titleMenu}>{t('forBusiness')}</span>
         </div>
         <div className={styles.iconsWrapper}>
-          <a href="https://www.facebook.com/authortiepage" target="_blank" className={styles.link}>
+          <a href="https://www.facebook.com/authortiepage" target="_blank" className={styles.link} rel="noreferrer">
             <Facebook className={styles.icon} />
           </a>
-          <a href="https://www.instagram.com/authortie" target="_blank" className={styles.link}>
+          <a href="https://www.instagram.com/authortie" target="_blank" className={styles.link} rel="noreferrer">
             <Instagram className={styles.icon} />
           </a>
-          <a href="https://t.me/authortie" target="_blank" className={styles.link}>
+          <a href="https://t.me/authortie" target="_blank" className={styles.link} rel="noreferrer">
             <Telegram className={styles.icon} />
           </a>
         </div>

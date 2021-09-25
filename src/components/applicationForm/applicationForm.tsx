@@ -14,8 +14,6 @@ import { createPostings, editPostings } from 'store/request/actions';
 import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { KeyWords } from 'components/common/keywords';
 import { createPost as createPostSlice } from 'store/request/slice';
-import { CheckboxTypes } from './CheckboxTypes';
-import { RadioTypes } from './RadioTypes';
 import NoteModal from 'assets/note.svg';
 import Pencil from 'assets/edit.svg';
 import Note from 'assets/noteDescription.svg';
@@ -25,6 +23,8 @@ import Close from 'assets/close.svg';
 import Delete from 'assets/delete.svg';
 
 import { AppDispatch } from 'store/types';
+import { RadioTypes } from './RadioTypes';
+import { CheckboxTypes } from './CheckboxTypes';
 
 import {
   knowledgeDefault,
@@ -60,8 +60,8 @@ interface Props {
 }
 
 export enum WhoIAm {
-  CUSTOMER = 'demand', //спрос(я заказчик)
-  EXECUTOR = 'supply', //предложение (я исполнитель)
+  CUSTOMER = 'demand', // спрос(я заказчик)
+  EXECUTOR = 'supply', // предложение (я исполнитель)
 }
 
 export const ApplicationForm: React.FC<Props> = ({
@@ -132,8 +132,8 @@ export const ApplicationForm: React.FC<Props> = ({
       const editKnowledge = knowledgeDefault.map((item) => ({
         ...item,
         checked:
-          Array.isArray(editData.knowledge_area_list) &&
-          editData.knowledge_area_list.includes(item.id),
+          Array.isArray(editData.knowledge_area_list)
+          && editData.knowledge_area_list.includes(item.id),
       }));
 
       const editWorkTypes = workTypesDefaultAllList.map((item: any) => {
@@ -165,8 +165,8 @@ export const ApplicationForm: React.FC<Props> = ({
       setSum(editData.reward_sum);
       setCurrency({ label: editData.reward_currency, value: editData.reward_currency });
       setSumCheck(
-        Array.isArray(editData.reward_type_list) &&
-          editData.reward_type_list.find((item: string) => item === 'money'),
+        Array.isArray(editData.reward_type_list)
+          && editData.reward_type_list.find((item: string) => item === 'money'),
       );
 
       setApproxDate(editData.approx_date);
@@ -259,18 +259,18 @@ export const ApplicationForm: React.FC<Props> = ({
 
     setValid(validValue);
     if (
-      !validValue.radioBlock &&
-      !validValue.checboxBlock &&
-      !validValue.workName &&
-      !validValue.workDescription &&
-      !validValue.keyWords &&
-      !validValue.knowledge &&
-      !validValue.approxDate
+      !validValue.radioBlock
+      && !validValue.checboxBlock
+      && !validValue.workName
+      && !validValue.workDescription
+      && !validValue.keyWords
+      && !validValue.knowledge
+      && !validValue.approxDate
     ) {
       return true;
     }
   }
-  
+
   useEffect(() => {
     const checkedWorkTypes = workTypes
       .map(({ list }) => list.map((itemList) => itemList))
@@ -398,7 +398,7 @@ export const ApplicationForm: React.FC<Props> = ({
   }
 
   function addArray() {
-    if (!!addToArray) {
+    if (addToArray) {
       addToArray();
     }
   }
@@ -412,9 +412,7 @@ export const ApplicationForm: React.FC<Props> = ({
     unsetValid();
 
     const newWorkTypes = workTypes.map((item: any) => {
-      const newList = item.list.map((itemList: any) =>
-        itemList.id === id ? { ...itemList, checked: true } : { ...itemList, checked: false },
-      );
+      const newList = item.list.map((itemList: any) => (itemList.id === id ? { ...itemList, checked: true } : { ...itemList, checked: false }));
       return { ...item, list: newList };
     });
     setWorkTypes(newWorkTypes);
@@ -423,9 +421,7 @@ export const ApplicationForm: React.FC<Props> = ({
   function handleCheckedList(id: string) {
     unsetValid();
     const newRewardTypes = rewardTypes.map((item: any) => {
-      const newList = item.list.map((itemList: any) =>
-        itemList.id === id ? { ...itemList, checked: !itemList.checked } : { ...itemList },
-      );
+      const newList = item.list.map((itemList: any) => (itemList.id === id ? { ...itemList, checked: !itemList.checked } : { ...itemList }));
       return { ...item, list: newList };
     });
 
@@ -434,9 +430,7 @@ export const ApplicationForm: React.FC<Props> = ({
 
   function handleKnowledgeList(id: string) {
     unsetValid();
-    const newKnowledge = knowledge.map((item: any) =>
-      item.id === id ? { ...item, checked: !item.checked } : { ...item },
-    );
+    const newKnowledge = knowledge.map((item: any) => (item.id === id ? { ...item, checked: !item.checked } : { ...item }));
     setKnowledge(newKnowledge);
   }
 
@@ -606,10 +600,10 @@ export const ApplicationForm: React.FC<Props> = ({
         <NoteModal className={css.noteIcon} />
         <span className={css.subtitle}>{t('confirmTitle')}</span>
         <span className={css.modalInfo}>{t('confirmInfo')}</span>
-        <Link to={'/community'}>
+        <Link to="/community">
           <Button>{t('toPostings')}</Button>
         </Link>
-        <Link to={'/'}>
+        <Link to="/">
           <Button className={css.btnBorder}>{t('toMain')}</Button>
         </Link>
       </div>
@@ -675,7 +669,9 @@ export const ApplicationForm: React.FC<Props> = ({
           />
           {index !== undefined && !!removeItem && !isAlone && (
             <div className={css.delete} onClick={() => removeItem(index)}>
-              <Delete className={css.deleteIcon} /> Удалить заявку
+              <Delete className={css.deleteIcon} />
+              {' '}
+              Удалить заявку
             </div>
           )}
         </div>

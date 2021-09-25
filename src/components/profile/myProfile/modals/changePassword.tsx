@@ -30,7 +30,6 @@ export const ChangePassword: React.FC<Props> = ({ onClose, open }) => {
   const [isShowNewPassword, setIsShowNewPassword] = useState<boolean>(false);
   const [isConf, setIsConf] = useState(false);
   const headers = useSelector(getHeaders);
-  
 
   const { t } = useTranslation('profile');
 
@@ -49,7 +48,7 @@ export const ChangePassword: React.FC<Props> = ({ onClose, open }) => {
         method: 'PATCH',
         headers,
         data,
-        url: `https://authortie-app.herokuapp.com//auth`,
+        url: 'https://authortie-app.herokuapp.com//auth',
       });
       setIsConf(true);
     } catch (err: any) {
@@ -82,14 +81,14 @@ export const ChangePassword: React.FC<Props> = ({ onClose, open }) => {
 
   const renderConf = () => (
     <>
-      <span className={styles.subtitle}>{'Пароль успешно изменен'}</span>
+      <span className={styles.subtitle}>Пароль успешно изменен</span>
       <Button onClick={closeModal}>Закрыть</Button>
     </>
   );
 
   const renderInputs = () => (
     <>
-      <span className={styles.subtitle}>{'Смена пароля'}</span>
+      <span className={styles.subtitle}>Смена пароля</span>
 
       <div
         className={cn(styles.inputWrapper, {

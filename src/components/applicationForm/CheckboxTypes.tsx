@@ -59,13 +59,12 @@ export const CheckboxTypes: React.FC<Props> = ({
   const shortList = whoIAm === WhoIAm.EXECUTOR ? [rewardTypes[0], rewardTypes[1]] : rewardTypes;
   const listArray = moreList && whoIAm === WhoIAm.EXECUTOR ? rewardTypes : shortList;
 
-  const renderList = () =>
-    listArray.map(({ category, list }: { category: string; list: any[] }, i: number) => (
-      <div key={category + index + i}>
-        {moreList && <p className={css.subtileOpenBlok}>{category}</p>}
-        {list &&
-          list.length &&
-          list.map(
+  const renderList = () => listArray.map(({ category, list }: { category: string; list: any[] }, i: number) => (
+    <div key={category + index + i}>
+      {moreList && <p className={css.subtileOpenBlok}>{category}</p>}
+      {list
+          && list.length
+          && list.map(
             (
               { checked, id, value }: { checked: boolean; id: string; value: string },
               i: number,
@@ -84,8 +83,8 @@ export const CheckboxTypes: React.FC<Props> = ({
               </Fragment>
             ),
           )}
-      </div>
-    ));
+    </div>
+  ));
 
   return (
     <div className={css.checkboxBlock}>

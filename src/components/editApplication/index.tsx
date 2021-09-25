@@ -26,7 +26,7 @@ export const EditApplication = () => {
   }, [post]);
 
   useEffect(() => {
-    if (!!params.id) {
+    if (params.id) {
       dispatch(getDetailedApplication(params.id));
     }
   }, [params.id]);

@@ -3,8 +3,8 @@ import { useHistory } from 'react-router';
 import { authSlice } from 'store/auth/slice';
 import { Modal } from 'components/common/modal';
 import { Button } from 'components/common/button';
-import styles from './styles.module.less';
 import React from 'react';
+import styles from './styles.module.less';
 
 interface Props {
   onClose: (value: boolean) => void;
@@ -30,7 +30,7 @@ export const LogoutModal: React.FC<Props> = ({ onClose, open }) => {
 
   return (
     <Modal open={open} onClose={closeModal}>
-      <span className={styles.subtitle}>{'Вы уверены что хотите выйти?'}</span>
+      <span className={styles.subtitle}>Вы уверены что хотите выйти?</span>
       <Button onClick={logout} className={styles.btn}>
         Выйти
       </Button>

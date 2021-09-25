@@ -1,11 +1,11 @@
 // общие стили для заявки
 
 export interface Post{
-    approxDate: string;
-    comment: string;
-    id: number;
-    isProfileVisible: boolean;
-    keywordList: string[];
+  approxDate: string;
+  comment: string;
+  id: number;
+  isProfileVisible: boolean;
+  keywordList: string[];
 }
 
 // approx_date: "2021-07-23"

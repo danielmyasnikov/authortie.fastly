@@ -4,9 +4,9 @@ import { RootState } from 'store/types';
 import { getHeaders } from 'store/auth/selectors';
 
 export const getPostings = createAsyncThunk<
-  any,
-  { page: number; workType?: string; knowledgeArea?: string },
-  { state: RootState }
+any,
+{ page: number; workType?: string; knowledgeArea?: string },
+{ state: RootState }
 >('postings/getPostings', async ({ page, workType, knowledgeArea }, { getState }) => {
   const headers = getHeaders(getState());
   let filter = '';
@@ -22,7 +22,7 @@ export const getPostings = createAsyncThunk<
 
   const res = await axios({
     method: 'GET',
-    url: !!filter
+    url: filter
       ? `https://authortie-app.herokuapp.com/api/v1/postings?view_type=lenta&page=${page}${filter}`
       : `https://authortie-app.herokuapp.com/api/v1/postings?view_type=lenta&page=${page}`,
     headers,
