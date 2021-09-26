@@ -105,11 +105,10 @@ export const Postings = () => {
           </button>
         </div>
         <div className={styles.cards}>
-          {!!postingsList &&
-            !!postingsList.length &&
-            postingsList.map((item: any) => (
+          {!!postingsList
+            && !!postingsList.length
+            && postingsList.map((item: any) => (
               <React.Fragment key={item.id + item.title}>
-                {console.log(postingsList)}
                 <Card
                   privateAccaunt={!item.is_profile_visible}
                   id={item.id}
@@ -118,7 +117,7 @@ export const Postings = () => {
                   author={item.user && item.user.profile}
                   title={item.title}
                   fieldOfActivity=""
-                  workType={!!item.length ? item?.work_type_list[0] : ''}
+                  workType={item.length ? item?.work_type_list[0] : ''}
                   knowledgeArea={item.knowledge_area_list || ''}
                   rewardType={item.reward_type}
                   rewardCurrency={item.reward_currency}

@@ -37,7 +37,7 @@ export const Review = () => {
         method: 'POST',
         headers,
         data,
-        url: `https://authortie-app.herokuapp.com/api/v1/reviews`,
+        url: 'https://authortie-app.herokuapp.com/api/v1/reviews',
       });
       setIsConf(true);
     } catch {

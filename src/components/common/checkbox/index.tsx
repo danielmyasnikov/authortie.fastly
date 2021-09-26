@@ -13,7 +13,9 @@ type Props = {
   isColor?: boolean;
 };
 
-export const Checkbox: React.FC<Props> = ({ id, checked, className, label, onChange, name, isColor }) => (
+export const Checkbox: React.FC<Props> = ({
+  id, checked, className, label, onChange, name, isColor,
+}) => (
   <label
     htmlFor={id}
     className={cn(css.checkbox, className, {

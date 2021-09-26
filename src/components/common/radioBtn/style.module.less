@@ -4,6 +4,7 @@
   align-items: center;
   cursor: pointer;
   padding: 8px 15px;
+  max-width: 400px;
 }
 
 .checkbox::selection {
@@ -102,8 +103,8 @@
   }
 }
 
-@screen-ml:1238px;
-@media screen and (max-width: @screen-ml){
+@screen-ml: 1238px;
+@media screen and (max-width: @screen-ml) {
   .checkbox input + span {
     width: 0;
     height: 0;

@@ -4,7 +4,6 @@ import { getIsAuth } from 'store/auth/selectors';
 import { authSlice } from 'store/auth/slice';
 import { Link } from 'react-router-dom';
 import { createPostingsApp } from 'store/request/actions';
-import { ApplicationForm } from './applicationForm';
 import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'components/common/button';
@@ -12,6 +11,7 @@ import NoteModal from 'assets/note.svg';
 import { Modal } from 'components/common/modal';
 import { getCreatePost } from 'store/request/selectors';
 import { createPost } from 'store/request/slice';
+import { ApplicationForm } from './applicationForm';
 import css from './css.module.less';
 
 export const Application = () => {
@@ -65,10 +65,10 @@ export const Application = () => {
       <NoteModal className={css.noteIcon} />
       <span className={css.subtitle}>{t('confirmTitle')}</span>
       <span className={css.modalInfo}>{t('confirmInfo')}</span>
-      <Link to={'/community'}>
+      <Link to="/community">
         <Button>{t('toPostings')}</Button>
       </Link>
-      <Link to={'/'}>
+      <Link to="/">
         <Button className={css.btnBorder}>{t('toMain')}</Button>
       </Link>
     </Modal>

@@ -6,8 +6,8 @@ import ReactTooltip from 'react-tooltip';
 import Camera from 'assets/camera.svg';
 import Right from 'assets/right.svg';
 import Key from 'assets/key.svg';
-import { Tag } from './tag';
 import { Button } from 'components/common/button';
+import { Tag } from './tag';
 import styles from './styles.module.less';
 
 interface Props {
@@ -98,8 +98,8 @@ export const Card: React.FC<Props> = ({
 
       <span className={styles.text}>{t('reward')}</span>
       <div className={styles.tagWrapper}>
-        {rewardType &&
-          rewardType.map((item) => (
+        {rewardType
+          && rewardType.map((item) => (
             <React.Fragment key={item}>
               {item === 'money' && (
                 <div className={styles.award}>
@@ -109,13 +109,11 @@ export const Card: React.FC<Props> = ({
                   <span className={styles.price}>{`${rewardSum} ${rewardCurrency}`}</span>
                 </div>
               )}
-              {item !== 'money' &&
-                <Button className={styles.btnRewardType}>{t(rewardType)}</Button>
-              }
+              {item !== 'money'
+                && <Button className={styles.btnRewardType}>{t(rewardType)}</Button>}
               {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
             </React.Fragment>
-          ))
-        }
+          ))}
       </div>
 
       <div className={styles.keyWrapper}>
@@ -148,8 +146,10 @@ export const Card: React.FC<Props> = ({
                   </span>
                 </div>
                 <div className={styles.row}>
-                  <span className={styles.comment}>{`${t(author.degree)} ${author.degree_category
-                    }`}</span>
+                  <span className={styles.comment}>
+                    {`${t(author.degree)} ${author.degree_category
+                    }`}
+                  </span>
                 </div>
 
                 <span className={styles.comment}>{author.affiliation}</span>
@@ -160,19 +160,21 @@ export const Card: React.FC<Props> = ({
       </div>
 
       <div className={styles.btnWrapper}>
-        {isMyPost ?
-          <Link to={`/edit/${id}`}>
-            <Button className={styles.btn}>
-              {t('edit')}
-            </Button>
-          </Link>
-          :
-          <Link to={`/community/${id}?offerCooperation=true`}>
-            <Button className={styles.btn}>
-              {t('offerCooperation')}
-            </Button>
-          </Link>
-        }
+        {isMyPost
+          ? (
+            <Link to={`/edit/${id}`}>
+              <Button className={styles.btn}>
+                {t('edit')}
+              </Button>
+            </Link>
+          )
+          : (
+            <Link to={`/community/${id}?offerCooperation=true`}>
+              <Button className={styles.btn}>
+                {t('offerCooperation')}
+              </Button>
+            </Link>
+          )}
 
         <Link to={`/community/${id}`}>
           <Button className={styles.rightBtn}>

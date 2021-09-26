@@ -1,8 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
-import styles from './styles.module.less';
 import classNames from 'classnames';
 import { colors } from 'react-select/src/theme';
+import styles from './styles.module.less';
 
 interface Props {
   children: React.ReactNode;
@@ -11,7 +11,9 @@ interface Props {
   disabled?: boolean;
 }
 
-export const Button: React.FC<Props> = ({ children, onClick, className, disabled }) => {
+export const Button: React.FC<Props> = ({
+  children, onClick, className, disabled,
+}) => {
   return (
     <button
       disabled={!!disabled}

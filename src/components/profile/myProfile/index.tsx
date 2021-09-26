@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
@@ -22,7 +22,6 @@ import { Modal } from 'components/common/modal';
 
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
-import { useEffect } from 'react';
 
 import { Info } from './info';
 import { Widget } from './widget';
@@ -68,8 +67,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
   const { profile } = useSelector(getProfileSelector);
   const isMyProfile = !id;
 
-  const IDURL =
-    'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/profile';
+  const IDURL = 'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/profile';
 
   useEffect(() => {
     setAvatarURL(profile.avatarUrl);
@@ -103,16 +101,15 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
     } else dispatch(getProfile(id)).finally(() => setLoading(false));
   }, [id]);
 
-  const getDataUrlFromFile = (file: File | Blob): Promise<string> =>
-    new Promise((resolve) => {
-      const reader = new FileReader();
+  const getDataUrlFromFile = (file: File | Blob): Promise<string> => new Promise((resolve) => {
+    const reader = new FileReader();
 
-      reader.addEventListener('load', () => {
-        resolve(reader.result as string);
-      });
-
-      reader.readAsDataURL(file);
+    reader.addEventListener('load', () => {
+      resolve(reader.result as string);
     });
+
+    reader.readAsDataURL(file);
+  });
 
   function handleFileInputChanged(event: React.FormEvent<HTMLInputElement>) {
     // @ts-ignore
@@ -134,9 +131,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
 
   function handleLinkChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    const newLinkValue = linkArray.map((item) =>
-      String(item.id) === name ? { ...item, url: value } : item,
-    );
+    const newLinkValue = linkArray.map((item) => (String(item.id) === name ? { ...item, url: value } : item));
     setLinkArray(newLinkValue);
   }
 
@@ -167,7 +162,6 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
       grade: grade?.label || '',
       linksForData,
     };
-    console.log('fghjk');
     const resultConf = await dispatch(setProfile(data));
     if (setProfile.fulfilled.match(resultConf)) {
       setModal(true);
@@ -184,7 +178,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
   const renderModal = () => (
     <Modal onClose={setModal} open={modal}>
       <Note className={styles.noteIcon} />
-      <span className={styles.subtitle}>{'Профиль обнавлен'}</span>
+      <span className={styles.subtitle}>Профиль обнавлен</span>
     </Modal>
   );
 
@@ -380,6 +374,14 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                   </button> */}
                   </div>
                 </div>
+              </div>
+            ))}
+            {!isMyProfile
+              && !!linkArray.length
+              && linkArray.map((item) => (
+                <a target="_blank" href={item.url} className={styles.userInfoLink} rel="noreferrer">
+                  {item.url}
+                </a>
               ))}
               {!isMyProfile &&
                 !!linkArray.length &&

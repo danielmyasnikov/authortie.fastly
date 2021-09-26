@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import { authSlice } from 'store/auth/slice';
 import axios from 'axios';
-import { getIsAuth } from 'store/auth/selectors';
+import { getIsAuth, getHeaders } from 'store/auth/selectors';
 import cn from 'classnames';
 import logo from 'assets/logo.png';
 import Bell from 'assets/bell.svg';
 import User from 'assets/user.svg';
 import Lang from 'assets/lang.svg';
-import { getHeaders } from 'store/auth/selectors';
 import { Button } from 'components/common/button';
 import styles from './styles.module.less';
-import { useEffect } from 'react';
 
 export const Menu: React.FC = () => {
   const { t } = useTranslation('menu');
@@ -38,13 +36,13 @@ export const Menu: React.FC = () => {
   useEffect(() => {
     getNotifications();
     const lang = localStorage.getItem('lang');
-    if (!!lang) changeLanguageHandler(lang);
+    if (lang) changeLanguageHandler(lang);
   }, []);
 
   async function getNotifications() {
     const res = await axios({
       headers,
-      url: `https://authortie-app.herokuapp.com/api/v1/notifications`,
+      url: 'https://authortie-app.herokuapp.com/api/v1/notifications',
     });
     setNotifications(res.data);
   }
@@ -56,7 +54,7 @@ export const Menu: React.FC = () => {
       data: {
         ids: JSON.stringify(id),
       },
-      url: `https://authortie-app.herokuapp.com/api/v1/notifications/bulk_update`,
+      url: 'https://authortie-app.herokuapp.com/api/v1/notifications/bulk_update',
     });
     getNotifications();
   }
@@ -65,7 +63,7 @@ export const Menu: React.FC = () => {
     <div className={styles.wrapper}>
       <div className={cn(styles.itemsWrapperMobile, { [styles.openMenu]: isOpenMenu })}>
         <span className={styles.item}>{t('analitics')}</span>
-        <Link to={'/community'} onClick={() => setIsOpenMenu(!isOpenMenu)} className={styles.item}>
+        <Link to="/community" onClick={() => setIsOpenMenu(!isOpenMenu)} className={styles.item}>
           {t('community')}
         </Link>
         <span className={styles.item}>{t('forBusiness')}</span>
@@ -80,16 +78,16 @@ export const Menu: React.FC = () => {
           onClick={() => setIsOpenMenu(!isOpenMenu)}
           type="button"
         >
-          <span className={styles.burgerItem}></span>
+          <span className={styles.burgerItem} />
         </button>
 
-        <Link to={'/'} className={styles.logoWrapper}>
+        <Link to="/" className={styles.logoWrapper}>
           <img src={logo} alt="authortie" className={styles.logo} />
         </Link>
 
         <div className={styles.itemsWrapper}>
           <span className={styles.item}>{t('analitics')}</span>
-          <Link to={'/community'} className={styles.item}>
+          <Link to="/community" className={styles.item}>
             {t('community')}
           </Link>
           <span className={styles.item}>{t('forBusiness')}</span>
@@ -126,14 +124,17 @@ export const Menu: React.FC = () => {
                       className={styles.notificationsItem}
                       to={item.url}
                     >
-                      <span> {`${item.message} ${item.ago}`}</span>
+                      <span>
+                        {' '}
+                        {`${item.message} ${item.ago}`}
+                      </span>
                     </Link>
                   ))}
                 </div>
               )}
             </div>
 
-            <Link to={'/profile'} className={styles.userName}>
+            <Link to="/profile" className={styles.userName}>
               <User className={styles.icon} />
             </Link>
           </>

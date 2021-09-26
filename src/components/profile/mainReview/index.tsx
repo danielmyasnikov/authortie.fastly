@@ -21,15 +21,14 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   const [reviewList, setRewiewList] = useState([]);
   const { t, i18n } = useTranslation('profile');
   const headers = useSelector(getHeaders);
-  console.log(i18n);
   useEffect(() => {
     getReview();
   }, []);
 
   async function getReview() {
-    const url = !!id
+    const url = id
       ? `https://authortie-app.herokuapp.com/api/v1/profiles/${id}/reputation`
-      : `https://authortie-app.herokuapp.com/api/v1/reviews/mine`;
+      : 'https://authortie-app.herokuapp.com/api/v1/reviews/mine';
     const res = await axios({
       headers,
       url,
@@ -39,7 +38,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
 
   function getName(review: any) {
     return review.profile.name
-      ? `review.profile.name review.profile.last_name review.profile.middle_name`
+      ? 'review.profile.name review.profile.last_name review.profile.middle_name'
       : 'Нет имени';
   }
 
@@ -58,7 +57,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   return (
     <div className={css.wrapper}>
       <div className={css.cards}>
-        {!!reviewList.length ? (
+        {reviewList.length ? (
           reviewList.map((item: any) => (
             <div className={css.wrap}>
               <div className={css.header}>

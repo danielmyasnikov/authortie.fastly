@@ -45,8 +45,8 @@ export const profileSlice = createSlice({
     builder.addCase(actions.getProfile.fulfilled, (state, { payload }) => {
       Object.assign(state.profile, payload);
     }),
-      builder.addCase(actions.getAuthProfile.fulfilled, (state, { payload }) => {
-        Object.assign(state.profile, payload);
-      });
+    builder.addCase(actions.getAuthProfile.fulfilled, (state, { payload }) => {
+      Object.assign(state.profile, payload);
+    });
   },
 });

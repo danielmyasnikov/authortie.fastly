@@ -10,7 +10,9 @@ interface Props {
   className?: string;
 }
 
-export const Tag: React.FC<Props> = ({ className, children, dataTip, dataFor, dataTipDisable }) => {
+export const Tag: React.FC<Props> = ({
+  className, children, dataTip, dataFor, dataTipDisable,
+}) => {
   return (
     <div
       data-tip={dataTip}

@@ -85,17 +85,15 @@ export const Registration: React.FC = () => {
     const resultConf = await dispatch(getSignIn({ email, password }));
     if (getSignIn.rejected.match(resultConf) && resultConf.payload) {
       setError(resultConf.payload);
-    } else {
-      if (!errorIndex.length && !!dataArray && isSubmitData) {
-        const resultConf = await dispatch(createPostingsApp(dataArray));
-        if (createPostingsApp.fulfilled.match(resultConf)) {
-          setIsConfirm(true);
-          dispatch(createPostSlice.actions.getSubmitData(false));
-        }
-      } else {
-        history.goBack();
-        dispatch(getProfile());
+    } else if (!errorIndex.length && !!dataArray && isSubmitData) {
+      const resultConf = await dispatch(createPostingsApp(dataArray));
+      if (createPostingsApp.fulfilled.match(resultConf)) {
+        setIsConfirm(true);
+        dispatch(createPostSlice.actions.getSubmitData(false));
       }
+    } else {
+      history.goBack();
+      dispatch(getProfile());
     }
   }
 
@@ -105,8 +103,8 @@ export const Registration: React.FC = () => {
     if (getRegistration.rejected.match(resultConf) && resultConf.payload) {
       setEmailError(resultConf.payload.emailError[0]);
       setPasswordError(resultConf.payload.passwordError[0]);
-      resultConf.payload.passwordConfirmationError &&
-        setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
+      resultConf.payload.passwordConfirmationError
+        && setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
       resultConf.payload.fullMessagesError && setError(resultConf.payload.fullMessagesError[0]);
     } else {
       if (!errorIndex.length && !!dataArray && isSubmitData) {
@@ -138,7 +136,7 @@ export const Registration: React.FC = () => {
             <Button className={styles.btnConfirm} onClick={onClose}>
               {t('toMain')}
             </Button>
-            <Link to={'/profile'} className={styles.userName}>
+            <Link to="/profile" className={styles.userName}>
               <Button className={styles.btnConfirm}>{t('toProfile')}</Button>
             </Link>
           </div>
@@ -152,11 +150,11 @@ export const Registration: React.FC = () => {
             публикации.
           </span>
 
-          <Link to={'/community'}>
+          <Link to="/community">
             <Button>Перейти к заявкам</Button>
           </Link>
 
-          <Link to={'/'}>
+          <Link to="/">
             <Button className={styles.btnBorder}>На главную</Button>
           </Link>
         </>
@@ -254,9 +252,15 @@ export const Registration: React.FC = () => {
             </span>
           </label>
           <div className={styles.checkText}>
-            <span>{t('text1Check')} </span>
+            <span>
+              {t('text1Check')}
+              {' '}
+            </span>
             <a className={styles.checkLink} href="#">
-              <span>{t('text2Check')} </span>
+              <span>
+                {t('text2Check')}
+                {' '}
+              </span>
             </a>
             {t('text3Check')}
             <a className={styles.checkLink} href="#">

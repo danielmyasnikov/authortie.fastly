@@ -6,10 +6,9 @@ import { getIsAuth } from 'store/auth/selectors';
 import { Button } from 'components/common/button';
 import { ApplicationForm } from 'components/applicationForm/applicationForm';
 import { getLastPostings } from 'store/request/actions';
-import { getDetailedApplication } from 'store/detailedApplication/actions';
+import { getDetailedApplication, submitBids } from 'store/detailedApplication/actions';
 
 import { AppDispatch } from 'store/types';
-import { submitBids } from 'store/detailedApplication/actions';
 import { getCreatePost } from 'store/request/selectors';
 import Select from 'react-select';
 
@@ -73,7 +72,7 @@ export const Offer = () => {
           classNamePrefix="CustomSelectOffer"
           defaultValue={lastPostingsOptions[0] && lastPostingsOptions[0].value}
           options={lastPostingsOptions}
-          placeholder={'changeWork'}
+          placeholder="changeWork"
           onChange={selectWork}
         />
       )}

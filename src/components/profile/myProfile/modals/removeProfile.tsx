@@ -15,7 +15,7 @@ interface Props {
 export const RemoveProfileModal: React.FC<Props> = ({ onClose, open }) => {
   const history = useHistory();
   const headers = useSelector(getHeaders);
-  
+
   function closeModal() {
     onClose(false);
   }
@@ -23,7 +23,7 @@ export const RemoveProfileModal: React.FC<Props> = ({ onClose, open }) => {
   async function remove() {
     await axios({
       headers,
-      url: `https://authortie-app.herokuapp.com/api/v1/profiles/delete`,
+      url: 'https://authortie-app.herokuapp.com/api/v1/profiles/delete',
     });
     localStorage.removeItem('client');
     localStorage.getItem('access-token');
@@ -34,7 +34,7 @@ export const RemoveProfileModal: React.FC<Props> = ({ onClose, open }) => {
 
   return (
     <Modal open={open} onClose={closeModal}>
-      <span className={styles.subtitle}>{'Вы уверены что хотите удалить профиль?'}</span>
+      <span className={styles.subtitle}>Вы уверены что хотите удалить профиль?</span>
       <Button onClick={remove} className={styles.btn}>
         Удалить профиль
       </Button>

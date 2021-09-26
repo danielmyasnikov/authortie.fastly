@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import * as T from './types';
 import axios from 'axios';
+import * as T from './types';
 
 export interface AuthErrors {
   emailError: string;
@@ -13,7 +13,7 @@ export const getRegistration = createAsyncThunk<object, T.Auth, { rejectValue: A
   'auth/REGISTRATION',
   async ({ email, password, passwordConfirmation }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`https://authortie-app.herokuapp.com/auth`, {
+      const res = await axios.post('https://authortie-app.herokuapp.com/auth', {
         email,
         password,
         password_confirmation: passwordConfirmation,
@@ -28,7 +28,7 @@ export const getRegistration = createAsyncThunk<object, T.Auth, { rejectValue: A
       localStorage.setItem('client', client);
       localStorage.setItem('expiry', res.headers.expiry);
 
-      const headers = { client, uid, ['access-token']: accessToken };
+      const headers = { client, uid, 'access-token': accessToken };
       return headers;
     } catch (err: any) {
       const emailError: string = err.response.data.errors.email;
@@ -49,7 +49,7 @@ export const getSignIn = createAsyncThunk<undefined, T.Auth, { rejectValue: stri
   'auth/SIGN_IN',
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const res = await axios.post(`https://authortie-app.herokuapp.com/auth/sign_in`, {
+      const res = await axios.post('https://authortie-app.herokuapp.com/auth/sign_in', {
         email,
         password,
       });
