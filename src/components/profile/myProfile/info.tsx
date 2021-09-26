@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 
-import Camera from 'assets/camera.svg';
+import Avatar from 'assets/avatar.jpg';
 import IDColor from 'assets/IDColor.png';
-import Pencil from 'assets/pencil.svg';
+import UploadAvatar from 'assets/uploadAvatar.png';
 import Star from 'assets/star.svg';
 
 import styles from './styles.module.less';
@@ -39,7 +39,7 @@ export const Info: React.FC<Props> = ({
         {avatarURL ? (
           <img className={styles.img} src={avatarURL} alt="" />
         ) : (
-          <Camera className={styles.defaultPhoto} />
+          <img src={Avatar} className={styles.defaultPhoto} />
         )}
         {isMyProfile && (
           <div className={styles.pencil} onClick={handleUploadAvatarBtnClick}>
@@ -53,7 +53,7 @@ export const Info: React.FC<Props> = ({
                 accept=".png, .jpg, .jpeg"
               />
             </form>
-            <Pencil />
+            <img src={UploadAvatar} />
           </div>
         )}
       </div>

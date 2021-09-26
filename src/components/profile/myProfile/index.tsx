@@ -16,6 +16,7 @@ import { getProfileSelector } from 'store/profile/selectors';
 import { AppDispatch } from 'store/types';
 import { Textarea } from 'components/common/textarea';
 import Select from 'react-select';
+
 import { Modal } from 'components/common/modal';
 
 import Note from 'assets/note.svg';

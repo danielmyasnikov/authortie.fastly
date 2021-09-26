@@ -5,6 +5,8 @@ import { getLastPostings } from 'store/request/actions';
 import { getCreatePost } from 'store/request/selectors';
 
 import styles from './styles.module.less';
+import { Button } from 'components/common/button';
+import { Link } from 'react-router-dom';
 
 interface Props {
   id?: string;
@@ -22,7 +24,8 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>
-        {lastPostings.map((item: any) => (
+        {lastPostings !== undefined && lastPostings.map((item: any) => (
+
           <Card
             key={item.id}
             privateAccaunt={!item.is_profile_visible}
@@ -43,6 +46,21 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
           />
         ))}
       </div>
+      {lastPostings === undefined && (
+        <div className={styles.emptyAplication}>
+          <div className={styles.emptyAplicationTitle}>
+            Здесь пока ничего нет
+          </div>
+          <div className={styles.emptyAplicationDesc}>
+            но мы вам предлагаем создать свою первую заявку!
+          </div>
+          <Link to="/application">
+            <Button className={styles.emptyAplicationBtn}>
+              Создать заявку
+            </Button>
+          </Link>
+        </div>
+      )} 
     </div>
   );
 };

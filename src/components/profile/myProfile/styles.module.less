@@ -248,7 +248,9 @@
 }
 
 .defaultPhoto {
-  width: 50%;
+  width: 205px;
+  height: 205px;
+  border-radius: 50%;
 }
 
 .pencil {
@@ -261,8 +263,6 @@
   justify-content: center;
   width: 57px;
   height: 57px;
-  border-radius: 50%;
-  background: #dbe6f9;
   cursor: pointer;
 }
 
@@ -307,8 +307,8 @@
     span {
       display: block;
       margin-left: 9px;
-      &:hover{
-        color: #4A4A4A;
+      &:hover {
+        color: #4a4a4a;
       }
     }
   }
@@ -483,7 +483,7 @@
   background: #4a4a4a;
 }
 
-.userInfoLink{
+.userInfoLink {
   color: var(--color-blue);
   font-size: 20px;
   line-height: 28px;
@@ -518,9 +518,11 @@
       margin-left: 0;
     }
   }
+
   .profileWrapper {
     padding-right: 0;
   }
+
   .gridContainer {
     grid-template-areas:
       'a'
@@ -536,17 +538,21 @@
       width: 100%;
     }
   }
+
   .contentRow {
     .contentItem {
       flex-wrap: wrap;
+
       .item {
         width: 100%;
       }
     }
+
     .columnItem {
       width: 100%;
     }
   }
+
   .settings {
     margin-top: 0;
     flex-direction: column;
