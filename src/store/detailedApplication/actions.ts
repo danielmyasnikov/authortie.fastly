@@ -33,9 +33,9 @@ export const submitBids = createAsyncThunk<any, any, { state: RootState }>(
 
     await axios({
       method: 'POST',
-      url: `https://authortie-app.herokuapp.com/api/v1/bids`,
+      url: 'https://authortie-app.herokuapp.com/api/v1/bids',
       headers,
-      data: data,
+      data,
     });
 
     return undefined;
@@ -59,9 +59,9 @@ export const submitBidsUp = createAsyncThunk<any, any, { state: RootState }>(
 
     await axios({
       method: 'PATCH',
-      url: `https://authortie-app.herokuapp.com/api/v1/bids/update`,
+      url: 'https://authortie-app.herokuapp.com/api/v1/bids/update',
       headers,
-      data: data,
+      data,
     });
 
     return undefined;

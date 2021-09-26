@@ -3,9 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import Camera from 'assets/camera.svg';
-import { getDetailedApplication } from 'store/detailedApplication/actions';
+import { getDetailedApplication, submitBidsUp } from 'store/detailedApplication/actions';
 import { getDetailedApplicationSelector } from 'store/detailedApplication/selectors';
-import { submitBidsUp } from 'store/detailedApplication/actions';
 import { AppDispatch } from 'store/types';
 import { getIsAuth } from 'store/auth/selectors';
 import { Footer } from 'components/footer';
@@ -31,7 +30,7 @@ export const DetailedApplication = () => {
   const isAuth = useSelector(getIsAuth);
 
   useEffect(() => {
-    if (!!params.id) {
+    if (params.id) {
       dispatch(getDetailedApplication(params.id));
     }
   }, [params.id]);
@@ -64,8 +63,8 @@ export const DetailedApplication = () => {
           <div className={styles.tagWrapper}>
             <Tag className={styles.workType}>{t(post.work_type_list[0])}</Tag>
 
-            {knowledgeAreaList.length > 0 &&
-              knowledgeAreaList.map((item: any) => (
+            {knowledgeAreaList.length > 0
+              && knowledgeAreaList.map((item: any) => (
                 <React.Fragment key={item}>
                   <Tag className={styles.knowledgeArea}>{item}</Tag>
                 </React.Fragment>
@@ -74,8 +73,8 @@ export const DetailedApplication = () => {
           <span className={styles.subtitle}>{post.title}</span>
           <span className={styles.text}>{t('keyWords')}</span>
           <div className={styles.tagWrapper}>
-            {keywordList.length > 0 &&
-              keywordList.map((item: any) => (
+            {keywordList.length > 0
+              && keywordList.map((item: any) => (
                 <React.Fragment key={item}>
                   <Tag>{item}</Tag>
                 </React.Fragment>
@@ -111,10 +110,10 @@ export const DetailedApplication = () => {
         {isGuest && (
           <div className={styles.profileWrapper}>
             {post.is_profile_visible ? (
-              !!profile.first_name ? (
+              profile.first_name ? (
                 <>
                   <Link to={`/profile/${profile.friendly_url}`} className={styles.avatarWrapper}>
-                    {!!profile.avatar ? (
+                    {profile.avatar ? (
                       <img className={styles.img} src={profile.avatar} alt="" />
                     ) : (
                       <Camera className={styles.defaultPhoto} />
@@ -128,9 +127,11 @@ export const DetailedApplication = () => {
                       <span className={styles.country}>{profile.country}</span>
                     </div>
                     <div className={styles.row}>
-                      <span className={styles.comment}>{`${t(profile.degree)} ${
-                        profile.degree_category
-                      }`}</span>
+                      <span className={styles.comment}>
+                        {`${t(profile.degree)} ${
+                          profile.degree_category
+                        }`}
+                      </span>
                     </div>
 
                     <span className={styles.comment}>{profile.affiliation}</span>
@@ -158,7 +159,7 @@ export const DetailedApplication = () => {
               author={!!item.user && item.user.profile}
               title={item.title}
               fieldOfActivity=""
-              workType={!!item.length ? item?.work_type_list[0] : ''}
+              workType={item.length ? item?.work_type_list[0] : ''}
               knowledgeArea={item.knowledge_area_list || ''}
               rewardType={item.reward_type}
               rewardCurrency={item.reward_currency}

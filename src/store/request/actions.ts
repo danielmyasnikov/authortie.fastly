@@ -8,9 +8,9 @@ export const getLastPostings = createAsyncThunk<any[], string | undefined, { sta
   async (id, { getState }) => {
     try {
       const headers = getHeaders(getState());
-      const url = !!id
+      const url = id
         ? `https://authortie-app.herokuapp.com/api/v1/profiles/${id}`
-        : `https://authortie-app.herokuapp.com/api/v1/profiles/me`;
+        : 'https://authortie-app.herokuapp.com/api/v1/profiles/me';
       const res = await axios({
         method: 'GET',
         url,
@@ -18,7 +18,7 @@ export const getLastPostings = createAsyncThunk<any[], string | undefined, { sta
       });
       return res.data;
     } catch (err) {
-      return;
+
     }
   },
 );
@@ -30,13 +30,13 @@ export const createPostings = createAsyncThunk<undefined, any, { state: RootStat
       const headers = getHeaders(getState());
       await axios({
         method: 'POST',
-        url: `https://authortie-app.herokuapp.com/api/v1/postings`,
+        url: 'https://authortie-app.herokuapp.com/api/v1/postings',
         headers,
         data,
       });
       return undefined;
     } catch (err) {
-      return;
+
     }
   },
 );
@@ -48,7 +48,7 @@ export const createPostingsApp = createAsyncThunk<undefined, any, { state: RootS
       const headers = getHeaders(getState());
       await axios({
         method: 'POST',
-        url: `https://authortie-app.herokuapp.com/api/v1/postings/create_list`,
+        url: 'https://authortie-app.herokuapp.com/api/v1/postings/create_list',
         headers,
         data: {
           postings: data,
@@ -56,7 +56,7 @@ export const createPostingsApp = createAsyncThunk<undefined, any, { state: RootS
       });
       return undefined;
     } catch (err) {
-      return;
+
     }
   },
 );
@@ -74,7 +74,7 @@ export const editPostings = createAsyncThunk<undefined, any, { state: RootState 
       });
       return undefined;
     } catch (err) {
-      return;
+
     }
   },
 );

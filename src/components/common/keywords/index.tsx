@@ -66,17 +66,15 @@ const CssChip = withStyles({
   },
 })(Chip);
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      //   display: 'flex',
-      //   flexWrap: 'wrap',
-    },
-    margin: {
-      //   margin: theme.spacing(1),
-    },
-  }),
-);
+const useStyles = makeStyles((theme: Theme) => createStyles({
+  root: {
+    //   display: 'flex',
+    //   flexWrap: 'wrap',
+  },
+  margin: {
+    //   margin: theme.spacing(1),
+  },
+}));
 
 interface Props {
   onChange: (value: string[]) => void;

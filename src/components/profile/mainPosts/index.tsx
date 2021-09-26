@@ -24,8 +24,8 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>
-        {console.log(lastPostings)}
         {lastPostings !== undefined && lastPostings.map((item: any) => (
+
           <Card
             key={item.id}
             privateAccaunt={!item.is_profile_visible}
@@ -35,7 +35,7 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
             author={item.user && item.user.profile}
             title={item.title}
             fieldOfActivity=""
-            workType={!!item.length ? item?.work_type_list[0] : ''}
+            workType={item.length ? item?.work_type_list[0] : ''}
             knowledgeArea={item.knowledge_area_list || ''}
             rewardType={item.reward_type_list || ''}
             rewardCurrency={item.reward_currency}
