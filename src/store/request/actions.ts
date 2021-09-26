@@ -9,8 +9,8 @@ export const getLastPostings = createAsyncThunk<any[], string | undefined, { sta
     try {
       const headers = getHeaders(getState());
       const url = !!id
-        ? `https://authortie-app.herokuapp.com/api/v1/profiles/${id}`
-        : `https://authortie-app.herokuapp.com/api/v1/profiles/me`;
+        ? `http://authortie-app.herokuapp.com/api/v1/postings?view_type=mine`
+        : `http://authortie-app.herokuapp.com/api/v1/postings?view_type=mine`;
       const res = await axios({
         method: 'GET',
         url,

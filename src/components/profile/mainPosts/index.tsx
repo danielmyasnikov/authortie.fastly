@@ -14,18 +14,35 @@ interface Props {
 
 export const MainPosts: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
-
+  console.log(id)
   const { lastPostings } = useSelector(getCreatePost);
 
   useEffect(() => {
     dispatch(getLastPostings());
   }, []);
 
+  if(lastPostings.length === 0) {
+    return (
+      <div className={styles.emptyAplication}>
+        <div className={styles.emptyAplicationTitle}>
+          Здесь пока ничего нет
+        </div>
+        <div className={styles.emptyAplicationDesc}>
+          но мы вам предлагаем создать свою первую заявку!
+        </div>
+        <Link to="/application">
+          <Button className={styles.emptyAplicationBtn}>
+            Создать заявку
+          </Button>
+        </Link>
+      </div>
+    )
+  }
+
   return (
     <div className={styles.wrapper}>
       <div className={styles.cards}>
-        {console.log(lastPostings)}
-        {lastPostings !== undefined && lastPostings.map((item: any) => (
+        {lastPostings && lastPostings.map((item: any) => (
           <Card
             key={item.id}
             privateAccaunt={!item.is_profile_visible}
@@ -46,21 +63,6 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
           />
         ))}
       </div>
-      {lastPostings === undefined && (
-        <div className={styles.emptyAplication}>
-          <div className={styles.emptyAplicationTitle}>
-            Здесь пока ничего нет
-          </div>
-          <div className={styles.emptyAplicationDesc}>
-            но мы вам предлагаем создать свою первую заявку!
-          </div>
-          <Link to="/application">
-            <Button className={styles.emptyAplicationBtn}>
-              Создать заявку
-            </Button>
-          </Link>
-        </div>
-      )} 
     </div>
   );
 };
