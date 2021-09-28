@@ -76,6 +76,7 @@ export const Application = () => {
 
   return (
     <div className={css.wrapper}>
+      <div className={css.indent} />
       <div className={css.content}>
         <h1 className={css.title}>{t('title')}</h1>
         {!isAuth && (
@@ -115,6 +116,7 @@ export const Application = () => {
           </React.Fragment>
         ))}
       </div>
+      <div className={css.indent} />
       {modal && renderModal()}
     </div>
   );

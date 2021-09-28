@@ -1,7 +1,6 @@
 .wrapper {
   position: relative;
   display: grid;
-  grid-column-gap: 20px;
   grid-template-areas:
     '. cont cont cont cont cont cont cont cont cont cont .'
     '. btnCont  btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont .'
@@ -171,6 +170,7 @@
   flex-wrap: nowrap;
   height: 267px;
   z-index: 20;
+  height: max-content;
 }
 
 .openBlok {
@@ -181,8 +181,8 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   max-width: 1597px;
-  left: 5%;
-  width: 90%;
+  left: 0%;
+  width: 100%;
   height: max-content;
   max-height: 1250px;
 }
@@ -202,7 +202,7 @@
   line-height: 19px;
   color: #3a85f4;
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   right: 20px;
   cursor: pointer;
 }
@@ -560,6 +560,11 @@
   }
 }
 
+@media screen and (max-width: 1450px) {
+  .openBlok {
+    max-height: 1700px;
+  }
+}
 @media screen and (max-width: 1336px) {
   .container {
     padding: 111px 43px 40px;
@@ -567,6 +572,13 @@
 
   .headerBtn {
     padding: 15px 89px 11px;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .openBlok {
+    max-height: max-content;
+    top: 100px;
   }
 }
 
@@ -713,7 +725,10 @@
     flex-direction: column;
     margin-top: 0;
   }
-
+  .sumBlock {
+    max-width: 143px;
+    padding-left: 37px;
+  }
   .blockWrapperKnowledge {
     padding: 0 0 0 20px;
   }
@@ -724,6 +739,7 @@
 
       .sumBlock {
         height: 100%;
+        padding-left: 37px;
       }
       .blockWrapper {
         .textareaKeyWords {
@@ -746,18 +762,30 @@
   .sumBlock {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 100%;
   }
 }
 
+@media screen and (max-width: 1400px) {
+  .wrapper {
+    grid-template-columns: 52px repeat(10, 1fr) 52px;
+  }
+}
 @media screen and (max-width: @screen-ml) {
+  .wrapper {
+    grid-template-columns: 32px repeat(10, 1fr) 32px;
+  }
   .checkboxItem {
     span {
       width: 0 !important;
       height: 0 !important;
       padding: 7px !important;
     }
+  }
+  .delete {
+    right: 20px;
+    bottom: 10px;
   }
 }
 
@@ -791,6 +819,7 @@
   }
 
   .sumBlock {
+    padding-left: 20px;
     label {
       padding: 8px 0;
     }
@@ -802,7 +831,7 @@
   }
 
   .inputWrapper {
-    flex-direction: row;
+    flex-flow: row nowrap;
   }
 
   .headerBtn {
