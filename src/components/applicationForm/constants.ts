@@ -370,14 +370,16 @@ export const workTypesDefaultAllList = [
 ];
 
 export const rewardTypestDefault = [
-  { category: '', list: [{ value: 'cite_others', checked: false, id: 'cite_others' }] },
+  { category: '', id: '', list: [{ value: 'cite_others', checked: false, id: 'cite_others' }] },
   {
     category: '',
+    id: '',
     list: [{ value: 'accept_as_coauthors', checked: false, id: 'accept_as_coauthors' }],
   },
-  { category: '', list: [{ value: 'do_research', checked: false, id: 'do_research' }] },
+  { category: '', id: '', list: [{ value: 'do_research', checked: false, id: 'do_research' }] },
   {
     category: '',
+    id: '',
     list: [
       {
         value: 'work_with_text_and_graphics',
@@ -388,6 +390,7 @@ export const rewardTypestDefault = [
   },
   {
     category: '',
+    id: '',
     list: [{ value: 'provide_expert_services', checked: false, id: 'provide_expert_services' }],
   },
 ];
