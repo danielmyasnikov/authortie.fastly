@@ -130,7 +130,7 @@ export const CheckboxTypes: React.FC<Props> = ({
 
         {whoIAm === WhoIAm.EXECUTOR && (
           <span className={css.moreBtn} onClick={() => setMoreList(!moreList)}>
-            {moreList ? <Expand /> : 'Полный список'}
+            {moreList ? 'Закрыть список' : 'Полный список'}
           </span>
         )}
       </div>

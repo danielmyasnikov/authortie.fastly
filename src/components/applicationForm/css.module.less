@@ -152,7 +152,6 @@
   max-width: 468px;
   width: 100%;
   height: auto;
-  max-height: 300px;
   margin-right: 20px;
 }
 
@@ -173,6 +172,16 @@
   height: max-content;
 }
 
+.moreBtn {
+  font-size: 16px;
+  line-height: 19px;
+  color: #3a85f4;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  cursor: pointer;
+}
+
 .openBlok {
   flex-wrap: wrap;
   position: absolute;
@@ -185,6 +194,10 @@
   width: 100%;
   height: max-content;
   max-height: 1250px;
+  .moreBtn {
+    top: 10px;
+    right: 20px;
+  }
 }
 
 .subtileOpenBlok {
@@ -195,16 +208,6 @@
   font-size: 16px;
   line-height: 19px;
   color: #3a85f4;
-}
-
-.moreBtn {
-  font-size: 16px;
-  line-height: 19px;
-  color: #3a85f4;
-  position: absolute;
-  bottom: 10px;
-  right: 20px;
-  cursor: pointer;
 }
 
 .checkWrapper {
@@ -580,6 +583,10 @@
     max-height: max-content;
     top: 100px;
   }
+
+  .radioBlock {
+    margin-bottom: 60px;
+  }
 }
 
 @media screen and (max-width: 770px) {
@@ -621,10 +628,6 @@
 
   .rowContainer {
     flex-direction: column;
-  }
-
-  .radioBlock {
-    margin-bottom: 60px;
   }
 
   .sumBlock {
@@ -723,7 +726,7 @@
   }
   .inputWrapper {
     flex-direction: column;
-    margin-top: 0;
+    margin-top: 20px;
   }
   .sumBlock {
     max-width: 143px;
@@ -774,7 +777,14 @@
 }
 @media screen and (max-width: @screen-ml) {
   .wrapper {
-    grid-template-columns: 32px repeat(10, 1fr) 32px;
+    display: block;
+    padding: 0 50px;
+  }
+  .radioBlock {
+    max-width: 375px;
+  }
+  .checkboxBlock {
+    min-width: 524px;
   }
   .checkboxItem {
     span {
@@ -789,7 +799,24 @@
   }
 }
 
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    display: block;
+    padding: 27px;
+  }
+
+  .blockk,
+  .listBlock {
+    padding: 20px 10px;
+  }
+}
+
 @media screen and (max-width: @tablet) {
+  .wrapper {
+    display: block;
+    padding: 20px;
+  }
+
   .title {
     margin-left: 0;
     margin-bottom: 30px;
@@ -824,7 +851,9 @@
       padding: 8px 0;
     }
   }
-
+  .checkboxBlock {
+    min-width: auto;
+  }
   .checkBlock {
     max-width: 768px;
     width: 100%;
@@ -847,10 +876,6 @@
     padding: 0;
   }
 
-  .checkboxBlock {
-    margin-top: 60px;
-  }
-
   .blockDeadLine {
     margin-top: 60px;
   }
@@ -860,16 +885,9 @@
   .blockDeadLine {
     margin-top: 0;
   }
-  .checkboxBlock {
-    margin-top: 0;
-  }
 }
 
 @media screen and(max-width:@screen-m) {
-  .checkboxBlock {
-    margin-top: 0;
-  }
-
   .blockDeadLine {
     margin-top: 0;
   }
@@ -878,7 +896,7 @@
     margin-top: 40px;
   }
 
-  .block {
+  .bloc {
     padding: 32px 25px 32px 25px;
   }
 

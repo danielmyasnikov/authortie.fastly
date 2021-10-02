@@ -29,362 +29,341 @@ export const workTypesDefault = [
 export const workTypesDefaultAllList = [
   {
     category: 'НИОКР «под ключ»',
+    id: 'RD',
     list: [
       {
         value: 'НИОКР «под ключ»',
         checked: false,
-        id: 'НИОКР «под ключ»',
+        id: 'RD',
       },
       {
         value: 'Продажа технологии',
         checked: false,
-        id: 'Продажа технологии',
+        id: 'RD_technology_sales',
       },
     ],
   },
   {
     category: 'Поиск коллег и наставников',
+    id: 'colleagues_and_mentors',
     list: [
       {
         value: 'Участие в конкурсах и грантах',
         checked: false,
-        id: 'Участие в конкурсах и грантах',
+        id: 'participation_in_competitions_and_grants',
       },
       {
-        value: 'Участие в конкурсах и грантах',
+        value: 'Научное руководство',
         checked: false,
-        id: 'Участие в конкурсах и грантах',
+        id: 'colleagues_and_mentors_scientific_guidance',
       },
       {
         value: 'Совместные исследования',
         checked: false,
-        id: 'Совместные исследования',
+        id: 'colleagues_and_mentors_collaborative_research',
       },
     ],
   },
   {
     category: 'Обзор, анализ, аудит',
+    id: 'review_analysis_audit',
     list: [
       {
         value: 'Анализ литературных источников',
         checked: false,
-        id: 'Анализ литературных источников',
+        id: 'analysis_of_literary_sources',
       },
       {
         value: 'Патентный анализ',
         checked: false,
-        id: 'Патентный анализ',
+        id: 'patent_analysis',
       },
       {
         value: 'Аудит документации и чертежей',
         checked: false,
-        id: 'Аудит документации и чертежей',
+        id: 'audit_of_documentation_and_drawings',
       },
       {
         value: 'Анализ опытных данных',
         checked: false,
-        id: 'Анализ опытных данных',
+        id: 'experimental_data_analysis',
       },
     ],
   },
   {
     category: 'Разработка гипотезы',
+    id: 'hypothesis',
     list: [
       {
         value: 'Open Challenge',
         checked: false,
-        id: 'Open Challenge',
+        id: 'hypothesis_open_challenge',
       },
       {
         value: 'Консультация',
         checked: false,
-        id: 'Консультация',
+        id: 'hypothesis_consultation',
       },
     ],
   },
   {
     category: 'Моделирование',
+    id: 'modeling',
     list: [
       {
         value: 'Математическое',
         checked: false,
-        id: 'Математическое',
+        id: 'modeling_math',
       },
       {
         value: 'Программное',
         checked: false,
-        id: 'Программное',
+        id: 'modeling_software',
       },
       {
         value: 'Физическое',
         checked: false,
-        id: 'Физическое',
+        id: 'modeling_physical',
       },
       {
         value: 'Схематическое',
         checked: false,
-        id: 'Схематическое',
+        id: 'modeling_schematic',
       },
       {
         value: 'Концептуальное',
         checked: false,
-        id: 'Концептуальное',
+        id: 'modeling_conceptual',
       },
     ],
   },
   {
     category: 'Создание прототипов',
+    id: 'prototypes',
     list: [
       {
         value: 'Разработка чертежей и схем',
         checked: false,
-        id: 'Разработка чертежей и схем',
+        id: 'prototypes_development_of_drawings_and_diagrams',
       },
       {
         value: 'Программирование',
         checked: false,
-        id: 'Программирование',
+        id: 'prototypes_programming',
       },
       {
         value: 'Изготовление деталей',
         checked: false,
-        id: 'Изготовление деталей',
+        id: 'prototypes_manufacturing_of_parts',
       },
       {
-        value: 'Монтаж и наладка ',
+        value: 'Монтаж и наладка',
         checked: false,
-        id: 'Монтаж и наладка ',
+        id: 'prototypes_installation_and_commissioning',
       },
     ],
   },
   {
     category: 'Проведение опытов и испытаний',
+    id: 'experiments_and_tests',
     list: [
       {
         value: 'Планирование эксперимента',
         checked: false,
-        id: 'Планирование эксперимента',
+        id: 'experiment_planning',
       },
       {
         value: 'Проведение опытов и испытаний',
         checked: false,
-        id: 'Проведение опытов и испытаний',
+        id: 'experiments_and_tests',
       },
     ],
   },
   {
     category: 'Обработка опытных данных',
+    id: 'experimental_data_processing',
     list: [
       {
         value: 'Интерпретация результатов',
         checked: false,
-        id: 'Интерпретация результатов',
+        id: 'experimental_data_processing_interpretation_of_results',
       },
       {
         value: 'Статистическая обработка',
         checked: false,
-        id: 'Статистическая обработка',
+        id: 'experimental_data_processing_statistical_processing',
       },
       {
         value: 'Нейросетевая обработка',
         checked: false,
-        id: 'Нейросетевая обработка',
+        id: 'experimental_data_processing_neural_network_processing',
       },
       {
         value: 'Обработка больших данных',
         checked: false,
-        id: 'Обработка больших данных',
+        id: 'experimental_data_processing_big_data_processing',
       },
     ],
   },
   {
     category: 'Защита интеллектуальной собственности',
+    id: 'intellectual_property_protection',
     list: [
       {
         value: 'Подготовка заявок',
         checked: false,
-        id: 'Подготовка заявок',
+        id: 'intellectual_property_protection_preparation_of_applications',
       },
       {
         value: 'Патентование и регистрация',
         checked: false,
-        id: 'Патентование и регистрация',
+        id: 'intellectual_property_protection_patenting_and_registration',
       },
     ],
   },
   {
     category: 'Написание статей',
+    id: 'articles',
     list: [
       {
         value: 'Соавторство',
         checked: false,
-        id: 'Соавторство',
+        id: 'articles_co-authorship',
       },
       {
         value: 'Редактирование статей и рерайнт',
         checked: false,
-        id: 'Редактирование статей и рерайнт',
+        id: 'articles_editing_articles_and_rewriting',
       },
       {
         value: 'Редактирование графики',
         checked: false,
-        id: 'Редактирование графики',
+        id: 'articles_editing_graphics',
       },
       {
         value: 'Перевод и пруфридинг',
         checked: false,
-        id: 'Перевод и пруфридинг',
+        id: 'articles_translation_and_proofreading',
       },
       {
         value: 'Рецензирование',
         checked: false,
-        id: 'Рецензирование',
+        id: 'articles_peer_review',
       },
       {
         value: 'Публикация',
         checked: false,
-        id: 'Публикация',
+        id: 'articles_publication',
       },
     ],
   },
   {
     category: 'Написание учебно-методической литературы',
+    id: 'literature_and_rewriting',
     list: [
       {
         value: 'Соавторство',
         checked: false,
-        id: 'Соавторство',
-      },
-      {
-        value: 'Редактирование статей и рерайнт',
-        checked: false,
-        id: 'Редактирование статей и рерайнт',
-      },
-      {
-        value: 'Редактирование графики',
-        checked: false,
-        id: 'Редактирование графики',
-      },
-      {
-        value: 'Перевод и пруфридинг',
-        checked: false,
-        id: 'Перевод и пруфридинг',
-      },
-      {
-        value: 'Рецензирование',
-        checked: false,
-        id: 'Рецензирование',
-      },
-      {
-        value: 'Публикация ',
-        checked: false,
-        id: 'Публикация ',
-      },
-    ],
-  },
-  {
-    category: 'Написание учебно-методической литературы',
-    list: [
-      {
-        value: 'Соавторство',
-        checked: false,
-        id: 'Соавторство',
+        id: 'literature_and_rewriting_co-authorship',
       },
       {
         value: 'Редактирование учебно-методической литературы и рерайт',
         checked: false,
-        id: 'Редактирование учебно-методической литературы и рерайт',
+        id: 'methodological_literature_and_rewriting',
       },
       {
         value: 'Редактирование графики',
         checked: false,
-        id: 'Редактирование графики',
+        id: 'literature_and_rewriting_editing_graphics',
       },
       {
         value: 'Перевод и пруфридинг',
         checked: false,
-        id: 'Перевод и пруфридинг',
+        id: 'literature_and_rewriting_translation_and_proofreading',
       },
       {
         value: 'Рецензирование',
         checked: false,
-        id: 'Рецензирование',
+        id: 'literature_and_rewriting_peer_review',
       },
       {
         value: 'Публикация',
         checked: false,
-        id: 'Публикация',
+        id: 'literature_and_rewriting_publication',
       },
     ],
   },
   {
     category: 'Продвижение разработок',
+    id: 'promotion_of_developments',
     list: [
       {
         value: 'Цитирование статей',
         checked: false,
-        id: 'Цитирование статей',
+        id: 'promotion_of_developments_citing_articles',
       },
       {
         value: 'Продвижение на форумах и конференциях',
         checked: false,
-        id: 'Продвижение на форумах и конференциях',
+        id: 'promotion_of_developments_promotion_on_forums_and_conferences',
       },
       {
         value: 'Реклама и инфлюенс',
         checked: false,
-        id: 'Реклама и инфлюенс',
+        id: 'promotion_of_developments_advertising_and_influence',
       },
       {
         value: 'Организация форумов и конференций',
         checked: false,
-        id: 'Организация форумов и конференций',
+        id: 'promotion_of_developments_organization_of_forums_and_conferences',
       },
       {
         value: 'Создание презентационных материалов',
         checked: false,
-        id: 'Создание презентационных материалов',
+        id: 'promotion_of_developments_creation_of_presentation_materials',
       },
     ],
   },
   {
     category: 'Внедрение разработок',
+    id: 'implementation_of_developments',
     list: [
       {
         value: 'Консалтинг и инжиниринг',
         checked: false,
-        id: 'Консалтинг и инжиниринг',
+        id: 'implementation_of_developments_consulting_and_engineering',
       },
       {
         value: 'Разработка документации',
         checked: false,
-        id: 'Разработка документации',
+        id: 'implementation_of_developments_development_of_documentation',
       },
       {
         value: 'Изготовление',
         checked: false,
-        id: 'Изготовление',
+        id: 'implementation_of_developments_manufacturing',
       },
       {
         value: 'Полевые работы',
         checked: false,
-        id: 'Полевые работы',
+        id: 'implementation_of_developments_field_work',
       },
     ],
   },
   {
     category: 'Обмен опытом',
+    id: 'experience_exchange',
     list: [
       {
         value: 'Проведение лекций и семинаров',
         checked: false,
-        id: 'Проведение лекций и семинаров',
+        id: 'experience_exchange_lectures_and_seminars',
       },
 
       {
-        value: 'Проведение лекций и семинаров',
+        value: 'Проведение мастер-классов и воркшопов',
         checked: false,
-        id: 'Проведение лекций и семинаров',
+        id: 'experience_exchange_conducting_master_classes_and_workshops',
       },
     ],
   },

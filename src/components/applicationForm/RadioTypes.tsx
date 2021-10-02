@@ -79,7 +79,7 @@ export const RadioTypes: React.FC<Props> = ({
 
         {whoIAm === WhoIAm.CUSTOMER && (
           <span className={css.moreBtn} onClick={() => setMoreList(!moreList)}>
-            {moreList ? <Expand /> : 'Полный список'}
+            {moreList ? 'Закрыть список' : 'Полный список'}
           </span>
         )}
       </div>
