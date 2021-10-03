@@ -1,7 +1,6 @@
 .wrapper {
   position: relative;
   display: grid;
-  grid-column-gap: 20px;
   grid-template-areas:
     '. cont cont cont cont cont cont cont cont cont cont .'
     '. btnCont  btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont btnCont .'
@@ -153,7 +152,6 @@
   max-width: 468px;
   width: 100%;
   height: auto;
-  max-height: 300px;
   margin-right: 20px;
 }
 
@@ -171,6 +169,17 @@
   flex-wrap: nowrap;
   height: 267px;
   z-index: 20;
+  height: max-content;
+}
+
+.moreBtn {
+  font-size: 16px;
+  line-height: 19px;
+  color: #3a85f4;
+  position: absolute;
+  bottom: 10px;
+  right: 20px;
+  cursor: pointer;
 }
 
 .openBlok {
@@ -181,10 +190,14 @@
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   max-width: 1597px;
-  left: 5%;
-  width: 90%;
+  left: 0%;
+  width: 100%;
   height: max-content;
   max-height: 1250px;
+  .moreBtn {
+    top: 10px;
+    right: 20px;
+  }
 }
 
 .subtileOpenBlok {
@@ -195,16 +208,6 @@
   font-size: 16px;
   line-height: 19px;
   color: #3a85f4;
-}
-
-.moreBtn {
-  font-size: 16px;
-  line-height: 19px;
-  color: #3a85f4;
-  position: absolute;
-  bottom: 20px;
-  right: 20px;
-  cursor: pointer;
 }
 
 .checkWrapper {
@@ -560,6 +563,11 @@
   }
 }
 
+@media screen and (max-width: 1450px) {
+  .openBlok {
+    max-height: 1700px;
+  }
+}
 @media screen and (max-width: 1336px) {
   .container {
     padding: 111px 43px 40px;
@@ -567,6 +575,17 @@
 
   .headerBtn {
     padding: 15px 89px 11px;
+  }
+}
+
+@media screen and (max-width: 980px) {
+  .openBlok {
+    max-height: max-content;
+    top: 100px;
+  }
+
+  .radioBlock {
+    margin-bottom: 60px;
   }
 }
 
@@ -609,10 +628,6 @@
 
   .rowContainer {
     flex-direction: column;
-  }
-
-  .radioBlock {
-    margin-bottom: 60px;
   }
 
   .sumBlock {
@@ -711,9 +726,12 @@
   }
   .inputWrapper {
     flex-direction: column;
-    margin-top: 0;
+    margin-top: 20px;
   }
-
+  .sumBlock {
+    max-width: 143px;
+    padding-left: 37px;
+  }
   .blockWrapperKnowledge {
     padding: 0 0 0 20px;
   }
@@ -724,6 +742,7 @@
 
       .sumBlock {
         height: 100%;
+        padding-left: 37px;
       }
       .blockWrapper {
         .textareaKeyWords {
@@ -746,12 +765,27 @@
   .sumBlock {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     height: 100%;
   }
 }
 
+@media screen and (max-width: 1400px) {
+  .wrapper {
+    grid-template-columns: 52px repeat(10, 1fr) 52px;
+  }
+}
 @media screen and (max-width: @screen-ml) {
+  .wrapper {
+    display: block;
+    padding: 0 50px;
+  }
+  .radioBlock {
+    max-width: 375px;
+  }
+  .checkboxBlock {
+    min-width: 524px;
+  }
   .checkboxItem {
     span {
       width: 0 !important;
@@ -759,9 +793,30 @@
       padding: 7px !important;
     }
   }
+  .delete {
+    right: 20px;
+    bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .wrapper {
+    display: block;
+    padding: 27px;
+  }
+
+  .blockk,
+  .listBlock {
+    padding: 20px 10px;
+  }
 }
 
 @media screen and (max-width: @tablet) {
+  .wrapper {
+    display: block;
+    padding: 20px;
+  }
+
   .title {
     margin-left: 0;
     margin-bottom: 30px;
@@ -791,18 +846,21 @@
   }
 
   .sumBlock {
+    padding-left: 20px;
     label {
       padding: 8px 0;
     }
   }
-
+  .checkboxBlock {
+    min-width: auto;
+  }
   .checkBlock {
     max-width: 768px;
     width: 100%;
   }
 
   .inputWrapper {
-    flex-direction: row;
+    flex-flow: row nowrap;
   }
 
   .headerBtn {
@@ -818,10 +876,6 @@
     padding: 0;
   }
 
-  .checkboxBlock {
-    margin-top: 60px;
-  }
-
   .blockDeadLine {
     margin-top: 60px;
   }
@@ -831,16 +885,9 @@
   .blockDeadLine {
     margin-top: 0;
   }
-  .checkboxBlock {
-    margin-top: 0;
-  }
 }
 
 @media screen and(max-width:@screen-m) {
-  .checkboxBlock {
-    margin-top: 0;
-  }
-
   .blockDeadLine {
     margin-top: 0;
   }
@@ -849,7 +896,7 @@
     margin-top: 40px;
   }
 
-  .block {
+  .bloc {
     padding: 32px 25px 32px 25px;
   }
 
