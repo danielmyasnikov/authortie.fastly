@@ -11,6 +11,7 @@ import { getHeaders } from 'store/auth/selectors';
 import axios from 'axios';
 
 import css from './styles.module.less';
+import Loader from 'components/loader';
 
 interface Props {
   id?: string;
@@ -21,6 +22,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   const [reviewList, setRewiewList] = useState([]);
   const { t, i18n } = useTranslation('profile');
   const headers = useSelector(getHeaders);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     getReview();
   }, []);
@@ -32,7 +34,11 @@ export const MainReview: React.FC<Props> = ({ id }) => {
     const res = await axios({
       headers,
       url,
-    });
+    }).finally(() =>
+      setTimeout(() => {
+        setLoading(false);
+      }, 1000),
+    );
     setRewiewList(res.data);
   }
 
@@ -55,38 +61,41 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   }
 
   return (
-    <div className={css.wrapper}>
-      <div className={css.cards}>
-        {reviewList.length ? (
-          reviewList.map((item: any) => (
-            <div className={css.wrap}>
-              <div className={css.header}>
-                <div className={css.title}>{item.reviewable.title || 'Нет назавания работы'}</div>
-              </div>
-              <div className={css.rating}>
-                <Rating name="read-only" value={item.rate} readOnly />
-              </div>
-              <div className={css.profile}>
-                <div className={css.profilePic}>
-                  <ProfilePic />
+    <>
+      {loading && <Loader />}
+      <div className={css.wrapper}>
+        <div style={loading ? { display: 'none' } : { display: 'block' }} className={css.cards}>
+          {reviewList.length ? (
+            reviewList.map((item: any) => (
+              <div className={css.wrap}>
+                <div className={css.header}>
+                  <div className={css.title}>{item.reviewable.title || 'Нет назавания работы'}</div>
                 </div>
-                <div className={css.checkedProfile}>
-                  <CheckedProfile />
+                <div className={css.rating}>
+                  <Rating name="read-only" value={item.rate} readOnly />
                 </div>
+                <div className={css.profile}>
+                  <div className={css.profilePic}>
+                    <ProfilePic />
+                  </div>
+                  <div className={css.checkedProfile}>
+                    <CheckedProfile />
+                  </div>
+                </div>
+                <div className={css.comment}>
+                  <span className={css.title}>{getName(item)}</span>
+                </div>
+                <div className={css.messageBlock}>
+                  <p className={css.message}>{item.message}</p>
+                </div>
+                <div className={css.date}>{getTime(item.created_at)}</div>
               </div>
-              <div className={css.comment}>
-                <span className={css.title}>{getName(item)}</span>
-              </div>
-              <div className={css.messageBlock}>
-                <p className={css.message}>{item.message}</p>
-              </div>
-              <div className={css.date}>{getTime(item.created_at)}</div>
-            </div>
-          ))
-        ) : (
-          <span>Пока нет отзывов</span>
-        )}
+            ))
+          ) : (
+            <span>Пока нет отзывов</span>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };

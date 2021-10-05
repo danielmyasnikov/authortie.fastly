@@ -7,22 +7,29 @@ export interface AuthErrors {
   passwordError: string;
   passwordConfirmationError?: string;
   fullMessagesError?: string;
+  degreeError?: string;
+  degreeCategoty?: string;
 }
 
 export const getRegistration = createAsyncThunk<object, T.Auth, { rejectValue: AuthErrors }>(
   'auth/REGISTRATION',
-  async ({ email, password, passwordConfirmation }, { rejectWithValue }) => {
+  async ({ email, password, passwordConfirmation, degree, degreeCategory }, { rejectWithValue }) => {
     try {
+      console.log(degree, degreeCategory)
       const res = await axios.post('https://authortie-app.herokuapp.com/auth', {
         email,
         password,
         password_confirmation: passwordConfirmation,
+        profile_attributes: {
+          degree: degree,
+          degree_category: degreeCategory
+        }
       });
-
+      
       const client = res.headers.client;
       const accessToken = res.headers['access-token'];
       const uid = res.headers.uid;
-
+ 
       localStorage.setItem('uid', uid);
       localStorage.setItem('access-token', accessToken);
       localStorage.setItem('client', client);
@@ -31,7 +38,9 @@ export const getRegistration = createAsyncThunk<object, T.Auth, { rejectValue: A
       const headers = { client, uid, 'access-token': accessToken };
       return headers;
     } catch (err: any) {
+      console.log(err.response)
       const emailError: string = err.response.data.errors.email;
+      const degreeError: string = err.response.data.errors.email;
       const passwordError: string = err.response.data.errors.password || '';
       const passwordConfirmationError = err.response.data.errors.password_confirmation || '';
       const fullMessagesError = err.response.data.errors.full_messages || '';

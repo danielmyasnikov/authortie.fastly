@@ -4,8 +4,17 @@ import { getHeaders } from 'store/auth/selectors';
 import axios from 'axios';
 import {
   STATUS_OPTIONS,
+  SCHOOLBOY_OPTIONS,
   STUDENT_OPTIONS,
-  GRADE_OPTIONS,
+  POSTGRADUATE_OPTIONS,
+  TEACHER_OPTIONS,
+  RESEARCHER_OPTIONS,
+  SPECIALIST_OPTIONS,
+  STARTUP_OPTIONS,
+  COMMERCIALORGANIZATION_OPTIONS,
+  SCIENTIFICORGANIZATION_OPTIONS,
+  NONPROFITORGANIZATION_OPTIONS,
+  INVESTOR_OPTIONS,
   COUNTRIES,
 } from 'src/constants/profileConstants';
 import * as T from './types';
@@ -38,10 +47,10 @@ export const setProfile = createAsyncThunk<any, any, { state: RootState }>(
     profileData.about && formData.append('about', profileData.about);
     profileData.country && formData.append('country', profileData.country);
     profileData.privateAnc && formData.append('public_visibility', profileData.privateAnc);
-    profileData.notificationsEmail
-      && formData.append('email_notifications', profileData.notificationsEmail);
-    profileData.notificationsBrow
-      && formData.append('push_notifications', profileData.notificationsBrow);
+    profileData.notificationsEmail &&
+      formData.append('email_notifications', profileData.notificationsEmail);
+    profileData.notificationsBrow &&
+      formData.append('push_notifications', profileData.notificationsBrow);
     profileData.avatar && formData.append('avatar', profileData.avatar);
     profileData.status && formData.append('degree', profileData.status);
     profileData.grade && formData.append('degree_category', profileData.grade);
@@ -73,21 +82,64 @@ export const getProfile = createAsyncThunk<T.Profile, string | undefined, { stat
 
     const userCountry = COUNTRIES.filter((item: Options) => item.label === data.country)[0];
 
-    const userLinks: T.Links[] = !!data.links && !!data.links.length
-      ? data.links.map((item: { url: string }, index: number) => ({
-        url: item.url,
-        id: index,
-      }))
-      : LINKS_DEFAULT;
+    const userLinks: T.Links[] =
+      !!data.links && !!data.links.length
+        ? data.links.map((item: { url: string }, index: number) => ({
+            url: item.url,
+            id: index,
+          }))
+        : LINKS_DEFAULT;
 
     const userDegree = data.degree
       ? STATUS_OPTIONS.filter((item: Options) => item.value === data.degree)[0]
       : defaultArr;
 
-    const userGrade = userDegree.value === 'student'
-      ? STUDENT_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0]
-      : GRADE_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0];
+    const userGrade = RESEARCHER_OPTIONS.filter(
+      (item: Options) => item.label === data.degree_category,
+    );
 
+    const changeOptions = () => {
+      switch (userDegree.value) {
+        case 'schoolboy':
+          return SCHOOLBOY_OPTIONS.filter(
+            (item: Options) => item.label === data.degree_category,
+          )[0];
+        case 'student':
+          return STUDENT_OPTIONS.filter((item: Options) => item.label === data.degree_category)[0];
+        case 'postgraduate':
+          return POSTGRADUATE_OPTIONS.filter(
+            (item: Options) => item.label === data.degree_category,
+          )[0];
+        case 'teacher':
+          return TEACHER_OPTIONS.filter((item: Options) => item.label === data.degree_category)[0];
+        case 'researcher':
+          return RESEARCHER_OPTIONS.filter(
+            (item: Options) => item.label === data.degree_category,
+          )[0];
+        case 'specialist':
+          return SPECIALIST_OPTIONS.filter(
+            (item: Options) => item.label === data.degree_category,
+          )[0];
+        case 'startup':
+          return STARTUP_OPTIONS.filter((item: Options) => item.label === data.degree_category)[0];
+        case 'commercialOrganization':
+          return COMMERCIALORGANIZATION_OPTIONS.filter(
+            (item: Options) => item.label === data.degree_category,
+          )[0];
+        case 'scientificOrganization':
+          return SCIENTIFICORGANIZATION_OPTIONS.filter(
+            (item: Options) => item.label === data.degree_category,
+          )[0];
+        case 'nonProfitOrganization':
+          return NONPROFITORGANIZATION_OPTIONS.filter(
+            (item: Options) => item.label === data.degree_category,
+          )[0];
+        case 'investor':
+          return INVESTOR_OPTIONS.filter((item: Options) => item.label === data.degree_category)[0];
+        default:
+          return { label: '', value: '' };
+      }
+    };
     const profile: T.Profile = {
       id: data.id,
       name: data.first_name,
@@ -101,7 +153,7 @@ export const getProfile = createAsyncThunk<T.Profile, string | undefined, { stat
       notificationsBrow: data.push_notifications,
       avatarUrl: data.avatar_url,
       status: userDegree,
-      grade: userGrade,
+      grade: changeOptions(),
       links: userLinks,
       confirmOrcid: data.orcid_uuid,
       regoDate: data.rego_date,
@@ -126,23 +178,25 @@ export const getAuthProfile = createAsyncThunk<any, any, { state: RootState }>(
 
     const userCountry = COUNTRIES.filter((item: Options) => item.label === data.country)[0];
 
-    const userLinks: T.Links[] = !!data.links && !!data.links.length
-      ? data.links.map((item: { url: string }, index: number) => ({
-        url: item.url,
-        id: index,
-      }))
-      : [
-        { url: '', id: 1 },
-        { url: '', id: 2 },
-      ];
+    const userLinks: T.Links[] =
+      !!data.links && !!data.links.length
+        ? data.links.map((item: { url: string }, index: number) => ({
+            url: item.url,
+            id: index,
+          }))
+        : [
+            { url: '', id: 1 },
+            { url: '', id: 2 },
+          ];
 
     const userDegree = data.degree
       ? STATUS_OPTIONS.filter((item: Options) => item.value === data.degree)[0]
       : defaultArr;
 
-    const userGrade = userDegree.value === 'student'
-      ? STUDENT_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0]
-      : GRADE_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0];
+    const userGrade =
+      userDegree.value === 'student'
+        ? STUDENT_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0]
+        : SCHOOLBOY_OPTIONS.filter((item: Options) => item.value === data.degree_category)[0];
 
     const profile: T.Profile = {
       id: data.id,

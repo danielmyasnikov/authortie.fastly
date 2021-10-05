@@ -4,9 +4,6 @@ import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import * as T from 'store/profile/types';
 import {
-  STATUS_OPTIONS,
-  STUDENT_OPTIONS,
-  GRADE_OPTIONS,
   COUNTRIES,
   // @ts-ignore
 } from 'src/constants/profileConstants';
@@ -19,6 +16,7 @@ import Select from 'react-select';
 import Loader from 'components/loader';
 
 import { Modal } from 'components/common/modal';
+import { Status } from 'components/common/status';
 
 import Note from 'assets/note.svg';
 import styles from './styles.module.less';
@@ -51,7 +49,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
   const [lastName, setLastName] = useState<string>('');
   const [middleName, setMiddleName] = useState<string>('');
   const [affiliation, setAffiliation] = useState<string>('');
-  const [status, setStatus] = useState<T.Option>({ value: 'scientist', label: 'Учёный' });
+  const [status, setStatus] = useState<T.Option>({ value: '', label: '' });
   const [grade, setGrade] = useState<T.Option>({ value: '', label: '' });
   const [about, setAbout] = useState<string>('');
   const [country, setCountry] = useState<T.Option>({ value: '', label: '' });
@@ -62,12 +60,16 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
   const [fileError, setFileError] = useState('');
   const [nameError, setNameError] = useState('');
   const [loading, setLoading] = useState(true);
+  const [phoneNumber, setphoneNumber] = useState('');
+  const [formValid, setFormValid] = useState(false);
   const [lastNameError, setLastNameError] = useState('');
+  const [statusError, setStatusError] = useState('');
   const [modal, setModal] = useState<boolean>(false);
   const { profile } = useSelector(getProfileSelector);
   const isMyProfile = !id;
 
-  const IDURL = 'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/profile';
+  const IDURL =
+    'https://authortie-app.herokuapp.com/auth/orcid?front_url=https://authorties-sky.herokuapp.com/profile';
 
   useEffect(() => {
     setAvatarURL(profile.avatarUrl);
@@ -83,6 +85,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
     setStatus(profile.status);
     setGrade(profile.grade);
     setLinkArray(profile.links);
+    console.log(profile)
   }, [profile]);
 
   useEffect(() => {
@@ -101,15 +104,24 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
     } else dispatch(getProfile(id)).finally(() => setLoading(false));
   }, [id]);
 
-  const getDataUrlFromFile = (file: File | Blob): Promise<string> => new Promise((resolve) => {
-    const reader = new FileReader();
+  useEffect(() => {
+    if (name === '' || lastName === '' || grade?.value === '' || !grade || status?.label === '') {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
+    }
+  }, [name, lastName, grade]);
 
-    reader.addEventListener('load', () => {
-      resolve(reader.result as string);
+  const getDataUrlFromFile = (file: File | Blob): Promise<string> =>
+    new Promise((resolve) => {
+      const reader = new FileReader();
+
+      reader.addEventListener('load', () => {
+        resolve(reader.result as string);
+      });
+
+      reader.readAsDataURL(file);
     });
-
-    reader.readAsDataURL(file);
-  });
 
   function handleFileInputChanged(event: React.FormEvent<HTMLInputElement>) {
     // @ts-ignore
@@ -131,40 +143,67 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
 
   function handleLinkChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
-    const newLinkValue = linkArray.map((item) => (String(item.id) === name ? { ...item, url: value } : item));
+    const newLinkValue = linkArray.map((item) =>
+      String(item.id) === name ? { ...item, url: value } : item,
+    );
     setLinkArray(newLinkValue);
   }
 
-  function handleBlur(event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
-    if (name === 'name' && value === '') {
+  const checkValid = () => {
+    if (name === '' || !name) {
       setNameError(t('inputName'));
+    } else {
+      setNameError('');
     }
-    if (name === 'last_name' && value === '') {
+    if (lastName === '' || !lastName) {
       setLastNameError(t('Введите фамилию'));
+    } else {
+      setLastNameError('');
     }
-  }
+    if (grade?.value === '' || status.value === '' || !grade) {
+      setStatusError(t('Укажите статус'));
+    } else {
+      setStatusError('');
+    }
+  };
+
+  const onFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target?.name === 'name') {
+      setNameError('');
+      setName(event.target.value.replace(/[^a-zA-Zа-яА-Я]/g, ''));
+    }
+    if (event.target?.name === 'last_name') {
+      setLastNameError('');
+      setLastName(event.target.value.replace(/[^a-zA-Zа-яА-Я]/g, ''));
+    }
+    if (event.target?.value !== '') {
+      setStatusError('');
+    }
+  };
 
   async function submitProfile() {
-    const linksForData = linkArray.map((item) => ({ url: item.url }));
-    const data = {
-      name,
-      lastName,
-      middleName,
-      affiliation,
-      avatar,
-      about,
-      country: country?.label || '',
-      privateAnc,
-      notificationsEmail,
-      notificationsBrow,
-      status: status.value,
-      grade: grade?.label || '',
-      linksForData,
-    };
-    const resultConf = await dispatch(setProfile(data));
-    if (setProfile.fulfilled.match(resultConf)) {
-      setModal(true);
+    checkValid();
+    if (formValid) {
+      const linksForData = linkArray.map((item) => ({ url: item.url }));
+      const data = {
+        name,
+        lastName,
+        middleName,
+        affiliation,
+        avatar,
+        about,
+        country: country?.label || '',
+        privateAnc,
+        notificationsEmail,
+        notificationsBrow,
+        status: status.value,
+        grade: grade?.label || '',
+        linksForData,
+      };
+      const resultConf = await dispatch(setProfile(data));
+      if (setProfile.fulfilled.match(resultConf)) {
+        setModal(true);
+      }
     }
   }
 
@@ -184,9 +223,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      {loading && (
-        <Loader />
-      )}
+      {loading && <Loader />}
       <div style={loading ? { display: 'none' } : { display: 'block' }} className={styles.wrapper}>
         <div className={styles.gridContainer}>
           <Info
@@ -212,9 +249,8 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                       name="name"
                       id="name"
                       className={styles.input}
-                      onBlur={handleBlur}
                       type="text"
-                      onChange={(e) => setName(e.target.value)}
+                      onChange={onFormChange}
                     />
                   )}
                   {!isMyProfile && name && <span className={styles.userInfo}>{name}</span>}
@@ -224,13 +260,15 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                 <div className={styles.item}>
                   <span className={styles.subtitle}>Статус</span>
                   {isMyProfile && (
-                    <Select
+                    <Status
                       classNamePrefix="CustomSelect"
-                      onChange={(option: any) => setStatus(option)}
+                      onChange={(option: any) => {
+                        setStatus(option);
+                        setGrade({ label: '', value: '' });
+                      }}
                       value={status}
                       className={styles.block}
-                      defaultValue={STATUS_OPTIONS[0]}
-                      options={STATUS_OPTIONS}
+                      isStatus={true}
                     />
                   )}
 
@@ -238,24 +276,24 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                     <span className={styles.userInfo}>{status.label}</span>
                   )}
                   {!isMyProfile && !status.label && <div className={styles.noConntentLine} />}
-
-                  {(status?.value === 'scientist' || status?.value === 'student') &&
-                    isMyProfile && (
-                      <Select
-                        classNamePrefix="CustomSelect"
-                        options={status.value === 'student' ? STUDENT_OPTIONS : GRADE_OPTIONS}
-                        defaultValue={
-                          status.value === 'student' ? STUDENT_OPTIONS[0] : GRADE_OPTIONS[0]
-                        }
-                        value={grade}
-                        onChange={(option: any) => setGrade(option)}
-                      />
-                    )}
-
+                  {status?.value && (
+                    <Status
+                      classNamePrefix="CustomSelect"
+                      className={styles.grade}
+                      isStatus={false}
+                      status={status}
+                      value={grade}
+                      onChange={(option: any) => {
+                        setGrade(option);
+                        onFormChange(option);
+                      }}
+                    />
+                  )}
                   {!isMyProfile && grade?.label && (
                     <span className={styles.userInfo}>{grade.label}</span>
                   )}
                   {!isMyProfile && !grade?.label && <div className={styles.noConntentLine} />}
+                  {statusError && <span className={styles.error}>{statusError}</span>}
                 </div>
               </div>
               <div className={styles.contentItem}>
@@ -265,11 +303,10 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                     <input
                       value={lastName}
                       name="last_name"
-                      onBlur={handleBlur}
                       id="last_name"
                       className={styles.input}
                       type="text"
-                      onChange={(e) => setLastName(e.target.value)}
+                      onChange={onFormChange}
                     />
                   )}
                   {!isMyProfile && lastName && <span className={styles.userInfo}>{lastName}</span>}
@@ -329,6 +366,23 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                     )}
                     {!isMyProfile && !country?.label && <div className={styles.noConntentLine} />}
                   </div>
+                  <div className={styles.item}>
+                    <span className={styles.subtitle}>{t('phoneNumber')}</span>
+                    {isMyProfile && (
+                      <input
+                        value={phoneNumber}
+                        name="phone_number"
+                        id="phone_number"
+                        className={styles.input}
+                        type="text"
+                        onChange={(e) => setphoneNumber(e.target.value)}
+                      />
+                    )}
+                    {!isMyProfile && middleName && (
+                      <span className={styles.userInfo}>{middleName}</span>
+                    )}
+                    {!isMyProfile && !middleName && <div className={styles.noConntentLine} />}
+                  </div>
                 </div>
                 <div className={styles.item}>
                   <span className={styles.subtitle}>{t('about')}</span>
@@ -374,15 +428,19 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
                   </button> */}
                   </div>
                 </div>
-              </div>
-            ))}
-            {!isMyProfile
-              && !!linkArray.length
-              && linkArray.map((item) => (
-                <a target="_blank" href={item.url} className={styles.userInfoLink} rel="noreferrer">
-                  {item.url}
-                </a>
               ))}
+              {!isMyProfile &&
+                !!linkArray.length &&
+                linkArray.map((item) => (
+                  <a
+                    target="_blank"
+                    href={item.url}
+                    className={styles.userInfoLink}
+                    rel="noreferrer"
+                  >
+                    {item.url}
+                  </a>
+                ))}
               {!isMyProfile &&
                 !!linkArray.length &&
                 linkArray.map((item) => (
