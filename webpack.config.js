@@ -20,6 +20,7 @@ module.exports = {
     hot: true,
     port: 8585,
   },
+  
   resolve: {
     modules: [
       path.resolve(__dirname, 'assets'),

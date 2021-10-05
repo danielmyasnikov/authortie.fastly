@@ -9,8 +9,9 @@ import { AppDispatch } from 'store/types';
 import { getIsAuth } from 'store/auth/selectors';
 import { Footer } from 'components/footer';
 import { Card } from 'components/common/card';
-import { Button } from 'components/common/button';
-import { Tag } from './tag';
+
+import { ApplicationCard } from './applicationCard';
+
 import { Offer } from './offer';
 
 import styles from './styles.module.less';
@@ -39,17 +40,17 @@ export const DetailedApplication = () => {
     return <></>;
   }
   const postingId = post.posting_id;
-  async function submitOffer(requstType: string) {
-    // @ts-ignore
-    const requestId = postingId;
-    const supplyId = Number(params.id);
-    const agreementType = requstType;
+  // async function submitOffer(requstType: string) {
+  //   // @ts-ignore
+  //   const requestId = postingId;
+  //   const supplyId = Number(params.id);
+  //   const agreementType = requstType;
 
-    const resultConf = await dispatch(submitBidsUp({ requestId, supplyId, agreementType }));
-    if (submitBidsUp.fulfilled.match(resultConf)) {
-      dispatch(getDetailedApplication(params.id));
-    }
-  }
+  //   const resultConf = await dispatch(submitBidsUp({ requestId, supplyId, agreementType }));
+  //   if (submitBidsUp.fulfilled.match(resultConf)) {
+  //     dispatch(getDetailedApplication(params.id));
+  //   }
+  // }
 
   const knowledgeAreaList = post.knowledge_area_list || [];
   const keywordList = post.keyword_list || [];
@@ -59,54 +60,18 @@ export const DetailedApplication = () => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        <div className={styles.cardWrap}>
-          <div className={styles.tagWrapper}>
-            <Tag className={styles.workType}>{t(post.work_type_list[0])}</Tag>
-
-            {knowledgeAreaList.length > 0
-              && knowledgeAreaList.map((item: any) => (
-                <React.Fragment key={item}>
-                  <Tag className={styles.knowledgeArea}>{item}</Tag>
-                </React.Fragment>
-              ))}
-          </div>
-          <span className={styles.subtitle}>{post.title}</span>
-          <span className={styles.text}>{t('keyWords')}</span>
-          <div className={styles.tagWrapper}>
-            {keywordList.length > 0
-              && keywordList.map((item: any) => (
-                <React.Fragment key={item}>
-                  <Tag>{item}</Tag>
-                </React.Fragment>
-              ))}
-          </div>
-          <span className={styles.text}>{t('comment')}</span>
-          <span className={styles.comment}>{post.comment}</span>
-          <span className={styles.text}>{t('reward')}</span>
-          <div className={styles.tagWrapper}>
-            {post.reward_type === 'money' && (
-              <span className={styles.comment}>{`${post.reward_sum} ${post.reward_currency}`}</span>
-            )}
-            {post.reward_type !== 'money' && (
-              <span className={styles.comment}>{t(post.reward_type)}</span>
-            )}
-          </div>
-          {isGuest && (
-            <Link className={styles.toReview} to={`/review/${params.id}`}>
-              {t('addReview')}
-            </Link>
-          )}
-          {!postingId && isGuest && (
-            <Button onClick={() => setOfferCooperation(true)}>{t('offerCooperation')}</Button>
-          )}
-          {!!postingId && isGuest && <Button>{t('toDialog')}</Button>}
-          {!isGuest && (
-            <Link to={`/edit/${params.id}`}>
-              <Button>{t('edit')}</Button>
-            </Link>
-          )}
-        </div>
-
+        <ApplicationCard 
+        workTypeList = {post.work_type_list}
+        knowledgeAreaList={knowledgeAreaList}
+        keywordList={keywordList}
+        title={post.title}
+        comment={post.comment}
+        rewardType ={post.reward_type}
+        rewardCurrency={post.reward_currency}
+        rewardSum={post.reward_sum}
+        id={params.id}
+        approxDate={post.approx_date}
+        />
         {isGuest && (
           <div className={styles.profileWrapper}>
             {post.is_profile_visible ? (
@@ -128,9 +93,7 @@ export const DetailedApplication = () => {
                     </div>
                     <div className={styles.row}>
                       <span className={styles.comment}>
-                        {`${t(profile.degree)} ${
-                          profile.degree_category
-                        }`}
+                        {`${t(profile.degree)} ${profile.degree_category}`}
                       </span>
                     </div>
 
