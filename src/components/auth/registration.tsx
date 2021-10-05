@@ -103,18 +103,21 @@ export const Registration: React.FC = () => {
     if (getRegistration.rejected.match(resultConf) && resultConf.payload) {
       setEmailError(resultConf.payload.emailError[0]);
       setPasswordError(resultConf.payload.passwordError[0]);
-      resultConf.payload.passwordConfirmationError
-        && setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
+      resultConf.payload.passwordConfirmationError &&
+        setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
       resultConf.payload.fullMessagesError && setError(resultConf.payload.fullMessagesError[0]);
     } else {
+      if (!isSubmitData) setIsConfirm(true);
       if (!errorIndex.length && !!dataArray && isSubmitData) {
-        const resultConf = await dispatch(createPostingsApp(dataArray));
-        if (createPostingsApp.fulfilled.match(resultConf)) {
+        const resultConfData = await dispatch(createPostingsApp(dataArray));
+        if (createPostingsApp.rejected.match(resultConfData) && resultConfData.payload) {
+          setIsConfirm(false);
+          setError('Произошла ошибка при отправке заявки');
+        } else {
           setIsConfirm(true);
-          dispatch(createPostSlice.actions.getSubmitData(false));
+          dispatch(createPostSlice.actions.getSubmitData(true));
         }
       }
-      setIsConfirm(true);
     }
   }
 
@@ -252,15 +255,9 @@ export const Registration: React.FC = () => {
             </span>
           </label>
           <div className={styles.checkText}>
-            <span>
-              {t('text1Check')}
-              {' '}
-            </span>
+            <span>{t('text1Check')}</span>
             <a className={styles.checkLink} href="#">
-              <span>
-                {t('text2Check')}
-                {' '}
-              </span>
+              <span>{t('text2Check')}</span>
             </a>
             {t('text3Check')}
             <a className={styles.checkLink} href="#">

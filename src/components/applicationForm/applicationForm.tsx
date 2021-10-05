@@ -97,7 +97,7 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [sumCheck, setSumCheck] = useState(false);
   const [sum, setSum] = useState<string>();
-  const [currency, setCurrency] = useState<Option>();
+  const [currency, setCurrency] = useState<Option>(currencyOptions[0]);
 
   const [workName, setWorkName] = useState('');
   const [workDescription, setWorkDescription] = useState('');
@@ -132,8 +132,8 @@ export const ApplicationForm: React.FC<Props> = ({
       const editKnowledge = knowledgeDefault.map((item) => ({
         ...item,
         checked:
-          Array.isArray(editData.knowledge_area_list)
-          && editData.knowledge_area_list.includes(item.id),
+          Array.isArray(editData.knowledge_area_list) &&
+          editData.knowledge_area_list.includes(item.id),
       }));
 
       const editWorkTypes = workTypesDefaultAllList.map((item: any) => {
@@ -165,8 +165,8 @@ export const ApplicationForm: React.FC<Props> = ({
       setSum(editData.reward_sum);
       setCurrency({ label: editData.reward_currency, value: editData.reward_currency });
       setSumCheck(
-        Array.isArray(editData.reward_type_list)
-          && editData.reward_type_list.find((item: string) => item === 'money'),
+        Array.isArray(editData.reward_type_list) &&
+          editData.reward_type_list.find((item: string) => item === 'money'),
       );
 
       setApproxDate(editData.approx_date);
@@ -225,7 +225,6 @@ export const ApplicationForm: React.FC<Props> = ({
     if (!vaildChecboxBlock.length && !sumCheck) {
       validValue = { ...validValue, checboxBlock: 'Поле обязательно для заполнения' };
     }
-    console.log('vaildChecboxBlock', vaildChecboxBlock);
 
     if (vaildChecboxBlock.length + Number(sumCheck) > 3) {
       validValue = { ...validValue, checboxBlock: 'Выберете не более 3 пунктов' };
@@ -259,13 +258,13 @@ export const ApplicationForm: React.FC<Props> = ({
 
     setValid(validValue);
     if (
-      !validValue.radioBlock
-      && !validValue.checboxBlock
-      && !validValue.workName
-      && !validValue.workDescription
-      && !validValue.keyWords
-      && !validValue.knowledge
-      && !validValue.approxDate
+      !validValue.radioBlock &&
+      !validValue.checboxBlock &&
+      !validValue.workName &&
+      !validValue.workDescription &&
+      !validValue.keyWords &&
+      !validValue.knowledge &&
+      !validValue.approxDate
     ) {
       return true;
     }
@@ -412,7 +411,9 @@ export const ApplicationForm: React.FC<Props> = ({
     unsetValid();
 
     const newWorkTypes = workTypes.map((item: any) => {
-      const newList = item.list.map((itemList: any) => (itemList.id === id ? { ...itemList, checked: true } : { ...itemList, checked: false }));
+      const newList = item.list.map((itemList: any) =>
+        itemList.id === id ? { ...itemList, checked: true } : { ...itemList, checked: false },
+      );
       return { ...item, list: newList };
     });
     setWorkTypes(newWorkTypes);
@@ -421,7 +422,9 @@ export const ApplicationForm: React.FC<Props> = ({
   function handleCheckedList(id: string) {
     unsetValid();
     const newRewardTypes = rewardTypes.map((item: any) => {
-      const newList = item.list.map((itemList: any) => (itemList.id === id ? { ...itemList, checked: !itemList.checked } : { ...itemList }));
+      const newList = item.list.map((itemList: any) =>
+        itemList.id === id ? { ...itemList, checked: !itemList.checked } : { ...itemList },
+      );
       return { ...item, list: newList };
     });
 
@@ -430,7 +433,9 @@ export const ApplicationForm: React.FC<Props> = ({
 
   function handleKnowledgeList(id: string) {
     unsetValid();
-    const newKnowledge = knowledge.map((item: any) => (item.id === id ? { ...item, checked: !item.checked } : { ...item }));
+    const newKnowledge = knowledge.map((item: any) =>
+      item.id === id ? { ...item, checked: !item.checked } : { ...item },
+    );
     setKnowledge(newKnowledge);
   }
 
