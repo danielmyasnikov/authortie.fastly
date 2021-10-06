@@ -60,7 +60,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
     <>
       {loading && <Loader />}
       <div className={css.wrapper}>
-        <div className={loading ? cn(css.cards, css.hidden) : cn(css.cards)}>
+        <div className={loading ? css.hidden : css.cards}>
           {reviewList.length ? (
             reviewList.map((item: any) => (
               <div className={css.wrap}>

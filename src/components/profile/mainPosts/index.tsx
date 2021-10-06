@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'components/common/card';
 import { getLastPostings } from 'store/request/actions';
 import { getCreatePost } from 'store/request/selectors';
-import cn from 'classnames';
 import styles from './styles.module.less';
 import { Button } from 'components/common/button';
 import { Link } from 'react-router-dom';
@@ -41,7 +40,7 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
     <>
       {loading && <Loader />}
       <div className={styles.wrapper}>
-        <div className={loading ? cn(styles.hidden, styles.cards) : styles.cards}>
+        <div className={loading ? styles.hidden : styles.cards}>
           {lastPostings !== undefined &&
             lastPostings.map((item: any) => (
               <Card

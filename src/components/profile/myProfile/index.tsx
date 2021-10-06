@@ -220,7 +220,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
   return (
     <>
       {loading && <Loader />}
-      <div className={loading ? cn(styles.hidden, styles.wrapper) : cn(styles.wrapper)}>
+      <div className={loading ? styles.hidden : styles.wrapper}>
         <div className={styles.gridContainer}>
           <Info
             avatarURL={avatarURL}
