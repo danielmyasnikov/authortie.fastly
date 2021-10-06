@@ -8,6 +8,4 @@ export interface Auth {
   email: string;
   password: string;
   passwordConfirmation?: string;
-  degree?: string;
-  degreeCategory?: string;
 }

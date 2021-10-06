@@ -67,9 +67,6 @@ export const Menu: React.FC = () => {
           {t('community')}
         </Link>
         <span className={styles.item}>{t('forBusiness')}</span>
-        <Link to="/application">
-          <Button className={styles.btn}>{t('createRequest')}</Button>
-        </Link>
       </div>
 
       <div className={styles.content}>

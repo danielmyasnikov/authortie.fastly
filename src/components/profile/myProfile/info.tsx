@@ -72,8 +72,8 @@ export const Info: React.FC<Props> = ({
           </a>
         )}
       </div>
-      <div className={reputationScore === 0 ? `${styles.disable} ${styles.rating}` : styles.rating}>
-        <Star alt="" />
+      <div className={styles.rating}>
+        <Star />
         <span>{reputationScore}</span>
       </div>
       <div className={styles.dateOfReg}>

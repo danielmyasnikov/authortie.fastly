@@ -204,7 +204,6 @@ export const en = {
     mainApp: 'Мои заявки',
     workName: 'Название работы:',
     review: 'Отзыв',
-    phoneNumber: 'Номер телефона',
   },
 
   postings: {

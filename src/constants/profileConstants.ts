@@ -1,87 +1,21 @@
 export const STATUS_OPTIONS = [
-  { value: 'schoolboy', label: 'Школьник' },
-  { value: 'student', label: 'Студент' },
-  { value: 'postgraduate', label: 'Аспирант' },
-  { value: 'teacher', label: 'Преподаватель' },
-  { value: 'researcher', label: 'Научный сотрудник' },
-  { value: 'specialist', label: 'Специалист' },
-  { value: 'startup', label: 'Стартап' },
-  { value: 'commercialOrganization', label: 'Коммерческая организация' },
-  { value: 'scientificOrganization', label: 'Научная организация' },
-  { value: 'nonProfitOrganization', label: 'Некоммерческая организация' },
-  { value: 'investor', label: 'Инвестор' },
-
-];
-
-export const SCHOOLBOY_OPTIONS = [
-  { value: 'Гуманитарное направление', label: 'Гуманитарное направление' },
-  { value: 'Химико-биологическое', label: 'Химико-биологическое' },
-  { value: 'Физико-математическое', label: 'Физико-математическое' },
+  { value: 'scientist', label: 'Учёный' },
+  { value: 'student', label: 'Обучающийся' },
+  { value: 'organization', label: 'Организация' },
+  { value: 'other', label: 'Сторонний' },
 ];
 
 export const STUDENT_OPTIONS = [
-  { value: 'Бакалавриат', label: 'Бакалавриат' },
-  { value: 'Mагистратура', label: 'Mагистратура' },
-  { value: 'Cпециалитет', label: 'Cпециалитет' },
+  { value: 'Школьник', label: 'Школьник' },
+  { value: 'Студент', label: 'Студент' },
+  { value: 'Аспирант', label: 'Аспирант' },
 ];
 
-export const POSTGRADUATE_OPTIONS = [
-  { value: '1 год обучения', label: '1 год обучения' },
-  { value: '2 год обучения', label: '2 год обучения' },
-  { value: '3 год обучения', label: '3 год обучения' },
-  { value: '4 год обучения', label: '4 год обучения' },
-];
-
-export const TEACHER_OPTIONS = [
-  { value: 'Кандидат наук', label: 'Кандидат наук' },
-  { value: 'Кандидат наук, доц.', label: 'Кандидат наук, доц.' },
-  { value: 'Доктор наук', label: 'Доктор наук' },
-  { value: 'Доктор, проф.', label: 'Доктор, проф.' },
-];
-
-export const RESEARCHER_OPTIONS = [
-  { value: 'Младший научный сотрудник', label: 'Младший научный сотрудник' },
-  { value: 'Научный сотрудник', label: 'Научный сотрудник' },
-  { value: 'Старший научный сотрудник', label: 'Старший научный сотрудник' },
-  { value: 'Ведущий научный сотрудник', label: 'Старший научный сотрудник' },
-  { value: 'Главный научный сотрудник', label: 'Главный научный сотрудник' },
-];
-
-export const SPECIALIST_OPTIONS = [
-  { value: 'Инженерно-технический состав', label: 'Инженерно-технический состав' },
-  { value: 'Руководящий состав', label: 'Руководящий состав' },
-  { value: 'Старший научный сотрудник', label: 'Старший научный сотрудник' },
-  { value: 'Ведущий научный сотрудник', label: 'Старший научный сотрудник' },
-  { value: 'Главный научный сотрудник', label: 'Главный научный сотрудник' },
-];
-
-export const STARTUP_OPTIONS = [
-  { value: 'Самозанятый', label: 'Самозанятый' },
-  { value: 'Индивидуальный предприниматель', label: 'Индивидуальный предприниматель' },
-  { value: 'ООО', label: 'ООО' },
-];
-
-export const COMMERCIALORGANIZATION_OPTIONS = [
-  { value: 'Самозанятый', label: 'Самозанятый' },
-  { value: 'Индивидуальный предприниматель', label: 'Индивидуальный предприниматель' },
-  { value: 'ООО', label: 'ООО' },
-  { value: 'АО', label: 'АО' },
-];
-
-export const SCIENTIFICORGANIZATION_OPTIONS = [
-  { value: 'Самозанятый', label: 'Самозанятый' },
-  { value: 'Индивидуальный предприниматель', label: 'Индивидуальный предприниматель' },
-  { value: 'ООО', label: 'ООО' },
-];
-
-export const NONPROFITORGANIZATION_OPTIONS = [
-  { value: 'Фонд', label: 'Фонд' },
-  { value: 'Ассоциация', label: 'Ассоциация' },
-];
-
-export const INVESTOR_OPTIONS = [
-  { value: 'Индивидуальный', label: 'Индивидуальный' },
-  { value: 'Институциональный', label: 'Институциональный' },
+export const GRADE_OPTIONS = [
+  { value: 'к.т.н', label: 'к.т.н' },
+  { value: 'к.т.н., доц.', label: 'к.т.н., доц.' },
+  { value: 'д.т.н', label: 'д.т.н' },
+  { value: 'д.т.н., проф.', label: 'д.т.н., проф.' },
 ];
 
 export const COUNTRIES = [

@@ -207,7 +207,6 @@ export const ru = {
     mainApp: 'Мои заявки',
     workName: 'Название работы:',
     review: 'Отзыв',
-    phoneNumber: 'Номер телефона',
   },
 
   postings: {
