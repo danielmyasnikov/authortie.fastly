@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import CheckedProfile from 'assets/checkedProfile.svg';
 import ProfilePic from 'assets/profilePic.svg';
 import { getHeaders } from 'store/auth/selectors';
-
+import cn from 'classnames';
 import axios from 'axios';
 
 import css from './styles.module.less';
@@ -34,11 +34,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
     const res = await axios({
       headers,
       url,
-    }).finally(() =>
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000),
-    );
+    }).finally(() => setLoading(false));
     setRewiewList(res.data);
   }
 
@@ -64,7 +60,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
     <>
       {loading && <Loader />}
       <div className={css.wrapper}>
-        <div style={loading ? { display: 'none' } : { display: 'block' }} className={css.cards}>
+        <div className={loading ? cn(css.cards, css.hidden) : cn(css.cards)}>
           {reviewList.length ? (
             reviewList.map((item: any) => (
               <div className={css.wrap}>

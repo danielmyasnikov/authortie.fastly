@@ -13,7 +13,7 @@ import styles from './styles.module.less';
 import { Button } from 'components/common/button';
 import { RadioButton } from 'components/common/radioBtn';
 import { useHistory, useLocation } from 'react-router-dom';
-
+import cn from 'classnames';
 export const Postings = () => {
   const dispatch: AppDispatch = useDispatch();
   const { t } = useTranslation('postings');
@@ -155,8 +155,7 @@ export const Postings = () => {
             {t('reset')}
           </button>
           <div
-            style={workTypeOpen ? { display: 'flex' } : { display: 'none' }}
-            className={styles.listBlock}
+            className={workTypeOpen ? cn(styles.listBlock) : cn(styles.hidden, styles.listBlock)}
           >
             {workTypeList.map(
               ({ category, list }: { category: string; list: any[] }, i: number) => (

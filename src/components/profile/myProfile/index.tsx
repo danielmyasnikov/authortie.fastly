@@ -85,7 +85,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
     setStatus(profile.status);
     setGrade(profile.grade);
     setLinkArray(profile.links);
-    console.log(profile)
+    console.log(profile);
   }, [profile]);
 
   useEffect(() => {
@@ -96,11 +96,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
 
   useEffect(() => {
     if (isMyProfile) {
-      dispatch(getProfile()).finally(() =>
-        setTimeout(() => {
-          setLoading(false);
-        }, 2000),
-      );
+      dispatch(getProfile()).finally(() => setLoading(false));
     } else dispatch(getProfile(id)).finally(() => setLoading(false));
   }, [id]);
 
@@ -224,7 +220,7 @@ export const MyProfile: React.FC<Props> = ({ id }) => {
   return (
     <>
       {loading && <Loader />}
-      <div style={loading ? { display: 'none' } : { display: 'block' }} className={styles.wrapper}>
+      <div className={loading ? cn(styles.hidden, styles.wrapper) : cn(styles.wrapper)}>
         <div className={styles.gridContainer}>
           <Info
             avatarURL={avatarURL}

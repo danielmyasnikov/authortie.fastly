@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card } from 'components/common/card';
 import { getLastPostings } from 'store/request/actions';
 import { getCreatePost } from 'store/request/selectors';
-
+import cn from 'classnames';
 import styles from './styles.module.less';
 import { Button } from 'components/common/button';
 import { Link } from 'react-router-dom';
@@ -21,11 +21,7 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
   const { lastPostings } = useSelector(getCreatePost);
 
   useEffect(() => {
-    dispatch(getLastPostings()).finally(() =>
-      setTimeout(() => {
-        setLoading(false);
-      }, 1000),
-    );
+    dispatch(getLastPostings()).finally(() => setLoading(false));
   }, []);
 
   if (lastPostings.length === 0 && !loading) {
@@ -44,11 +40,9 @@ export const MainPosts: React.FC<Props> = ({ id }) => {
 
   return (
     <>
-      {loading && (
-        <Loader />
-      )}
+      {loading && <Loader />}
       <div className={styles.wrapper}>
-        <div style={loading ? { display: 'none' } : { display: 'grid' }} className={styles.cards}>
+        <div className={loading ? cn(styles.hidden, styles.cards) : styles.cards}>
           {lastPostings !== undefined &&
             lastPostings.map((item: any) => (
               <Card
