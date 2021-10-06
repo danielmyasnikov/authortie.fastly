@@ -44,7 +44,7 @@ export const Postings = () => {
     const workTypePrm = new URLSearchParams(search).get('work_type');
     if (knowledgeAreaPrm) {
       setKnowledgeArea(knowledgeAreaPrm);
-      setKnowledgeAreaOption({label: knowledgeAreaPrm, value: knowledgeAreaPrm})
+      setKnowledgeAreaOption({ label: knowledgeAreaPrm, value: knowledgeAreaPrm });
     }
     if (workTypePrm) {
       setWorkType(workTypePrm);
@@ -79,7 +79,9 @@ export const Postings = () => {
   function workTypeChange(val?: string) {
     if (val) {
       history.push({
-        search: '?' + new URLSearchParams({ work_type: val, knowledge_area: knowledgeArea || ''}).toString(),
+        search:
+          '?' +
+          new URLSearchParams({ work_type: val, knowledge_area: knowledgeArea || '' }).toString(),
       });
     }
     setWorkType(val);
@@ -90,7 +92,8 @@ export const Postings = () => {
   function setKnowledgeAreaChange(val?: string) {
     if (val) {
       history.push({
-        search: '?' + new URLSearchParams({ knowledge_area: val, work_type: workType || '' }).toString(),
+        search:
+          '?' + new URLSearchParams({ knowledge_area: val, work_type: workType || '' }).toString(),
       });
     }
     setKnowledgeArea(val);
@@ -110,7 +113,9 @@ export const Postings = () => {
     });
     const newWorkTypes = workTypeList.map((item: any) => {
       const newList = item.list.map((itemList: any) =>
-      itemList.checked === true ? { ...itemList, checked: false } : { ...itemList, checked: false },
+        itemList.checked === true
+          ? { ...itemList, checked: false }
+          : { ...itemList, checked: false },
       );
       return { ...item, list: newList };
     });
@@ -146,16 +151,14 @@ export const Postings = () => {
             value={knowledgeAreaOption}
             placeholder={t('knowledgeArea')}
             onChange={(option) => {
-              setKnowledgeAreaOption(option)
-              setKnowledgeAreaChange(option?.value)
+              setKnowledgeAreaOption(option);
+              setKnowledgeAreaChange(option?.value);
             }}
           />
           <button className={styles.lineBtn} onClick={dismissFilter}>
             {t('reset')}
           </button>
-          <div
-            className={workTypeOpen ? styles.listBlock : styles.hidden}
-          >
+          <div className={workTypeOpen ? styles.listBlock : styles.hidden}>
             {workTypeList.map(
               ({ category, list }: { category: string; list: any[] }, i: number) => (
                 <div key={category + i}>

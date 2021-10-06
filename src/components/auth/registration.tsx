@@ -110,8 +110,6 @@ export const Registration: React.FC = () => {
   }
 
   async function registration() {
-    console.log(status.value)
-    console.log(grade)
     const resultConf = await dispatch(
       getRegistration({
         email,
@@ -128,16 +126,20 @@ export const Registration: React.FC = () => {
         setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
       resultConf.payload.fullMessagesError && setError(resultConf.payload.fullMessagesError[0]);
     } else {
+      if (!isSubmitData) setIsConfirm(true);
       if (!errorIndex.length && !!dataArray && isSubmitData) {
-        const resultConf = await dispatch(createPostingsApp(dataArray));
-        if (createPostingsApp.fulfilled.match(resultConf)) {
+        const resultConfData = await dispatch(createPostingsApp(dataArray));
+        if (createPostingsApp.rejected.match(resultConfData) && resultConfData.payload) {
+          setIsConfirm(false);
+          setError('Произошла ошибка при отправке заявки');
+        } else {
           setIsConfirm(true);
-          dispatch(createPostSlice.actions.getSubmitData(false));
+          dispatch(createPostSlice.actions.getSubmitData(true));
         }
       }
-      setIsConfirm(true);
     }
   }
+
 
   function handleAuthType() {
     setIsRegistration(!isRegistration);
