@@ -17,7 +17,6 @@ interface Props {
 export const MainPosts: React.FC<Props> = ({ id }) => {
   const dispatch: AppDispatch = useDispatch();
   const [loading, setLoading] = useState(true);
-  console.log(id);
   const { lastPostings } = useSelector(getCreatePost);
 
   useEffect(() => {
