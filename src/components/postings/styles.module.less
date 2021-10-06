@@ -119,14 +119,67 @@
   line-height: 16px;
 }
 
+.hidden {
+  display: none;
+}
+
 .filterWrapper {
   display: flex;
   flex-direction: row;
+  position: relative;
+  .subtileList {
+    padding: 0 15px;
+    max-width: 400px;
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #3a85f4;
+  }
+  .closeList {
+    font-size: 16px;
+    line-height: 19px;
+    color: #3a85f4;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+  }
+  .btn {
+    max-height: 48px;
+    border: none;
+    color: #fff;
+    background: var(--color-blue);
+  }
 }
 
 .filter {
   width: 350px;
   margin-right: 20px;
+  margin-left: 20px;
+}
+
+.listBlock {
+  padding: 32px 40px 32px 25px;
+  background: #ffffff;
+  box-shadow: 0px 0px 23px rgb(43 123 211 / 10%);
+  border-radius: 12px;
+  flex-wrap: wrap;
+  position: absolute;
+  grid-auto-flow: dense;
+  grid-gap: 10px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  max-width: 1597px;
+  left: 0%;
+  width: 100%;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  max-height: 1700px;
+  display: flex;
+  flex-direction: column;
+  z-index: 20px;
 }
 
 .cards {
@@ -137,7 +190,7 @@
   justify-content: center;
 }
 
-.lineBtn{
+.lineBtn {
   background: transparent;
   color: #2c80ff;
   border: none;
@@ -145,6 +198,6 @@
   outline: none;
 }
 
-.award{
+.award {
   width: 12px;
 }

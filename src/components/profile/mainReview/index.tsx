@@ -7,10 +7,11 @@ import { useTranslation } from 'react-i18next';
 import CheckedProfile from 'assets/checkedProfile.svg';
 import ProfilePic from 'assets/profilePic.svg';
 import { getHeaders } from 'store/auth/selectors';
-
+import cn from 'classnames';
 import axios from 'axios';
 
 import css from './styles.module.less';
+import Loader from 'components/loader';
 
 interface Props {
   id?: string;
@@ -21,6 +22,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   const [reviewList, setRewiewList] = useState([]);
   const { t, i18n } = useTranslation('profile');
   const headers = useSelector(getHeaders);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     getReview();
   }, []);
@@ -32,7 +34,7 @@ export const MainReview: React.FC<Props> = ({ id }) => {
     const res = await axios({
       headers,
       url,
-    });
+    }).finally(() => setLoading(false));
     setRewiewList(res.data);
   }
 
@@ -55,38 +57,41 @@ export const MainReview: React.FC<Props> = ({ id }) => {
   }
 
   return (
-    <div className={css.wrapper}>
-      <div className={css.cards}>
-        {reviewList.length ? (
-          reviewList.map((item: any) => (
-            <div className={css.wrap}>
-              <div className={css.header}>
-                <div className={css.title}>{item.reviewable.title || 'Нет назавания работы'}</div>
-              </div>
-              <div className={css.rating}>
-                <Rating name="read-only" value={item.rate} readOnly />
-              </div>
-              <div className={css.profile}>
-                <div className={css.profilePic}>
-                  <ProfilePic />
+    <>
+      {loading && <Loader />}
+      <div className={css.wrapper}>
+        <div className={loading ? cn(css.cards, css.hidden) : cn(css.cards)}>
+          {reviewList.length ? (
+            reviewList.map((item: any) => (
+              <div className={css.wrap}>
+                <div className={css.header}>
+                  <div className={css.title}>{item.reviewable.title || 'Нет назавания работы'}</div>
                 </div>
-                <div className={css.checkedProfile}>
-                  <CheckedProfile />
+                <div className={css.rating}>
+                  <Rating name="read-only" value={item.rate} readOnly />
                 </div>
+                <div className={css.profile}>
+                  <div className={css.profilePic}>
+                    <ProfilePic />
+                  </div>
+                  <div className={css.checkedProfile}>
+                    <CheckedProfile />
+                  </div>
+                </div>
+                <div className={css.comment}>
+                  <span className={css.title}>{getName(item)}</span>
+                </div>
+                <div className={css.messageBlock}>
+                  <p className={css.message}>{item.message}</p>
+                </div>
+                <div className={css.date}>{getTime(item.created_at)}</div>
               </div>
-              <div className={css.comment}>
-                <span className={css.title}>{getName(item)}</span>
-              </div>
-              <div className={css.messageBlock}>
-                <p className={css.message}>{item.message}</p>
-              </div>
-              <div className={css.date}>{getTime(item.created_at)}</div>
-            </div>
-          ))
-        ) : (
-          <span>Пока нет отзывов</span>
-        )}
+            ))
+          ) : (
+            <span>Пока нет отзывов</span>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
