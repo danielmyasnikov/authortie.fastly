@@ -8,18 +8,14 @@ export const getLastPostings = createAsyncThunk<any[], string | undefined, { sta
   async (id, { getState }) => {
     try {
       const headers = getHeaders(getState());
-      const url = id
-        ? `https://authortie-app.herokuapp.com/api/v1/profiles/${id}`
-        : 'https://authortie-app.herokuapp.com/api/v1/profiles/me';
+      const url = `http://authortie-app.herokuapp.com/api/v1/postings?view_type=mine`;
       const res = await axios({
         method: 'GET',
         url,
         headers,
       });
       return res.data;
-    } catch (err) {
-
-    }
+    } catch (err) {}
   },
 );
 
@@ -35,31 +31,30 @@ export const createPostings = createAsyncThunk<undefined, any, { state: RootStat
         data,
       });
       return undefined;
-    } catch (err) {
-
-    }
+    } catch (err) {}
   },
 );
 
-export const createPostingsApp = createAsyncThunk<undefined, any, { state: RootState }>(
-  'createPost/createPostingsApp',
-  async (data, { getState }) => {
-    try {
-      const headers = getHeaders(getState());
-      await axios({
-        method: 'POST',
-        url: 'https://authortie-app.herokuapp.com/api/v1/postings/create_list',
-        headers,
-        data: {
-          postings: data,
-        },
-      });
-      return undefined;
-    } catch (err) {
-
-    }
-  },
-);
+export const createPostingsApp = createAsyncThunk<
+  undefined,
+  any,
+  { rejectValue: string; state: RootState }
+>('createPost/createPostingsApp', async (data, { rejectWithValue, getState }) => {
+  try {
+    const headers = getHeaders(getState());
+    await axios({
+      method: 'POST',
+      url: 'https://authortie-app.herokuapp.com/api/v1/postings/create_list',
+      headers,
+      data: {
+        postings: data,
+      },
+    });
+    return undefined;
+  } catch (err) {
+    return rejectWithValue('error');
+  }
+});
 
 export const editPostings = createAsyncThunk<undefined, any, { state: RootState }>(
   'createPost/editPostings',
@@ -73,8 +68,6 @@ export const editPostings = createAsyncThunk<undefined, any, { state: RootState 
         data,
       });
       return undefined;
-    } catch (err) {
-
-    }
+    } catch (err) {}
   },
 );

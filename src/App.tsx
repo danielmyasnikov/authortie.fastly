@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  Switch, Route, useLocation, useHistory,
-} from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import getUnixTime from 'date-fns/getUnixTime';
 import Container from 'components/container';
 import { Menu } from 'components/menu';
@@ -16,11 +14,14 @@ import { EditApplication } from 'components/editApplication';
 import { Review } from 'components/review';
 import { authSlice } from 'store/auth/slice';
 import { Contract } from 'components/contract';
+import PageNotFound from 'components/pageNotFound';
 import styles from './app.module.css';
 import './styles/colors.module.css';
+import { getIsAuth } from 'store/auth/selectors';
 
 const App: React.FC = () => {
   const dispatch = useDispatch();
+  const isAuth = useSelector(getIsAuth);
   const location = useLocation();
   // @ts-ignore
   const background = location.state && location.state.background;
@@ -78,9 +79,11 @@ const App: React.FC = () => {
         <Route exact path="/community">
           <Container Component={Postings} />
         </Route>
-        <Route exact path="/profile">
-          <Container Component={Profile} />
-        </Route>
+        {isAuth && (
+          <Route exact path="/profile">
+            <Container Component={Profile} />
+          </Route>
+        )}
         <Route exact path="/profile/:id">
           <Container Component={Profile} />
         </Route>
@@ -95,6 +98,9 @@ const App: React.FC = () => {
         </Route>
         <Route exact path="/contract/:id">
           <Container Component={Contract} />
+        </Route>
+        <Route exact path="*">
+          <Container Component={PageNotFound} />
         </Route>
       </Switch>
       {background && <Route exact path="/authorization" component={Registration} />}

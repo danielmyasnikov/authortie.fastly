@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation, Link } from 'react-router-dom';
 import cn from 'classnames';
 import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'components/common/button';
+import { Status } from 'components/common/status';
 import Close from 'assets/close.svg';
 import Eye from 'assets/eye.svg';
 import CloseEye from 'assets/closeEye.svg';
 import NoteModal from 'assets/note.svg';
 import FacebookColor from 'assets/facebookColor.png';
+import LinkedinColor from 'assets/linkedinColor.png';
 import { getProfile } from 'store/profile/actions';
 import { getCreatePost } from 'store/request/selectors';
 import { getRegistrationTab } from 'store/auth/selectors';
 import { createPost as createPostSlice } from 'store/request/slice';
 import { createPostingsApp } from 'store/request/actions';
-
+import * as T from 'store/profile/types';
 import GoogleColor from 'assets/googleColor.png';
 import Coolicon from 'assets/coolicon.svg';
 
@@ -40,6 +42,9 @@ export const Registration: React.FC = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>('');
+  const [statusError, setStatusError] = useState<string>('');
+  const [status, setStatus] = useState<any>('');
+  const [grade, setGrade] = useState<any>('');
 
   const [passwordError, setPasswordError] = useState<string>('');
   const [passwordConfirmationError, setPasswordConfirmationError] = useState<string>('');
@@ -48,6 +53,7 @@ export const Registration: React.FC = () => {
   const [check, setCheck] = useState(false);
   const googleURL = `https://authortie-app.herokuapp.com/auth/google_oauth2?front_url=${originPath}${pathname}`;
   const facebookURL = `https://authortie-app.herokuapp.com/auth/facebook?front_url=${originPath}${pathname}`;
+  const linkedinURL = `https://authortie-app.herokuapp.com/auth/linkedin?front_url=${originPath}${pathname}`;
 
   const { dataArray, errorIndex, isSubmitData } = useSelector(getCreatePost);
 
@@ -77,6 +83,12 @@ export const Registration: React.FC = () => {
     }
   }
 
+  const onFormChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target?.value !== '') {
+      setStatusError('');
+    }
+  };
+
   function onSubmit() {
     isRegistration ? registration() : signIn();
   }
@@ -98,25 +110,36 @@ export const Registration: React.FC = () => {
   }
 
   async function registration() {
-    const resultConf = await dispatch(getRegistration({ email, password, passwordConfirmation }));
-
+    const resultConf = await dispatch(
+      getRegistration({
+        email,
+        password,
+        passwordConfirmation,
+        degree: status.value,
+        degreeCategory: grade.value,
+      }),
+    );
     if (getRegistration.rejected.match(resultConf) && resultConf.payload) {
       setEmailError(resultConf.payload.emailError[0]);
       setPasswordError(resultConf.payload.passwordError[0]);
-      resultConf.payload.passwordConfirmationError
-        && setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
+      resultConf.payload.passwordConfirmationError &&
+        setPasswordConfirmationError(resultConf.payload.passwordConfirmationError[0]);
       resultConf.payload.fullMessagesError && setError(resultConf.payload.fullMessagesError[0]);
     } else {
+      if (!isSubmitData) setIsConfirm(true);
       if (!errorIndex.length && !!dataArray && isSubmitData) {
-        const resultConf = await dispatch(createPostingsApp(dataArray));
-        if (createPostingsApp.fulfilled.match(resultConf)) {
+        const resultConfData = await dispatch(createPostingsApp(dataArray));
+        if (createPostingsApp.rejected.match(resultConfData) && resultConfData.payload) {
+          setIsConfirm(false);
+          setError('Произошла ошибка при отправке заявки');
+        } else {
           setIsConfirm(true);
-          dispatch(createPostSlice.actions.getSubmitData(false));
+          dispatch(createPostSlice.actions.getSubmitData(true));
         }
       }
-      setIsConfirm(true);
     }
   }
+
 
   function handleAuthType() {
     setIsRegistration(!isRegistration);
@@ -178,7 +201,41 @@ export const Registration: React.FC = () => {
           {t('registration')}
         </button>
       </div>
-
+      {isRegistration && (
+        <>
+          <div className={cn(styles.statusWrapper, { [styles.statusWrapperError]: !!statusError})}>
+            <Status
+              classNamePrefix="RegistrationSelect"
+              onChange={(option: any) => {
+                setGrade('');
+                setStatus(option);
+              }}
+              className={styles.status}
+              isStatus={true}
+              placeholder="Статус"
+            />
+          </div>
+          <div className={styles.error}>{isRegistration && statusError}</div>
+        </>
+      )}
+      {isRegistration && status?.value && (
+        <>
+          <div className={cn(styles.statusWrapper, { [styles.statusWrapperError]: !!statusError})}>
+            <Status
+              classNamePrefix={`RegistrationSelect`}
+              isStatus={false}
+              status={status}
+              value={grade}
+              onChange={(option: any) => {
+                setGrade(option);
+                onFormChange(option);
+              }}
+              placeholder="Статус"
+            />
+          </div>
+          <div className={styles.error}>{statusError}</div>
+        </>
+      )}
       <div
         className={cn(styles.inputWrapper, {
           [styles.inputWrapperError]: !!emailError && isRegistration,
@@ -252,15 +309,9 @@ export const Registration: React.FC = () => {
             </span>
           </label>
           <div className={styles.checkText}>
-            <span>
-              {t('text1Check')}
-              {' '}
-            </span>
+            <span>{t('text1Check')} </span>
             <a className={styles.checkLink} href="#">
-              <span>
-                {t('text2Check')}
-                {' '}
-              </span>
+              <span>{t('text2Check')} </span>
             </a>
             {t('text3Check')}
             <a className={styles.checkLink} href="#">
@@ -288,6 +339,9 @@ export const Registration: React.FC = () => {
         </a>
         <a href={googleURL} className={styles.icon}>
           <img src={GoogleColor} alt="" />
+        </a>
+        <a href={linkedinURL} className={styles.icon}>
+          <img src={LinkedinColor} alt="" />
         </a>
       </div>
     </>
