@@ -1,54 +1,48 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import cn from 'classnames';
-import ReactTooltip from 'react-tooltip';
-import Camera from 'assets/camera.svg';
 import Right from 'assets/right.svg';
+import DefaultAvatar from 'assets/avatar.jpg';
 import Key from 'assets/key.svg';
 import { Button } from 'components/common/button';
 import { Tag } from './tag';
 import styles from './styles.module.less';
 
 interface Props {
-  privateAccaunt: boolean;
-  keyWords: string[];
-  comment: string;
-  author: any;
-  title: string;
-  workType: string;
-  fieldOfActivity: string;
-  id: number;
-  key?: number | string;
-  knowledgeArea: string[];
-  rewardType: string[];
-  rewardCurrency: string;
-  rewardSum: string;
-  rewardСomment: string;
-  whois: string;
-  avatarUrl?: string;
+  post: any;
 }
-
-export const Card: React.FC<Props> = ({
-  privateAccaunt,
-  keyWords,
-  comment,
-  author,
-  title,
-  workType,
-  fieldOfActivity,
-  id,
-  key,
-  knowledgeArea,
-  rewardCurrency,
-  rewardType,
-  rewardSum,
-  rewardСomment,
-  whois,
-  avatarUrl,
-}) => {
+export const Card: React.FC<Props> = ({ post }) => {
   const { t } = useTranslation('card');
-  const showWords = !!keyWords && !!keyWords.length ? keyWords : [];
+  if (!post) return null;
+  const {
+    id,
+    work_type_list: workType,
+    knowledge_area_list: knowledgeArea,
+    title,
+    comment,
+    reward_type_list: rewardType,
+    reward_sum: rewardSum,
+    reward_currency: rewardCurrency,
+    keyword_list: keyWords,
+    whois,
+    user,
+    is_profile_visible: privateAccaunt,
+  } = post;
+
+  if (!user) return null;
+
+  const {
+    first_name: firstName,
+    middle_name: middleName,
+    last_name: lastName,
+    affiliation,
+    degree,
+    avatar_url: avatarUrl,
+    profile_friendly_id: friendlyUrl,
+    degree_category: degreeCategory,
+  } = user.profile;
+
+  const showWords = keyWords.length > 2 ? [keyWords[0], keyWords[1]] : keyWords;
   const showRewardType = !!rewardType && !!rewardType.length ? rewardType : [];
   const numberAfterShowWords = !!keyWords && !!keyWords.length && keyWords.length - 3;
   const numberAfterShowRewardType = !!rewardType && !!rewardType.length && rewardType.length - 3;
@@ -56,41 +50,15 @@ export const Card: React.FC<Props> = ({
   const isMyPost = whois !== 'guest';
 
   return (
-    <div className={styles.wrapper} key={key}>
-      {t(workType).length > 25 && (
-        <ReactTooltip
-          id={`${workType} + ${id}`}
-          className={styles.tooltip}
-          place="top"
-          effect="solid"
-        />
-      )}
-      {t(knowledgeArea[0]).length > 25 && (
-        <ReactTooltip
-          id={`${knowledgeArea} + ${id}`}
-          className={styles.tooltip}
-          place="top"
-          effect="solid"
-        />
-      )}
-
+    <div className={styles.wrapper}>
       <div className={styles.tagWrapper}>
-        <Tag className={styles.workType} dataTip={t(workType)} dataFor={`${workType} + ${id}`}>
-          {t(workType)}
-        </Tag>
+        <Tag className={styles.workType}>{workType}</Tag>
 
-        <Tag
-          className={styles.knowledgeArea}
-          dataTip={t(knowledgeArea[0])}
-          dataFor={`${fieldOfActivity} + ${id}`}
-        >
-          {t(knowledgeArea[0])}
-        </Tag>
+        <Tag className={styles.knowledgeArea}>{knowledgeArea[0]}</Tag>
         {!!numberAfterShowWordsKnowledgeArea && (
           <Tag className={styles.knowledgeArea}>{`+ ${numberAfterShowWordsKnowledgeArea}`}</Tag>
         )}
       </div>
-
       <span className={styles.subTitle}>{title}</span>
 
       <span className={styles.text}>{t('comment')}</span>
@@ -98,26 +66,18 @@ export const Card: React.FC<Props> = ({
 
       <span className={styles.text}>{t('reward')}</span>
       <div className={styles.tagWrapper}>
-        {rewardType
-          && rewardType.map((item) => (
-            <React.Fragment key={item}>
-              {item === 'money' && (
-                <div className={styles.award}>
-                  <Button className={styles.btn}>
-                    Оплата деньгами
-                  </Button>
-                  <span className={styles.price}>{`${rewardSum} ${rewardCurrency}`}</span>
-                </div>
-              )}
-              {item !== 'money'
-                && <Button className={styles.btnRewardType}>{t(rewardType)}</Button>}
-              {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
-            </React.Fragment>
-          ))}
+        {rewardType.map((item: any) => (
+          <React.Fragment key={item}>
+            <div className={styles.rewardTag}>{item}</div>
+            {item === 'money' && (
+              <div className={styles.sum}>{`${rewardSum} ${rewardCurrency}`}</div>
+            )}
+          </React.Fragment>
+        ))}
       </div>
 
       <div className={styles.keyWrapper}>
-        {showWords.map((word) => (
+        {showWords.map((word: any) => (
           <React.Fragment key={word}>
             <Tag className={styles.tagKey}>
               <Key />
@@ -125,34 +85,33 @@ export const Card: React.FC<Props> = ({
             </Tag>
           </React.Fragment>
         ))}
-        {numberAfterShowWords > 0 && <Tag>{`+ ${numberAfterShowWords}`}</Tag>}
+        {numberAfterShowWords > 0 && (
+          <Tag className={styles.tagKey}>{`+ ${numberAfterShowWords}`}</Tag>
+        )}
       </div>
+
       <div className={styles.personBlock}>
-        <img src={avatarUrl} alt="" />
+        <Link to={`/profile/${friendlyUrl}`} className={styles.avatarWrapper}>
+          <img className={styles.avatar} src={avatarUrl ? avatarUrl : DefaultAvatar} alt="" />
+        </Link>
         {privateAccaunt ? (
           <span className={styles.text}>{t('hiddenProfile')}</span>
         ) : (
           <>
-            {!privateAccaunt && !author.first_name && (
+            {!privateAccaunt && !firstName && (
               <span className={styles.text}>{t('profileIsNotCompleted')}</span>
             )}
 
-            {author.first_name && (
+            {firstName && (
               <div className={styles.personInfo}>
-
                 <div className={styles.row}>
-                  <span className={styles.text}>
-                    {`${author.first_name} ${author.last_name} ${author.middle_name}`}
-                  </span>
+                  <span className={styles.text}>{`${firstName} ${lastName} ${middleName}`}</span>
                 </div>
                 <div className={styles.row}>
-                  <span className={styles.comment}>
-                    {`${t(author.degree)} ${author.degree_category
-                    }`}
-                  </span>
+                  <span className={styles.comment}>{`${degree} ${degreeCategory}`}</span>
                 </div>
 
-                <span className={styles.comment}>{author.affiliation}</span>
+                <span className={styles.comment}>{affiliation}</span>
               </div>
             )}
           </>
@@ -160,26 +119,18 @@ export const Card: React.FC<Props> = ({
       </div>
 
       <div className={styles.btnWrapper}>
-        {isMyPost
-          ? (
-            <Link to={`/edit/${id}`}>
-              <Button className={styles.btn}>
-                {t('edit')}
-              </Button>
-            </Link>
-          )
-          : (
-            <Link to={`/community/${id}?offerCooperation=true`}>
-              <Button className={styles.btn}>
-                {t('offerCooperation')}
-              </Button>
-            </Link>
-          )}
+        {isMyPost ? (
+          <Link to={`/edit/${id}`}>
+            <Button className={styles.btn}>{t('edit')}</Button>
+          </Link>
+        ) : (
+          <Link to={`/community/${id}?offerCooperation=true`}>
+            <Button className={styles.btn}>{t('offerCooperation')}</Button>
+          </Link>
+        )}
 
-        <Link to={`/community/${id}`}>
-          <Button className={styles.rightBtn}>
-            <Right className={styles.rigthIcon} />
-          </Button>
+        <Link to={`/community/${id}`} className={styles.rightBtn}>
+          <Right className={styles.rigthIcon} />
         </Link>
       </div>
     </div>

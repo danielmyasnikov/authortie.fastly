@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import eoLocale from 'date-fns/locale/eo';
-import format from 'date-fns/format';
 import Rating from '@material-ui/lab/Rating';
 import { useTranslation } from 'react-i18next';
 import CheckedProfile from 'assets/checkedProfile.svg';
 import ProfilePic from 'assets/profilePic.svg';
 import { getHeaders } from 'store/auth/selectors';
-import cn from 'classnames';
 import axios from 'axios';
 
 import css from './styles.module.less';

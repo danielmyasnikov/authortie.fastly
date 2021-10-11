@@ -10,7 +10,6 @@ import { Application } from 'components/applicationForm';
 import { DetailedApplication } from 'components/detailedApplication';
 import { Profile } from 'components/profile';
 import { Registration } from 'components/auth/registration';
-import { EditApplication } from 'components/editApplication';
 import { Review } from 'components/review';
 import { authSlice } from 'store/auth/slice';
 import { Contract } from 'components/contract';
@@ -88,7 +87,7 @@ const App: React.FC = () => {
           <Container Component={Profile} />
         </Route>
         <Route exact path="/edit/:id">
-          <Container Component={EditApplication} />
+          <Container Component={Application} />
         </Route>
         <Route exact path="/community/:id(\d+)">
           <Container Component={DetailedApplication} />

@@ -7,7 +7,16 @@ import { Tag } from './../tag';
 
 import styles from './styles.module.less';
 
-export const ApplicationCard = ({
+interface Props {
+  knowledgeAreaList: any;
+  workTypeList: any;
+  keywordList: any;
+  title: any;
+  comment: any;
+  approxDate: any;
+}
+
+export const ApplicationCard: React.FC<Props> = ({
   knowledgeAreaList,
   workTypeList,
   keywordList,

@@ -8,29 +8,15 @@ export const getLastPostings = createAsyncThunk<any[], string | undefined, { sta
   async (id, { getState }) => {
     try {
       const headers = getHeaders(getState());
-      const url = `http://authortie-app.herokuapp.com/api/v1/postings?view_type=mine`;
+      const url = id
+        ? `https://authortie-app.herokuapp.com/api/v1/postings/${id}`
+        : 'https://authortie-app.herokuapp.com/api/v1/postings?view_type=mine';
       const res = await axios({
         method: 'GET',
         url,
         headers,
       });
       return res.data;
-    } catch (err) {}
-  },
-);
-
-export const createPostings = createAsyncThunk<undefined, any, { state: RootState }>(
-  'createPost/createPostings',
-  async (data, { getState }) => {
-    try {
-      const headers = getHeaders(getState());
-      await axios({
-        method: 'POST',
-        url: 'https://authortie-app.herokuapp.com/api/v1/postings',
-        headers,
-        data,
-      });
-      return undefined;
     } catch (err) {}
   },
 );
@@ -56,18 +42,21 @@ export const createPostingsApp = createAsyncThunk<
   }
 });
 
-export const editPostings = createAsyncThunk<undefined, any, { state: RootState }>(
-  'createPost/editPostings',
-  async ({ data, id }, { getState }) => {
-    try {
-      const headers = getHeaders(getState());
-      await axios({
-        method: 'PATCH',
-        url: `https://authortie-app.herokuapp.com/api/v1/postings/${id}`,
-        headers,
-        data,
-      });
-      return undefined;
-    } catch (err) {}
-  },
-);
+export const editPostings = createAsyncThunk<
+  undefined,
+  any,
+  { rejectValue: string; state: RootState }
+>('createPost/editPostings', async ({ data, id }, { rejectWithValue, getState }) => {
+  try {
+    const headers = getHeaders(getState());
+    await axios({
+      method: 'PATCH',
+      url: `https://authortie-app.herokuapp.com/api/v1/postings/${id}`,
+      headers,
+      data,
+    });
+    return undefined;
+  } catch (err) {
+    return rejectWithValue('error');
+  }
+});

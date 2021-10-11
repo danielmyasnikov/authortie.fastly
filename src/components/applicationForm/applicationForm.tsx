@@ -10,16 +10,12 @@ import { DatePicker } from 'components/common/datePicker';
 import { Button } from 'components/common/button';
 import cn from 'classnames';
 import format from 'date-fns/format';
-import { createPostings, editPostings } from 'store/request/actions';
-import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { KeyWords } from 'components/common/keywords';
 import { createPost as createPostSlice } from 'store/request/slice';
-import NoteModal from 'assets/note.svg';
 import Pencil from 'assets/edit.svg';
 import Note from 'assets/noteDescription.svg';
 import KeyWord from 'assets/keyWord.svg';
 import Stat from 'assets/stat.svg';
-import Close from 'assets/close.svg';
 import Delete from 'assets/delete.svg';
 
 import { AppDispatch } from 'store/types';
@@ -57,6 +53,7 @@ interface Props {
   setError?: (val: string) => void;
   error?: string;
   isAlone?: boolean;
+  requestType?: WhoIAm;
 }
 
 export enum WhoIAm {
@@ -105,8 +102,6 @@ export const ApplicationForm: React.FC<Props> = ({
 
   const [hideFromOtherUsers, setHideFromOtherUsers] = useState(false);
   const [hideFromSearch, setHideFromSearch] = useState(false);
-
-  const [modal, setModal] = useState<boolean>(false);
 
   const [moreList, setMoreList] = useState(false);
 
@@ -289,20 +284,20 @@ export const ApplicationForm: React.FC<Props> = ({
       request_type: whoIAm,
       work_types: checkedWorkTypes,
       reward_types: checkedRewardTypesWithMoney,
-      reward_sum: sum,
+      reward_sum: sum || '',
       knowledge_areas: checkedKnowledgeList,
       title: workName,
       comment: workDescription,
-      reward_currency: currency?.value,
+      reward_currency: currency?.value || "",
       keyword_list: keyWords,
       approx_date: !!approxDate && format(new Date(approxDate), 'dd/MM/yyyy'),
       hide_from_other_users: hideFromOtherUsers,
       hide_from_search: hideFromSearch,
-      request_posting_id: whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
+      request_posting_id: isOffer && whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
       supply_posting_id: whoIAm !== WhoIAm.EXECUTOR && requestId ? requestId : '',
     };
     // @ts-ignore
-    createPostItems({ data, index });
+    if (createPostItems) createPostItems({ data, index });
   }, [
     whoIAm,
     approxDate,
@@ -321,36 +316,6 @@ export const ApplicationForm: React.FC<Props> = ({
 
   async function submitForm() {
     validation();
-    const checkedWorkTypes = workTypes
-      .map(({ list }) => list.map((itemList) => itemList))
-      .flat()
-      .filter((el) => el.checked)
-      .map((item) => item.id);
-    const checkedRewardTypes = rewardTypes
-      .map(({ list }) => list.map((itemList) => itemList))
-      .flat()
-      .filter((el) => el.checked)
-      .map((item) => item.id);
-    const checkedRewardTypesWithMoney = sumCheck
-      ? [...checkedRewardTypes, 'money']
-      : checkedRewardTypes;
-    const checkedKnowledgeList = knowledge.filter((el) => el.checked).map((item) => item.id);
-    const data = {
-      request_type: whoIAm,
-      work_types: checkedWorkTypes,
-      reward_types: checkedRewardTypesWithMoney,
-      reward_sum: sum,
-      knowledge_areas: checkedKnowledgeList,
-      title: workName,
-      comment: workDescription,
-      reward_currency: currency?.value,
-      keyword_list: keyWords,
-      approx_date: !!approxDate && format(new Date(approxDate), 'dd/MM/yyyy'),
-      hide_from_other_users: hideFromOtherUsers,
-      hide_from_search: hideFromSearch,
-      request_posting_id: whoIAm !== WhoIAm.CUSTOMER && requestId ? requestId : '',
-      supply_posting_id: whoIAm !== WhoIAm.EXECUTOR && requestId ? requestId : '',
-    };
     // @ts-ignore
     setPushvalidation(true);
     if (!validation()) {
@@ -359,13 +324,8 @@ export const ApplicationForm: React.FC<Props> = ({
     }
     if (isAuth) {
       if (validation()) {
-        if (isEdit) {
-          editPost(data);
-        }
         if (createPostsApp) {
           createPostsApp();
-        } else {
-          createPost(data);
         }
       }
     } else {
@@ -375,24 +335,6 @@ export const ApplicationForm: React.FC<Props> = ({
         pathname: '/authorization',
         state: { background: location },
       });
-    }
-  }
-
-  async function editPost(data: any) {
-    const resultConf = await dispatch(editPostings({ data, id: editData.id }));
-    if (editPostings.fulfilled.match(resultConf)) {
-      if (isOffer && requestId) {
-        dispatch(getDetailedApplication(requestId));
-      } else setModal(true);
-    }
-  }
-
-  async function createPost(data: any) {
-    const resultConf = await dispatch(createPostings(data));
-    if (createPostings.fulfilled.match(resultConf)) {
-      if (isOffer && requestId) {
-        dispatch(getDetailedApplication(requestId));
-      } else setModal(true);
     }
   }
 
@@ -549,11 +491,6 @@ export const ApplicationForm: React.FC<Props> = ({
         <KeyWord className={css.subtileIcon} />
         {t('keyWords')}
       </span>
-      {/* <textarea
-        className={cn(css.textareaKeyWords, { [css.errorWrapper]: !!valid.keyWords })}
-        onChange={handleKeyWords}
-        value={keyWords}
-      /> */}
       <KeyWords onChange={handleKeyWords} />
       <span className={css.keyWordsInfo}>
         {t('keyWordsExpl')}
@@ -595,24 +532,6 @@ export const ApplicationForm: React.FC<Props> = ({
         <DatePicker value={approxDate} onChange={handleDateChange} />
       </div>
       {!!valid.approxDate && <span className={css.error}>{valid.approxDate}</span>}
-    </div>
-  );
-
-  const renderModal = () => (
-    <div className={css.modalWrapper}>
-      <div className={css.modalContaier}>
-        <Close className={css.exit} onClick={() => setModal(false)} />
-        <NoteModal className={css.noteIcon} />
-        <span className={css.subtitle}>{t('confirmTitle')}</span>
-        <span className={css.modalInfo}>{t('confirmInfo')}</span>
-        <Link to="/community">
-          <Button>{t('toPostings')}</Button>
-        </Link>
-        <Link to="/">
-          <Button className={css.btnBorder}>{t('toMain')}</Button>
-        </Link>
-      </div>
-      <div className={css.overlay} />
     </div>
   );
 
@@ -686,9 +605,11 @@ export const ApplicationForm: React.FC<Props> = ({
             <>
               {isLastCard && (
                 <>
-                  <Button className={css.outlineBtn} onClick={addArray}>
-                    {t('addApplication')}
-                  </Button>
+                  {!isOffer && (
+                    <Button className={css.outlineBtn} onClick={addArray}>
+                      {t('addApplication')}
+                    </Button>
+                  )}
                   <Button className={css.btn} onClick={submitForm}>
                     {isAuth ? t('publish') : t('regAndPublish')}
                   </Button>
@@ -700,7 +621,6 @@ export const ApplicationForm: React.FC<Props> = ({
           {isEdit && <Button onClick={submitForm}>{t('edit')}</Button>}
         </div>
         {!isAuth && isLastCard && <span className={css.info}>{t('info')}</span>}
-        {modal && renderModal()}
       </div>
     </>
   );

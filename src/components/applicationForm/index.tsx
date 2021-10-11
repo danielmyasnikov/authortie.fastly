@@ -1,28 +1,60 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import cn from 'classnames';
 import { getIsAuth } from 'store/auth/selectors';
 import { authSlice } from 'store/auth/slice';
-import { Link } from 'react-router-dom';
-import { createPostingsApp } from 'store/request/actions';
+import { Link, useParams } from 'react-router-dom';
+import { createPostingsApp, editPostings } from 'store/request/actions';
 import { AppDispatch } from 'store/types';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'components/common/button';
 import NoteModal from 'assets/note.svg';
+import { getDetailedApplication } from 'store/detailedApplication/actions';
 import { Modal } from 'components/common/modal';
 import { getCreatePost } from 'store/request/selectors';
+import { getDetailedApplicationSelector } from 'store/detailedApplication/selectors';
 import { createPost } from 'store/request/slice';
 import { ApplicationForm } from './applicationForm';
 import css from './css.module.less';
 
-export const Application = () => {
-  const dispatch: AppDispatch = useDispatch();
+interface Params {
+  id: string;
+}
+
+interface Props {
+  isOffer: any;
+  requestId: any;
+  requestType: any;
+}
+
+export const Application: React.FC<Props> = ({ isOffer, requestId, requestType }) => {
+  const dispatch = useDispatch<AppDispatch>();
   const { t } = useTranslation('application');
   const isAuth = useSelector(getIsAuth);
+  const [postData, setPostData] = useState<any>(null);
   const [applicationsArray, setApplicationsArray] = useState<number[]>([0]);
   const [modal, setModal] = useState<boolean>(false);
   const [pushValidation, setPushvalidation] = useState(false);
   const [error, setError] = useState('');
   const { dataArray, errorIndex } = useSelector(getCreatePost);
+  const { post }: any = useSelector(getDetailedApplicationSelector);
+
+  const params = useParams<Params>();
+
+  const isNewOffer = !isOffer && !params.id;
+  const isEdit = !!params.id;
+
+  useEffect(() => {
+    if (isEdit) {
+      setPostData(post);
+    }
+  }, [post]);
+
+  useEffect(() => {
+    if (params.id) {
+      dispatch(getDetailedApplication(params.id));
+    }
+  }, [params.id]);
 
   function addToArray() {
     setApplicationsArray([...applicationsArray, applicationsArray.length]);
@@ -54,8 +86,20 @@ export const Application = () => {
   }
 
   async function createPostsApp() {
-    const resultConf = await dispatch(createPostingsApp(dataArray));
-    if (createPostingsApp.fulfilled.match(resultConf)) {
+    if (!isEdit) {
+      const resultConf = await dispatch(createPostingsApp(dataArray));
+      console.log(createPostingsApp.fulfilled.match(resultConf));
+      if (createPostingsApp.fulfilled.match(resultConf)) {
+        setModal(true);
+      }
+    } else editPost(dataArray[0]);
+  }
+
+  async function editPost(data: any) {
+    const resultConfEdit = await dispatch(editPostings({ data, id: params.id }));
+    console.log(resultConfEdit.payload);
+    if (editPostings.fulfilled.match(resultConfEdit) && !resultConfEdit.payload) {
+      console.log(1234567);
       setModal(true);
     }
   }
@@ -75,10 +119,12 @@ export const Application = () => {
   );
 
   return (
-    <div className={css.wrapper}>
+    <div className={cn(css.wrapper, { [css.isOffer]: isOffer })}>
       <div className={css.indent} />
       <div className={css.content}>
-        <h1 className={css.title}>{t('title')}</h1>
+        {(isNewOffer || isEdit) && (
+          <h1 className={css.title}>{isEdit ? t('editTitle') : t('title')}</h1>
+        )}
         {!isAuth && (
           <span className={css.authDescriptionTop}>
             {t('registrationInfo')}
@@ -112,6 +158,11 @@ export const Application = () => {
               setError={setError}
               error={error}
               isAlone={applicationsArray.length === 1}
+              isOffer={isOffer}
+              requestType={requestType}
+              requestId={requestId}
+              isEdit={isEdit}
+              editData={postData}
             />
           </React.Fragment>
         ))}

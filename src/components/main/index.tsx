@@ -38,10 +38,7 @@ export const Main: React.FC = () => {
         <div className={styles.howWorkBlock}>
           <img src={Assessment} alt="" className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}>
-          {' '}
-          {t('point_1')}
-        </p>
+        <p className={styles.howWorkText}> {t('point_1')}</p>
       </div>
       <Arrow className={styles.arrowIcon} />
 
@@ -49,10 +46,7 @@ export const Main: React.FC = () => {
         <div className={styles.howWorkBlock}>
           <img src={Group} alt="" className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}>
-          {' '}
-          {t('point_2')}
-        </p>
+        <p className={styles.howWorkText}> {t('point_2')}</p>
       </div>
       <Arrow className={styles.arrowIcon} />
 
@@ -60,10 +54,7 @@ export const Main: React.FC = () => {
         <div className={styles.howWorkBlock}>
           <img src={Improve} alt="" className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}>
-          {' '}
-          {t('point_3')}
-        </p>
+        <p className={styles.howWorkText}> {t('point_3')}</p>
       </div>
       <Arrow className={styles.arrowIcon} />
 
@@ -71,10 +62,7 @@ export const Main: React.FC = () => {
         <div className={styles.howWorkBlock}>
           <img src={Enhance} alt="" className={styles.howWorkIcon} />
         </div>
-        <p className={styles.howWorkText}>
-          {' '}
-          {t('point_4')}
-        </p>
+        <p className={styles.howWorkText}> {t('point_4')}</p>
       </div>
     </div>
   );
@@ -110,25 +98,10 @@ export const Main: React.FC = () => {
           <p className={styles.communityAbout}>{t('aboutCommunity')}</p>
 
           <div className={styles.cards}>
-            {!!publications.length
-              && publications.map((item: any) => (
-                <React.Fragment key={item.id}>
-                  <Card
-                    privateAccaunt={!item.is_profile_visible}
-                    id={item.id}
-                    keyWords={item.keyword_list}
-                    comment={item.comment}
-                    author={item.user && item.user.profile}
-                    title={item.title}
-                    fieldOfActivity=""
-                    workType={item.length ? item?.work_type_list[0] : ''}
-                    knowledgeArea={item.knowledge_area_list || ''}
-                    rewardType={item.reward_type}
-                    rewardCurrency={item.reward_currency}
-                    rewardSum={item.reward_sum}
-                    rewardСomment={item.reward_comment}
-                    whois={item.whois}
-                  />
+            {!!publications.length &&
+              publications.map((item: any) => (
+                <React.Fragment key={item.id + item.title}>
+                  <Card post={item} />
                 </React.Fragment>
               ))}
           </div>

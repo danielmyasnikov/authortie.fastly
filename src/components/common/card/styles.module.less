@@ -5,7 +5,7 @@
   height: 550px;
   padding: 20px 24px;
   background: var(--color-white);
-  border-radius: 5px;
+  border-radius: 20px;
   box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
 }
 
@@ -109,17 +109,15 @@
   }
 }
 
-.btnRewardType {
-}
-
 .tagKey {
   display: flex;
   align-items: center;
+  width: max-content;
+  margin-top: 8px;
   background: #f3f3f3;
   color: #2f2f2f;
   font-weight: 400;
   font-size: 13px;
-
   svg {
     margin-right: 5px;
   }
@@ -135,27 +133,6 @@
   height: 30px;
   font-size: 13px;
   border: none;
-}
-
-.award {
-  display: flex;
-
-  .price {
-    align-self: center;
-    margin-left: 10px;
-    font-size: 13px;
-  }
-
-  .btn {
-    display: inline-flex;
-    font-weight: 200;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 30px;
-    font-size: 13px;
-  }
 }
 
 .avatar {
@@ -183,6 +160,11 @@
   }
 }
 
+.rightBtn {
+  width: 41px;
+  height: 41px;
+}
+
 .btnWrapper {
   display: flex;
   flex-flow: row nowrap;
@@ -190,26 +172,7 @@
 }
 
 .rigthIcon {
-  width: 19px;
-  height: 29px;
   margin-left: 4px;
-  fill: #007bc4;
-}
-
-.rightBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  width: 45px;
-  height: 45px;
-  border: 1px solid #007bc4;
-  background-color: var(--color-white);
-
-  &:hover {
-    border: 1px solid #007bc4;
-    background-color: var(--color-white);
-  }
 }
 
 .keyWrapper {
@@ -232,6 +195,30 @@
   font-size: 14px;
   line-height: 21px;
   color: var(--color-black-alt);
+}
+
+.rewardTagWrapper {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.rewardTag {
+  width: min-content;
+  padding: 8px 21px;
+  margin-right: 10px;
+  margin-top: 10px;
+  border: 1px solid #3a85f4;
+  border-radius: 75px;
+  color: #3a85f4;
+  font-size: 14px;
+  line-height: 14px;
+}
+
+.sum {
+  margin-right: 10px;
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 14px;
 }
 
 @media screen and (max-width: 768px) {
@@ -268,10 +255,6 @@
       width: fit-content;
       margin-top: 8px;
     }
-  }
-
-  .price {
-    width: 100px;
   }
 }
 

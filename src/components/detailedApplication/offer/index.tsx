@@ -10,7 +10,7 @@ import { getDetailedApplication, submitBids } from 'store/detailedApplication/ac
 
 import { AppDispatch } from 'store/types';
 import { getCreatePost } from 'store/request/selectors';
-import Select from 'react-select';
+
 
 import styles from './styles.module.less';
 
@@ -63,24 +63,6 @@ export const Offer = () => {
     }
   }
 
-  const renderListOffer = () => (
-    <div className={styles.selectWrapper}>
-      {!lastPostingsOptions.length ? (
-        <span className={styles.info}>{t('emptyList')}</span>
-      ) : (
-        <Select
-          classNamePrefix="CustomSelectOffer"
-          defaultValue={lastPostingsOptions[0] && lastPostingsOptions[0].value}
-          options={lastPostingsOptions}
-          placeholder="changeWork"
-          onChange={selectWork}
-        />
-      )}
-
-      {!!work && <Button onClick={submitOffer}>{t('suggest')}</Button>}
-    </div>
-  );
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.btnWrapper}>
@@ -91,8 +73,7 @@ export const Offer = () => {
           {t('newApplication')}
         </Button>
       </div>
-      {offerType === OfferType.NEW_PUBLICATION && <ApplicationForm isOffer requestId={params.id} />}
-      {offerType === OfferType.THERE_ARE_PUBLICATION && renderListOffer()}
+    
     </div>
   );
 };

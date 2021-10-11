@@ -200,22 +200,7 @@ export const Postings = () => {
             !!postingsList.length &&
             postingsList.map((item: any) => (
               <React.Fragment key={item.id + item.title}>
-                <Card
-                  privateAccaunt={!item.is_profile_visible}
-                  id={item.id}
-                  keyWords={item.keyword_list}
-                  comment={item.comment}
-                  author={item.user && item.user.profile}
-                  title={item.title}
-                  fieldOfActivity=""
-                  workType={item.length ? item?.work_type_list[0] : ''}
-                  knowledgeArea={item.knowledge_area_list || ''}
-                  rewardType={item.reward_type}
-                  rewardCurrency={item.reward_currency}
-                  rewardSum={item.reward_sum}
-                  rewardСomment={item.reward_comment}
-                  whois={item.whois}
-                />
+                <Card post={item} />
               </React.Fragment>
             ))}
         </div>
