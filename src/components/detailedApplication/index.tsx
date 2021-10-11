@@ -148,7 +148,6 @@ export const DetailedApplication = () => {
               interaction={post.interaction}
             />
           </div>
-          {/* {offerCooperation && isGuest && <Offer />} */}
         </div>
         {offerType === OfferType.NEW_PUBLICATION && (
           <Application isOffer requestId={params.id} requestType={post.request_type} />

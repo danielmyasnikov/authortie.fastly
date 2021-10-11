@@ -204,7 +204,7 @@ export const ApplicationForm: React.FC<Props> = ({
       validValue = { ...validValue, workDescription: 'Поле обязательно для заполнения' };
     }
     if (workDescription.length > 2500) {
-      validValue = { ...validValue, workDescription: 'Описание не должно превышать 455 символов' };
+      validValue = { ...validValue, workDescription: 'Описание не должно превышать 2500 символов' };
     }
     const vaildRadioBlock = workTypes
       .map(({ list }) => list.map((itemList) => itemList))

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Right from 'assets/right.svg';
 import DefaultAvatar from 'assets/avatar.jpg';
 import Key from 'assets/key.svg';
-import { Button } from 'components/common/button';
+import Eye from 'assets/eye2.svg';
 import { Tag } from './tag';
 import styles from './styles.module.less';
 
@@ -27,6 +27,8 @@ export const Card: React.FC<Props> = ({ post }) => {
     whois,
     user,
     is_profile_visible: privateAccaunt,
+    count_offers: countOffers,
+    count_views: countViews,
   } = post;
 
   if (!user) return null;
@@ -42,8 +44,11 @@ export const Card: React.FC<Props> = ({ post }) => {
     degree_category: degreeCategory,
   } = user.profile;
 
-  const showWords = keyWords.length > 2 ? [keyWords[0], keyWords[1]] : keyWords;
-  const showRewardType = !!rewardType && !!rewardType.length ? rewardType : [];
+  const showKeyWords = keyWords.length > 2 ? [keyWords[0], keyWords[1]] : keyWords;
+  const numberKeyWords = keyWords.length > 2 ? keyWords.length - 2 : 0;
+  const showRewardType = rewardType.length > 2 ? [rewardType[0], rewardType[1]] : rewardType;
+  const numberRewardType = rewardType.length > 2 ? rewardType.length - 2 : 0;
+
   const numberAfterShowWords = !!keyWords && !!keyWords.length && keyWords.length - 3;
   const numberAfterShowRewardType = !!rewardType && !!rewardType.length && rewardType.length - 3;
   const numberAfterShowWordsKnowledgeArea = knowledgeArea.length - 1;
@@ -65,8 +70,9 @@ export const Card: React.FC<Props> = ({ post }) => {
       <span className={styles.comment}>{comment}</span>
 
       <span className={styles.text}>{t('reward')}</span>
+
       <div className={styles.tagWrapper}>
-        {rewardType.map((item: any) => (
+        {showRewardType.map((item: any) => (
           <React.Fragment key={item}>
             <div className={styles.rewardTag}>{item}</div>
             {item === 'money' && (
@@ -74,10 +80,11 @@ export const Card: React.FC<Props> = ({ post }) => {
             )}
           </React.Fragment>
         ))}
+        {numberRewardType > 0 && <Tag className={styles.rewardTag}>{`+ ${numberRewardType}`}</Tag>}
       </div>
 
       <div className={styles.keyWrapper}>
-        {showWords.map((word: any) => (
+        {showKeyWords.map((word: any) => (
           <React.Fragment key={word}>
             <Tag className={styles.tagKey}>
               <Key />
@@ -85,50 +92,41 @@ export const Card: React.FC<Props> = ({ post }) => {
             </Tag>
           </React.Fragment>
         ))}
-        {numberAfterShowWords > 0 && (
-          <Tag className={styles.tagKey}>{`+ ${numberAfterShowWords}`}</Tag>
-        )}
+        {numberKeyWords > 0 && <Tag className={styles.tagKey}>{`+ ${numberKeyWords}`}</Tag>}
       </div>
 
       <div className={styles.personBlock}>
         <Link to={`/profile/${friendlyUrl}`} className={styles.avatarWrapper}>
           <img className={styles.avatar} src={avatarUrl ? avatarUrl : DefaultAvatar} alt="" />
         </Link>
-        {privateAccaunt ? (
-          <span className={styles.text}>{t('hiddenProfile')}</span>
-        ) : (
-          <>
-            {!privateAccaunt && !firstName && (
-              <span className={styles.text}>{t('profileIsNotCompleted')}</span>
-            )}
+        {privateAccaunt && <span className={styles.info}>{t('hiddenProfile')}</span>}
 
-            {firstName && (
-              <div className={styles.personInfo}>
-                <div className={styles.row}>
-                  <span className={styles.text}>{`${firstName} ${lastName} ${middleName}`}</span>
-                </div>
-                <div className={styles.row}>
-                  <span className={styles.comment}>{`${degree} ${degreeCategory}`}</span>
-                </div>
+        {!privateAccaunt && !firstName && (
+          <span className={styles.info}>{t('profileIsNotCompleted')}</span>
+        )}
 
-                <span className={styles.comment}>{affiliation}</span>
-              </div>
-            )}
-          </>
+        {!privateAccaunt && firstName && (
+          <div className={styles.subTitle}>
+            <div className={styles.row}>
+              <span className={styles.info}>{`${firstName} ${lastName} ${middleName}`}</span>
+            </div>
+            <div className={styles.row}>
+              <span className={styles.comment}>{`${degree} ${degreeCategory}`}</span>
+            </div>
+
+            <span className={styles.comment}>{affiliation}</span>
+          </div>
         )}
       </div>
 
       <div className={styles.btnWrapper}>
-        {isMyPost ? (
-          <Link to={`/edit/${id}`}>
-            <Button className={styles.btn}>{t('edit')}</Button>
-          </Link>
-        ) : (
-          <Link to={`/community/${id}?offerCooperation=true`}>
-            <Button className={styles.btn}>{t('offerCooperation')}</Button>
-          </Link>
-        )}
-
+        <div className={styles.footerInfo}>
+          <span className={styles.offers}>{`Количество предложений: ${countOffers}`}</span>
+          <span className={styles.countViews}>
+            <Eye />
+            {`количество просмотров: ${countViews}`}
+          </span>
+        </div>
         <Link to={`/community/${id}`} className={styles.rightBtn}>
           <Right className={styles.rigthIcon} />
         </Link>
